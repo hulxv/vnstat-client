@@ -1,0 +1,41 @@
+{
+	"private": true,
+	"name": "vnstat-client",
+	"description": "GUI Client for vnstat network monitor",
+	"version": "1.0.0",
+	"author": "Hulxxv <hulxxv@gmail.com>",
+	"main": "app/background.js",
+	"scripts": {
+		"dev": "nextron --port 12999",
+		"build": "nextron build --linux",
+		"postinstall": "electron-builder install-app-deps"
+	},
+	"dependencies": {
+		"electron-serve": "^1.1.0",
+		"electron-store": "^8.0.1"
+	},
+	"devDependencies": {
+		"@chakra-ui/react": "^1.6.9",
+		"@emotion/react": "^11",
+		"@emotion/styled": "^11",
+		"@nivo/bar": "^0.74.0",
+		"@nivo/core": "^0.74.0",
+		"@nivo/line": "^0.74.0",
+		"autoprefixer": "^10.3.7",
+		"chakra-ui": "^0.3.9",
+		"date-fns": "^2.25.0",
+		"electron": "^15.0.0",
+		"electron-builder": "^22.11.7",
+		"framer-motion": "^4",
+		"knex": "^0.95.11",
+		"next": "^11.1.2",
+		"nextron": "^7.1.0",
+		"postcss": "^8.3.9",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-icons": "^4.3.1",
+		"recharts": "^2.1.4",
+		"sqlite3": "^5.0.2",
+		"tailwindcss": "^2.2.17"
+	}
+}
