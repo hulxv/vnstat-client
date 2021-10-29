@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import PageLayout from "../layout/PageLayout";
+import Router from "next/router";
+
 export default function (props) {
 	const { Component, pageProps } = props;
-
+	const [isLoading, setIsLoading] = useState(false);
+	Router.events.on("routeChangeStart", (url) => {
+		setIsLoading(true);
+	});
+	Router.events.on("routeChangeComplete", (url) => {
+		setIsLoading(false);
+	});
 	return (
 		<React.Fragment>
 			<Head>
@@ -15,7 +23,7 @@ export default function (props) {
 				/>
 			</Head>
 			<ChakraProvider>
-				<PageLayout>
+				<PageLayout isLoading={isLoading}>
 					<Component {...pageProps} />
 				</PageLayout>
 			</ChakraProvider>

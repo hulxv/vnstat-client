@@ -10,7 +10,7 @@ const Chart = ({ lineChartData, barChartData, title }) => {
 	const [chart, setChart] = useState("bar");
 	return (
 		<>
-			<Flex justify='space-around' w='100px' alignSelf='end' mr={8}>
+			<Flex alignSelf='end' mr={4}>
 				<Tooltip label='Bar Chart'>
 					<IconButton
 						colorScheme='green'
@@ -23,6 +23,7 @@ const Chart = ({ lineChartData, barChartData, title }) => {
 						colorScheme='green'
 						icon={<BiLineChart size='1.4em' />}
 						onClick={() => setChart("line")}
+						ml={1}
 					/>
 				</Tooltip>
 			</Flex>

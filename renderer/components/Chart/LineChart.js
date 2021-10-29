@@ -5,7 +5,7 @@ export default function LineChart({ data }) {
 	return (
 		<ResponsiveLine
 			data={data}
-			margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+			margin={{ top: 50, right: 110, bottom: 50, left: 50 }}
 			xScale={{ type: "point" }}
 			yScale={{
 				type: "linear",
@@ -21,8 +21,8 @@ export default function LineChart({ data }) {
 			axisBottom={{
 				orient: "bottom",
 				tickSize: 5,
-				tickPadding: 5,
-				tickRotation: 20,
+				tickPadding: 10,
+				tickRotation: 0,
 				legend: "Date",
 				legendOffset: 36,
 				legendPosition: "middle",
@@ -49,7 +49,7 @@ export default function LineChart({ data }) {
 			enableSlices='x'
 			legends={[
 				{
-					anchor: "bottom-right",
+					anchor: "top-right",
 					direction: "column",
 					justify: false,
 					translateX: 100,
@@ -58,9 +58,10 @@ export default function LineChart({ data }) {
 					itemDirection: "left-to-right",
 					itemWidth: 80,
 					itemHeight: 20,
-					itemOpacity: 0.75,
-					symbolSize: 12,
-					symbolShape: "circle",
+					itemsSpacing: 2,
+					itemOpacity: 1,
+					symbolSize: 20,
+					symbolShape: "square",
 					symbolBorderColor: "rgba(0, 0, 0, .5)",
 					effects: [
 						{

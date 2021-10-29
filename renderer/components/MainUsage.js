@@ -1,8 +1,7 @@
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
-
 import { Box, Flex } from "@chakra-ui/react";
-
-export default function MainUsage({ data }) {
+import { format } from "date-fns";
+export default function MainUsage({ download, upload }) {
 	const usage = [
 		{
 			title: "today",
@@ -21,7 +20,7 @@ export default function MainUsage({ data }) {
 		},
 	];
 	return (
-		<Flex justify='space-between' width='85%' my={16}>
+		<Flex justify='space-evenly' width='95%' my={16}>
 			{usage.map((e, index) => (
 				<Usage
 					key={index}
@@ -39,10 +38,11 @@ function Usage({ title, upload, download, total }) {
 		<Flex
 			bgColor='#111513'
 			textColor='white'
-			p={3}
-			pb={0}
-			w='150px'
+			px={3}
+			py={0}
+			w='250px'
 			h='150px'
+			mx={1}
 			rounded='3xl'
 			flexDirection='column'
 			justify='center'
@@ -51,24 +51,28 @@ function Usage({ title, upload, download, total }) {
 			border='4px'
 			borderColor='#38A169'
 			pos='relative'>
-			<Flex align='center' flexDirection='column'>
-				<Flex align='center' fontSize='30px' mb={3}>
+			<Flex align='center' flexDirection='column' w='full'>
+				<Flex fontSize='30px' mb={3}>
 					{upload}{" "}
 					<Box alignSelf='start' fontSize='15px'>
 						mb
 					</Box>
 				</Flex>
 
-				<Flex flexDir='column' fontSize='17'>
+				<Flex alignSelf='center' w='full' fontSize='17' justify='space-around'>
 					<Flex align='center'>
-						<BsArrowDownShort />
+						<Box border='white 2px solid' borderRadius='full' m='2px'>
+							<BsArrowDownShort />
+						</Box>
 						{download}{" "}
 						<Box fontSize={10} alignSelf='start'>
 							gb
 						</Box>
 					</Flex>
 					<Flex align='center'>
-						<BsArrowUpShort />
+						<Box border='white 2px solid' borderRadius='full' m='2px'>
+							<BsArrowUpShort />
+						</Box>
 						{upload}{" "}
 						<Box fontSize={10} alignSelf='start'>
 							mb
@@ -80,6 +84,8 @@ function Usage({ title, upload, download, total }) {
 				pos='absolute'
 				bottom={-9}
 				bgColor='#38A169'
+				width='100px'
+				textAlign='center'
 				p='5px'
 				px='10px'
 				textTransform='capitalize'
@@ -90,4 +96,7 @@ function Usage({ title, upload, download, total }) {
 	);
 }
 
-// #111513
+export async function getStaticProps() {
+	const Days = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/day`);
+	const Month = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/month`);
+}

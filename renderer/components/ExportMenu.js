@@ -13,6 +13,7 @@ import {
 	Button,
 	IconButton,
 	Tooltip,
+	Input,
 } from "@chakra-ui/react";
 const ExportAs = () => {
 	return (
@@ -28,9 +29,9 @@ const ExportAs = () => {
 						icon={<BiExport size='1.4em' />}
 					/>
 				</Tooltip>
-
+				<div className='ii'></div>
 				<MenuList>
-					<MenuItem>JSON</MenuItem>
+					<MenuItem onClick={() => {}}>JSON</MenuItem>
 					<MenuItem>XML</MenuItem>
 				</MenuList>
 			</Menu>

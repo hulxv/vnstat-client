@@ -6,28 +6,36 @@ import {
 	eachHourOfInterval,
 	startOfDay,
 	format,
+	eachMonthOfInterval,
+	endOfDay,
+	subDays,
+	endOfMonth,
+	subMonths,
+	subYears,
 } from "date-fns";
-export default function useFilterDate(data, interval) {
+import { startOfYear } from "date-fns";
+
+export default function useFilterDate(data, interval, ...args) {
 	const [resultDates, setResultDates] = useState();
-	const currentDate = new Date().toISOString().substring(0, 10);
 
 	const currentInterfaceData = data.filter((e) => e.interface === 2);
-	console.log(DataSetters[interval](currentInterfaceData));
-	return DataSetters[interval](currentInterfaceData);
+	// console.log(DataSetters[interval](currentInterfaceData));
+
+	return DataSetters[interval](currentInterfaceData, ...args);
 }
 
 const DataSetters = {
-	today: (Data) => getTodayData(Data),
+	today: (Data, ...args) => getTodayData(Data, ...args),
 
-	month: (Data) => getMonthData(Data),
+	month: (Data, ...args) => getMonthData(Data, ...args),
 
-	year: (Data) => {},
+	year: (Data, ...args) => getYearData(Data, ...args),
 };
 
-function getMonthData(Data) {
+function getMonthData(Data, amountMonths = 0) {
 	const DaysInCurrentMonth = eachDayOfInterval({
-		start: startOfMonth(new Date()),
-		end: lastDayOfMonth(new Date()),
+		start: startOfMonth(subMonths(new Date(), amountMonths)),
+		end: lastDayOfMonth(subMonths(new Date(), amountMonths)),
 	}).map((date) => format(new Date(date), "yyyy-MM-dd"));
 
 	const DefaultData = DaysInCurrentMonth.map((day) => ({
@@ -35,6 +43,7 @@ function getMonthData(Data) {
 		rx: 0,
 		tx: 0,
 	}));
+
 	return DefaultData.map(
 		(day) =>
 			Data.find(
@@ -43,14 +52,31 @@ function getMonthData(Data) {
 	);
 }
 
-function getTodayData(Data) {
-	const HoursInToday = eachHourOfInterval({
-		start: startOfDay(new Date()),
-		end: new Date(),
+function getTodayData(Data, amountDays = 0) {
+	const HoursInDay = eachHourOfInterval({
+		start: startOfDay(subDays(new Date(), amountDays)),
+		end: endOfDay(subDays(new Date(), amountDays)),
 	}).map((date) => format(new Date(date), "yyyy-MM-dd HH:mm:ss"));
 
-	const DefaultData = HoursInToday.map((day) => ({
-		date: day,
+	const DefaultData = HoursInDay.map((hour) => ({
+		date: hour,
+		rx: 0,
+		tx: 0,
+	}));
+
+	return DefaultData.map(
+		(day) => Data.find((data) => data.date === day.date) || day,
+	);
+}
+
+function getYearData(Data, amountYears = 0) {
+	const MonthsInYear = eachMonthOfInterval({
+		start: startOfYear(subYears(new Date(), amountYears)),
+		end: new Date(),
+	}).map((date) => format(new Date(date), "yyyy-MM-dd"));
+
+	const DefaultData = MonthsInYear.map((month) => ({
+		date: month,
 		rx: 0,
 		tx: 0,
 	}));

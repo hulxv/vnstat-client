@@ -14,7 +14,7 @@ import {
 	Tooltip,
 	Flex,
 } from "@chakra-ui/react";
-import { HiArrowSmDown, HiAdjustments } from "react-icons/hi";
+import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
 import { BiExport } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import ExportMenu from "./ExportMenu";
@@ -62,30 +62,45 @@ export default function ChooseBar() {
 				</Tooltip>
 				<ExportMenu />
 			</Flex>
-			<Menu>
-				<MenuButton
-					as={Button}
-					rightIcon={<HiArrowSmDown />}
-					colorScheme='green'>
-					{Page.title}
-				</MenuButton>
-				<MenuList>
-					{pages.map((page, index) => (
-						<MenuItem
-							key={index}
-							onClick={() => {
-								setPage({
-									title: toCapitalize(page.title),
-									path: page.path,
-								});
-								router.push(page.path);
-							}}
-							href={page.path}>
-							{toCapitalize(page.title)}
-						</MenuItem>
-					))}
-				</MenuList>
-			</Menu>
+			<Flex>
+				<Tooltip label='Refresh'>
+					<IconButton
+						icon={<HiRefresh size='1.4em' />}
+						variant='ghost'
+						colorScheme='whiteAlpha'
+						textColor='whiteAlpha.900'
+						mr={1}
+						onClick={() => router.replace(router.asPath)}
+					/>
+				</Tooltip>
+
+				<Menu>
+					<Tooltip label='Interval'>
+						<MenuButton
+							as={Button}
+							rightIcon={<HiArrowSmDown />}
+							colorScheme='green'>
+							{Page.title}
+						</MenuButton>
+					</Tooltip>
+					<MenuList>
+						{pages.map((page, index) => (
+							<MenuItem
+								key={index}
+								onClick={() => {
+									setPage({
+										title: toCapitalize(page.title),
+										path: page.path,
+									});
+									router.push(page.path);
+								}}
+								href={page.path}>
+								{toCapitalize(page.title)}
+							</MenuItem>
+						))}
+					</MenuList>
+				</Menu>
+			</Flex>
 		</Flex>
 	);
 }

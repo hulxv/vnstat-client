@@ -7,9 +7,9 @@ export default function LineChart({ data, title }) {
 			<div>{title}</div>
 			<ResponsiveBar
 				data={data}
-				keys={["download", "upload"]}
+				keys={["Download", "Upload"]}
 				indexBy='date'
-				margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+				margin={{ top: 50, right: 110, bottom: 50, left: 50 }}
 				groupMode='grouped'
 				valueScale={{ type: "linear" }}
 				indexScale={{ type: "band", round: true }}
@@ -61,7 +61,7 @@ export default function LineChart({ data, title }) {
 				legends={[
 					{
 						dataFrom: "keys",
-						anchor: "bottom-right",
+						anchor: "top-right",
 						direction: "column",
 						justify: false,
 						translateX: 120,
@@ -70,7 +70,7 @@ export default function LineChart({ data, title }) {
 						itemWidth: 100,
 						itemHeight: 20,
 						itemDirection: "left-to-right",
-						itemOpacity: 0.85,
+						itemOpacity: 1,
 						symbolSize: 20,
 						effects: [
 							{
