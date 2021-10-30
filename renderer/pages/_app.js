@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import PageLayout from "../layout/PageLayout";
 import Router from "next/router";
+import router from "next/router";
 
 export default function (props) {
 	const { Component, pageProps } = props;
 	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => router.push("/day"), []);
+
 	Router.events.on("routeChangeStart", (url) => {
 		setIsLoading(true);
 	});
 	Router.events.on("routeChangeComplete", (url) => {
 		setIsLoading(false);
 	});
+
 	return (
-		<React.Fragment>
+		<>
 			<Head>
 				<meta
 					name='viewport'
@@ -27,6 +32,6 @@ export default function (props) {
 					<Component {...pageProps} />
 				</PageLayout>
 			</ChakraProvider>
-		</React.Fragment>
+		</>
 	);
 }
