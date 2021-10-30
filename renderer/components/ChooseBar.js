@@ -23,16 +23,16 @@ export default function ChooseBar() {
 	const pages = [
 		{
 			title: "today",
-			path: "/today",
+			path: "/hour",
 		},
 
 		{
 			title: "month",
-			path: "/",
+			path: "/day",
 		},
 		{
 			title: "year",
-			path: "/year",
+			path: "/month",
 		},
 	];
 	const router = useRouter();

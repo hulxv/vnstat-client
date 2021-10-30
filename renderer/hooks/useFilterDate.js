@@ -25,11 +25,11 @@ export default function useFilterDate(data, interval, ...args) {
 }
 
 const DataSetters = {
-	today: (Data, ...args) => getTodayData(Data, ...args),
+	hour: (Data, ...args) => getTodayData(Data, ...args), // get today data by hour
 
-	month: (Data, ...args) => getMonthData(Data, ...args),
+	day: (Data, ...args) => getMonthData(Data, ...args), // get month data by day
 
-	year: (Data, ...args) => getYearData(Data, ...args),
+	month: (Data, ...args) => getYearData(Data, ...args), // get year data by month
 };
 
 function getMonthData(Data, amountMonths = 0) {

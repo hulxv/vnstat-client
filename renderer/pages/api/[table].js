@@ -9,6 +9,5 @@ export default async function getTableData(req, res) {
 	});
 	const result = await db(req.query.table).select();
 
-	console.log("result", result);
 	res.status(200).json(result);
 }

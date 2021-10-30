@@ -1,6 +1,6 @@
 appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+productName: vnstat-client
+copyright: Copyright © 2018 Hulxv ( Mohamed Emad )
 directories:
   output: dist
   buildResources: resources
