@@ -1,4 +1,4 @@
-import ChooseBar from "../components/ChooseBar";
+import MainBar from "../components/MainBar";
 import MainUsage from "../components/MainUsage";
 
 import { Flex, Spinner, Box } from "@chakra-ui/react";
@@ -13,7 +13,7 @@ export default function PageLayout({ children, isLoading }) {
 				<Flex h='100vh' align='center' flexDir='column'>
 					<Flex flexDir='column' w='full' align='center' mb={8}>
 						<MainUsage />
-						<ChooseBar />
+						<MainBar />
 					</Flex>
 					{children}
 				</Flex>

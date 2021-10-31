@@ -8,9 +8,9 @@ import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 function SwitchBar({ state, setState, dateFormat, interval }) {
 	const subs = {
-		month: () => subYears(new Date(), state),
-		day: () => subMonths(new Date(), state),
-		hour: () => subDays(new Date(), state),
+		year: () => subYears(new Date(), state),
+		month: () => subMonths(new Date(), state),
+		day: () => subDays(new Date(), state),
 	};
 	return (
 		<Flex justify='space-around' w='full' mb={4}>

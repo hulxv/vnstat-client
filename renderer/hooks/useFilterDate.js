@@ -16,8 +16,6 @@ import {
 import { startOfYear } from "date-fns";
 
 export default function useFilterDate(data, interval, ...args) {
-	const [resultDates, setResultDates] = useState();
-
 	const currentInterfaceData = data.filter((e) => e.interface === 2);
 	// console.log(DataSetters[interval](currentInterfaceData));
 
@@ -25,11 +23,11 @@ export default function useFilterDate(data, interval, ...args) {
 }
 
 const DataSetters = {
-	hour: (Data, ...args) => getTodayData(Data, ...args), // get today data by hour
+	day: (Data, ...args) => getTodayData(Data, ...args), // get today data by hour
 
-	day: (Data, ...args) => getMonthData(Data, ...args), // get month data by day
+	month: (Data, ...args) => getMonthData(Data, ...args), // get month data by day
 
-	month: (Data, ...args) => getYearData(Data, ...args), // get year data by month
+	year: (Data, ...args) => getYearData(Data, ...args), // get year data by month
 };
 
 function getMonthData(Data, amountMonths = 0) {

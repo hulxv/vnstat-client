@@ -1,15 +1,13 @@
 # vnStat Client
 
-## GUI Client for vnStat traffic monitor build with Nextron (electron + nextjs)
-
----
+## GUI Client for vnStat traffic monitor build with [Nextronjs](https://github.com/saltyshiomix/nextron/tree/v7.1.0)
 
 </br>
 
 ## Requirements
 
-- vnstat (^2.8)
-- nodejs (^16.9.1)
+- [vnstat (^2.8)](https://humdi.net/vnstat/)
+- [node (^16.9.1)](https://nodejs.org/en/)
 - [yarnpkg (^1.22.11)](https://yarnpkg.com/getting-started/install)
 
 ## Installation
@@ -26,7 +24,7 @@ yarn install
 
  # To build the app
 yarn build
-cd ./dist && chmod -x vnstat-client-1.0.0.AppImage
+cd ./dist
 
 # Run App
 ./vnstat-client-1.0.0.AppImage

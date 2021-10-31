@@ -1,38 +1,33 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
+
 import {
 	Menu,
 	MenuButton,
 	MenuList,
 	MenuItem,
-	MenuItemOption,
-	MenuGroup,
-	MenuOptionGroup,
-	MenuIcon,
-	MenuCommand,
-	MenuDivider,
 	Button,
 	IconButton,
 	Tooltip,
 	Flex,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
-import { BiExport } from "react-icons/bi";
-import { useEffect, useState } from "react";
 import ExportMenu from "./ExportMenu";
-import { useRouter } from "next/dist/client/router";
+
 export default function ChooseBar() {
 	const pages = [
 		{
 			title: "today",
-			path: "/hour",
+			path: "/today",
 		},
 
 		{
 			title: "month",
-			path: "/day",
+			path: "/",
 		},
 		{
 			title: "year",
-			path: "/month",
+			path: "/year",
 		},
 	];
 	const router = useRouter();

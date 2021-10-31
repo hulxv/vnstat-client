@@ -9,4 +9,12 @@ files:
     filter:
       - package.json
       - app
+linux:
+  icon: "renderer/public/images/logo.png"
+  category: Network
+  target:
+    - "AppImage"
+    - "deb"
+    - "tar.gz"
+
 publish: null
