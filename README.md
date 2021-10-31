@@ -19,7 +19,7 @@
 git clone https://github.com/Hulxv/vnstat-client.git
 cd ./vnstat-client
 
- # To install reqiure packages
+ # To install required packages
 yarn install
 
  # To build the app
