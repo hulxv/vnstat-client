@@ -13,36 +13,35 @@ export default function Year() {
 	const [PreviousYears, setPreviousYears] = useState(0);
 	const [data, setData] = useState([]);
 
-	useEffect(async () => {
-		if (electron.ipcRenderer) {
-			electron.ipcRenderer.send("getYearData");
-			electron.ipcRenderer.on("yearData", (evt, result) => {
-				setData(result);
-			});
-		}
+	useEffect(() => {
+		electron.ipcRenderer.send("getYearData");
+		electron.ipcRenderer.on("yearData", (evt, result) => {
+			setData(result);
+		});
 	}, []);
 	const FilteredData = useFilterDate(data, "year", PreviousYears);
+	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);
 
 	const lineChartData = [
 		{
 			id: "Upload",
 			data: FilteredData.map((e) => ({
 				x: getMonth(new Date(e.date)) + 1,
-				y: (e.tx / 1024 / 1024 / 1024).toFixed(2),
+				y: (e.tx / 1024).toFixed(2),
 			})),
 		},
 		{
 			id: "Download",
 			data: FilteredData.map((e) => ({
 				x: getMonth(new Date(e.date)) + 1,
-				y: (e.rx / 1024 / 1024 / 1024).toFixed(2),
+				y: (e.rx / 1024).toFixed(2),
 			})),
 		},
 	];
 	const barChartData = FilteredData.map((e) => ({
 		date: getMonth(new Date(e.date)) + 1,
-		Download: (e.rx / 1024 / 1024 / 1024).toFixed(2),
-		Upload: (e.tx / 1024 / 1024 / 1024).toFixed(2),
+		Download: (e.rx / 1024).toFixed(2),
+		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
 	return (
@@ -66,6 +65,11 @@ export default function Year() {
 						dateFormat='yyyy'
 						interval='year'
 					/>
+					<Heading fontWeight='thin'>
+						{`${(dataUsage < 1024 ? dataUsage : dataUsage / 1024).toFixed(2)} ${
+							dataUsage > 1024 ? "GB" : "MB"
+						}`}
+					</Heading>
 					<Chart lineChartData={lineChartData} barChartData={barChartData} />{" "}
 				</>
 			)}

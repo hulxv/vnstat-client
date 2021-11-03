@@ -42,12 +42,15 @@ function getMonthData(Data, amountMonths = 0) {
 		tx: 0,
 	}));
 
-	return DefaultData.map(
-		(day) =>
-			Data.find(
-				(data) => format(new Date(data.date), "yyyy-MM-dd") === day.date,
-			) || day,
+	const dataAfterFiltering = DefaultData.map(
+		(day) => Data.find((data) => data.date === day.date) || day,
 	);
+
+	return dataAfterFiltering.map((data) => ({
+		...data,
+		rx: data.rx / 1024 / 1024,
+		tx: data.tx / 1024 / 1024,
+	}));
 }
 
 function getTodayData(Data, amountDays = 0) {
@@ -62,9 +65,15 @@ function getTodayData(Data, amountDays = 0) {
 		tx: 0,
 	}));
 
-	return DefaultData.map(
+	const dataAfterFiltering = DefaultData.map(
 		(day) => Data.find((data) => data.date === day.date) || day,
 	);
+
+	return dataAfterFiltering.map((data) => ({
+		...data,
+		rx: data.rx / 1024 / 1024,
+		tx: data.tx / 1024 / 1024,
+	}));
 }
 
 function getYearData(Data, amountYears = 0) {
@@ -78,10 +87,14 @@ function getYearData(Data, amountYears = 0) {
 		rx: 0,
 		tx: 0,
 	}));
-	return DefaultData.map(
-		(day) =>
-			Data.find(
-				(data) => data.date.substring(0, 13) === day.date.substring(0, 13),
-			) || day,
+
+	const dataAfterFiltering = DefaultData.map(
+		(day) => Data.find((data) => data.date === day.date) || day,
 	);
+
+	return dataAfterFiltering.map((data) => ({
+		...data,
+		rx: data.rx / 1024 / 1024,
+		tx: data.tx / 1024 / 1024,
+	}));
 }

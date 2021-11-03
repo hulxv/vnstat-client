@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useFilterDate from "../hooks/useFilterDate";
 import { getDate } from "date-fns";
 
-import electron from "electron";
+import { ipcRenderer } from "electron";
 import { useRouter } from "next/router";
 
 import SwitchBar from "../components/SwitchBar";
@@ -16,37 +16,39 @@ export default function Month() {
 	const [previousMonths, setPreviousMonths] = useState(0);
 	const [data, setData] = useState([]);
 
-	useEffect(async () => {
-		if (electron.ipcRenderer) {
-			electron.ipcRenderer.send("getMonthData");
-			electron.ipcRenderer.on("monthData", (evt, result) => {
-				setData(result);
-			});
-		}
+	useEffect(() => {
+		ipcRenderer.send("getMonthData");
+		ipcRenderer.on("monthData", (evt, result) => setData(result));
+
+		// Cleaning
+		return () => {
+			ipcRenderer.removeAllListeners("monthData", "getMonthData");
+		};
 	}, []);
 
 	const FilteredData = useFilterDate(data, "month", previousMonths);
+	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);
 
 	const lineChartData = [
 		{
 			id: "Upload",
 			data: FilteredData.map((e) => ({
 				x: getDate(new Date(e.date)),
-				y: (e.tx / 1024 / 1024 / 1024).toFixed(2),
+				y: (e.tx / 1024).toFixed(2),
 			})),
 		},
 		{
 			id: "Download",
 			data: FilteredData.map((e) => ({
 				x: getDate(new Date(e.date)),
-				y: (e.rx / 1024 / 1024 / 1024).toFixed(2),
+				y: (e.rx / 1024).toFixed(2),
 			})),
 		},
 	];
 	const barChartData = FilteredData.map((e) => ({
 		date: getDate(new Date(e.date)),
-		Download: (e.rx / 1024 / 1024 / 1024).toFixed(2),
-		Upload: (e.tx / 1024 / 1024 / 1024).toFixed(2),
+		Download: (e.rx / 1024).toFixed(2),
+		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
 	return (
@@ -70,21 +72,14 @@ export default function Month() {
 						dateFormat='yyyy MMMM'
 						interval='month'
 					/>
+					<Heading fontWeight='thin'>
+						{`${(dataUsage < 1024 ? dataUsage : dataUsage / 1024).toFixed(2)} ${
+							dataUsage > 1024 ? "GB" : "MB"
+						}`}
+					</Heading>
 					<Chart lineChartData={lineChartData} barChartData={barChartData} />{" "}
 				</>
 			)}
 		</>
 	);
 }
-
-// export async function getStaticProps() {
-// 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/day`);
-// 	console.log(response);
-// 	const data = await response.json();
-
-// 	return {
-// 		props: {
-// 			data,
-// 		},
-// 	};
-// }

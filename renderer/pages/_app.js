@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import "tailwindcss/tailwind.css";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import PageLayout from "../layout/PageLayout";

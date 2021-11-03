@@ -5,7 +5,7 @@ import { knex } from "knex";
 const isProd = process.env.NODE_ENV === "production";
 
 const DB_PATH = "/var/lib/vnstat/vnstat.db";
-console.log(process.env);
+
 const db = knex({
 	client: "sqlite",
 	connection: {
@@ -31,6 +31,8 @@ if (isProd) {
 	const mainWindow = createWindow("main", {
 		width: 1000,
 		height: 600,
+		minWidth: 550,
+		minHeight: 200,
 	});
 
 	if (isProd) {
@@ -40,17 +42,24 @@ if (isProd) {
 		await mainWindow.loadURL(`http://localhost:${port}/`);
 		mainWindow.webContents.openDevTools();
 	}
+
 	ipcMain.on("getMonthData", async () => {
-		const result = getDataFromDB("day");
-		result.then((rows) => mainWindow.webContents.send("monthData", rows));
+		const result = await getDataFromDB("day");
+		mainWindow.webContents.send("monthData", result);
+		return result;
 	});
+
 	ipcMain.on("getDayData", async () => {
-		const result = getDataFromDB("hour");
-		result.then((rows) => mainWindow.webContents.send("dayData", rows));
+		const result = await getDataFromDB("hour").then((res) =>
+			mainWindow.webContents.send("dayData", res),
+		);
+
+		return result;
 	});
 	ipcMain.on("getYearData", async () => {
-		const result = getDataFromDB("month");
-		result.then((rows) => mainWindow.webContents.send("yearData", rows));
+		const result = await getDataFromDB("month");
+		mainWindow.webContents.send("yearData", result);
+		return result;
 	});
 })();
 
