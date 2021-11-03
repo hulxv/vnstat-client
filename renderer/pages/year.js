@@ -1,4 +1,4 @@
-import electron from "electron";
+import { ipcRenderer } from "electron";
 
 import { getMonth } from "date-fns";
 import Chart from "../components/Chart";
@@ -14,10 +14,8 @@ export default function Year() {
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
-		electron.ipcRenderer.send("getYearData");
-		electron.ipcRenderer.on("yearData", (evt, result) => {
-			setData(result);
-		});
+		ipcRenderer.send("getYearData");
+		ipcRenderer.on("yearData", (evt, result) => setData(result));
 	}, []);
 	const FilteredData = useFilterDate(data, "year", PreviousYears);
 	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);

@@ -1,39 +1,44 @@
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Box, Flex } from "@chakra-ui/react";
 import { format } from "date-fns";
-export default function MainUsage({ download, upload }) {
-	const usage = [
+import { useEffect, useState } from "react";
+import { ipcRenderer } from "electron";
+export default function MainUsage({ rx, tx }) {
+	const [usage, setUsage] = useState([
 		{
-			title: "today",
-			download: 1.23,
-			upload: 124,
+			interval: "today",
+			data: [],
 		},
 		{
-			title: "yesterday",
-			download: 1.23,
-			upload: 124,
+			interval: "yesterday",
+			data: [],
 		},
 		{
-			title: "this month",
-			download: 1.23,
-			upload: 14,
+			interval: "this month",
+			data: [],
 		},
-	];
+	]);
+	useEffect(() => {
+		ipcRenderer.send("getMainData", 2);
+		ipcRenderer.on("sendMainData", (e, result) => setUsage(result));
+	}, []);
+
 	return (
 		<Flex justify='space-evenly' width='95%' my={16}>
 			{usage.map((e, index) => (
 				<Usage
 					key={index}
-					title={e.title}
-					download={e.download}
-					upload={e.upload}
+					interval={e.interval}
+					total={e.data.rx + e.data.tx}
+					rx={e.data.rx}
+					tx={e.data.tx}
 				/>
 			))}
 		</Flex>
 	);
 }
 
-function Usage({ title, upload, download, total }) {
+function Usage({ interval, tx, rx, total }) {
 	return (
 		<Flex
 			bgColor='#111513'
@@ -50,32 +55,33 @@ function Usage({ title, upload, download, total }) {
 			shadow='xl'
 			border='4px'
 			borderColor='#38A169'
+			fontWeight='medium'
 			pos='relative'>
 			<Flex align='center' flexDirection='column' w='full'>
 				<Flex fontSize='30px' mb={3}>
-					{upload}{" "}
+					{(total > 1024 ? total / 1024 : total)?.toFixed(2) ?? 0}{" "}
 					<Box alignSelf='start' fontSize='15px'>
-						mb
+						{rx + tx > 1024 ? "GB" : "MB"}
 					</Box>
 				</Flex>
 
 				<Flex alignSelf='center' w='full' fontSize='17' justify='space-around'>
 					<Flex align='center'>
 						<Box border='white 2px solid' borderRadius='full' m='2px'>
-							<BsArrowDownShort />
+							<BsArrowDownShort size='1.1em' />
 						</Box>
-						{download}{" "}
+						{(rx > 1024 ? rx / 1024 : rx)?.toFixed(2) ?? 0}{" "}
 						<Box fontSize={10} alignSelf='start'>
-							gb
+							{rx > 1024 ? "GB" : "MB"}
 						</Box>
 					</Flex>
 					<Flex align='center'>
 						<Box border='white 2px solid' borderRadius='full' m='2px'>
-							<BsArrowUpShort />
+							<BsArrowUpShort size='1.1em' />
 						</Box>
-						{upload}{" "}
+						{(tx > 1024 ? tx / 1024 : tx)?.toFixed(2) ?? 0}{" "}
 						<Box fontSize={10} alignSelf='start'>
-							mb
+							{tx > 1024 ? "GB" : "MB"}
 						</Box>
 					</Flex>
 				</Flex>
@@ -90,7 +96,7 @@ function Usage({ title, upload, download, total }) {
 				px='10px'
 				textTransform='capitalize'
 				roundedBottom='md'>
-				{title}
+				{interval}
 			</Box>
 		</Flex>
 	);

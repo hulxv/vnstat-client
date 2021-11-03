@@ -2,6 +2,9 @@ import { app, ipcMain } from "electron";
 import serve from "electron-serve";
 import { createWindow } from "./helpers";
 import { knex } from "knex";
+
+import { getMonth, isToday, isYesterday } from "date-fns";
+
 const isProd = process.env.NODE_ENV === "production";
 
 const DB_PATH = "/var/lib/vnstat/vnstat.db";
@@ -59,7 +62,51 @@ if (isProd) {
 	ipcMain.on("getYearData", async () => {
 		const result = await getDataFromDB("month");
 		mainWindow.webContents.send("yearData", result);
-		return result;
+	});
+
+	ipcMain.on("getMainData", async (event, arg) => {
+		const MonthUsageData = await (
+			await getDataFromDB("month")
+		).find(
+			(e) =>
+				e.interface === arg &&
+				getMonth(new Date(e.date)) === getMonth(new Date()),
+		);
+
+		const TodayUsageData = await (
+			await getDataFromDB("day")
+		).find((e) => e.interface === arg && isToday(new Date(e.date)));
+
+		const YesterdayUsageData = await (
+			await getDataFromDB("day")
+		).find((e) => e.interface === arg && isYesterday(new Date(e.date)));
+
+		mainWindow.webContents.send("sendMainData", [
+			{
+				interval: "this month",
+				data: {
+					...MonthUsageData,
+					rx: MonthUsageData.rx / 1024 / 1024,
+					tx: YesterdayUsageData.tx / 1024 / 1024,
+				},
+			},
+			{
+				interval: "today",
+				data: {
+					...TodayUsageData,
+					rx: TodayUsageData.rx / 1024 / 1024,
+					tx: TodayUsageData.tx / 1024 / 1024,
+				},
+			},
+			{
+				interval: "yesterday",
+				data: {
+					...YesterdayUsageData,
+					rx: YesterdayUsageData.rx / 1024 / 1024,
+					tx: YesterdayUsageData.tx / 1024 / 1024,
+				},
+			},
+		]);
 	});
 })();
 
