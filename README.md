@@ -34,6 +34,6 @@ cd ./dist
 
 ## Screenshot
 
-![line chart](assets/LineChart.png)
+![line chart](assets/Screenshot-lineChart.png)
 </br>
 ![bar chart](asset/../assets/Screenshot-BarChart.png)
