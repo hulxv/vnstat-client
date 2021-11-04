@@ -1,6 +1,8 @@
 # vnStat Client
 
-## GUI Client for vnStat traffic monitor build with [Nextronjs](https://github.com/saltyshiomix/nextron/tree/v7.1.0)
+<p style='text-align:center;font-size:20px'>
+ GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a>
+</p>
 
 > In Development and not ready to use
 
@@ -29,3 +31,9 @@ cd ./dist
 # Run App
 ./vnstat-client-1.0.0.AppImage
 ```
+
+## Screenshot
+
+![line chart](assets/LineChart.png)
+</br>
+![bar chart](asset/../assets/Screenshot-BarChart.png)
