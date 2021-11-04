@@ -87,7 +87,7 @@ if (isProd) {
 				data: {
 					...MonthUsageData,
 					rx: MonthUsageData.rx / 1024 / 1024,
-					tx: YesterdayUsageData.tx / 1024 / 1024,
+					tx: MonthUsageData.tx / 1024 / 1024,
 				},
 			},
 			{

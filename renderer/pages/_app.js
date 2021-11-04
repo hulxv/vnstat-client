@@ -6,7 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import PageLayout from "../layout/PageLayout";
 import Router from "next/router";
 
-export default function (props) {
+export default function App(props) {
 	const { Component, pageProps } = props;
 	const [isLoading, setIsLoading] = useState(false);
 
