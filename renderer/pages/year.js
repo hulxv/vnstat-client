@@ -1,4 +1,4 @@
-import { ipcRenderer } from "electron";
+import { useUsage } from "../context/dataUsage";
 
 import { getMonth } from "date-fns";
 import Chart from "../components/Chart";
@@ -10,13 +10,15 @@ import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
 
 export default function Year() {
+	const { year, reloading, dataIsReady } = useUsage();
+
 	const [PreviousYears, setPreviousYears] = useState(0);
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
-		ipcRenderer.send("getYearData");
-		ipcRenderer.on("yearData", (evt, result) => setData(result));
-	}, []);
+		setData(year);
+	}, [dataIsReady]);
+
 	const FilteredData = useFilterDate(data, "year", PreviousYears);
 	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);
 
@@ -50,7 +52,10 @@ export default function Year() {
 					<Button
 						leftIcon={<HiRefresh size='1.4em' />}
 						mr={1}
-						onClick={() => router.replace(router.asPath)}>
+						onClick={() => {
+							reloading();
+							router.replace(router.asPath);
+						}}>
 						Refresh
 					</Button>
 				</Flex>

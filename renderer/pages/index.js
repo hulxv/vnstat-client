@@ -3,28 +3,24 @@ import { useState, useEffect } from "react";
 import useFilterDate from "../hooks/useFilterDate";
 import { getDate } from "date-fns";
 
-import { ipcRenderer } from "electron";
 import { useRouter } from "next/router";
 
 import SwitchBar from "../components/SwitchBar";
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
 
+import { useUsage } from "../context/dataUsage";
+
 export default function Month() {
 	const router = useRouter();
-
 	const [previousMonths, setPreviousMonths] = useState(0);
 	const [data, setData] = useState([]);
 
-	useEffect(() => {
-		ipcRenderer.send("getMonthData");
-		ipcRenderer.on("monthData", (evt, result) => setData(result));
+	const { month, reloading, dataIsReady } = useUsage();
 
-		// Cleaning
-		return () => {
-			ipcRenderer.removeAllListeners("monthData", "getMonthData");
-		};
-	}, []);
+	useEffect(async () => {
+		setData(month);
+	}, [dataIsReady]);
 
 	const FilteredData = useFilterDate(data, "month", previousMonths);
 	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);
@@ -59,7 +55,10 @@ export default function Month() {
 					<Button
 						leftIcon={<HiRefresh size='1.4em' />}
 						mr={1}
-						onClick={() => router.replace(router.asPath)}>
+						onClick={() => {
+							reloading();
+							router.replace(router.asPath);
+						}}>
 						Refresh
 					</Button>
 				</Flex>

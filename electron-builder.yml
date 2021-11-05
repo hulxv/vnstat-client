@@ -10,7 +10,7 @@ files:
       - package.json
       - app
 linux:
-  icon: "renderer/public/images/logo.png"
+  icon: "resources/icon1.png"
   category: Network
   target:
     - "AppImage"

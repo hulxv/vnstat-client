@@ -1,7 +1,8 @@
 import MainBar from "../components/MainBar";
 import MainUsage from "../components/MainUsage";
 
-import { Flex, Spinner, Box } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
+
 export default function PageLayout({ children, isLoading }) {
 	return (
 		<>

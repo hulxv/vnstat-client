@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-
+import { useUsage } from "../context/dataUsage";
 import {
 	Menu,
 	MenuButton,
@@ -15,6 +15,7 @@ import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
 import ExportMenu from "./ExportMenu";
 
 export default function ChooseBar() {
+	const { reloading } = useUsage();
 	const pages = [
 		{
 			title: "today",
@@ -65,7 +66,10 @@ export default function ChooseBar() {
 						colorScheme='whiteAlpha'
 						textColor='whiteAlpha.900'
 						mr={1}
-						onClick={() => router.replace(router.asPath)}
+						onClick={() => {
+							reloading();
+							router.replace(router.asPath);
+						}}
 					/>
 				</Tooltip>
 

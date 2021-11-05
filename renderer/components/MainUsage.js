@@ -1,9 +1,10 @@
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Box, Flex } from "@chakra-ui/react";
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { ipcRenderer } from "electron";
+import { useUsage } from "../context/dataUsage";
+
 export default function MainUsage() {
+	const { main, dataIsReady } = useUsage();
 	const [usage, setUsage] = useState([
 		{
 			interval: "today",
@@ -19,9 +20,8 @@ export default function MainUsage() {
 		},
 	]);
 	useEffect(() => {
-		ipcRenderer.send("getMainData", 2);
-		ipcRenderer.on("sendMainData", (e, result) => setUsage(result));
-	}, []);
+		setUsage(main);
+	}, [dataIsReady]);
 
 	return (
 		<Flex justify='space-evenly' width='95%' my={16}>
@@ -67,8 +67,8 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 
 				<Flex alignSelf='center' w='full' fontSize='17' justify='space-around'>
 					<Flex align='center'>
-						<Box border='white 2px solid' borderRadius='full' m='2px'>
-							<BsArrowDownShort size='1.1em' />
+						<Box m='2px'>
+							<BsArrowDownShort size='1.3em' />
 						</Box>
 						{(rx > 1024 ? rx / 1024 : rx)?.toFixed(2)}
 						<Box fontSize={10} alignSelf='start'>
@@ -76,8 +76,8 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 						</Box>
 					</Flex>
 					<Flex align='center'>
-						<Box border='white 2px solid' borderRadius='full' m='2px'>
-							<BsArrowUpShort size='1.1em' />
+						<Box m='2px'>
+							<BsArrowUpShort size='1.3em' />
 						</Box>
 						{(tx > 1024 ? tx / 1024 : tx)?.toFixed(2)}
 						<Box fontSize={10} alignSelf='start'>
