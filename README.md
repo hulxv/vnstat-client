@@ -32,8 +32,8 @@ cd ./dist
 ./vnstat-client-1.0.0.AppImage
 ```
 
-## Screenshot
+## Screenshots
 
-![line chart](assets/Screenshot-lineChart.png)
+![line chart](screenshots/Screenshot-lineChart.png)
 </br>
-![bar chart](asset/../assets/Screenshot-BarChart.png)
+![bar chart](screenshots/Screenshot-BarChart.png)
