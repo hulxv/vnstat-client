@@ -9,6 +9,7 @@ import { getHours } from "date-fns";
 import SwitchBar from "../components/SwitchBar";
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
+import { format } from "date-fns/esm";
 export default function Hour() {
 	const [previousDays, setPreviousDays] = useState(0);
 	const [data, setData] = useState([]);
@@ -27,23 +28,25 @@ export default function Hour() {
 			id: "Upload",
 			color: "hsl(227, 18%, 50%)",
 			data: FilteredData.map((e) => ({
-				x: getHours(new Date(e.date)) + 1,
-				y: e.tx.toFixed(2),
+				x: format(new Date(e.date), "haaa"),
+				y: (e.tx / 1024).toFixed(2),
 			})),
 		},
 		{
 			id: "Download",
 			data: FilteredData.map((e) => ({
-				x: getHours(new Date(e.date)) + 1,
+				x: format(new Date(e.date), "haaa"),
 
-				y: e.rx.toFixed(2),
+				y: (e.rx / 1024).toFixed(2),
 			})),
 		},
 	];
+
+	console.log(lineChartData, "\n---\n", FilteredData);
 	const barChartData = FilteredData.map((e) => ({
-		date: getHours(new Date(e.date)) + 1,
-		Download: e.rx.toFixed(2),
-		Upload: e.tx.toFixed(2),
+		date: format(new Date(e.date), "haaa"),
+		Download: (e.rx / 1024).toFixed(2),
+		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
 	return (

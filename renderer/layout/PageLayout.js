@@ -10,7 +10,7 @@ export default function PageLayout({ children, isLoading }) {
 					<Spinner size='xl' color='#38a169' />
 				</Flex>
 			) : (
-				<Flex h='100vh' align='center' flexDir='column'>
+				<Flex h='100vh' align='center' flexDir='column' overflow='auto'>
 					<Flex flexDir='column' w='full' align='center' mb={8}>
 						<MainUsage />
 						<MainBar />

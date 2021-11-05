@@ -6,7 +6,7 @@ import { IconButton, Tooltip, Flex } from "@chakra-ui/react";
 
 import { BiLineChart, BiBarChart } from "react-icons/bi";
 
-const Chart = ({ lineChartData, barChartData, title }) => {
+const Chart = ({ lineChartData, barChartData }) => {
 	const [chart, setChart] = useState("bar");
 	return (
 		<>
@@ -28,9 +28,9 @@ const Chart = ({ lineChartData, barChartData, title }) => {
 				</Tooltip>
 			</Flex>
 			{chart === "bar" ? (
-				<BarChart data={barChartData} title={title} />
+				<BarChart data={barChartData} />
 			) : chart === "line" ? (
-				<LineChart data={lineChartData} title={title} />
+				<LineChart data={lineChartData} />
 			) : (
 				<div>Choose Chart Style</div>
 			)}
