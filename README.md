@@ -1,4 +1,8 @@
-# vnStat Client
+
+<p align='center'>
+   <img src="resources/icon1.png" alt="vnstat-client-logo" width="300" style="align-self:center"/>
+   <h1 align='center'>vnStat Client</h1>
+</p>
 
 
 ## GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> 
