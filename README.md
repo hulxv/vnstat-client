@@ -5,7 +5,8 @@
 </p>
 
 
-## GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> 
+<h3 align='center'> GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> </h3>
+ 
 
 
 > In Development and not ready to use
