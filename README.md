@@ -1,8 +1,8 @@
 # vnStat Client
 
-<p style='text-align:center;font-size:20px'>
- GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a>
-</p>
+
+## GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> 
+
 
 > In Development and not ready to use
 
