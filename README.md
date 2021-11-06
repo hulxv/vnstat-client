@@ -35,5 +35,5 @@ cd ./dist
 ## Screenshots
 
 ![line chart](screenshots/Screenshot-lineChart.png)
-
+---
 ![bar chart](screenshots/Screenshot-BarChart.png)
