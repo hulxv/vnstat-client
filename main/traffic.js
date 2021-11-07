@@ -1,22 +1,8 @@
-import { knex } from "knex";
 import { getMonth, isToday, isYesterday } from "date-fns";
-
-const DB_PATH = "/var/lib/vnstat/vnstat.db";
-
-const db = knex({
-	client: "sqlite",
-	connection: {
-		filename: DB_PATH,
-	},
-	useNullAsDefault: false,
-});
-async function getDataFromDB(table) {
-	const result = await db(table).select();
-
-	return result;
-}
+import Database from "./db";
 
 export default class traffic {
+	#db = new Database(); // initialize database
 	constructor() {
 		this.month = [];
 		this.year = [];
@@ -32,28 +18,28 @@ export default class traffic {
 	}
 
 	async Month() {
-		this.month = await getDataFromDB("day");
+		this.month = await this.#db.Get("day");
 		return this.month;
 	}
 	async Year() {
-		this.year = await getDataFromDB("month");
+		this.year = await this.#db.Get("month");
 		return this.year;
 	}
 	async Day() {
-		this.day = await getDataFromDB("hour");
+		this.day = await this.#db.Get("hour");
 		return this.day;
 	}
 	async Main() {
 		const MonthUsageData = await (
-			await getDataFromDB("month")
+			await this.#db.Get("month")
 		).find((e) => getMonth(new Date(e.date)) === getMonth(new Date()));
 
 		const TodayUsageData = await (
-			await getDataFromDB("day")
+			await this.#db.Get("day")
 		).find((e) => isToday(new Date(e.date)));
 
 		const YesterdayUsageData = await (
-			await getDataFromDB("day")
+			await this.#db.Get("day")
 		).find((e) => isYesterday(new Date(e.date)));
 
 		this.main = [

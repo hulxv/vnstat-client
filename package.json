@@ -12,13 +12,11 @@
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"dependencies": {
-		"autoprefixer": "^10.4.0",
 		"electron-serve": "^1.1.0",
 		"electron-store": "^8.0.1",
 		"knex": "^0.95.12",
-		"postcss": "^8.3.11",
-		"sqlite3": "^5.0.2",
-		"tailwindcss": "^2.2.19"
+		"react-json-view": "^1.21.3",
+		"sqlite3": "^5.0.2"
 	},
 	"devDependencies": {
 		"@chakra-ui/react": "^1.6.9",

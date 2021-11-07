@@ -4,17 +4,14 @@ import {
 	MenuButton,
 	MenuList,
 	MenuItem,
-	MenuItemOption,
-	MenuGroup,
-	MenuOptionGroup,
-	MenuIcon,
-	MenuCommand,
-	MenuDivider,
-	Button,
 	IconButton,
 	Tooltip,
-	Input,
 } from "@chakra-ui/react";
+
+import XML from "./asXML";
+import JSON from "./asJSON";
+
+import { ipcRenderer } from "electron";
 const ExportAs = () => {
 	return (
 		<div>
@@ -31,8 +28,12 @@ const ExportAs = () => {
 				</Tooltip>
 				<div className='ii'></div>
 				<MenuList>
-					<MenuItem onClick={() => {}}>JSON</MenuItem>
-					<MenuItem>XML</MenuItem>
+					<MenuItem onClick={() => {}}>
+						<JSON />
+					</MenuItem>
+					<MenuItem>
+						<XML />
+					</MenuItem>
 				</MenuList>
 			</Menu>
 		</div>

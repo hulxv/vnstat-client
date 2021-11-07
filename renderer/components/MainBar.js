@@ -12,7 +12,7 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
-import ExportMenu from "./ExportMenu";
+import ExportMenu from "./Export";
 
 export default function ChooseBar() {
 	const { reloading } = useUsage();

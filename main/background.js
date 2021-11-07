@@ -1,5 +1,6 @@
 import { app, ipcMain } from "electron";
 import serve from "electron-serve";
+import Database from "./db";
 import { createWindow } from "./helpers";
 
 import Traffic from "./traffic";
@@ -44,9 +45,20 @@ if (isProd) {
 		const traffic = new Traffic();
 
 		await traffic.getData();
-
 		mainWindow.webContents.send("sendUsage", traffic);
 	}
+
+	ipcMain.on("export-db", async (e, arg) => {
+		const { limit, format } = arg;
+		const db = new Database();
+		try {
+			const result = await db.export(limit, format);
+
+			mainWindow.webContents.send("export-result", result);
+		} catch (err) {
+			console.error("error =>", err);
+		}
+	});
 })();
 
 app.on("window-all-closed", () => {
