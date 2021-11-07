@@ -1,13 +1,7 @@
 
-<p align='center'>
-   <img src="resources/icon1.png" alt="vnstat-client-logo" width="300" style="align-self:center"/>
-   <h1 align='center'>vnStat Client</h1>
-</p>
+<p align='center'> <img src="resources/icon1.png" alt="vnstat-client-logo" width="300" /> <h1 align='center'>vnStat Client</h1> </p>
 
-
-<h3 align='center'> GUI Client for vnStat traffic monitor built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> </h3>
- 
-
+<h3 align='center'> GUI Client for <a href='https://github.com/vergoh/vnstat'>vnStat traffic monitor</a> built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> </h3>
 
 > In Development and not ready to use
 
@@ -37,7 +31,7 @@ cd ./dist
 ./vnstat-client-1.0.0.AppImage
 ```
 
-## Screenshots
+## Screenshot
 
 ![line chart](screenshots/Screenshot-lineChart.png)
 ---
