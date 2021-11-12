@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, createContext } from "react";
 import { ipcRenderer } from "electron";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 export const UsageContext = createContext();
 
 export default function UsageProvider({ children }) {

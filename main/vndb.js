@@ -1,5 +1,5 @@
 import { knex } from "knex";
-
+import { error } from "electron-log";
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
@@ -18,7 +18,12 @@ export default class Database {
 	}
 
 	async Get(table) {
-		return await this.db(table).select();
+		try {
+			const data = await this.db(table).select();
+			return data;
+		} catch (err) {
+			error(err.message);
+		}
 	}
 
 	async export(limit, format) {

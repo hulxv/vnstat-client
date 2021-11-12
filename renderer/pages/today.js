@@ -7,7 +7,7 @@ import useFilterDate from "../hooks/useFilterDate";
 import SwitchBar from "../components/SwitchBar";
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
-import { format } from "date-fns/esm";
+import { format } from "date-fns";
 export default function Hour() {
 	const { day, reloading, dataIsReady } = useUsage();
 	const [previousDays, setPreviousDays] = useState(0);

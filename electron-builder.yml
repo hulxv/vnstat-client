@@ -1,6 +1,6 @@
 appId: com.example.nextron
 productName: vnstat-client
-copyright: Copyright © 2018 Hulxv ( Mohamed Emad )
+copyright: Copyright © 2021 Hulxv ( Mohamed Emad )
 directories:
   output: dist
   buildResources: resources

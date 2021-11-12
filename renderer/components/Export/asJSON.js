@@ -13,6 +13,7 @@ import {
 	Spinner,
 	Flex,
 	Select,
+	useToast,
 } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import { useState } from "react";
@@ -21,12 +22,13 @@ const JsonViewer = dynamic(import("react-json-view"), { ssr: false });
 export default function AsJSON() {
 	const [json, setJson] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
+
+	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	function viewJSON(limit) {
-		console.log(limit);
 		setIsLoading(true);
-		ipcRenderer.send("export-db", { format: "json", limit });
+		ipcRenderer.send("export-db-view", { format: "json", limit });
 
 		ipcRenderer.on("export-result", async (e, result) =>
 			setJson(JSON.parse(result)),
@@ -34,13 +36,32 @@ export default function AsJSON() {
 		setIsLoading(false);
 	}
 
+	function exportJSON() {
+		if (Object.keys(json).length <= 0) {
+			toast.closeAll();
+			toast({
+				description: "You should choose a limit !",
+				status: "error",
+				isClosable: true,
+				position: "top",
+			});
+			return;
+		}
+		ipcRenderer.send("export-as-json", { jsonOBJ: json });
+	}
 	return (
 		<>
 			<Box onClick={onOpen} fontSize='xl' variant='ghost' w='full'>
 				JSON
 			</Box>
 
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal
+				isOpen={isOpen}
+				onClose={() => {
+					onClose();
+					setJson({});
+				}}
+				size='xl'>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Export as JSON</ModalHeader>
@@ -84,7 +105,9 @@ export default function AsJSON() {
 						<Button variant='ghost' mr={3} onClick={onClose}>
 							Close
 						</Button>
-						<Button colorScheme='green'>Export</Button>
+						<Button colorScheme='green' onClick={() => exportJSON()}>
+							Export
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

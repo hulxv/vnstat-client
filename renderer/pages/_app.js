@@ -7,6 +7,7 @@ import Router from "next/router";
 
 // context
 import UsageProvider from "../context/dataUsage";
+import ReceviedMessagesProvider from "../context/recevied-messages";
 
 export default function App(props) {
 	const { Component, pageProps } = props;
@@ -29,9 +30,11 @@ export default function App(props) {
 			</Head>
 			<ChakraProvider>
 				<UsageProvider>
-					<PageLayout isLoading={isLoading}>
-						<Component {...pageProps} />
-					</PageLayout>
+					<ReceviedMessagesProvider>
+						<PageLayout isLoading={isLoading}>
+							<Component {...pageProps} />
+						</PageLayout>
+					</ReceviedMessagesProvider>
 				</UsageProvider>
 			</ChakraProvider>
 		</>
