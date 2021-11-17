@@ -12,7 +12,9 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
-import ExportMenu from "./Export";
+
+import Export from "./Export";
+import Settings from "./Settings";
 
 export default function ChooseBar() {
 	const { reloading } = useUsage();
@@ -49,14 +51,16 @@ export default function ChooseBar() {
 			width='95%'>
 			<Flex>
 				<Tooltip label='Settings'>
-					<IconButton
-						variant='ghost'
-						colorScheme='whiteAlpha'
-						textColor='whiteAlpha.900'
-						icon={<HiAdjustments size='1.4em' />}
-					/>
+					<Settings>
+						<IconButton
+							variant='ghost'
+							colorScheme='whiteAlpha'
+							textColor='whiteAlpha.900'
+							icon={<HiAdjustments size='1.4em' />}
+						/>
+					</Settings>
 				</Tooltip>
-				<ExportMenu />
+				<Export />
 			</Flex>
 			<Flex>
 				<Tooltip label='Refresh'>

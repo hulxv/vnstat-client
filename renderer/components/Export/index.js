@@ -11,7 +11,6 @@ import {
 import XML from "./asXML";
 import JSON from "./asJSON";
 
-import { ipcRenderer } from "electron";
 const ExportAs = () => {
 	return (
 		<div>
@@ -26,9 +25,8 @@ const ExportAs = () => {
 						icon={<BiExport size='1.4em' />}
 					/>
 				</Tooltip>
-				<div className='ii'></div>
 				<MenuList>
-					<MenuItem onClick={() => {}}>
+					<MenuItem>
 						<JSON />
 					</MenuItem>
 					<MenuItem>
