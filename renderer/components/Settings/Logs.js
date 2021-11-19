@@ -14,14 +14,14 @@ import {
 import { HiTrash, HiRefresh } from "react-icons/hi";
 
 function Logs() {
-	const [logs, setLogs] = useState([]);
+	const [logs, setLogs] = useState({ path: "", lines: [] });
 	const [isLoading, setIsLoading] = useState(false);
 
 	const getLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("get-logs");
 		ipcRenderer.on("send-logs", (e, res) => {
-			setLogs({ ...res });
+			setLogs({ ...res["0"], lines: [...res["0"].lines].reverse() });
 			setIsLoading(false);
 		});
 	}, []);
@@ -30,7 +30,7 @@ function Logs() {
 		setIsLoading(true);
 		ipcRenderer.send("clear-logs");
 		ipcRenderer.on("send-logs", (e, res) => {
-			setLogs({ ...res });
+			setLogs({ ...res[0] });
 			setIsLoading(false);
 		});
 	};
@@ -40,10 +40,9 @@ function Logs() {
 	}, []);
 
 	return (
-		<div>
+		<>
 			<div>
-				Logs stored in{" "}
-				<span style={{ fontWeight: "bold" }}>{logs[0]?.path}</span>
+				Logs stored in <span style={{ fontWeight: "bold" }}>{logs.path}</span>
 			</div>
 			<Flex w='full' justify='end' my={3}>
 				<Button leftIcon={<HiRefresh />} onClick={() => getLogs()} mx={2}>
@@ -61,10 +60,10 @@ function Logs() {
 					<Flex my={3} w='full' h='full' align='center' justify='center'>
 						<Spinner size='xl' color='green' />
 					</Flex>
-				) : logs[0]?.lines.filter((line) => line && line).length <= 0 ? (
+				) : logs?.lines.filter((line) => line && line).length <= 0 ? (
 					<div>No logs found</div>
 				) : (
-					logs[0]?.lines.reverse().map((msg) => {
+					logs?.lines.map((msg) => {
 						if (!msg) return <></>;
 						let matching = msg.match(/\[(.*?)\]/g);
 
@@ -88,7 +87,7 @@ function Logs() {
 					})
 				)}
 			</div>
-		</div>
+		</>
 	);
 }
 
