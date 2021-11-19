@@ -21,7 +21,6 @@ if (isProd) {
 
 (async () => {
 	await app.whenReady();
-
 	log.info("vnStat-client is starting..");
 	const mainWindow = createWindow("main", {
 		width: 800,
@@ -119,6 +118,10 @@ if (isProd) {
 				});
 			}
 		}
+	});
+
+	ipcMain.on("get-logs", () => {
+		mainWindow.webContents.send("send-logs", log.transports.file.readAllLogs());
 	});
 })();
 

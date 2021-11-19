@@ -53,10 +53,12 @@ export default function ChooseBar() {
 			path: router.asPath || "/",
 		});
 	}, []);
-	useEffect(() => {
-		console.log(Page);
-		console.log(router.pathname, router.asPath);
-	}, [Page]);
+
+	// For debugging
+	// useEffect(() => {
+	// 	console.log(Page);
+	// 	console.log(router.pathname, router.asPath);
+	// }, [Page]);
 	return (
 		<>
 			<Flex
