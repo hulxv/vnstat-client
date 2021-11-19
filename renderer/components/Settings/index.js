@@ -24,9 +24,10 @@ export default function Settings({ children }) {
 			<div onClick={onOpen}>{children}</div>
 
 			<Modal
+				h='full'
 				scrollBehavior='inside'
 				isOpen={isOpen}
-				size='2xl'
+				size='3xl'
 				onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
@@ -38,6 +39,7 @@ export default function Settings({ children }) {
 								<Tab>Apperance</Tab>
 								<Tab>Configuration</Tab>
 								<Tab>Logs</Tab>
+								<Tab>Info</Tab>
 								<Tab>About</Tab>
 							</TabList>
 							<TabPanels>
@@ -46,6 +48,8 @@ export default function Settings({ children }) {
 								<TabPanel>
 									<Logs />
 								</TabPanel>
+								<TabPanel>Info</TabPanel>
+
 								<TabPanel>About</TabPanel>
 							</TabPanels>
 						</Tabs>

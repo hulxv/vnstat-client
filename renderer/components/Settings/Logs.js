@@ -1,19 +1,42 @@
 import { ipcRenderer } from "electron";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import {
 	Alert,
 	AlertIcon,
 	AlertTitle,
 	AlertDescription,
+	Button,
+	Flex,
+	Spinner,
 } from "@chakra-ui/react";
+
+import { HiTrash, HiRefresh } from "react-icons/hi";
+
 function Logs() {
 	const [logs, setLogs] = useState([]);
-	useEffect(() => {
+	const [isLoading, setIsLoading] = useState(false);
+
+	const getLogs = useCallback(() => {
+		setIsLoading(true);
 		ipcRenderer.send("get-logs");
 		ipcRenderer.on("send-logs", (e, res) => {
 			setLogs({ ...res });
+			setIsLoading(false);
 		});
+	}, []);
+
+	const clearLogs = () => {
+		setIsLoading(true);
+		ipcRenderer.send("clear-logs");
+		ipcRenderer.on("send-logs", (e, res) => {
+			setLogs({ ...res });
+			setIsLoading(false);
+		});
+	};
+
+	useEffect(() => {
+		getLogs();
 	}, []);
 
 	return (
@@ -22,25 +45,48 @@ function Logs() {
 				Logs stored in{" "}
 				<span style={{ fontWeight: "bold" }}>{logs[0]?.path}</span>
 			</div>
+			<Flex w='full' justify='end' my={3}>
+				<Button leftIcon={<HiRefresh />} onClick={() => getLogs()} mx={2}>
+					Refresh
+				</Button>
+				<Button
+					leftIcon={<HiTrash />}
+					colorScheme='red'
+					onClick={() => clearLogs()}>
+					Clear All
+				</Button>
+			</Flex>
 			<div>
-				{logs[0]?.lines.reverse().map((msg) => {
-					if (!msg) return <></>;
-					let matching = msg.match(/\[(.*?)\]/g);
+				{isLoading ? (
+					<Flex my={3} w='full' h='full' align='center' justify='center'>
+						<Spinner size='xl' color='green' />
+					</Flex>
+				) : logs[0]?.lines.filter((line) => line && line).length <= 0 ? (
+					<div>No logs found</div>
+				) : (
+					logs[0]?.lines.reverse().map((msg) => {
+						if (!msg) return <></>;
+						let matching = msg.match(/\[(.*?)\]/g);
 
-					let status =
-						matching !== null
-							? matching[1].replace(/\[/g, "").replace(/\]/g, "")
-							: "info";
-					return (
-						<Alert my={1} status={status === "warn" ? "warning" : status}>
-							<AlertIcon />
+						let status =
+							matching !== null
+								? matching[1].replace(/\[/g, "").replace(/\]/g, "")
+								: "info";
+						let date =
+							matching !== null &&
+							matching[0].replace(/\[/g, "").replace(/\]/g, "");
+						return (
+							<Alert my={1} status={status === "warn" ? "warning" : status}>
+								<AlertIcon />
+								<AlertTitle mr={2}>{date}</AlertTitle>
 
-							<AlertDescription>
-								{msg.replace(matching !== null && matching[1], "")}
-							</AlertDescription>
-						</Alert>
-					);
-				})}
+								<AlertDescription>
+									{msg.replace(/\[(.*?)\]/g, "")}
+								</AlertDescription>
+							</Alert>
+						);
+					})
+				)}
 			</div>
 		</div>
 	);
