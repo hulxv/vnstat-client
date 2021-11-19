@@ -7,6 +7,13 @@
   resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-5.1.1.tgz#9274ec7460652f9c632c59addf24efb1684ef876"
   integrity sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==
 
+"@amir04lm26/react-modern-calendar-date-picker@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@amir04lm26/react-modern-calendar-date-picker/-/react-modern-calendar-date-picker-1.0.1.tgz#e34aefc1c66f3c48f162eab6207407162c392be0"
+  integrity sha512-P/jDZkpfJA+Lde7OAbKb0JNHWcfbg+XKdVqWcucAYoAeMhPlex9jmlIxBB3zCPuAeUqdUVDWfEhAQ/Evsi1ClQ==
+  dependencies:
+    jalaali-js "^1.1.0"
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
@@ -5277,6 +5284,11 @@ jake@^10.6.1:
     chalk "^2.4.2"
     filelist "^1.0.1"
     minimatch "^3.0.4"
+
+jalaali-js@^1.1.0:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/jalaali-js/-/jalaali-js-1.2.3.tgz#365775826d2eece5e6552b96aff384c8773bb406"
+  integrity sha512-irl0pXL59Xl0Oz6jyOiJed/NxrVeS6fSx6a8atQOH/LsPWPZwBCxwe5XVEIqjnwt69FRxvnCCwQn5dTMxwbazQ==
 
 jest-worker@27.0.0-next.5:
   version "27.0.0-next.5"

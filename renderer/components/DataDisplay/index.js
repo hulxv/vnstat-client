@@ -1,12 +1,19 @@
 import { useState } from "react";
 import LineChart from "./LineChart";
 import BarChart from "./BarChart";
+import Table from "./Table";
 
 import { IconButton, Tooltip, Flex } from "@chakra-ui/react";
 
-import { BiLineChart, BiBarChart } from "react-icons/bi";
+import { BiLineChart, BiBarChart, BiTable } from "react-icons/bi";
 
-const Chart = ({ lineChartData, barChartData }) => {
+const Chart = ({
+	lineChartData,
+	barChartData,
+	data,
+	lineAxisBottomRotation = 0,
+	barAxisBottomRotation = 0,
+}) => {
 	const [chart, setChart] = useState("bar");
 	return (
 		<>
@@ -25,14 +32,30 @@ const Chart = ({ lineChartData, barChartData }) => {
 						onClick={() => setChart("line")}
 						ml={1}
 					/>
+				</Tooltip>{" "}
+				<Tooltip label='Table'>
+					<IconButton
+						colorScheme='green'
+						icon={<BiTable size='1.4em' />}
+						onClick={() => setChart("table")}
+						ml={1}
+					/>
 				</Tooltip>
 			</Flex>
 			{chart === "bar" ? (
-				<BarChart data={barChartData} />
+				<BarChart
+					data={barChartData}
+					axisBottomRotation={barAxisBottomRotation}
+				/>
 			) : chart === "line" ? (
-				<LineChart data={lineChartData} />
+				<LineChart
+					data={lineChartData}
+					axisBottomRotation={lineAxisBottomRotation}
+				/>
+			) : chart === "table" ? (
+				<Table data={data} />
 			) : (
-				<div>Choose Chart Style</div>
+				<div>Choose a Display Style</div>
 			)}
 		</>
 	);

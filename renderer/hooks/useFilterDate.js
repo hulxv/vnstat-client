@@ -12,6 +12,7 @@ import {
 	endOfMonth,
 	subMonths,
 	subYears,
+	getYear,
 } from "date-fns";
 import { startOfYear } from "date-fns";
 
@@ -28,6 +29,7 @@ const DataSetters = {
 	month: (Data, ...args) => getMonthData(Data, ...args), // get month data by day
 
 	year: (Data, ...args) => getYearData(Data, ...args), // get year data by month
+	custom: (Data, ...args) => getCustomIntervalData(Data, ...args), // get year data by month
 };
 
 function getMonthData(Data, amountMonths = 0) {
@@ -84,6 +86,33 @@ function getYearData(Data, amountYears = 0) {
 
 	const DefaultData = MonthsInYear.map((month) => ({
 		date: month,
+		rx: 0,
+		tx: 0,
+	}));
+
+	const dataAfterFiltering = DefaultData.map(
+		(day) => Data.find((data) => data.date === day.date) || day,
+	);
+
+	return dataAfterFiltering.map((data) => ({
+		...data,
+		rx: data.rx / 1024 / 1024,
+		tx: data.tx / 1024 / 1024,
+	}));
+}
+
+function getCustomIntervalData(
+	Data,
+	from = `${getYear(new Date())}-1-1`,
+	to = `${getYear(new Date())}-1-1`,
+) {
+	const DaysInInterval = eachDayOfInterval({
+		start: new Date(from),
+		end: new Date(to),
+	}).map((date) => format(new Date(date), "yyyy-MM-dd"));
+
+	const DefaultData = DaysInInterval.map((day) => ({
+		date: day,
 		rx: 0,
 		tx: 0,
 	}));

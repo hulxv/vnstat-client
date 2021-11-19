@@ -1,10 +1,9 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveBar } from "@nivo/bar";
 
-export default function LineChart({ data, title }) {
+export default function LineChart({ data, axisBottomRotation = 0 }) {
 	return (
 		<>
-			<div>{title}</div>
 			<ResponsiveBar
 				data={data}
 				keys={["Download", "Upload"]}
@@ -41,7 +40,7 @@ export default function LineChart({ data, title }) {
 				axisBottom={{
 					tickSize: 1,
 					tickPadding: 5,
-					tickRotation: 0,
+					tickRotation: axisBottomRotation,
 					legend: "Date",
 					legendPosition: "middle",
 					legendOffset: 32,

@@ -1,7 +1,8 @@
+import router from "next/router";
 import { useUsage } from "../context/dataUsage";
 
 import { getMonth } from "date-fns";
-import Chart from "../components/Chart";
+import DataDisplay from "../components/DataDisplay";
 import { useState, useEffect } from "react";
 import useFilterDate from "../hooks/useFilterDate";
 
@@ -73,7 +74,11 @@ export default function Year() {
 							dataUsage > 1024 ? "GB" : "MB"
 						}`}
 					</Heading>
-					<Chart lineChartData={lineChartData} barChartData={barChartData} />{" "}
+					<DataDisplay
+						data={FilteredData}
+						lineChartData={lineChartData}
+						barChartData={barChartData}
+					/>{" "}
 				</>
 			)}
 		</>

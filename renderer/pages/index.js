@@ -1,9 +1,9 @@
-import Chart from "../components/Chart";
+import DataDisplay from "../components/DataDisplay";
 import { useState, useEffect } from "react";
 import useFilterDate from "../hooks/useFilterDate";
 import { getDate } from "date-fns";
 
-import { useRouter } from "next/router";
+import router from "next/router";
 
 import SwitchBar from "../components/SwitchBar";
 import { Button, Heading, Flex } from "@chakra-ui/react";
@@ -12,7 +12,6 @@ import { HiRefresh } from "react-icons/hi";
 import { useUsage } from "../context/dataUsage";
 
 export default function Month() {
-	const router = useRouter();
 	const [previousMonths, setPreviousMonths] = useState(0);
 	const [data, setData] = useState([]);
 
@@ -76,7 +75,11 @@ export default function Month() {
 							dataUsage > 1024 ? "GB" : "MB"
 						}`}
 					</Heading>
-					<Chart lineChartData={lineChartData} barChartData={barChartData} />{" "}
+					<DataDisplay
+						lineChartData={lineChartData}
+						barChartData={barChartData}
+						data={FilteredData}
+					/>{" "}
 				</>
 			)}
 		</>

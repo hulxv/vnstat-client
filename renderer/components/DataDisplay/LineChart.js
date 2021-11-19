@@ -1,7 +1,7 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveLine } from "@nivo/line";
 
-export default function LineChart({ data }) {
+export default function LineChart({ data, axisBottomRotation = 0 }) {
 	return (
 		<ResponsiveLine
 			data={data}
@@ -22,7 +22,7 @@ export default function LineChart({ data }) {
 				orient: "bottom",
 				tickSize: 5,
 				tickPadding: 10,
-				tickRotation: 0,
+				tickRotation: axisBottomRotation,
 				legend: "Date",
 				legendOffset: 36,
 				legendPosition: "middle",

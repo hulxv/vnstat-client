@@ -12,6 +12,7 @@
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"dependencies": {
+		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
 		"date-fns": "^2.25.0",
 		"electron-log": "^4.4.1",
 		"electron-serve": "^1.1.0",
