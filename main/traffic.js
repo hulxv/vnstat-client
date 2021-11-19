@@ -1,4 +1,4 @@
-import { error, info } from "electron-log";
+import { error } from "electron-log";
 
 import {
 	format,
@@ -26,36 +26,39 @@ export default class traffic {
 			await this.Day();
 			await this.Year();
 			await this.Main();
-		} catch (err) {}
+		} catch (err) {
+			console.log(err);
+			throw err;
+		}
 	}
 
 	async Month() {
 		try {
 			this.month = await this.#db.Get("day");
-			info("Getting month data is successfully");
 			return this.month;
 		} catch (err) {
 			error(err.message);
+			throw err;
 		}
 	}
 	async Year() {
 		try {
 			this.year = await this.#db.Get("month");
-			info("Getting year data is successfully");
 
 			return this.year;
 		} catch (err) {
 			error(err.message);
+			throw err;
 		}
 	}
 	async Day() {
 		try {
 			this.day = await this.#db.Get("hour");
-			info("Getting day data is successfully");
 
 			return this.day;
 		} catch (err) {
 			error(err.message);
+			throw err;
 		}
 	}
 
@@ -114,11 +117,11 @@ export default class traffic {
 					},
 				},
 			];
-			info("Getting header data is successfully");
 
 			return this.main;
 		} catch (err) {
 			error(err.message);
+			throw err;
 		}
 	}
 }

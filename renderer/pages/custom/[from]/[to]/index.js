@@ -1,11 +1,12 @@
 import DataDisplay from "../../../../components/DataDisplay";
 import { useState, useEffect } from "react";
 import useFilterDate from "../../../../hooks/useFilterDate";
-import { getDate, format } from "date-fns";
+import { format } from "date-fns";
 
 import { useRouter } from "next/router";
 
-// import SwitchBar from "../components/SwitchBar";
+import TotalTraffic from "../../../../components/TotalTraffic";
+
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
 
@@ -27,9 +28,10 @@ export default function CustomInterval() {
 		router.query.to,
 	);
 
-	console.log(FilteredData);
-	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);
-
+	const dataUsage = {
+		down: FilteredData.reduce((a, b) => a + b.rx, 0),
+		up: FilteredData.reduce((a, b) => a + b.tx, 0),
+	};
 	const lineChartData = [
 		{
 			id: "Upload",
@@ -74,17 +76,13 @@ export default function CustomInterval() {
 						{router.query.from !== router.query.to &&
 							` - ${format(new Date(router.query.to), "yyyy MMM dd")}`}
 					</Heading>
-					<Heading fontWeight='thin'>
-						{`${(dataUsage < 1024 ? dataUsage : dataUsage / 1024).toFixed(2)} ${
-							dataUsage > 1024 ? "GB" : "MB"
-						}`}
-					</Heading>
+					<TotalTraffic data={dataUsage} />
 					<DataDisplay
 						data={FilteredData}
 						lineChartData={lineChartData}
 						barChartData={barChartData}
-						barAxisBottomRotation={90}
-						lineAxisBottomRotation={90}
+						barAxisBottomRotation={FilteredData.legnth > 15 ? 90 : 45}
+						lineAxisBottomRotation={FilteredData.legnth > 15 ? 90 : 45}
 					/>{" "}
 				</>
 			)}

@@ -45,13 +45,13 @@ if (isProd) {
 
 	async function sendingTraffic() {
 		let traffic = new Traffic();
-		log.info("Trying get traffic usage data");
+		log.info("Getting data...");
 		try {
 			await traffic.getData();
 			mainWindow.webContents.send("sendUsage", traffic);
 			log.info("Getting data is successfully");
 		} catch (err) {
-			log.error(err.message);
+			log.error(err);
 		}
 	}
 
@@ -122,6 +122,22 @@ if (isProd) {
 
 	ipcMain.on("get-logs", () => {
 		mainWindow.webContents.send("send-logs", log.transports.file.readAllLogs());
+	});
+
+	ipcMain.on("clear-logs", () => {
+		try {
+			log.transports.file.clear();
+			mainWindow.webContents.send(
+				"send-logs",
+				log.transports.file.readAllLogs(),
+			);
+			mainWindow.webContents.send("message", {
+				status: "warning",
+				msg: "All logs was cleared",
+			});
+		} catch (err) {
+			log.error(err);
+		}
 	});
 })();
 

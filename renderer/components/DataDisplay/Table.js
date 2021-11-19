@@ -27,8 +27,8 @@ function TableComponent({ data }) {
 					<Tr>
 						<Td>{traffic.date}</Td>
 						<Td>{traffic.interface ?? "-"}</Td>
-						<Td>{traffic.rx?.toFixed(2)}</Td>
-						<Td>{traffic.tx?.toFixed(2)}</Td>
+						<Td>{traffic.rx === 0 ? "-" : traffic.rx?.toFixed(2)}</Td>
+						<Td>{traffic.tx === 0 ? "-" : traffic.tx?.toFixed(2)}</Td>
 					</Tr>
 				))}
 			</Tbody>

@@ -12,12 +12,12 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { getDate } from "date-fns";
+
+import { Calendar, utils } from "@amir04lm26/react-modern-calendar-date-picker";
 
 import "@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css";
-import { Calendar, utils } from "@amir04lm26/react-modern-calendar-date-picker";
 
 export default function CustomIntervalModal({
 	children,

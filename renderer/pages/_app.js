@@ -9,6 +9,8 @@ import router from "next/router";
 import UsageProvider from "../context/dataUsage";
 import ReceviedMessagesProvider from "../context/recevied-messages";
 
+import "../styles/global.css";
+
 export default function App(props) {
 	const { Component, pageProps } = props;
 	const [isLoading, setIsLoading] = useState(false);

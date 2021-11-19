@@ -6,6 +6,8 @@ import DataDisplay from "../components/DataDisplay";
 import useFilterDate from "../hooks/useFilterDate";
 
 import SwitchBar from "../components/SwitchBar";
+import TotalTraffic from "../components/TotalTraffic";
+
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
 import { format } from "date-fns";
@@ -18,8 +20,10 @@ export default function Hour() {
 		setData(day);
 	}, [dataIsReady]);
 	const FilteredData = useFilterDate(data, "day", previousDays);
-	const dataUsage = FilteredData.reduce((a, b) => a + (b.tx + b.rx), 0);
-
+	const dataUsage = {
+		down: FilteredData.reduce((a, b) => a + b.rx, 0),
+		up: FilteredData.reduce((a, b) => a + b.tx, 0),
+	};
 	const lineChartData = [
 		{
 			id: "Upload",
@@ -68,11 +72,8 @@ export default function Hour() {
 						dateFormat='MMM dd'
 						interval='day'
 					/>
-					<Heading fontWeight='thin'>
-						{`${(dataUsage < 1024 ? dataUsage : dataUsage / 1024).toFixed(2)} ${
-							dataUsage > 1024 ? "GB" : "MB"
-						}`}
-					</Heading>
+					<TotalTraffic data={dataUsage} />
+
 					<DataDisplay
 						data={FilteredData}
 						lineChartData={lineChartData}

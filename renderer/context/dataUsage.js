@@ -17,6 +17,7 @@ export default function UsageProvider({ children }) {
 		setDataIsReady(false);
 		ipcRenderer.on("sendUsage", (evt, result) => {
 			setUsage(result);
+			console.log(result);
 			setDataIsReady(true);
 		});
 	}, []);

@@ -1,15 +1,3 @@
-@tailwind base;
-
-/* Start purging... */
-@tailwind components;
-/* Stop purging. */
-
-/* Start purging... */
-@tailwind utilities;
-/* Stop purging. */
-
-/* Your own custom utilities */
-
 * {
 	font-family: "Roboto", system-ui;
 }
