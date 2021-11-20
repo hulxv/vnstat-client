@@ -72,6 +72,8 @@ export default function Year() {
 						setState={setPreviousYears}
 						dateFormat='yyyy'
 						interval='year'
+						canGoToNext={PreviousYears > 0}
+						canGoToPrevious={PreviousYears < 30}
 					/>
 					<TotalTraffic data={dataUsage} />
 					<DataDisplay

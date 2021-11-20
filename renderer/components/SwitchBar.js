@@ -13,7 +13,16 @@ import { GrPowerReset } from "react-icons/gr";
 
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
-function SwitchBar({ state, setState, dateFormat, interval }) {
+function SwitchBar({
+	state,
+	setState,
+	dateFormat,
+	interval,
+	canGoToPrevious = false,
+	canGoToNext = false,
+	title,
+	canReset = true,
+}) {
 	const subs = {
 		year: () => subYears(new Date(), state),
 		month: () => subMonths(new Date(), state),
@@ -22,28 +31,32 @@ function SwitchBar({ state, setState, dateFormat, interval }) {
 	return (
 		<Flex justify='space-around' w='full' mb={4}>
 			<Box w='30px'>
-				<Tooltip label='Previous'>
-					<IconButton
-						variant='ghost'
-						icon={<HiArrowLeft size='1.4em' />}
-						onClick={() => setState(state + 1)}
-					/>
-				</Tooltip>
+				{canGoToPrevious && (
+					<Tooltip label='Previous'>
+						<IconButton
+							variant='ghost'
+							icon={<HiArrowLeft size='1.4em' />}
+							onClick={() => setState(state + 1)}
+						/>
+					</Tooltip>
+				)}
 			</Box>
 			<Flex flexDir='column' alignItems='center'>
 				<Heading>
-					{format(subs[interval](), dateFormat || "yyyy MM dd")}
+					{title || format(subs[interval](), dateFormat || "yyyy MM dd")}
 				</Heading>
-				<Button
-					size='xs'
-					variant='ghost'
-					leftIcon={<GrPowerReset />}
-					onClick={() => setState(0)}>
-					Reset
-				</Button>
+				{canReset && (
+					<Button
+						size='xs'
+						variant='ghost'
+						leftIcon={<GrPowerReset />}
+						onClick={() => setState(0)}>
+						Reset
+					</Button>
+				)}
 			</Flex>
 			<Box w='30px'>
-				{state > 0 && (
+				{canGoToNext && (
 					<Tooltip label='Next'>
 						<IconButton
 							variant='ghost'

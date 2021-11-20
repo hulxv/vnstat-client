@@ -75,6 +75,8 @@ export default function Month() {
 						setState={setPreviousMonths}
 						dateFormat='yyyy MMMM'
 						interval='month'
+						canGoToNext={previousMonths > 0}
+						canGoToPrevious={true}
 					/>
 					<TotalTraffic data={dataUsage} />
 					<DataDisplay

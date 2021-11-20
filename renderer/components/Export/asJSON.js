@@ -102,10 +102,19 @@ export default function AsJSON() {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button variant='ghost' mr={3} onClick={onClose}>
+						<Button
+							variant='ghost'
+							mr={3}
+							onClick={() => {
+								setJson({});
+								onClose();
+							}}>
 							Close
 						</Button>
-						<Button colorScheme='green' onClick={() => exportJSON()}>
+						<Button
+							colorScheme='green'
+							onClick={() => exportJSON()}
+							isDisabled={Object.keys(json).length <= 0}>
 							Export
 						</Button>
 					</ModalFooter>

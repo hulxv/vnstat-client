@@ -5,7 +5,9 @@ import { format } from "date-fns";
 
 import { useRouter } from "next/router";
 
+// Components
 import TotalTraffic from "../../../../components/TotalTraffic";
+import SwitchBar from "../../../../components/SwitchBar";
 
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
@@ -71,11 +73,16 @@ export default function CustomInterval() {
 				</Flex>
 			) : (
 				<>
-					<Heading>
-						{format(new Date(router.query.from), "yyyy MMM dd")}
-						{router.query.from !== router.query.to &&
-							` - ${format(new Date(router.query.to), "yyyy MMM dd")}`}
-					</Heading>
+					<SwitchBar
+						title={
+							<>
+								{format(new Date(router.query.from), "yyyy MMM dd")}
+								{router.query.from !== router.query.to &&
+									` - ${format(new Date(router.query.to), "yyyy MMM dd")}`}
+							</>
+						}
+						canReset={false}
+					/>
 					<TotalTraffic data={dataUsage} />
 					<DataDisplay
 						data={FilteredData}

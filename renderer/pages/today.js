@@ -71,6 +71,8 @@ export default function Hour() {
 						setState={setPreviousDays}
 						dateFormat='MMM dd'
 						interval='day'
+						canGoToNext={previousDays > 0}
+						canGoToPrevious={true}
 					/>
 					<TotalTraffic data={dataUsage} />
 

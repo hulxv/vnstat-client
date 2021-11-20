@@ -23,7 +23,7 @@ import XMLViewer from "react-xml-viewer";
 import { BsArrowsCollapse, BsArrowsExpand } from "react-icons/bs";
 
 export default function AsXML() {
-	const [XML, setXML] = useState("<vnstat></vnstat>");
+	const [XML, setXML] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [collapse, setCollapse] = useState(false);
 
@@ -62,8 +62,8 @@ export default function AsXML() {
 			<Modal
 				isOpen={isOpen}
 				onClose={() => {
+					setXML(null);
 					onClose();
-					setXML("<vnstat></vnstat>");
 				}}
 				size='xl'>
 				<ModalOverlay />
@@ -125,10 +125,19 @@ export default function AsXML() {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button variant='ghost' mr={3} onClick={onClose}>
+						<Button
+							variant='ghost'
+							mr={3}
+							onClick={() => {
+								setXML(null);
+								onClose();
+							}}>
 							Close
 						</Button>
-						<Button colorScheme='green' onClick={() => exportXML()}>
+						<Button
+							colorScheme='green'
+							onClick={() => exportXML()}
+							isDisabled={!XML}>
 							Export
 						</Button>
 					</ModalFooter>

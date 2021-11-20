@@ -59,7 +59,7 @@ export default function Settings({ children }) {
 						<Button variant='ghost' mx={1} onClick={onClose}>
 							Close
 						</Button>
-						<Button colorScheme='blue' mr={3}>
+						<Button colorScheme='green' mr={3}>
 							Save Changes
 						</Button>
 					</ModalFooter>

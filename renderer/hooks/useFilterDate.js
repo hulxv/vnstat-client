@@ -13,6 +13,7 @@ import {
 	subMonths,
 	subYears,
 	getYear,
+	endOfYear,
 } from "date-fns";
 import { startOfYear } from "date-fns";
 
@@ -81,7 +82,7 @@ function getTodayData(Data, amountDays = 0) {
 function getYearData(Data, amountYears = 0) {
 	const MonthsInYear = eachMonthOfInterval({
 		start: startOfYear(subYears(new Date(), amountYears)),
-		end: new Date(),
+		end: endOfYear(subYears(new Date(), amountYears)),
 	}).map((date) => format(new Date(date), "yyyy-MM-dd"));
 
 	const DefaultData = MonthsInYear.map((month) => ({
