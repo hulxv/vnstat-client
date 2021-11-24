@@ -9,6 +9,7 @@ import router from "next/router";
 import UsageProvider from "../context/dataUsage";
 import ReceviedMessagesProvider from "../context/recevied-messages";
 
+// Styles
 import "../styles/global.css";
 
 export default function App(props) {

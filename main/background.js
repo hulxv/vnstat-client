@@ -7,6 +7,7 @@ import fs from "fs";
 import vnDatabase from "./vndb";
 import { createWindow } from "./helpers";
 import Traffic from "./traffic";
+import vnInfo from "./vnInfo";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -23,10 +24,9 @@ if (isProd) {
 	await app.whenReady();
 	log.info("vnStat-client is starting..");
 	const mainWindow = createWindow("main", {
-		width: 800,
+		width: 920,
 		height: 600,
-		minWidth: 650,
-		minHeight: 200,
+		minWidth: 550,
 		icon: `${
 			isProd ? `${__dirname}/images` : "renderer/public/images"
 		}/${ICON_NAME}`,
@@ -138,6 +138,22 @@ if (isProd) {
 		} catch (err) {
 			log.error(err);
 		}
+	});
+
+	ipcMain.on("get-vnstat-infos", async () => {
+		try {
+			const vnInfos = new vnInfo();
+			await vnInfos.getInfo();
+			mainWindow.webContents.send("send-vnstat-infos", vnInfos.info);
+		} catch (err) {
+			log.error(err);
+		}
+	});
+
+	ipcMain.on("open-url", (e, url) => {
+		if (!url) return;
+		e.preventDefault();
+		require("electron").shell.openExternal(url);
 	});
 })();
 

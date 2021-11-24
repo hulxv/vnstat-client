@@ -15,7 +15,12 @@ import {
 	TabPanel,
 } from "@chakra-ui/react";
 
+// Tabs Components
+import Apperance from "./Apperance";
+import Config from "./Config";
 import Logs from "./Logs";
+import Info from "./Info";
+import Credits from "./Credits";
 
 export default function Settings({ children }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,17 +45,25 @@ export default function Settings({ children }) {
 								<Tab>Configuration</Tab>
 								<Tab>Logs</Tab>
 								<Tab>Info</Tab>
-								<Tab>About</Tab>
+								<Tab>Credits</Tab>
 							</TabList>
 							<TabPanels>
-								<TabPanel>Apperance</TabPanel>
-								<TabPanel>Configuration</TabPanel>
+								<TabPanel>
+									<Apperance />
+								</TabPanel>
+								<TabPanel>
+									<Config />
+								</TabPanel>
 								<TabPanel>
 									<Logs />
 								</TabPanel>
-								<TabPanel>Info</TabPanel>
+								<TabPanel>
+									<Info />
+								</TabPanel>
 
-								<TabPanel>About</TabPanel>
+								<TabPanel>
+									<Credits />
+								</TabPanel>
 							</TabPanels>
 						</Tabs>
 					</ModalBody>

@@ -114,12 +114,14 @@ export default function AsXML() {
 							</Box>
 							{isLoading ? (
 								<Spinner size='xl' alignSelf='center' color='green.500' />
-							) : (
+							) : XML !== null ? (
 								<XMLViewer
 									collapsed={2}
 									xml={collapse ? "<vnstat></vnstat>" : XML}
 									collapsible={true}
 								/>
+							) : (
+								<div></div>
 							)}
 						</Flex>
 					</ModalBody>

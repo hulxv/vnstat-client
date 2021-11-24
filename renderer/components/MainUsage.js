@@ -55,14 +55,13 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 			shadow='xl'
 			border='4px'
 			borderColor='#38A169'
-			fontWeight='medium'
 			pos='relative'>
 			<Flex align='center' flexDirection='column' w='full'>
 				<Flex mb={3}>
-					<Heading as='h3' size='xl'>
+					<Heading as='h3' size='xl' fontWeight='thin'>
 						{(total > 1024 ? total / 1024 : total)?.toFixed(2)}
 					</Heading>
-					<Heading as='h6' alignSelf='start' size='sm'>
+					<Heading as='h6' alignSelf='start' size='sm' fontWeight='thin'>
 						{rx + tx > 1024 ? "GB" : "MB"}
 					</Heading>
 				</Flex>
@@ -72,10 +71,10 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 						<Box m='1px'>
 							<BsArrowDownShort size='1.4em' />
 						</Box>
-						<Heading size='md' mr={0.5}>
+						<Heading size='md' mr={0.5} fontWeight='thin'>
 							{(rx > 1024 ? rx / 1024 : rx)?.toFixed(2)}
 						</Heading>
-						<Heading size='xs' alignSelf='start'>
+						<Heading fontWeight='thin' size='xs' alignSelf='start'>
 							{rx > 1024 ? "GB" : "MB"}
 						</Heading>
 					</Flex>
@@ -83,10 +82,10 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 						<Box m='2px'>
 							<BsArrowUpShort size='1.4em' />
 						</Box>
-						<Heading size='md' mr={0.5}>
+						<Heading fontWeight='thin' size='md' mr={0.5}>
 							{(tx > 1024 ? tx / 1024 : tx)?.toFixed(2)}
 						</Heading>
-						<Heading size='xs' alignSelf='start'>
+						<Heading fontWeight='thin' size='xs' alignSelf='start'>
 							{tx > 1024 ? "GB" : "MB"}
 						</Heading>
 					</Flex>
