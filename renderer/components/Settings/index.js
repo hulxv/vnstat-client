@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 // Tabs Components
-import Apperance from "./Apperance";
+import General from "./General";
 import Config from "./Config";
 import Logs from "./Logs";
 import Info from "./Info";
@@ -41,7 +41,7 @@ export default function Settings({ children }) {
 					<ModalBody>
 						<Tabs size='md' variant='enclosed'>
 							<TabList>
-								<Tab>Apperance</Tab>
+								<Tab>General</Tab>
 								<Tab>Configuration</Tab>
 								<Tab>Logs</Tab>
 								<Tab>Info</Tab>
@@ -49,7 +49,7 @@ export default function Settings({ children }) {
 							</TabList>
 							<TabPanels>
 								<TabPanel>
-									<Apperance />
+									<General />
 								</TabPanel>
 								<TabPanel>
 									<Config />

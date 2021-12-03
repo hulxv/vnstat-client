@@ -9,14 +9,10 @@ function Info() {
 		{ name: "Author", value: `${process.env.npm_package_author_name}` },
 	]);
 	useEffect(() => {
-		console.log("getting infos...");
 		ipcRenderer.send("get-vnstat-infos");
 		ipcRenderer.on("send-vnstat-infos", (e, result) => {
 			setInfos([...infos, ...result]);
-			console.log(result);
-			console.log(infos);
 		});
-		console.log(process.env);
 	}, []);
 	return (
 		<Flex flexDir='column'>
