@@ -10,7 +10,7 @@ files:
       - package.json
       - app
 linux:
-  icon: "resources/icon1.png"
+  icon: "resources/vnclient.png"
   category: Network
   target:
     - "AppImage"
