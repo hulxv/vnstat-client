@@ -12,7 +12,7 @@ import {
 import { GrPowerReset } from "react-icons/gr";
 
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 function SwitchBar({
 	state,
@@ -29,28 +29,25 @@ function SwitchBar({
 		month: () => subMonths(new Date(), state),
 		day: () => subDays(new Date(), state),
 	};
-	const refNEXT_BTN = useRef(null);
-	const refPREV_BTN = useRef(null);
 
 	function ArrowPressHandler(e) {
-		console.log("keydown", e.keyCode, e.key);
-		console.log(state);
 		switch (e.key) {
 			case "ArrowLeft":
-				if (canGoToPrevious) setState(state + 1);
+				if (canGoToPrevious) setTimeout(() => setState(state + 1), 10);
 				break;
 			case "ArrowRight":
-				if (canGoToNext) setState(state - 1);
+				if (canGoToNext) setTimeout(() => setState(state - 1), 10);
 				break;
 			default:
 				break;
 		}
 	}
+
 	useEffect(() => {
 		window.addEventListener("keydown", ArrowPressHandler);
 
 		return () => window.removeEventListener("keydown", ArrowPressHandler); // Cleanup
-	});
+	}, [ArrowPressHandler]);
 
 	return (
 		<Flex justify='space-around' w='full' mb={4}>
@@ -58,7 +55,6 @@ function SwitchBar({
 				{canGoToPrevious && (
 					<Tooltip label='Previous'>
 						<IconButton
-							ref={refPREV_BTN}
 							variant='ghost'
 							icon={<HiArrowLeft size='1.4em' />}
 							onClick={() => setState(state + 1)}
@@ -84,7 +80,6 @@ function SwitchBar({
 				{canGoToNext && (
 					<Tooltip label='Next'>
 						<IconButton
-							ref={refNEXT_BTN}
 							variant='ghost'
 							icon={<HiArrowRight size='1.4em' />}
 							onClick={() => setState(state - 1)}

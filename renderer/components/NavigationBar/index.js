@@ -10,6 +10,8 @@ import {
 	IconButton,
 	Tooltip,
 	Flex,
+	Kbd,
+	Box,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
 
@@ -27,8 +29,8 @@ export default function ChooseBar() {
 	const { reloading } = useUsage();
 	const pages = [
 		{
-			title: "today",
-			path: "/today",
+			title: "day",
+			path: "/day",
 		},
 
 		{
@@ -53,6 +55,21 @@ export default function ChooseBar() {
 			path: router.asPath || "/",
 		});
 	}, []);
+
+	function PressKeyHandler(e) {
+		console.log("press", e.key);
+		if (e.key == "R" || "r") {
+			console.log("reloading..");
+			reloading();
+			router.replace(router.asPath);
+		}
+	}
+
+	useEffect(() => {
+		window.addEventListener("keydown", PressKeyHandler);
+
+		return () => window.removeEventListener("keydown", PressKeyHandler); // Cleanup
+	}, [PressKeyHandler]);
 
 	// For debugging
 	// useEffect(() => {
@@ -84,19 +101,22 @@ export default function ChooseBar() {
 					<Export />
 				</Flex>
 				<Flex>
-					<Tooltip label='Refresh'>
-						<IconButton
-							icon={<HiRefresh size='1.4em' />}
-							variant='ghost'
-							colorScheme='whiteAlpha'
-							textColor='whiteAlpha.900'
-							mr={1}
-							onClick={() => {
-								reloading();
-								router.replace(router.asPath);
-							}}
-						/>
-					</Tooltip>
+					<Box>
+						<Kbd>R</Kbd>
+						<Tooltip label='Refresh'>
+							<IconButton
+								icon={<HiRefresh size='1.4em' />}
+								variant='ghost'
+								colorScheme='whiteAlpha'
+								textColor='whiteAlpha.900'
+								mr={1}
+								onClick={() => {
+									reloading();
+									router.replace(router.asPath);
+								}}
+							/>
+						</Tooltip>
+					</Box>
 
 					<Menu>
 						<Tooltip label='Interval'>
