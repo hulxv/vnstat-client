@@ -12,7 +12,7 @@ import vnInfo from "./vnInfo";
 const isProd = process.env.NODE_ENV === "production";
 
 // Constants
-const ICON_NAME = "icon1.png";
+const ICON_NAME = "vnclient-icon.png";
 
 if (isProd) {
 	serve({ directory: "app" });
