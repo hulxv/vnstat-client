@@ -1,14 +1,16 @@
 import { app, ipcMain, dialog } from "electron";
 import log from "electron-log";
 import serve from "electron-serve";
-
 import fs from "fs";
 
-import vnDatabase from "./vndb";
 import { createWindow } from "./helpers";
+
+// Classes
+import vnDatabase from "./vndb";
 import Traffic from "./traffic";
 import vnInfo from "./vnInfo";
-
+import Cfg from "./cfg";
+//
 const isProd = process.env.NODE_ENV === "production";
 
 // Constants
@@ -22,7 +24,9 @@ if (isProd) {
 
 (async () => {
 	await app.whenReady();
+
 	log.info("vnStat-client is starting..");
+
 	const mainWindow = createWindow("main", {
 		width: 920,
 		height: 600,
@@ -40,7 +44,6 @@ if (isProd) {
 		// mainWindow.webContents.openDevTools();
 	}
 
-	ipcMain.on("reload-data", sendingTraffic); // When user click on refresh button
 	sendingTraffic(); // on app load
 
 	async function sendingTraffic() {
@@ -54,6 +57,7 @@ if (isProd) {
 			log.error(err);
 		}
 	}
+	ipcMain.on("reload-data", sendingTraffic); // When user click on refresh button
 
 	ipcMain.on("export-db-view", async (e, arg) => {
 		const { limit, format } = arg;
@@ -150,11 +154,27 @@ if (isProd) {
 		}
 	});
 
+	// To opne URL in external browser
 	ipcMain.on("open-url", (e, url) => {
 		if (!url) return;
 		e.preventDefault();
 		require("electron").shell.openExternal(url);
 	});
+
+	// Configrations
+	const cfg = new Cfg();
+
+	ipcMain.on("set-config", (e, key, value) => {
+		cfg.set(key, value);
+		mainWindow.webContents.send("send-config", cfg.get());
+	});
+
+	ipcMain.on("get-config", (e) => {
+		mainWindow.webContents.send("send-config", cfg.get());
+	});
+
+	console.log("config", cfg.get());
+	mainWindow.webContents.send("send-config", cfg.get()); // On lunch App
 })();
 
 app.on("window-all-closed", () => {

@@ -8,7 +8,7 @@ import router from "next/router";
 // context
 import UsageProvider from "../context/dataUsage";
 import ReceviedMessagesProvider from "../context/recevied-messages";
-
+import Configration from "../context/configration";
 // Styles
 import "../styles/global.css";
 
@@ -36,13 +36,15 @@ export default function App(props) {
 				/>
 			</Head>
 			<ChakraProvider>
-				<UsageProvider>
-					<ReceviedMessagesProvider>
-						<PageLayout isLoading={isLoading}>
-							<Component {...pageProps} />
-						</PageLayout>
-					</ReceviedMessagesProvider>
-				</UsageProvider>
+				<Configration>
+					<UsageProvider>
+						<ReceviedMessagesProvider>
+							<PageLayout isLoading={isLoading}>
+								<Component {...pageProps} />
+							</PageLayout>
+						</ReceviedMessagesProvider>
+					</UsageProvider>
+				</Configration>
 			</ChakraProvider>
 		</>
 	);

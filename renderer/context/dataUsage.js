@@ -15,6 +15,7 @@ export default function UsageProvider({ children }) {
 
 	useEffect(() => {
 		setDataIsReady(false);
+		ipcRenderer.send("reload-data");
 		ipcRenderer.on("sendUsage", (evt, result) => {
 			setUsage(result);
 			setDataIsReady(true);
@@ -23,7 +24,7 @@ export default function UsageProvider({ children }) {
 
 	function reloading() {
 		setDataIsReady(false);
-		typeof ipcRenderer !== "undefined" && ipcRenderer.send("reload-data");
+		ipcRenderer.send("reload-data");
 		setDataIsReady(true);
 	}
 

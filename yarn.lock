@@ -4046,6 +4046,11 @@ electron-builder@^22.11.7:
     update-notifier "^5.1.0"
     yargs "^17.0.1"
 
+electron-cfg@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/electron-cfg/-/electron-cfg-1.2.7.tgz#e983af5b7dd9d7e9e5f92dd4a111fd7b36decbe2"
+  integrity sha512-mlRbuYfWgHJ6WdPmGlcRe/cI4Nw3aht1sdGGIoGR0M9HIhcdsHFhjYLTcqL7mG3pIKhoLCYFGCFDagA/WMKeiA==
+
 electron-log@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-4.4.1.tgz#28ebeb474eccba2ebf194a96c40d6328e5353e4d"

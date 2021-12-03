@@ -11,9 +11,13 @@ import {
 	Select,
 } from "@chakra-ui/react";
 
+import { useConfig } from "../../../../context/configration";
+
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 export default function Apperance() {
+	const { config } = useConfig();
+	console.log(config);
 	const GlobalThemes = ["green", "pink", "blue", "yellow", "orange"];
 
 	return (
@@ -30,7 +34,12 @@ export default function Apperance() {
 					<Box>Global Theme</Box>
 					{GlobalThemes.map((theme) => (
 						<Tooltip label={theme} textTransform='capitalize'>
-							<Button colorScheme={theme} size='xs' d></Button>
+							<Button
+								colorScheme={theme}
+								size='xs'
+								border={config?.apperance?.global_theme === theme ? "2px" : 0}
+								shadow={config?.apperance?.global_theme === theme && "md"}
+								borderColor='blackAlpha.800'></Button>
 						</Tooltip>
 					))}
 				</HStack>

@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
 		"date-fns": "^2.25.0",
+		"electron-cfg": "^1.2.7",
 		"electron-log": "^4.4.1",
 		"electron-serve": "^1.1.0",
 		"electron-store": "^8.0.1",
