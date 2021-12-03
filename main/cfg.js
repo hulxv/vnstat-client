@@ -7,7 +7,6 @@ class cfg {
 		// Default settings
 
 		this.scheme = {
-			root: {
 				apperance: {
 					global_theme: "green",
 					darkmode: true,
@@ -20,7 +19,6 @@ class cfg {
 						isGrouped: true,
 					},
 				},
-			},
 		};
 
 		this.store = new Store({ accessPropertiesByDotNotation: false });
@@ -33,8 +31,8 @@ class cfg {
 		}
 	}
 
-	get() {
-		return this.store.get("root");
+	get(key) {
+		return key ? this.store.get(key) : this.store.store;
 	}
 	set(key, value) {
 		this.store.set(key, value);

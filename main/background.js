@@ -163,7 +163,7 @@ if (isProd) {
 
 	// Configrations
 	const cfg = new Cfg();
-
+	console.log(cfg.store.store);
 	ipcMain.on("set-config", (e, key, value) => {
 		cfg.set(key, value);
 		mainWindow.webContents.send("send-config", cfg.get());
