@@ -16,8 +16,8 @@ import { useConfig } from "../../../../context/configration";
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 export default function Apperance() {
-	const { config } = useConfig();
-	console.log(config);
+	const { config, EditConfig } = useConfig();
+
 	const GlobalThemes = ["green", "pink", "blue", "yellow", "orange"];
 
 	return (
@@ -28,20 +28,38 @@ export default function Apperance() {
 			<Stack>
 				<HStack w='full' spacing={7}>
 					<Box>Dark mode</Box>
-					<Switch colorScheme='green' />
+					<Switch
+						colorScheme={config?.apperance?.globalTheme}
+						defaultChecked={config.apperance.darkMode}
+						onChange={(e) => EditConfig("apperance.darkMode", e.target.checked)}
+					/>
+					<Heading size='xs' as='h6' opacity='40%'>
+						Soon..
+					</Heading>
 				</HStack>
 				<HStack>
 					<Box>Global Theme</Box>
-					{GlobalThemes.map((theme) => (
-						<Tooltip label={theme} textTransform='capitalize'>
-							<Button
-								colorScheme={theme}
-								size='xs'
-								border={config?.apperance?.global_theme === theme ? "2px" : 0}
-								shadow={config?.apperance?.global_theme === theme && "md"}
-								borderColor='blackAlpha.800'></Button>
-						</Tooltip>
-					))}
+					<HStack>
+						{GlobalThemes.map((theme) => (
+							<Tooltip label={theme} textTransform='capitalize'>
+								<Box
+									rounded='md'
+									w={6}
+									h={6}
+									cursor='pointer'
+									bgColor={`${theme}.500`}
+									size='xs'
+									boxShadow={
+										config?.apperance?.globalTheme === theme && "outline"
+									}
+									_hover={{ opacity: "90%" }}
+									borderColor='blackAlpha.800'
+									onClick={(e) =>
+										EditConfig("apperance.globalTheme", theme)
+									}></Box>
+							</Tooltip>
+						))}
+					</HStack>
 				</HStack>
 			</Stack>
 

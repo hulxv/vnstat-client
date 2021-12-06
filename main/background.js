@@ -166,6 +166,7 @@ if (isProd) {
 	console.log(cfg.store.store);
 	ipcMain.on("set-config", (e, key, value) => {
 		cfg.set(key, value);
+		log.info(`${key} was changed to ${cfg.get(key)}`);
 		mainWindow.webContents.send("send-config", cfg.get());
 	});
 

@@ -1,10 +1,13 @@
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+
 import { useUsage } from "../context/dataUsage";
+import { useConfig } from "../context/configration";
 
 export default function MainUsage() {
 	const { main, dataIsReady } = useUsage();
+
 	const [usage, setUsage] = useState([
 		{
 			interval: "today",
@@ -39,6 +42,8 @@ export default function MainUsage() {
 }
 
 function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
+	const { config } = useConfig();
+
 	return (
 		<Flex
 			bgColor='#111513'
@@ -54,7 +59,7 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 			align='center'
 			shadow='xl'
 			border='4px'
-			borderColor='#38A169'
+			borderColor={`${config?.apperance?.globalTheme ?? "green"}.500`}
 			pos='relative'>
 			<Flex align='center' flexDirection='column' w='full'>
 				<Flex mb={3}>
@@ -94,7 +99,7 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 			<Box
 				pos='absolute'
 				bottom={-9}
-				bgColor='#38A169'
+				bgColor={`${config?.apperance?.globalTheme ?? "green"}.500`}
 				minW='100px'
 				textAlign='center'
 				p='5px'

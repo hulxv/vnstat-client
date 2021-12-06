@@ -19,10 +19,15 @@ import { ipcRenderer } from "electron";
 
 import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
+
+import { useConfig } from "../../../../context/configration";
+
 function LineChart() {
 	const Curves = ["basis", "linear", "catmullRom", "natural", "cardinal"];
 
 	const Colors = ["nivo", "accent", "set1", "set2", "set3", "dark2", "paired"];
+
+	const { config, EditConfig } = useConfig();
 
 	return (
 		<Stack spacing={2}>
@@ -58,7 +63,11 @@ function LineChart() {
 			</HStack>
 			<HStack alignSelf='start' spacing={4}>
 				<Box>Curve</Box>{" "}
-				<Select placeholder='select'>
+				<Select
+					value={config.apperance.lineChart.curve}
+					onChange={(e) =>
+						EditConfig("apperance.lineChart.curve", e.target.value)
+					}>
 					{" "}
 					{Curves.map((curve) => (
 						<option>{curve}</option>
@@ -67,7 +76,11 @@ function LineChart() {
 			</HStack>
 			<HStack alignSelf='start' spacing={3}>
 				<Box>Colors</Box>{" "}
-				<Select placeholder='select'>
+				<Select
+					value={config.apperance.lineChart.colors}
+					onChange={(e) =>
+						EditConfig("apperance.lineChart.colors", e.target.value)
+					}>
 					{Colors.map((color) => (
 						<option>{color}</option>
 					))}

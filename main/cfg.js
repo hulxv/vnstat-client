@@ -7,27 +7,27 @@ class cfg {
 		// Default settings
 
 		this.scheme = {
-				apperance: {
-					global_theme: "green",
-					darkmode: true,
-					lineChart: {
-						colors: "nivo",
-						curve: "cardinal",
-					},
-					BarChart: {
-						colors: "nivo",
-						isGrouped: true,
-					},
+			apperance: {
+				globalTheme: "green",
+				darkMode: true,
+				lineChart: {
+					colors: "nivo",
+					curve: "cardinal",
 				},
+				barChart: {
+					colors: "nivo",
+					isGrouped: true,
+				},
+			},
 		};
 
-		this.store = new Store({ accessPropertiesByDotNotation: false });
+		this.store = new Store({});
 
 		if (!fs.existsSync(`${app.getPath("userData")}/config.json`)) {
 			info("Creating configration file...");
 			this.store.set(this.scheme);
 
-			info(`Configration file was created at ${this.store.path}}`);
+			info(`Configration file was created at ${this.store.path}`);
 		}
 	}
 

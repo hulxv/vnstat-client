@@ -6,23 +6,33 @@ const ConfigProvider = createContext({});
 function Configration({ children }) {
 	const [config, setConfig] = useState({});
 
-	useEffect(() => {
+	function GettingConfig() {
 		ipcRenderer.send("get-config");
 
-		ipcRenderer.on("send-config", (e, res) => {
-			setConfig({ ...res });
-			console.log("res", res);
-			console.log("config", config);
-		});
+		ipcRenderer.on("send-config", (e, res) => setConfig({ ...res }));
+	}
+
+	useEffect(() => {
+		GettingConfig();
 	}, []);
+
+	// ** Uncomment to debugging
 	useEffect(() => {
 		console.log(config);
 	}, [config]);
 
-	function reload() {}
+	function Reload() {
+		GettingConfig();
+	}
 
+	function EditConfig(key, value) {
+		ipcRenderer.send("set-config", key, value);
+		GettingConfig();
+	}
 	const value = {
 		config: { ...config },
+		Reload,
+		EditConfig,
 	};
 
 	return (

@@ -20,7 +20,11 @@ import Settings from "../Settings";
 
 import CustomIntervalModal from "./CustomIntervalModal";
 
+import { useConfig } from "../../context/configration";
+
 export default function ChooseBar() {
+	const { config } = useConfig();
+
 	const [Page, setPage] = useState({
 		title: "",
 		path: "",
@@ -123,7 +127,7 @@ export default function ChooseBar() {
 							<MenuButton
 								as={Button}
 								rightIcon={<HiArrowSmDown />}
-								colorScheme='green'>
+								colorScheme={config?.apperance?.globalTheme}>
 								{Page.title}
 							</MenuButton>
 						</Tooltip>

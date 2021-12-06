@@ -1,7 +1,11 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveLine } from "@nivo/line";
 
+import { useConfig } from "../../context/configration";
+
 export default function LineChart({ data, axisBottomRotation = 0 }) {
+	const { config } = useConfig();
+
 	return (
 		<ResponsiveLine
 			data={data}
@@ -15,7 +19,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				reverse: false,
 			}}
 			yFormat=' >-.2f'
-			curve='catmullRom'
+			curve={config.apperance.lineChart.curve}
 			axisTop={null}
 			axisRight={null}
 			axisBottom={{
@@ -36,7 +40,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				legendOffset: -40,
 				legendPosition: "middle",
 			}}
-			colors={{ scheme: "set3" }}
+			colors={{ scheme: config.apperance.lineChart.colors }}
 			lineWidth={5}
 			pointSize={10}
 			pointColor={{ theme: "background" }}

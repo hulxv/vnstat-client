@@ -22,8 +22,13 @@ import Logs from "./Logs";
 import Info from "./Info";
 import Credits from "./Credits";
 
+import { useConfig } from "../../context/configration";
+
 export default function Settings({ children }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const { config } = useConfig();
+
 	return (
 		<>
 			<div onClick={onOpen}>{children}</div>
@@ -72,7 +77,7 @@ export default function Settings({ children }) {
 						<Button variant='ghost' mx={1} onClick={onClose}>
 							Close
 						</Button>
-						<Button colorScheme='green' mr={3}>
+						<Button colorScheme={config?.apperance?.globalTheme} mr={3}>
 							Save Changes
 						</Button>
 					</ModalFooter>

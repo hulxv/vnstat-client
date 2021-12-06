@@ -22,7 +22,11 @@ import XMLViewer from "react-xml-viewer";
 
 import { BsArrowsCollapse, BsArrowsExpand } from "react-icons/bs";
 
+import { useConfig } from "../../context/configration";
+
 export default function AsXML() {
+	const { config } = useConfig();
+
 	const [XML, setXML] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [collapse, setCollapse] = useState(false);
@@ -137,7 +141,7 @@ export default function AsXML() {
 							Close
 						</Button>
 						<Button
-							colorScheme='green'
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							onClick={() => exportXML()}
 							isDisabled={!XML}>
 							Export

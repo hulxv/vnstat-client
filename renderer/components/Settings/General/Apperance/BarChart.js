@@ -21,8 +21,12 @@ import { ipcRenderer } from "electron";
 import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
 
+import { useConfig } from "../../../../context/configration";
+
 function BarChart() {
 	const Colors = ["nivo", "accent", "set1", "set2", "set3", "dark2", "paired"];
+
+	const { config, EditConfig } = useConfig();
 
 	return (
 		<Stack spacing={2} flexDir='column' w='full'>
@@ -59,11 +63,21 @@ function BarChart() {
 			<Stack>
 				<HStack alignSelf='start'>
 					<Box>Grouped mode</Box>
-					<Switch colorScheme='green' />
+					<Switch
+						colorScheme='green'
+						defaultChecked={config.apperance.barChart.isGrouped}
+						onChange={(e) =>
+							EditConfig("apperance.barChart.isGrouped", e.target.checked)
+						}
+					/>
 				</HStack>
 				<HStack alignSelf='start'>
 					<Box>Colors</Box>{" "}
-					<Select placeholder='select'>
+					<Select
+						value={config.apperance.barChart.colors}
+						onChange={(e) =>
+							EditConfig("apperance.barChart.colors", e.target.value)
+						}>
 						{Colors.map((color) => (
 							<option>{color}</option>
 						))}

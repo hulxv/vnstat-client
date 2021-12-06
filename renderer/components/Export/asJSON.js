@@ -17,9 +17,14 @@ import {
 } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import { useState } from "react";
+
+import { useConfig } from "../../context/configration";
+
 const JsonViewer = dynamic(import("react-json-view"), { ssr: false });
 
 export default function AsJSON() {
+	const { config } = useConfig();
+
 	const [json, setJson] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -112,7 +117,7 @@ export default function AsJSON() {
 							Close
 						</Button>
 						<Button
-							colorScheme='green'
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							onClick={() => exportJSON()}
 							isDisabled={Object.keys(json).length <= 0}>
 							Export

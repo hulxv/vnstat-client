@@ -1,7 +1,11 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveBar } from "@nivo/bar";
 
-export default function LineChart({ data, axisBottomRotation = 0 }) {
+import { useConfig } from "../../context/configration";
+
+export default function BarChart({ data, axisBottomRotation = 0 }) {
+	const { config } = useConfig();
+
 	return (
 		<>
 			<ResponsiveBar
@@ -9,10 +13,10 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				keys={["Download", "Upload"]}
 				indexBy='date'
 				margin={{ top: 50, right: 110, bottom: 50, left: 50 }}
-				groupMode='grouped'
+				groupMode={config.apperance.barChart.isGrouped && "grouped"}
 				valueScale={{ type: "linear" }}
 				indexScale={{ type: "band", round: true }}
-				colors={{ scheme: "set3" }}
+				colors={{ scheme: config.apperance.barChart.colors }}
 				defs={[
 					{
 						id: "dots",
@@ -82,7 +86,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 					},
 				]}
 				role='application'
-				ariaLabel='Nivo bar chart demo'
+				ariaLabel='Usage Bar Chart'
 			/>
 		</>
 	);
