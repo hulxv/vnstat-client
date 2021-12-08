@@ -1,5 +1,4 @@
 import {
-	Flex,
 	Stack,
 	HStack,
 	Box,
@@ -13,6 +12,11 @@ import {
 	PopoverArrow,
 	PopoverCloseButton,
 	Link,
+	Switch,
+	Slider,
+	SliderTrack,
+	SliderFilledTrack,
+	SliderThumb,
 } from "@chakra-ui/react";
 
 import { ipcRenderer } from "electron";
@@ -21,13 +25,26 @@ import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
 
 import { useConfig } from "../../../../context/configration";
+import { useState } from "react";
 
 function LineChart() {
 	const Curves = ["basis", "linear", "catmullRom", "natural", "cardinal"];
 
-	const Colors = ["nivo", "accent", "set1", "set2", "set3", "dark2", "paired"];
+	const Colors = [
+		"nivo",
+		"accent",
+		"set1",
+		"set2",
+		"set3",
+		"dark2",
+		"paired",
+		"spectral",
+	];
 
 	const { config, EditConfig } = useConfig();
+	const [areaOpacitySlider, setAreaOpacitySlider] = useState(
+		config.apperance.lineChart.areaOpacity,
+	);
 
 	return (
 		<Stack spacing={2}>
@@ -74,6 +91,7 @@ function LineChart() {
 					))}
 				</Select>{" "}
 			</HStack>
+
 			<HStack alignSelf='start' spacing={3}>
 				<Box>Colors</Box>{" "}
 				<Select
@@ -85,6 +103,36 @@ function LineChart() {
 						<option>{color}</option>
 					))}
 				</Select>
+			</HStack>
+
+			<HStack>
+				<Box>Area</Box>
+				<Switch
+					colorScheme={config.apperance.globalTheme}
+					defaultChecked={config.apperance.lineChart.haveArea}
+					onChange={(e) =>
+						EditConfig("apperance.lineChart.haveArea", e.target.checked)
+					}
+				/>
+			</HStack>
+			<HStack spacing={5}>
+				<Box>Area Opacity</Box>
+				<Slider
+					defaultValue={config.apperance.lineChart.areaOpacity}
+					min={0.0}
+					max={1}
+					step={0.01}
+					w='lg'
+					onChange={(value) => setAreaOpacitySlider(value)}
+					onChangeEnd={(value) =>
+						EditConfig("apperance.lineChart.areaOpacity", value)
+					}>
+					<SliderTrack bg={`${config.apperance.globalTheme}.200`}>
+						<SliderFilledTrack bg={`${config.apperance.globalTheme}.500`} />
+					</SliderTrack>
+					<SliderThumb boxSize={6} />
+				</Slider>
+				<Box>{areaOpacitySlider}</Box>
 			</HStack>
 		</Stack>
 	);

@@ -18,7 +18,17 @@ import LineChart from "./LineChart";
 export default function Apperance() {
 	const { config, EditConfig } = useConfig();
 
-	const GlobalThemes = ["green", "pink", "blue", "yellow", "orange"];
+	const GlobalThemes = [
+		"green",
+		"pink",
+		"blue",
+		"yellow",
+		"orange",
+		"cyan",
+		"purple",
+		"teal",
+		"red",
+	];
 
 	return (
 		<Stack flexDir='column' w='full' spacing={5}>

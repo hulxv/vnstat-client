@@ -24,7 +24,16 @@ import { BiLinkExternal } from "react-icons/bi";
 import { useConfig } from "../../../../context/configration";
 
 function BarChart() {
-	const Colors = ["nivo", "accent", "set1", "set2", "set3", "dark2", "paired"];
+	const Colors = [
+		"nivo",
+		"accent",
+		"set1",
+		"set2",
+		"set3",
+		"dark2",
+		"paired",
+		"spectral",
+	];
 
 	const { config, EditConfig } = useConfig();
 
@@ -64,7 +73,7 @@ function BarChart() {
 				<HStack alignSelf='start'>
 					<Box>Grouped mode</Box>
 					<Switch
-						colorScheme='green'
+						colorScheme={config.apperance.globalTheme}
 						defaultChecked={config.apperance.barChart.isGrouped}
 						onChange={(e) =>
 							EditConfig("apperance.barChart.isGrouped", e.target.checked)

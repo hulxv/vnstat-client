@@ -7,11 +7,14 @@ import {
 	AlertTitle,
 	AlertDescription,
 	Button,
+	IconButton,
+	Box,
+	Tooltip,
 	Flex,
 	Spinner,
 } from "@chakra-ui/react";
 
-import { HiTrash, HiRefresh } from "react-icons/hi";
+import { HiTrash, HiRefresh, HiOutlineInformationCircle } from "react-icons/hi";
 
 function Logs() {
 	const [logs, setLogs] = useState({ path: "", lines: [] });
@@ -20,20 +23,22 @@ function Logs() {
 	const getLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("get-logs");
-		ipcRenderer.on("send-logs", (e, res) => {
+		ipcRenderer.once("send-logs", (e, res) => {
 			setLogs({ ...res["0"], lines: [...res["0"].lines].reverse() });
+			ipcRenderer.removeAllListeners("send-logs");
 			setIsLoading(false);
 		});
 	}, []);
 
-	const clearLogs = () => {
+	const clearLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("clear-logs");
-		ipcRenderer.on("send-logs", (e, res) => {
+
+		ipcRenderer.once("send-logs", (e, res) => {
 			setLogs({ ...res[0] });
 			setIsLoading(false);
 		});
-	};
+	}, []);
 
 	useEffect(() => {
 		getLogs();
@@ -41,19 +46,31 @@ function Logs() {
 
 	return (
 		<>
-			<div>
-				Logs stored in <span style={{ fontWeight: "bold" }}>{logs.path}</span>
-			</div>
-			<Flex w='full' justify='end' my={3}>
-				<Button leftIcon={<HiRefresh />} onClick={() => getLogs()} mx={2}>
-					Refresh
-				</Button>
-				<Button
-					leftIcon={<HiTrash />}
-					colorScheme='red'
-					onClick={() => clearLogs()}>
-					Clear All
-				</Button>
+			<Flex w='full' justify='space-between' my={3}>
+				<Box>
+					<Tooltip
+						hasArrow
+						placement='right'
+						label={`Logs stored in ${logs.path}`}>
+						<IconButton
+							variant='ghost'
+							cursor='default'
+							icon={<HiOutlineInformationCircle size='1.3em' />}
+						/>
+					</Tooltip>
+				</Box>
+
+				<Box>
+					<Button leftIcon={<HiRefresh />} onClick={() => getLogs()} mx={2}>
+						Refresh
+					</Button>
+					<Button
+						leftIcon={<HiTrash />}
+						colorScheme='red'
+						onClick={() => clearLogs()}>
+						Clear All
+					</Button>
+				</Box>
 			</Flex>
 			<div>
 				{isLoading ? (

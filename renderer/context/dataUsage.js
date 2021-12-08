@@ -16,10 +16,11 @@ export default function UsageProvider({ children }) {
 	useEffect(() => {
 		setDataIsReady(false);
 		ipcRenderer.send("reload-data");
-		ipcRenderer.on("sendUsage", (evt, result) => {
+		ipcRenderer.once("send-usage", (evt, result) => {
 			setUsage(result);
 			setDataIsReady(true);
 		});
+		return () => ipcRenderer.removeAllListeners("send-usage");
 	}, []);
 
 	function reloading() {

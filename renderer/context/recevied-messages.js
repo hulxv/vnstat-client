@@ -8,7 +8,6 @@ export default function ReceviedMessagesProvider({ children }) {
 	useEffect(() => {
 		ipcRenderer.on("message", (e, args) => {
 			const { status = "info", msg = "" } = args;
-			toast.closeAll();
 
 			toast({
 				status: status,
@@ -17,6 +16,8 @@ export default function ReceviedMessagesProvider({ children }) {
 				isClosable: true,
 			});
 		});
+
+		return () => ipcRenderer.removeAllListeners("message");
 	});
 	return (
 		<ReceviedMessagesContext.Provider>

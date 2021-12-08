@@ -17,7 +17,7 @@ import {
 
 // Tabs Components
 import General from "./General";
-import Config from "./Config";
+import VnStat from "./vnStat";
 import Logs from "./Logs";
 import Info from "./Info";
 import Credits from "./Credits";
@@ -47,7 +47,7 @@ export default function Settings({ children }) {
 						<Tabs size='md' variant='enclosed'>
 							<TabList>
 								<Tab>General</Tab>
-								<Tab>Configuration</Tab>
+								<Tab>vnStat</Tab>
 								<Tab>Logs</Tab>
 								<Tab>Info</Tab>
 								<Tab>Credits</Tab>
@@ -57,7 +57,7 @@ export default function Settings({ children }) {
 									<General />
 								</TabPanel>
 								<TabPanel>
-									<Config />
+									<VnStat />
 								</TabPanel>
 								<TabPanel>
 									<Logs />

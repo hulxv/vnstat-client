@@ -51,7 +51,7 @@ if (isProd) {
 		log.info("Getting data...");
 		try {
 			await traffic.getData();
-			mainWindow.webContents.send("sendUsage", traffic);
+			mainWindow.webContents.send("send-usage", traffic);
 			log.info("Getting data is successfully");
 		} catch (err) {
 			log.error(err);
@@ -130,6 +130,7 @@ if (isProd) {
 
 	ipcMain.on("clear-logs", () => {
 		try {
+			console.log("clear-logs");
 			log.transports.file.clear();
 			mainWindow.webContents.send(
 				"send-logs",
@@ -163,7 +164,7 @@ if (isProd) {
 
 	// Configrations
 	const cfg = new Cfg();
-	console.log(cfg.store.store);
+
 	ipcMain.on("set-config", (e, key, value) => {
 		cfg.set(key, value);
 		log.info(`${key} was changed to ${cfg.get(key)}`);
@@ -174,7 +175,6 @@ if (isProd) {
 		mainWindow.webContents.send("send-config", cfg.get());
 	});
 
-	console.log("config", cfg.get());
 	mainWindow.webContents.send("send-config", cfg.get()); // On lunch App
 })();
 

@@ -11,6 +11,8 @@ class cfg {
 				globalTheme: "green",
 				darkMode: true,
 				lineChart: {
+					haveArea: true,
+					areaOpacity: 0.5,
 					colors: "nivo",
 					curve: "cardinal",
 				},

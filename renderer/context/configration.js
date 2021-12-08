@@ -9,7 +9,10 @@ function Configration({ children }) {
 	function GettingConfig() {
 		ipcRenderer.send("get-config");
 
-		ipcRenderer.on("send-config", (e, res) => setConfig({ ...res }));
+		ipcRenderer.once("send-config", (e, res) => {
+			setConfig({ ...res });
+		});
+		return () => ipcRenderer.removeAllListeners("send-config");
 	}
 
 	useEffect(() => {
@@ -17,9 +20,9 @@ function Configration({ children }) {
 	}, []);
 
 	// ** Uncomment to debugging
-	useEffect(() => {
-		console.log(config);
-	}, [config]);
+	// useEffect(() => {
+	// 	console.log(config);
+	// }, [config]);
 
 	function Reload() {
 		GettingConfig();
