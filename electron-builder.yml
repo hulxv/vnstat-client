@@ -16,5 +16,6 @@ linux:
     - "AppImage"
     - "deb"
     - "tar.gz"
+    - "pacman"
 
 publish: null
