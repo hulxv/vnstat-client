@@ -23,18 +23,18 @@ function Logs() {
 	const getLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("get-logs");
-		ipcRenderer.once("send-logs", (e, res) => {
+		ipcRenderer.on("send-logs", (e, res) => {
 			setLogs({ ...res["0"], lines: [...res["0"].lines].reverse() });
-			ipcRenderer.removeAllListeners("send-logs");
 			setIsLoading(false);
 		});
+		return () => ipcRenderer.removeAllListeners("send-logs");
 	}, []);
 
 	const clearLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("clear-logs");
 
-		ipcRenderer.once("send-logs", (e, res) => {
+		ipcRenderer.on("send-logs", (e, res) => {
 			setLogs({ ...res[0] });
 			setIsLoading(false);
 		});

@@ -8,7 +8,7 @@
 	"main": "app/background.js",
 	"scripts": {
 		"dev": "nextron ",
-		"build": "rm -rf renderer/.next;nextron build --linux",
+		"build": "if [ -d 'renderer/.next' ]; then rm -rf renderer/.next;fi;nextron build --linux",
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"dependencies": {

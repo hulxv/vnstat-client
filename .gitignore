@@ -5,3 +5,4 @@ app
 dist
 test
 .vscode
+build

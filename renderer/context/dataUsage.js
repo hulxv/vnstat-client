@@ -16,7 +16,7 @@ export default function UsageProvider({ children }) {
 	useEffect(() => {
 		setDataIsReady(false);
 		ipcRenderer.send("reload-data");
-		ipcRenderer.once("send-usage", (evt, result) => {
+		ipcRenderer.on("send-usage", (evt, result) => {
 			setUsage(result);
 			setDataIsReady(true);
 		});

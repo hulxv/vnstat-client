@@ -9,7 +9,7 @@ function Configration({ children }) {
 	function GettingConfig() {
 		ipcRenderer.send("get-config");
 
-		ipcRenderer.once("send-config", (e, res) => {
+		ipcRenderer.on("send-config", (e, res) => {
 			setConfig({ ...res });
 		});
 		return () => ipcRenderer.removeAllListeners("send-config");
