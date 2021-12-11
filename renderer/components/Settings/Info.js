@@ -3,22 +3,18 @@ import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
 
 function Info() {
-	const [infos, setInfos] = useState([
-		{ name: "client-version", value: process.env.npm_package_version },
-		{ name: "License", value: process.env.npm_package_license },
-		{ name: "Author", value: `${process.env.npm_package_author_name}` },
-	]);
+	const [infos, setInfos] = useState([]);
 	useEffect(() => {
-		ipcRenderer.send("get-vnstat-infos");
-		ipcRenderer.on("send-vnstat-infos", (e, result) => {
-			setInfos([...infos, ...result]);
+		ipcRenderer.send("get-infos");
+		ipcRenderer.on("send-infos", (e, result) => {
+			setInfos([...result]);
 		});
 	}, []);
 	return (
 		<Flex flexDir='column'>
 			{infos.map((info, index) => (
 				<div key={index}>
-					{info?.name} : {info?.value}
+					{info?.name}: {info?.value}
 				</div>
 			))}
 		</Flex>

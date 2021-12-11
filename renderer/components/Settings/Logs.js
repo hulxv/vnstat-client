@@ -24,6 +24,7 @@ import {
 	HiRefresh,
 	HiOutlineInformationCircle,
 	HiSearch,
+	HiX,
 } from "react-icons/hi";
 import { useLogs } from "../../context/logs";
 
@@ -57,16 +58,25 @@ function Logs() {
 							<Input
 								placeholder='Search'
 								variant='filled'
+								value={search.value}
 								onChange={(e) =>
 									setSearch({ ...search, value: e.target.value })
 								}
 							/>
 							<InputRightElement>
-								<IconButton
-									variant='none'
-									icon={<HiSearch size='1.4em' />}
-									onClick={() => setSearch({ ...search, bool: !search.bool })}
-								/>
+								{search.value ? (
+									<IconButton
+										variant='none'
+										icon={<HiX size='1.4em' />}
+										onClick={() => setSearch({ ...search, value: "" })}
+									/>
+								) : (
+									<IconButton
+										variant='none'
+										icon={<HiSearch size='1.4em' />}
+										onClick={() => setSearch({ ...search, bool: !search.bool })}
+									/>
+								)}
 							</InputRightElement>
 						</InputGroup>
 					) : (
@@ -106,17 +116,27 @@ function Logs() {
 						)
 							return;
 						return (
-							<Alert status={msg.status === "warn" ? "warning" : msg.status}>
-								<AlertIcon />
-								<AlertTitle mr={2}>{msg.date}</AlertTitle>
-
-								<AlertDescription>{msg.content}</AlertDescription>
-							</Alert>
+							<LogAlert
+								date={msg.date}
+								status={msg.status === "warn" ? "warning" : alert.status}
+								content={msg.content}
+							/>
 						);
 					})
 				)}
 			</Stack>
 		</>
+	);
+}
+
+function LogAlert({ status, date, content }) {
+	return (
+		<Alert status={status}>
+			<AlertIcon />
+			<AlertTitle mr={2}>{date}</AlertTitle>
+
+			<AlertDescription>{content}</AlertDescription>
+		</Alert>
 	);
 }
 

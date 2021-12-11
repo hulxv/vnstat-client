@@ -145,11 +145,14 @@ if (isProd) {
 		}
 	});
 
-	ipcMain.on("get-vnstat-infos", async () => {
+	ipcMain.on("get-infos", async () => {
 		try {
 			const vnInfos = new vnInfo();
 			await vnInfos.getInfo();
-			mainWindow.webContents.send("send-vnstat-infos", vnInfos.info);
+			mainWindow.webContents.send("send-infos", [
+				...vnInfos.info,
+				{ name: "client-version", value: app.getVersion() },
+			]);
 		} catch (err) {
 			log.error(err);
 		}
