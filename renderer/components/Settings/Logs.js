@@ -25,37 +25,17 @@ import {
 	HiOutlineInformationCircle,
 	HiSearch,
 } from "react-icons/hi";
+import { useLogs } from "../../context/logs";
 
 function Logs() {
-	const [logs, setLogs] = useState({ path: "", lines: [] });
-	const [isLoading, setIsLoading] = useState(false);
+	const { logs, GetLogs, ClearLogs, isLoading } = useLogs();
+
 	const [search, setSearch] = useState({ bool: false, value: "" });
 
-	const getLogs = useCallback(() => {
-		setIsLoading(true);
-		ipcRenderer.send("get-logs");
-		ipcRenderer.on("send-logs", (e, res) => {
-			setLogs({ ...res["0"], lines: [...res["0"].lines].reverse() });
-			setIsLoading(false);
-		});
-		return () => ipcRenderer.removeAllListeners("send-logs");
-	}, []);
+	useEffect(() => GetLogs(), []);
 
-	const clearLogs = useCallback(() => {
-		setIsLoading(true);
-		ipcRenderer.send("clear-logs");
-
-		ipcRenderer.on("send-logs", (e, res) => {
-			setLogs({ ...res[0] });
-			setIsLoading(false);
-		});
-	}, []);
-
-	useEffect(() => {
-		getLogs();
-	}, []);
-
-	useEffect(() => console.log(search));
+	useEffect(() => console.log("search update to", search), [search]); // For Debugging
+	// useEffect(() => console.log("logs update to", logs), [logs]); // For Debugging
 
 	return (
 		<>
@@ -76,14 +56,14 @@ function Logs() {
 						<InputGroup w='300px'>
 							<Input
 								placeholder='Search'
-								value={search.value}
+								variant='filled'
 								onChange={(e) =>
 									setSearch({ ...search, value: e.target.value })
 								}
 							/>
 							<InputRightElement>
 								<IconButton
-									variant='ghost'
+									variant='none'
 									icon={<HiSearch size='1.4em' />}
 									onClick={() => setSearch({ ...search, bool: !search.bool })}
 								/>
@@ -99,13 +79,13 @@ function Logs() {
 						</Tooltip>
 					)}
 
-					<Button leftIcon={<HiRefresh />} onClick={() => getLogs()}>
+					<Button leftIcon={<HiRefresh />} onClick={() => GetLogs()}>
 						Refresh
 					</Button>
 					<Button
 						leftIcon={<HiTrash />}
 						colorScheme='red'
-						onClick={() => clearLogs()}>
+						onClick={() => ClearLogs()}>
 						Clear All
 					</Button>
 				</HStack>
@@ -115,39 +95,22 @@ function Logs() {
 					<Flex my={3} w='full' h='full' align='center' justify='center'>
 						<Spinner size='xl' color='green' />
 					</Flex>
-				) : logs?.lines.filter((line) => line && line).length <= 0 ? (
+				) : logs?.lines.length <= 0 ? (
 					<div>No logs found</div>
 				) : (
 					logs?.lines.map((msg) => {
-						if (!msg) return <></>;
-						let matching = msg.match(/\[(.*?)\]/g);
-
-						let status =
-							matching !== null
-								? matching[1].replace(/\[/g, "").replace(/\]/g, "")
-								: "info";
-						let date =
-							matching !== null &&
-							matching[0].replace(/\[/g, "").replace(/\]/g, "");
-
-						if (search.bool) {
-							if (
-								!msg
-									.replace(/\[(.*?)\]/gi, "")
-									.toLowerCase()
-									.startsWith(search.value.toLowerCase())
-							)
-								return;
-						}
-
+						if (
+							search.bool &&
+							msg.content.toLowerCase().search(search.value.toLowerCase()) ===
+								-1
+						)
+							return;
 						return (
-							<Alert status={status === "warn" ? "warning" : status}>
+							<Alert status={msg.status === "warn" ? "warning" : msg.status}>
 								<AlertIcon />
-								<AlertTitle mr={2}>{date}</AlertTitle>
+								<AlertTitle mr={2}>{msg.date}</AlertTitle>
 
-								<AlertDescription>
-									{msg.replace(/\[(.*?)\]/g, "")}
-								</AlertDescription>
+								<AlertDescription>{msg.content}</AlertDescription>
 							</Alert>
 						);
 					})

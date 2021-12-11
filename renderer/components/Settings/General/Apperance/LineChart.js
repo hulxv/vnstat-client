@@ -109,9 +109,9 @@ function LineChart() {
 				<Box>Area</Box>
 				<Switch
 					colorScheme={config.apperance.globalTheme}
-					defaultChecked={config.apperance.lineChart.haveArea}
+					defaultChecked={config.apperance.lineChart.hasArea}
 					onChange={(e) =>
-						EditConfig("apperance.lineChart.haveArea", e.target.checked)
+						EditConfig("apperance.lineChart.hasArea", e.target.checked)
 					}
 				/>
 			</HStack>

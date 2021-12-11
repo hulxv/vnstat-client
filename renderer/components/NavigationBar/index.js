@@ -61,9 +61,8 @@ export default function ChooseBar() {
 	}, []);
 
 	function PressKeyHandler(e) {
-		console.log("press", e.key);
 		if (e.key === "R" || e.key === "r") {
-			console.log("reloading..");
+			console.log("Reloading...");
 			reloading();
 			router.replace(router.asPath);
 		}

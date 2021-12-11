@@ -9,15 +9,6 @@ class cfg {
 		! And if some keys does not exist, that mean scheme was updated, then will be return true.
 		*/
 		try {
-			console.log(
-				"keys exists",
-				CheckIfAllKeysExist(
-					this.scheme,
-					JSON.parse(
-						fs.readFileSync(`${app.getPath("userData")}/config.json`, "utf-8"),
-					),
-				),
-			);
 			return CheckIfAllKeysExist(
 				this.scheme,
 				JSON.parse(
@@ -39,7 +30,7 @@ class cfg {
 				globalTheme: "green",
 				darkMode: true,
 				lineChart: {
-					haveArea: true,
+					hasArea: true,
 					areaOpacity: 0.5,
 					colors: "nivo",
 					curve: "cardinal",
@@ -62,16 +53,8 @@ class cfg {
 			info("Updating configration schema...");
 			this.store.set(this.scheme);
 
-			info(`Configration file was update at ${this.store.path}`);
+			info(`Configration file was updated at ${this.store.path}`);
 		}
-		console.log(
-			CheckIfAllKeysExist(
-				this.scheme,
-				JSON.parse(
-					fs.readFileSync(`${app.getPath("userData")}/config.json`, "utf-8"),
-				),
-			),
-		);
 	}
 
 	get(key) {
