@@ -12,13 +12,24 @@ import {
 	Tooltip,
 	Flex,
 	Spinner,
+	HStack,
+	Stack,
+	Input,
+	InputRightElement,
+	InputGroup,
 } from "@chakra-ui/react";
 
-import { HiTrash, HiRefresh, HiOutlineInformationCircle } from "react-icons/hi";
+import {
+	HiTrash,
+	HiRefresh,
+	HiOutlineInformationCircle,
+	HiSearch,
+} from "react-icons/hi";
 
 function Logs() {
 	const [logs, setLogs] = useState({ path: "", lines: [] });
 	const [isLoading, setIsLoading] = useState(false);
+	const [search, setSearch] = useState({ bool: false, value: "" });
 
 	const getLogs = useCallback(() => {
 		setIsLoading(true);
@@ -44,24 +55,51 @@ function Logs() {
 		getLogs();
 	}, []);
 
+	useEffect(() => console.log(search));
+
 	return (
 		<>
 			<Flex w='full' justify='space-between' my={3}>
-				<Box>
-					<Tooltip
-						hasArrow
-						placement='right'
-						label={`Logs stored in ${logs.path}`}>
-						<IconButton
-							variant='ghost'
-							cursor='default'
-							icon={<HiOutlineInformationCircle size='1.3em' />}
-						/>
-					</Tooltip>
-				</Box>
+				<Tooltip
+					hasArrow
+					placement='right'
+					label={`Logs stored in ${logs.path}`}>
+					<IconButton
+						variant='ghost'
+						cursor='default'
+						icon={<HiOutlineInformationCircle size='1.3em' />}
+					/>
+				</Tooltip>
 
-				<Box>
-					<Button leftIcon={<HiRefresh />} onClick={() => getLogs()} mx={2}>
+				<HStack justify='end' spacing={3}>
+					{search.bool ? (
+						<InputGroup w='300px'>
+							<Input
+								placeholder='Search'
+								value={search.value}
+								onChange={(e) =>
+									setSearch({ ...search, value: e.target.value })
+								}
+							/>
+							<InputRightElement>
+								<IconButton
+									variant='ghost'
+									icon={<HiSearch size='1.4em' />}
+									onClick={() => setSearch({ ...search, bool: !search.bool })}
+								/>
+							</InputRightElement>
+						</InputGroup>
+					) : (
+						<Tooltip label='Search in logs'>
+							<IconButton
+								variant='ghost'
+								icon={<HiSearch size='1.4em' />}
+								onClick={() => setSearch({ ...search, bool: !search.bool })}
+							/>
+						</Tooltip>
+					)}
+
+					<Button leftIcon={<HiRefresh />} onClick={() => getLogs()}>
 						Refresh
 					</Button>
 					<Button
@@ -70,9 +108,9 @@ function Logs() {
 						onClick={() => clearLogs()}>
 						Clear All
 					</Button>
-				</Box>
+				</HStack>
 			</Flex>
-			<div>
+			<Stack spacing={1}>
 				{isLoading ? (
 					<Flex my={3} w='full' h='full' align='center' justify='center'>
 						<Spinner size='xl' color='green' />
@@ -91,8 +129,19 @@ function Logs() {
 						let date =
 							matching !== null &&
 							matching[0].replace(/\[/g, "").replace(/\]/g, "");
+
+						if (search.bool) {
+							if (
+								!msg
+									.replace(/\[(.*?)\]/gi, "")
+									.toLowerCase()
+									.startsWith(search.value.toLowerCase())
+							)
+								return;
+						}
+
 						return (
-							<Alert my={1} status={status === "warn" ? "warning" : status}>
+							<Alert status={status === "warn" ? "warning" : status}>
 								<AlertIcon />
 								<AlertTitle mr={2}>{date}</AlertTitle>
 
@@ -103,7 +152,7 @@ function Logs() {
 						);
 					})
 				)}
-			</div>
+			</Stack>
 		</>
 	);
 }

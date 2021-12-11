@@ -19,7 +19,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				reverse: false,
 			}}
 			yFormat=' >-.2f'
-			curve={config.apperance.lineChart.curve}
+			curve={config?.apperance?.lineChart?.curve}
 			axisTop={null}
 			axisRight={null}
 			axisBottom={{
@@ -40,7 +40,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				legendOffset: -40,
 				legendPosition: "middle",
 			}}
-			colors={{ scheme: config.apperance.lineChart.colors ?? "nivo" }}
+			colors={{ scheme: config?.apperance?.lineChart?.colors ?? "nivo" }}
 			lineWidth={5}
 			pointSize={10}
 			pointColor={{ theme: "background" }}
@@ -49,7 +49,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 			pointLabelYOffset={-12}
 			useMesh={true}
 			enableArea={true}
-			areaOpacity={config.apperance.lineChart.areaOpacity}
+			areaOpacity={config?.apperance?.lineChart?.areaOpacity ?? 0.5}
 			enableSlices='x'
 			legends={[
 				{
