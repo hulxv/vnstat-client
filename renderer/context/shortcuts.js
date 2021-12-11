@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, createContext } from "react";
 
-const ShortcutsProvider = createContext({});
+const ShortcutsProvider = createContext({ children });
 
 function Shortcuts() {
 	const [shortcuts, setShortcuts] = useState([{ key: "", function: () => {} }]);
@@ -8,7 +8,9 @@ function Shortcuts() {
 		shortcuts,
 	};
 	return (
-		<ShortcutsProvider.Provider value={value}>Enter</ShortcutsProvider.Provider>
+		<ShortcutsProvider.Provider value={value}>
+			{children}
+		</ShortcutsProvider.Provider>
 	);
 }
 
