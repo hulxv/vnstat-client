@@ -1,7 +1,6 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveLine } from "@nivo/line";
-
-import { useConfig } from "../../context/configration";
+import { useConfig } from "@Context/configration";
 
 export default function LineChart({ data, axisBottomRotation = 0 }) {
 	const { config } = useConfig();

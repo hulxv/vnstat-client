@@ -28,7 +28,19 @@ import { useConfig } from "../../../../context/configration";
 import { useState } from "react";
 
 function LineChart() {
-	const Curves = ["basis", "linear", "catmullRom", "natural", "cardinal"];
+	// Check https://nivo.rocks/line/
+	const Curves = [
+		"basis",
+		"linear",
+		"catmullRom",
+		"natural",
+		"cardinal",
+		"monotoneX",
+		"monotoneY",
+		"step",
+		"stepAfter",
+		"stepBefore",
+	];
 
 	const Colors = [
 		"nivo",

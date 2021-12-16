@@ -28,7 +28,6 @@ class cfg {
 		this.scheme = {
 			apperance: {
 				globalTheme: "green",
-				darkMode: true,
 				lineChart: {
 					hasArea: true,
 					areaOpacity: 0.5,
@@ -38,6 +37,7 @@ class cfg {
 				barChart: {
 					colors: "nivo",
 					isGrouped: true,
+					layout: "horizontal",
 				},
 			},
 		};

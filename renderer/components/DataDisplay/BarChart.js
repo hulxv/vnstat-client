@@ -1,7 +1,7 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveBar } from "@nivo/bar";
 
-import { useConfig } from "../../context/configration";
+import { useConfig } from "@Context/configration";
 
 export default function BarChart({ data, axisBottomRotation = 0 }) {
 	const { config } = useConfig();
@@ -19,6 +19,7 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 				valueScale={{ type: "linear" }}
 				indexScale={{ type: "band", round: true }}
 				colors={{ scheme: config?.apperance?.barChart?.colors ?? "nivo" }}
+				layout={config?.apperance?.barChart?.layout ?? "vertical"}
 				defs={[
 					{
 						id: "dots",

@@ -24,6 +24,8 @@ import { BiLinkExternal } from "react-icons/bi";
 import { useConfig } from "../../../../context/configration";
 
 function BarChart() {
+	// Check https://nivo.rocks/bar/
+
 	const Colors = [
 		"nivo",
 		"accent",
@@ -54,7 +56,7 @@ function BarChart() {
 						<PopoverCloseButton />
 						<PopoverBody>
 							<HStack>
-								<span>Go to</span>{" "}
+								<span>Go to</span>
 								<Link
 									color='green'
 									onClick={() =>
@@ -80,8 +82,8 @@ function BarChart() {
 						}
 					/>
 				</HStack>
-				<HStack alignSelf='start'>
-					<Box>Colors</Box>{" "}
+				<HStack alignSelf='start' spacing={2.5}>
+					<Box>Colors</Box>
 					<Select
 						value={config.apperance.barChart.colors}
 						onChange={(e) =>
@@ -90,7 +92,18 @@ function BarChart() {
 						{Colors.map((color) => (
 							<option>{color}</option>
 						))}
-					</Select>{" "}
+					</Select>
+				</HStack>
+				<HStack alignSelf='start'>
+					<Box>Layout</Box>
+					<Select
+						value={config.apperance.barChart.layout}
+						onChange={(e) =>
+							EditConfig("apperance.barChart.layout", e.target.value)
+						}>
+						<option>horizontal</option>
+						<option>vertical</option>
+					</Select>
 				</HStack>
 			</Stack>
 		</Stack>

@@ -1,11 +1,11 @@
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-import { useUsage } from "../context/dataUsage";
-import { useConfig } from "../context/configration";
+import { useUsage } from "@Context/dataUsage";
+import { useConfig } from "@Context/configration";
 
-export default function MainUsage() {
+export default function Header() {
 	const { main, dataIsReady } = useUsage();
 
 	const [usage, setUsage] = useState([
@@ -96,19 +96,15 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 					</Flex>
 				</Flex>
 			</Flex>
-			<Box
+			<Button
 				pos='absolute'
-				bottom={-9}
-				bgColor={`${config?.apperance?.globalTheme ?? "green"}.500`}
-				minW='100px'
-				textAlign='center'
-				p='5px'
-				px='10px'
-				fontWeight='bold'
+				bottom={-10}
+				colorScheme={`${config?.apperance?.globalTheme ?? "green"}`}
+				cursor='default'
 				textTransform='capitalize'
 				roundedBottom='md'>
 				{interval}
-			</Box>
+			</Button>
 		</Flex>
 	);
 }

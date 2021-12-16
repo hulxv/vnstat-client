@@ -8,8 +8,11 @@
 	"main": "app/background.js",
 	"scripts": {
 		"dev": "nextron ",
-		"build": "if [ -d 'renderer/.next' ]; then rm -rf renderer/.next;fi;nextron build --linux",
-		"postinstall": "electron-builder install-app-deps"
+		"build": "nextron build --linux",
+		"postinstall": "electron-builder install-app-deps",
+		"clean:Next":"if [ -d 'renderer/.next' ]; then rm -rf renderer/.next;fi;",
+		"clean:build":"if [ -d 'dist' ]; then rm -r dist;fi;",
+		"clean": "yarn clean:Next; yarn clean:build"
 	},
 	"dependencies": {
 		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",

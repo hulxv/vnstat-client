@@ -35,7 +35,7 @@ function Logs() {
 
 	useEffect(() => GetLogs(), []);
 
-	useEffect(() => console.log("search update to", search), [search]); // For Debugging
+	// useEffect(() => console.log("search update to", search), [search]); // For Debugging
 	// useEffect(() => console.log("logs update to", logs), [logs]); // For Debugging
 
 	return (

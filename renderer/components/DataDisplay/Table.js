@@ -11,7 +11,6 @@ import {
 import { isYesterday } from "date-fns";
 
 function TableComponent({ data }) {
-	console.log(data);
 	return (
 		<Table variant='striped'>
 			<Thead>

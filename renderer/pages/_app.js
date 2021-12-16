@@ -6,7 +6,7 @@ import PageLayout from "../layout/PageLayout";
 import router from "next/router";
 
 // context
-import Contexts from "../context";
+import Contexts from "@Context";
 // Styles
 import "../styles/global.css";
 

@@ -4,7 +4,12 @@
 		"paths": {
 			"@Context/*": ["context/*"],
 			"@Components/*": ["components/*"],
-			"@Pages/*": ["pages/*"]
+			"@Pages/*": ["pages/*"],
+			"@Layout/*": ["layout/*"],
+			"@Context": ["context"],
+			"@Components": ["components"],
+			"@Pages": ["pages"],
+			"@Layout": ["layout"]
 		}
 	}
 }

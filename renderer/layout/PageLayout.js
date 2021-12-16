@@ -1,5 +1,5 @@
-import NavigationBar from "../components/NavigationBar";
-import MainUsage from "../components/MainUsage";
+import NavigationBar from "@Components/NavigationBar";
+import Header from "@Components/Header";
 
 import { Flex, Spinner } from "@chakra-ui/react";
 
@@ -13,7 +13,7 @@ export default function PageLayout({ children, isLoading }) {
 			) : (
 				<Flex h='100vh' align='center' flexDir='column' overflow='auto'>
 					<Flex flexDir='column' w='full' align='center' mb={8}>
-						<MainUsage />
+						<Header />
 						<NavigationBar />
 					</Flex>
 					{children}

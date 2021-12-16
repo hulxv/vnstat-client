@@ -12,7 +12,8 @@ import {
 import { GrPowerReset } from "react-icons/gr";
 
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect } from "react";
+// import { useHotkeys } from "react-hotkeys-hook";
 
 function SwitchBar({
 	state,
@@ -48,6 +49,20 @@ function SwitchBar({
 
 		return () => window.removeEventListener("keydown", ArrowPressHandler); // Cleanup
 	}, [ArrowPressHandler]);
+
+	/*
+	function GoToPrevious() {
+		console.log(`(${state}) Prev ${canGoToPrevious}`);
+
+		if (canGoToPrevious) setTimeout(() => setState(state + 1), 10);
+	}
+	function GoToNext() {
+		console.log(`(${state}) Next ${canGoToNext}`);
+		if (canGoToNext) setTimeout(() => setState(state - 1), 10);
+	}
+	useHotkeys("left", GoToPrevious);
+	useHotkeys("right", GoToNext);
+	*/
 
 	return (
 		<Flex justify='space-around' w='full' mb={4}>

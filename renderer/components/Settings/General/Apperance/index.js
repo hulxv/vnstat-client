@@ -11,7 +11,7 @@ import {
 	Select,
 } from "@chakra-ui/react";
 
-import { useConfig } from "../../../../context/configration";
+import { useConfig } from "@Context/configration";
 
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
@@ -36,17 +36,6 @@ export default function Apperance() {
 				Apperance
 			</Heading>
 			<Stack>
-				<HStack w='full' spacing={7}>
-					<Box>Dark mode</Box>
-					<Switch
-						colorScheme={config?.apperance?.globalTheme}
-						defaultChecked={config.apperance.darkMode}
-						onChange={(e) => EditConfig("apperance.darkMode", e.target.checked)}
-					/>
-					<Heading size='xs' as='h6' opacity='40%'>
-						Soon..
-					</Heading>
-				</HStack>
 				<HStack>
 					<Box>Global Theme</Box>
 					<HStack>
