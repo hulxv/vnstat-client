@@ -17,5 +17,11 @@ linux:
     - "deb"
     - "tar.gz"
     - "pacman"
+  desktop:
+    terminal: true
+    name: vnStat Client
+    icon: "resources/vnclient-icon.png"
+    comment: GUI Client for vnStat Network Traffic Monitor
+    categories: Network
 
 publish: null

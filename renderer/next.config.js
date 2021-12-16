@@ -13,7 +13,6 @@ module.exports = {
 			config.optimization.minimize = false;
 			config.optimization.minimizer = [];
 		}
-
 		return config;
 	},
 };
