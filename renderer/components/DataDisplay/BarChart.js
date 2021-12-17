@@ -88,7 +88,6 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 						],
 					},
 				]}
-				role='application'
 				ariaLabel='Usage Bar Chart'
 			/>
 		</>

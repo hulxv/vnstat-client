@@ -71,41 +71,44 @@ function BarChart() {
 					</PopoverContent>
 				</Popover>
 			</HStack>
-			<Stack>
-				<HStack alignSelf='start'>
-					<Box>Grouped mode</Box>
-					<Switch
-						colorScheme={config.apperance.globalTheme}
-						defaultChecked={config.apperance.barChart.isGrouped}
-						onChange={(e) =>
-							EditConfig("apperance.barChart.isGrouped", e.target.checked)
-						}
-					/>
-				</HStack>
-				<HStack alignSelf='start' spacing={2.5}>
-					<Box>Colors</Box>
-					<Select
-						value={config.apperance.barChart.colors}
-						onChange={(e) =>
-							EditConfig("apperance.barChart.colors", e.target.value)
-						}>
-						{Colors.map((color) => (
-							<option>{color}</option>
-						))}
-					</Select>
-				</HStack>
-				<HStack alignSelf='start'>
-					<Box>Layout</Box>
-					<Select
-						value={config.apperance.barChart.layout}
-						onChange={(e) =>
-							EditConfig("apperance.barChart.layout", e.target.value)
-						}>
-						<option>horizontal</option>
-						<option>vertical</option>
-					</Select>
-				</HStack>
-			</Stack>
+
+			{config && (
+				<Stack>
+					<HStack alignSelf='start'>
+						<Box>Grouped mode</Box>
+						<Switch
+							colorScheme={config.apperance.globalTheme}
+							defaultChecked={config.apperance.barChart.isGrouped}
+							onChange={(e) =>
+								EditConfig("apperance.barChart.isGrouped", e.target.checked)
+							}
+						/>
+					</HStack>
+					<HStack alignSelf='start' spacing={2.5}>
+						<Box>Colors</Box>
+						<Select
+							value={config.apperance.barChart.colors}
+							onChange={(e) =>
+								EditConfig("apperance.barChart.colors", e.target.value)
+							}>
+							{Colors.map((color) => (
+								<option>{color}</option>
+							))}
+						</Select>
+					</HStack>
+					<HStack alignSelf='start'>
+						<Box>Layout</Box>
+						<Select
+							value={config.apperance.barChart.layout}
+							onChange={(e) =>
+								EditConfig("apperance.barChart.layout", e.target.value)
+							}>
+							<option>horizontal</option>
+							<option>vertical</option>
+						</Select>
+					</HStack>
+				</Stack>
+			)}
 		</Stack>
 	);
 }

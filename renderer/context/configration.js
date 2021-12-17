@@ -24,7 +24,7 @@ function Configration({ children }) {
 	// 	console.log(config);
 	// }, [config]);
 
-	function Reload() {
+	function reloading() {
 		GettingConfig();
 	}
 
@@ -34,7 +34,7 @@ function Configration({ children }) {
 	}
 	const value = {
 		config: { ...config },
-		Reload,
+		reloading,
 		EditConfig,
 	};
 

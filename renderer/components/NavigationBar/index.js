@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import router from "next/router";
-import { useUsage } from "../../context/dataUsage";
 import {
 	Menu,
 	MenuButton,
@@ -20,16 +19,18 @@ import Settings from "../Settings";
 
 import CustomIntervalModal from "./CustomIntervalModal";
 
+import { useUsage } from "@Context/dataUsage";
 import { useConfig } from "@Context/configration";
 
-export default function ChooseBar() {
-	const { config } = useConfig();
+export default function NavigationBar() {
+	const { config, reloading: reloadConfigs } = useConfig();
+	const { reloading: reloadingTrafficData } = useUsage();
+
 	const [Page, setPage] = useState({
 		title: "",
 		path: "",
 	});
 	const [ModalIsOpen, setModalIsOpen] = useState(false);
-	const { reloading } = useUsage();
 	const pages = [
 		{
 			title: "day",
@@ -61,7 +62,8 @@ export default function ChooseBar() {
 	function PressKeyHandler(e) {
 		if (e.key === "R" || e.key === "r") {
 			console.log("Reloading...");
-			reloading();
+			reloadConfigs();
+			reloadingTrafficData();
 			router.replace(router.asPath);
 		}
 	}
@@ -112,7 +114,9 @@ export default function ChooseBar() {
 								textColor='whiteAlpha.900'
 								mr={1}
 								onClick={() => {
-									reloading();
+									reloadConfigs();
+									reloadingTrafficData();
+
 									router.replace(router.asPath);
 								}}
 							/>

@@ -77,6 +77,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 					],
 				},
 			]}
+			motionConfig='slow'
 		/>
 	);
 }

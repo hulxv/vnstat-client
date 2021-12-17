@@ -48,6 +48,4 @@ export default class Database {
 		if (stderr) throw stderr;
 		return stdout;
 	}
-
-	// More in future...
 }

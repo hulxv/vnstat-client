@@ -1,12 +1,14 @@
 import router from "next/router";
-import { useUsage } from "../context/dataUsage";
+import NotFound from "./404";
+
+import { useUsage } from "@Context/dataUsage";
 
 import { useEffect, useState } from "react";
-import DataDisplay from "../components/DataDisplay";
+import DataDisplay from "@Components/DataDisplay";
 import useFilterDate from "../hooks/useFilterDate";
 
-import SwitchBar from "../components/SwitchBar";
-import TotalTraffic from "../components/TotalTraffic";
+import SwitchBar from "@Components/SwitchBar";
+import TotalTraffic from "@Components/TotalTraffic";
 
 import { Button, Heading, Flex } from "@chakra-ui/react";
 import { HiRefresh } from "react-icons/hi";
@@ -52,18 +54,7 @@ export default function Hour() {
 	return (
 		<>
 			{data.length <= 0 ? (
-				<Flex flexDir='column'>
-					<Heading m='4'>No Data is Found</Heading>
-					<Button
-						leftIcon={<HiRefresh size='1.4em' />}
-						mr={1}
-						onClick={() => {
-							reloading();
-							router.replace(router.asPath);
-						}}>
-						Refresh
-					</Button>
-				</Flex>
+				<NotFound />
 			) : (
 				<>
 					<SwitchBar

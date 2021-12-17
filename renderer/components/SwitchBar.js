@@ -15,7 +15,7 @@ import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 import { useEffect } from "react";
 // import { useHotkeys } from "react-hotkeys-hook";
 
-function SwitchBar({
+export default function SwitchBar({
 	state,
 	setState,
 	dateFormat,
@@ -43,7 +43,6 @@ function SwitchBar({
 				break;
 		}
 	}
-
 	useEffect(() => {
 		window.addEventListener("keydown", ArrowPressHandler);
 
@@ -105,5 +104,3 @@ function SwitchBar({
 		</Flex>
 	);
 }
-
-export default SwitchBar;

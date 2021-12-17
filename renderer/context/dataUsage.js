@@ -13,9 +13,9 @@ export default function UsageProvider({ children }) {
 
 	const [dataIsReady, setDataIsReady] = useState(false);
 
-	useEffect(() => {
+	useEffect(async () => {
 		setDataIsReady(false);
-		ipcRenderer.send("reload-data");
+		ipcRenderer.send("get-data");
 		ipcRenderer.on("send-usage", (evt, result) => {
 			setUsage(result);
 			setDataIsReady(true);
@@ -25,7 +25,7 @@ export default function UsageProvider({ children }) {
 
 	function reloading() {
 		setDataIsReady(false);
-		ipcRenderer.send("reload-data");
+		ipcRenderer.send("get-data");
 		setDataIsReady(true);
 	}
 
