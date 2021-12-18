@@ -1,17 +1,17 @@
 import { ipcMain, app, shell } from "electron";
 import log from "electron-log";
-import fs from "fs";
-// Classes
-import Config from "./Channels/Config";
-import Exporting from "./Channels/Exporting";
-import Logs from "./Channels/Logs";
-import TrafficData from "./Channels/TrafficData";
-import vnInfo from "../vnInfo";
 
-const _Config = new Config();
-const _Exporting = new Exporting();
-const _Logs = new Logs();
-const _TrafficData = new TrafficData();
+// Channels
+import ConfigChannelClass from "./Channels/Config";
+import ExportingChannelClass from "./Channels/Exporting";
+import LogsChannelClass from "./Channels/Logs";
+import TrafficDataChannelClass from "./Channels/TrafficData";
+import vnInfo from "../vnStat/info";
+
+const ConfigChannel = new ConfigChannelClass();
+const ExportingChannel = new ExportingChannelClass();
+const LogsChannel = new LogsChannelClass();
+const TrafficChannel = new TrafficDataChannelClass();
 
 export default class Communication {
 	constructor() {}
@@ -19,10 +19,10 @@ export default class Communication {
 	Init() {
 		this.GetInfos();
 		this.OpenURL();
-		_Config.Init();
-		_Exporting.Init();
-		_Logs.Init();
-		_TrafficData.Init();
+		ConfigChannel.Init();
+		ExportingChannel.Init();
+		LogsChannel.Init();
+		TrafficChannel.Init();
 	}
 
 	GetInfos() {

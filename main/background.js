@@ -1,19 +1,19 @@
 import { app, ipcMain, dialog } from "electron";
 import log from "electron-log";
 import serve from "electron-serve";
-import fs from "fs";
 
 import { createWindow } from "./helpers";
 
 // Classes
 import CommunicationClass from "./Communication";
-import Cfg from "./cfg";
-import Traffic from "./traffic";
+import AppCfgClass from "./cfg";
+import Traffic from "./vnStat/traffic";
+import vnConfigClass from "./vnStat/config";
 
 const Communication = new CommunicationClass();
-const cfg = new Cfg();
+const vnConfig = new vnConfigClass();
+const AppCfg = new AppCfgClass();
 const traffic = new Traffic();
-
 //
 const isProd = process.env.NODE_ENV === "production";
 
@@ -28,9 +28,7 @@ if (isProd) {
 
 (async () => {
 	await app.whenReady();
-
 	log.info("vnStat-client is starting..");
-
 	const mainWindow = createWindow("main", {
 		width: 920,
 		height: 600,
@@ -59,7 +57,8 @@ app.on("window-all-closed", () => {
 
 async function INIT(mainWindow) {
 	// Send Configs
-	mainWindow.webContents.send("send-config", cfg.get());
+	mainWindow.webContents.send("send-config", AppCfg.get());
+	mainWindow.webContents.send("send-vn-config", vnConfig.configs);
 
 	// Send Data
 	log.info("Getting data...");

@@ -1,4 +1,4 @@
-import vnDB from "./vndb";
+import vnDB from "./db";
 export default class vnInfo {
 	#db = new vnDB();
 	constructor() {

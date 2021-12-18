@@ -29,7 +29,13 @@ export default function Apperance() {
 		"teal",
 		"red",
 	];
-
+	if (!config)
+		return (
+			<Stack align='center'>
+				<Heading>Something went wrong</Heading>
+				<p>Please Check logs</p>
+			</Stack>
+		);
 	return (
 		<Stack flexDir='column' w='full' spacing={5}>
 			<Heading size='md' alignSelf='center'>

@@ -1,7 +1,7 @@
 import { ipcMain, dialog } from "electron";
 import log from "electron-log";
 import fs from "fs";
-import vnDB from "../../vndb";
+import vnDB from "../../vnStat/db";
 
 export default class Exporting {
 	constructor() {

@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
-import Traffic from "../../traffic";
+import Traffic from "../../vnStat/traffic";
 
 export default class TrafficData {
 	constructor() {

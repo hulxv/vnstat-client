@@ -9,7 +9,7 @@ import {
 	startOfToday,
 	startOfYesterday,
 } from "date-fns";
-import Database from "./vndb";
+import Database from "./db";
 
 export default class traffic {
 	#db = new Database(); // initialize database

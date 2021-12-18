@@ -5,8 +5,8 @@ const ConfigProvider = createContext({});
 
 function Configration({ children }) {
 	const [config, setConfig] = useState({});
-
-	function GettingConfig() {
+	const [vnConfigs, setVnConfigs] = useState({});
+	function GettingAppConfig() {
 		ipcRenderer.send("get-config");
 
 		ipcRenderer.on("send-config", (e, res) => {
@@ -15,25 +15,44 @@ function Configration({ children }) {
 		return () => ipcRenderer.removeAllListeners("send-config");
 	}
 
+	function GettingVnConfig() {
+		ipcRenderer.send("get-vn-config");
+
+		ipcRenderer.on("send-vn-config", (e, res) => {
+			setVnConfigs({ ...res });
+		});
+
+		return () => ipcRenderer.removeAllListeners("send-vn-config");
+	}
 	useEffect(() => {
-		GettingConfig();
+		console.log("vnConfigs", vnConfigs);
+	}, [vnConfigs]);
+
+	useEffect(() => {
+		GettingAppConfig();
+		GettingVnConfig();
 	}, []);
 
 	// ** Uncomment to debugging
-	// useEffect(() => {
-	// 	console.log(config);
-	// }, [config]);
+	useEffect(() => {
+		console.log("vnConfigs", vnConfigs);
+	}, [vnConfigs]);
+	useEffect(() => {
+		console.log("AppConfig", config);
+	}, [config]);
 
 	function reloading() {
-		GettingConfig();
+		GettingAppConfig();
+		GettingVnConfig();
 	}
 
 	function EditConfig(key, value) {
 		ipcRenderer.send("set-config", key, value);
-		GettingConfig();
+		GettingAppConfig();
 	}
 	const value = {
-		config: { ...config },
+		config,
+		vnConfigs,
 		reloading,
 		EditConfig,
 	};
