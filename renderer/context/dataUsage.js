@@ -15,7 +15,6 @@ export default function UsageProvider({ children }) {
 
 	useEffect(async () => {
 		setDataIsReady(false);
-		ipcRenderer.send("get-data");
 		ipcRenderer.on("send-usage", (evt, result) => {
 			setUsage(result);
 			setDataIsReady(true);

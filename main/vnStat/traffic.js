@@ -9,10 +9,9 @@ import {
 	startOfToday,
 	startOfYesterday,
 } from "date-fns";
-import Database from "./db";
-
+import vnStat from ".";
 export default class traffic {
-	#db = new Database(); // initialize database
+	#db = new vnStat().db();
 	constructor() {
 		this.month = [];
 		this.year = [];
@@ -22,10 +21,12 @@ export default class traffic {
 
 	async getData() {
 		try {
-			await this.Month();
-			await this.Day();
-			await this.Year();
-			await this.Main();
+			return {
+				month: await this.Month(),
+				day: await this.Day(),
+				year: await this.Year(),
+				main: await this.Main(),
+			};
 		} catch (err) {
 			console.log(err);
 			throw err;
@@ -34,7 +35,7 @@ export default class traffic {
 
 	async Month() {
 		try {
-			this.month = await this.#db.Get("day");
+			this.month = await this.#db.get("day");
 			return this.month;
 		} catch (err) {
 			error(err.message);
@@ -43,7 +44,7 @@ export default class traffic {
 	}
 	async Year() {
 		try {
-			this.year = await this.#db.Get("month");
+			this.year = await this.#db.get("month");
 
 			return this.year;
 		} catch (err) {
@@ -53,7 +54,7 @@ export default class traffic {
 	}
 	async Day() {
 		try {
-			this.day = await this.#db.Get("hour");
+			this.day = await this.#db.get("hour");
 
 			return this.day;
 		} catch (err) {
@@ -65,7 +66,7 @@ export default class traffic {
 	async Main() {
 		try {
 			const MonthUsageData = (await (
-				await this.#db.Get("month")
+				await this.#db.get("month")
 			).find((e) => getMonth(new Date(e.date)) === getMonth(new Date()))) ?? {
 				date: format(startOfMonth(new Date()), "yyyy-MM-dd"),
 				rx: 0,
@@ -73,7 +74,7 @@ export default class traffic {
 			};
 
 			const TodayUsageData = (await (
-				await this.#db.Get("day")
+				await this.#db.get("day")
 			).find((e) => isToday(new Date(e.date)))) ?? {
 				date: format(startOfToday(new Date()), "yyyy-MM-dd"),
 				rx: 0,
@@ -81,7 +82,7 @@ export default class traffic {
 			};
 
 			const YesterdayUsageData = (await (
-				await this.#db.Get("day")
+				await this.#db.get("day")
 			).find((e) => isYesterday(new Date(e.date)))) ?? {
 				date: format(startOfYesterday(new Date()), "yyyy-MM-dd"),
 				rx: 0,

@@ -1,10 +1,10 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
-import AppConfigClass from "../../cfg";
-import vnConfigClass from "../../vnStat/config";
+import AppConfig from "../../cfg";
+import vnConfig from "../../vnStat/config";
 
-const vnConfig = new vnConfigClass();
-const AppConfig = new AppConfigClass();
+// const vnConfig = new vnConfigClass();
+// const AppConfig = new AppConfigClass();
 export default class Config {
 	constructor() {}
 	Init() {
@@ -16,8 +16,8 @@ export default class Config {
 	SetConfig() {
 		return ipcMain.on("set-config", (e, key, value) => {
 			AppConfig.set(key, value);
-			log.info(`${key} was changed to ${AppConfig.get(key)}`);
-			e.sender.send("send-config", AppConfig.get());
+			log.info(`${key} was changed to ${new AppConfig().get(key)}`);
+			e.sender.send("send-config", new AppConfig().get());
 		});
 	}
 	GetConfig() {
@@ -27,7 +27,7 @@ export default class Config {
 	}
 	GetVnConfigs() {
 		return ipcMain.on("get-vn-configs", (e) => {
-			e.sender.send("send-vn-config", vnConfig.configs);
+			e.sender.send("send-vn-config", vnConfig.read());
 		});
 	}
 	SetVnConfigs() {}

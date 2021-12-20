@@ -7,7 +7,7 @@ export default class vnInfo {
 
 	async getInfo() {
 		try {
-			this.info = await this.#db.Get("info");
+			this.info = await this.#db.get("info");
 			return this.info;
 		} catch (err) {
 			throw err;

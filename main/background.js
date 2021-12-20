@@ -1,19 +1,19 @@
 import { app, ipcMain, dialog } from "electron";
-import log from "electron-log";
+import log, { error } from "electron-log";
 import serve from "electron-serve";
 
 import { createWindow } from "./helpers";
 
 // Classes
 import CommunicationClass from "./Communication";
-import AppCfgClass from "./cfg";
-import Traffic from "./vnStat/traffic";
+import AppConfigClass from "./cfg";
 import vnConfigClass from "./vnStat/config";
+import vnStat from "./vnStat";
 
 const Communication = new CommunicationClass();
 const vnConfig = new vnConfigClass();
-const AppCfg = new AppCfgClass();
-const traffic = new Traffic();
+const AppConfig = new AppConfigClass();
+// const vnStat = new vnStatClass();
 //
 const isProd = process.env.NODE_ENV === "production";
 
@@ -46,8 +46,12 @@ if (isProd) {
 		// mainWindow.webContents.openDevTools();
 	}
 
-	Communication.Init();
-	await INIT(mainWindow);
+	try {
+		Communication.Init();
+		await INIT(mainWindow);
+	} catch (err) {
+		error(err);
+	}
 })();
 
 app.on("window-all-closed", () => {
@@ -57,14 +61,17 @@ app.on("window-all-closed", () => {
 
 async function INIT(mainWindow) {
 	// Send Configs
-	mainWindow.webContents.send("send-config", AppCfg.get());
-	mainWindow.webContents.send("send-vn-config", vnConfig.configs);
-
+	// await new vnStat().daemonStatus();
 	// Send Data
 	log.info("Getting data...");
 	try {
-		await traffic.getData();
-		mainWindow.webContents.send("send-usage", traffic);
+		mainWindow.webContents.send("send-config", AppConfig.get());
+		mainWindow.webContents.send("send-vn-config", new vnStat().configrations());
+
+		mainWindow.webContents.send(
+			"send-usage",
+			await new vnStat().traffic().getData(),
+		);
 		log.info("Getting data is successfully");
 	} catch (err) {
 		log.error(err);

@@ -24,19 +24,17 @@ export default class Database {
 					...(await this.db("info").select().where("name", "=", "dbversion")),
 				}["0"].value;
 
-				if (this.SUPPORTED_DB_VERSIONS.indexOf(this.dbversion) < 0)
-					warn("dbversion not supported yet, maybe some errors happen");
+				if (!this.SUPPORTED_DB_VERSIONS.includes(this.dbversion))
+					warn("dbversion not supported yet, maybe some errors will happen");
 			})();
 		} catch (err) {
 			throw err;
 		}
 	}
 
-	async Get(table) {
+	async get(table) {
 		try {
-			const data = await this.db(table).select();
-
-			return data;
+			return await this.db(table).select();
 		} catch (err) {
 			error(`[${table}]`, err.message);
 			throw err;

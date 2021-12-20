@@ -3,20 +3,18 @@ import { app } from "electron";
 import { info, error } from "electron-log";
 import fs from "fs";
 class cfg {
-	#CheckIfSchemeWasUpdate = () => {
+	CheckIfSchemeWasUpdated = () => {
 		/* 
 		* If all keys does exist, that mean schema didn't update then will be return false,
 		! And if some keys does not exist, that mean scheme was updated, then will be return true.
 		*/
 		try {
-			return CheckIfAllKeysExist(
+			return !CheckIfAllKeysExist(
 				this.scheme,
 				JSON.parse(
 					fs.readFileSync(`${app.getPath("userData")}/config.json`, "utf-8"),
 				),
-			)
-				? false
-				: true;
+			);
 		} catch (err) {
 			error(err);
 			return false;
@@ -47,12 +45,10 @@ class cfg {
 		if (!fs.existsSync(`${app.getPath("userData")}/config.json`)) {
 			info("Creating configration file...");
 			this.store.set(this.scheme);
-
 			info(`Configration file was created at ${this.store.path}`);
-		} else if (this.#CheckIfSchemeWasUpdate()) {
+		} else if (this.CheckIfSchemeWasUpdated()) {
 			info("Updating configration schema...");
 			this.store.set(this.scheme);
-
 			info(`Configration file was updated at ${this.store.path}`);
 		}
 	}

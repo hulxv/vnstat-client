@@ -6,7 +6,7 @@ import ConfigChannelClass from "./Channels/Config";
 import ExportingChannelClass from "./Channels/Exporting";
 import LogsChannelClass from "./Channels/Logs";
 import TrafficDataChannelClass from "./Channels/TrafficData";
-import vnInfo from "../vnStat/info";
+import vnStat from "../vnStat";
 
 const ConfigChannel = new ConfigChannelClass();
 const ExportingChannel = new ExportingChannelClass();
@@ -28,11 +28,9 @@ export default class Communication {
 	GetInfos() {
 		ipcMain.on("get-infos", async (e) => {
 			try {
-				const vnInfos = new vnInfo();
-				await vnInfos.getInfo();
 				e.sender.send("send-infos", [
-					...vnInfos.info,
 					{ name: "version", value: app.getVersion() },
+					...(await new vnStat().info()),
 				]);
 			} catch (err) {
 				log.error(err);
@@ -47,6 +45,4 @@ export default class Communication {
 			shell.openExternal(url);
 		});
 	}
-
-	// Configrations
 }

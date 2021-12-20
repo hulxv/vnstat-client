@@ -1,37 +1,20 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
-import Traffic from "../../vnStat/traffic";
+import vnStat from "../../vnStat";
 
-export default class TrafficData {
+export default class TrafficData extends vnStat {
 	constructor() {
-		this.traffic = new Traffic();
+		super();
 	}
 	Init() {
 		this.SendTrafficData();
-		this.__SendTrafficData();
 	}
 
 	SendTrafficData() {
 		return ipcMain.on("get-data", async (e) => {
 			log.info("Getting data...");
 			try {
-				await this.traffic.getData();
-
-				e.sender.send("send-usage", this.traffic);
-				log.info("Getting data is successfully");
-			} catch (err) {
-				log.error(err);
-			}
-		});
-	}
-
-	__SendTrafficData() {
-		return ipcMain.handle("get-data", async (e) => {
-			// log.info("Getting data...");
-			try {
-				await this.traffic.getData();
-
-				return this.traffic;
+				e.sender.send("send-usage", await this.traffic().getData());
 				log.info("Getting data is successfully");
 			} catch (err) {
 				log.error(err);

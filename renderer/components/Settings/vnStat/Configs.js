@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 
 import { HiInformationCircle } from "react-icons/hi";
-
+import { BiReset } from "react-icons/bi";
 import { useConfig } from "@Context/configration";
 function Configs({ vnConfigs }) {
 	const { config } = useConfig();
@@ -31,10 +31,32 @@ function Configs({ vnConfigs }) {
 	});
 
 	const [dateFormat, setDateFormat] = useState({
-		HourlyDays: vnConfigs["DayFormat"],
-		MonthFormat: vnConfigs["MonthFormat"],
-		TopFormat: vnConfigs["TopFormat"],
+		HourlyDays: vnConfigs["DayFormat"].replace(/["]/gi, ""),
+		MonthFormat: vnConfigs["MonthFormat"].replace(/["]/gi, ""),
+		TopFormat: vnConfigs["TopFormat"].replace(/["]/gi, ""),
 	});
+
+	// Read only without changing
+
+	const Notes = {
+		durations: "data retention durations (-1 = unlimited, 0 = disabled)",
+		dateFormat: 'Pattern: "%Y-%m-%d"',
+	};
+
+	const defaultDurations = {
+		"5MinuteHours": vnConfigs["5MinuteHours"],
+		HourlyDays: vnConfigs["HourlyDays"],
+		DailyDays: vnConfigs["DailyDays"],
+		MonthlyMonths: vnConfigs["MonthlyMonths"],
+		YearlyYears: vnConfigs["YearlyYears"],
+		TopDayEntries: vnConfigs["TopDayEntries"],
+	};
+
+	const defaultDateFormat = {
+		HourlyDays: vnConfigs["DayFormat"].replace(/["]/gi, ""),
+		MonthFormat: vnConfigs["MonthFormat"].replace(/["]/gi, ""),
+		TopFormat: vnConfigs["TopFormat"].replace(/["]/gi, ""),
+	};
 	// DayFormat    "%Y-%m-%d"
 	// MonthFormat  "%Y-%m"
 	// TopFormat    "%Y-%m-%d"
@@ -43,16 +65,39 @@ function Configs({ vnConfigs }) {
 			<Heading alignSelf='center' size='md'>
 				Configrations
 			</Heading>
-			<Heading size='sm'>Data retention durations</Heading>
+			<HStack>
+				<Heading size='sm'>Data retention durations </Heading>
+				<Tooltip label={Notes.durations} hasArrow placement='right'>
+					<IconButton icon={<HiInformationCircle />} variant='ghost' />
+				</Tooltip>
+			</HStack>
 
 			<Stack>
-				{Object.keys(durations).map((duration) => (
-					<HStack justify='space-between'>
+				{Object.keys(defaultDurations).map((duration, index) => (
+					<HStack justify='space-between' key={`${duration}-${index}`}>
 						<Box>{duration}</Box>
+
 						<HStack>
+							{defaultDurations[duration] !== durations[duration] && (
+								<Tooltip label='Reset'>
+									<IconButton
+										icon={<BiReset size='1.2em' />}
+										variant='ghost'
+										onClick={() => {
+											setDurations({
+												...durations,
+												[duration]: defaultDurations[duration],
+											});
+										}}
+									/>
+								</Tooltip>
+							)}
 							<NumberInput
 								allowMouseWheel
-								defaultValue={Number(durations[duration])}
+								value={Number(durations[duration])}
+								onChange={(value) =>
+									setDurations({ ...durations, [duration]: value })
+								}
 								min={-1}
 								max={250}>
 								<NumberInputField />
@@ -65,7 +110,16 @@ function Configs({ vnConfigs }) {
 								<Box>
 									<Switch
 										colorScheme={config.apperance.globalTheme}
-										defaultChecked={Number(durations[duration]) === -1}
+										isChecked={Number(durations[duration]) === -1}
+										onChange={() => {
+											setDurations({
+												...durations,
+												[duration]:
+													Number(durations[duration]) === -1
+														? defaultDurations[duration]
+														: -1,
+											});
+										}}
 									/>
 								</Box>
 							</Tooltip>
@@ -74,7 +128,7 @@ function Configs({ vnConfigs }) {
 				))}
 				<HStack>
 					<Heading size='sm'>Date Format</Heading>
-					<Tooltip label='Pattern: "%Y-%m-%d"'>
+					<Tooltip label={Notes.dateFormat} hasArrow placement='right'>
 						<IconButton
 							cursor='default'
 							icon={<HiInformationCircle />}
@@ -82,17 +136,33 @@ function Configs({ vnConfigs }) {
 						/>
 					</Tooltip>
 				</HStack>
-				{Object.keys(dateFormat).map((date) => (
-					<HStack justify='space-between'>
+				{Object.keys(defaultDateFormat).map((date, index) => (
+					<HStack justify='space-between' key={`${date}-${index}`}>
 						<Box>{date}</Box>
-						<Input
-							w='300px'
-							value={dateFormat[date]}
-							onChange={(e) => {
-								setDateFormat({ ...dateFormat, [date]: e.target.value });
-								console.log(e.target.value);
-							}}
-						/>
+						<HStack>
+							{defaultDateFormat[date] !== dateFormat[date] && (
+								<Tooltip label='Reset'>
+									<IconButton
+										icon={<BiReset size='1.2em' />}
+										variant='ghost'
+										onClick={() => {
+											setDateFormat({
+												...dateFormat,
+												[date]: defaultDateFormat[date],
+											});
+										}}
+									/>
+								</Tooltip>
+							)}
+							<Input
+								w='300px'
+								value={dateFormat[date]}
+								onChange={(e) => {
+									setDateFormat({ ...dateFormat, [date]: e.target.value });
+									console.log(e.target.value);
+								}}
+							/>
+						</HStack>
 					</HStack>
 				))}
 			</Stack>

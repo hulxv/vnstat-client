@@ -11,9 +11,8 @@ export default class vnConfig {
 			);
 			return;
 		}
-		(async () => await this.readConfigs())();
 	}
-	async readConfigs() {
+	read() {
 		if (!fs.existsSync(this.configFilePath)) {
 			log.error("vnStat Configration file not found.");
 			return;
@@ -24,17 +23,14 @@ export default class vnConfig {
 			.filter((line) => line && !line.startsWith("#"))
 			.map((line) => line.split(" ").filter((_e) => _e && _e));
 		this.configs = Object.fromEntries([...configsOutput]);
+
+		return this.configs;
 	}
 
-	editConfigs(changes) {
-		const isProd = process.env.NODE_ENV === "production";
-
+	edit(changes) {
 		if (!Array.isArray(changes)) return;
 		const options = {
 			name: "vnStat Client",
-			icon: `${
-				isProd ? `${__dirname}/images` : "renderer/public/images"
-			}/vnclient-icon.png`,
 		};
 
 		let cmd = "";
@@ -42,5 +38,4 @@ export default class vnConfig {
 		// 	if (error) throw error;
 		// });
 	}
-	e;
 }

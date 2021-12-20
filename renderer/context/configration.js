@@ -7,8 +7,6 @@ function Configration({ children }) {
 	const [config, setConfig] = useState({});
 	const [vnConfigs, setVnConfigs] = useState({});
 	function GettingAppConfig() {
-		ipcRenderer.send("get-config");
-
 		ipcRenderer.on("send-config", (e, res) => {
 			setConfig({ ...res });
 		});
