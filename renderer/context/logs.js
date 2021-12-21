@@ -19,6 +19,7 @@ function Logs({ children }) {
 		setIsLoading(true);
 		ipcRenderer.send("get-logs");
 		ipcRenderer.on("send-logs", (e, res) => {
+			console.log("log result =>", res);
 			setLogs({
 				path: res["0"].path,
 				lines: [...res["0"].lines]

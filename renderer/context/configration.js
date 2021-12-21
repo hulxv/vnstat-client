@@ -7,6 +7,7 @@ function Configration({ children }) {
 	const [config, setConfig] = useState({});
 	const [vnConfigs, setVnConfigs] = useState({});
 	function GettingAppConfig() {
+		ipcRenderer.send("get-config");
 		ipcRenderer.on("send-config", (e, res) => {
 			setConfig({ ...res });
 		});
@@ -14,9 +15,9 @@ function Configration({ children }) {
 	}
 
 	function GettingVnConfig() {
-		ipcRenderer.send("get-vn-config");
+		ipcRenderer.send("get-vn-configs");
 
-		ipcRenderer.on("send-vn-config", (e, res) => {
+		ipcRenderer.on("send-vn-configs", (e, res) => {
 			setVnConfigs({ ...res });
 		});
 
@@ -40,6 +41,7 @@ function Configration({ children }) {
 	}, [config]);
 
 	function reloading() {
+		setTimeout(() => {});
 		GettingAppConfig();
 		GettingVnConfig();
 	}

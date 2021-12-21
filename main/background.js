@@ -66,7 +66,10 @@ async function INIT(mainWindow) {
 	log.info("Getting data...");
 	try {
 		mainWindow.webContents.send("send-config", AppConfig.get());
-		mainWindow.webContents.send("send-vn-config", new vnStat().configrations());
+		mainWindow.webContents.send(
+			"send-vn-configs",
+			new vnStat().configrations(),
+		);
 
 		mainWindow.webContents.send(
 			"send-usage",

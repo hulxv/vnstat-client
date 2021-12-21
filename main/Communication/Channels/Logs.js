@@ -14,7 +14,6 @@ export default class Logs {
 	ClearLogs() {
 		return ipcMain.on("clear-logs", (e) => {
 			try {
-				console.log("clear-logs");
 				log.transports.file.clear();
 				e.sender.send("send-logs", log.transports.file.readAllLogs());
 				e.sender.send("message", {

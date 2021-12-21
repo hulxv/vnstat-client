@@ -1,5 +1,7 @@
 import { ipcRenderer } from "electron";
-import { useState, useEffect, useCallback } from "react";
+import { useVirtual } from "react-virtual";
+
+import { useState, useEffect, useRef } from "react";
 
 import {
 	Alert,
@@ -27,6 +29,7 @@ import {
 	HiX,
 } from "react-icons/hi";
 import { useLogs } from "../../context/logs";
+import { BiFemale } from "react-icons/bi";
 
 function Logs() {
 	const { logs, GetLogs, ClearLogs, isLoading } = useLogs();
@@ -40,6 +43,12 @@ function Logs() {
 
 	return (
 		<>
+			{logs?.lines.length > 150 && (
+				<LogAlert
+					status={logs?.lines.lenghth < 400 ? "warning" : "error"}
+					content={`You have ${logs?.lines.length} message, We suggest you clear it for better performance.`}
+				/>
+			)}
 			<Flex w='full' justify='space-between' my={3}>
 				<Tooltip
 					hasArrow
@@ -108,35 +117,68 @@ function Logs() {
 				) : logs?.lines.length <= 0 ? (
 					<div>No logs found</div>
 				) : (
-					logs?.lines.map((msg) => {
-						if (
-							search.bool &&
-							msg.content.toLowerCase().search(search.value.toLowerCase()) ===
-								-1
-						)
-							return;
-						return (
-							<LogAlert
-								date={msg.date}
-								status={msg.status === "warn" ? "warning" : alert.status}
-								content={msg.content}
-							/>
-						);
-					})
+					<>
+						<RowVirtualizerDynamic data={logs?.lines} />
+					</>
 				)}
 			</Stack>
 		</>
 	);
 }
+// logs?.lines.map((msg) => {
+// 	if (
+// 		search.bool &&
+// 		msg.content.toLowerCase().search(search.value.toLowerCase()) ===
+// 			-1
+// 	)
+// 		return;
+// 	return (
+// 		<LogAlert
+// 			date={msg.date}
+// 			status={msg.status === "warn" ? "warning" : alert.status}
+// 			content={msg.content}
+// 		/>
+// 	);
+// })
 
 function LogAlert({ status, date, content }) {
 	return (
 		<Alert status={status}>
 			<AlertIcon />
-			<AlertTitle mr={2}>{date}</AlertTitle>
-
-			<AlertDescription>{content}</AlertDescription>
+			<Box flex={1}>
+				<AlertTitle mr={2}>{date}</AlertTitle>{" "}
+				<AlertDescription>{content}</AlertDescription>
+			</Box>
 		</Alert>
+	);
+}
+
+function RowVirtualizerDynamic({ data }) {
+	const parentRef = useRef();
+
+	const rowVirtualizer = useVirtual({
+		size: data.length,
+		parentRef,
+	});
+
+	return (
+		<>
+			<Box w='full' h='full'>
+				<Stack
+					ref={parentRef}
+					className='List'
+					width='100%'
+					position='relative'>
+					{rowVirtualizer.virtualItems.map((virtualRow) => (
+						<LogAlert
+							status={data[virtualRow.index]?.status}
+							date={data[virtualRow.index]?.date}
+							content={data[virtualRow.index]?.content}
+						/>
+					))}
+				</Stack>
+			</Box>
+		</>
 	);
 }
 
