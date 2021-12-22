@@ -1,4 +1,4 @@
-appId: com.example.nextron
+appId: com.vnstat.client
 productName: vnstat-client
 copyright: Copyright © 2021 Hulxv ( Mohamed Emad )
 directories:
@@ -17,11 +17,11 @@ linux:
     - "deb"
     - "tar.gz"
     - "pacman"
-desktop:
-  terminal: true
-  name: vnStat Client
-  icon: "resources/icons"
-  comment: GUI Client for vnStat Network Traffic Monitor
-  categories: Network
+  desktop:
+    terminal: true
+    name: vnStat Client
+    icon: "resources/icons"
+    comment: GUI Client for vnStat Network Traffic Monitor
+    categories: Network
 
 publish: null

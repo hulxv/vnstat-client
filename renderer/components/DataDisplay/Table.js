@@ -20,22 +20,22 @@ function TableComponent({ data }) {
 						<Td isNumeric>
 							{traffic.rx + traffic.tx === 0
 								? "-"
-								: (traffic.rx + traffic.tx)?.toFixed(2) > 1000
-								? ((traffic.rx + traffic.tx) / 1000)?.toFixed(2) + " GB"
+								: (traffic.rx + traffic.tx)?.toFixed(2) > 1024
+								? ((traffic.rx + traffic.tx) / 1024)?.toFixed(2) + " GB"
 								: (traffic.rx + traffic.tx)?.toFixed(2) + " MB"}
 						</Td>
 						<Td isNumeric>
 							{traffic.rx + traffic.tx === 0
 								? "-"
-								: traffic.rx?.toFixed(2) > 1000
-								? (traffic.rx / 1000)?.toFixed(2) + " GB"
+								: traffic.rx?.toFixed(2) > 1024
+								? (traffic.rx / 1024)?.toFixed(2) + " GB"
 								: traffic.rx?.toFixed(2) + " MB"}
 						</Td>
 						<Td isNumeric>
 							{traffic.tx === 0
 								? "-"
-								: traffic.tx?.toFixed(2) > 1000
-								? (traffic.tx / 1000)?.toFixed(2) + " GB"
+								: traffic.tx?.toFixed(2) > 1024
+								? (traffic.tx / 1024)?.toFixed(2) + " GB"
 								: traffic.tx?.toFixed(2) + " MB"}
 						</Td>{" "}
 					</Tr>
