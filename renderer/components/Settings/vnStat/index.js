@@ -15,16 +15,16 @@ import {
 	BsArrowCounterclockwise,
 } from "react-icons/bs";
 
-import { useConfig } from "@Context/configration";
+import { useVnStat } from "@Context/vnStat";
 
 // Components
 import Configs from "./Configs";
 
 function vnStat() {
 	const [daemonStatus, setDaemonStatus] = useState(false);
-	const { vnConfigs } = useConfig();
+	const { configs } = useVnStat();
 
-	if (!vnConfigs || !Object.keys(vnConfigs))
+	if (!configs || !Object.keys(configs))
 		return (
 			<Stack align='center'>
 				<Heading>Something went wrong</Heading>
@@ -60,7 +60,7 @@ function vnStat() {
 					</HStack>
 				</Flex>
 			</Stack>
-			<Configs vnConfigs={vnConfigs} />
+			<Configs vnConfigs={configs} />
 		</Stack>
 	);
 }

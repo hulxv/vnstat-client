@@ -1,85 +1,51 @@
-import router from "next/router";
-import { useUsage } from "../context/dataUsage";
+import NotFound from "@Pages/404";
 
-import { getMonth } from "date-fns";
-import DataDisplay from "../components/DataDisplay";
+import { useVnStat } from "@Context/vnStat";
+
 import { useState, useEffect } from "react";
-import useFilterDate from "../hooks/useFilterDate";
+import { prepareYearData } from "@Util/PrepareDataToDisplay";
 
-import SwitchBar from "../components/SwitchBar";
-import TotalTraffic from "../components/TotalTraffic";
-
-import { Button, Heading, Flex } from "@chakra-ui/react";
-import { HiRefresh } from "react-icons/hi";
+// Components
+import DataDisplay from "@Components/DataDisplay";
+import SwitchBar from "@Components/SwitchBar";
+import TotalTraffic from "@Components/TotalTraffic";
 
 export default function Year() {
-	const { year, reloading, dataIsReady } = useUsage();
+	const { traffic } = useVnStat();
 
-	const [PreviousYears, setPreviousYears] = useState(0);
-	const [data, setData] = useState([]);
+	const [previousYears, setPreviousYears] = useState(0);
+	const [displayData, setDisplayData] = useState(null);
 
 	useEffect(() => {
-		setData(year);
-	}, [dataIsReady]);
-
-	const FilteredData = useFilterDate(data, "year", PreviousYears);
-	const dataUsage = {
-		down: FilteredData.reduce((a, b) => a + b.rx, 0),
-		up: FilteredData.reduce((a, b) => a + b.tx, 0),
-	};
-	const lineChartData = [
-		{
-			id: "Upload",
-			data: FilteredData.map((e) => ({
-				x: getMonth(new Date(e.date)) + 1,
-				y: (e.tx / 1024).toFixed(2),
-			})),
-		},
-		{
-			id: "Download",
-			data: FilteredData.map((e) => ({
-				x: getMonth(new Date(e.date)) + 1,
-				y: (e.rx / 1024).toFixed(2),
-			})),
-		},
-	];
-	const barChartData = FilteredData.map((e) => ({
-		date: getMonth(new Date(e.date)) + 1,
-		Download: (e.rx / 1024).toFixed(2),
-		Upload: (e.tx / 1024).toFixed(2),
-	}));
+		let { preparedData, lineChartData, barChartData, total } = prepareYearData(
+			traffic?.year,
+			previousYears,
+		);
+		setDisplayData({ preparedData, lineChartData, barChartData, total });
+	}, [previousYears, traffic]);
 
 	return (
 		<>
-			{data.length <= 0 ? (
-				<Flex flexDir='column'>
-					<Heading m='4'>No Data is Found</Heading>
-					<Button
-						leftIcon={<HiRefresh size='1.4em' />}
-						mr={1}
-						onClick={() => {
-							reloading();
-							router.replace(router.asPath);
-						}}>
-						Refresh
-					</Button>
-				</Flex>
+			{traffic?.year?.length <= 0 ||
+			!displayData ||
+			displayData?.preparedData <= 0 ? (
+				<NotFound />
 			) : (
 				<>
 					{" "}
 					<SwitchBar
-						state={PreviousYears}
+						state={previousYears}
 						setState={setPreviousYears}
 						dateFormat='yyyy'
 						interval='year'
-						canGoToNext={PreviousYears > 0}
-						canGoToPrevious={PreviousYears < 30}
+						canGoToNext={previousYears > 0}
+						canGoToPrevious={previousYears < 30}
 					/>
-					<TotalTraffic data={dataUsage} />
+					<TotalTraffic data={displayData?.total} />
 					<DataDisplay
-						data={FilteredData}
-						lineChartData={lineChartData}
-						barChartData={barChartData}
+						data={displayData?.preparedData}
+						lineChartData={displayData?.lineChartData}
+						barChartData={displayData?.barChartData}
 					/>{" "}
 				</>
 			)}

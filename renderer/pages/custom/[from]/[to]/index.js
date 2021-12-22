@@ -1,76 +1,44 @@
-import DataDisplay from "../../../../components/DataDisplay";
-import { useState, useEffect } from "react";
-import useFilterDate from "../../../../hooks/useFilterDate";
 import { format } from "date-fns";
-
+// Utilites
+import { prepareCustomIntervalData } from "@Util/PrepareDataToDisplay";
+// Hooks
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useVnStat } from "@Context/vnStat";
 
 // Components
-import TotalTraffic from "../../../../components/TotalTraffic";
-import SwitchBar from "../../../../components/SwitchBar";
-
-import { Button, Heading, Flex } from "@chakra-ui/react";
-import { HiRefresh } from "react-icons/hi";
-
-import { useUsage } from "../../../../context/dataUsage";
+import DataDisplay from "@Components/DataDisplay";
+import TotalTraffic from "@Components/TotalTraffic";
+import SwitchBar from "@Components/SwitchBar";
+import NotFound from "@Pages/404";
 
 export default function CustomInterval() {
 	const router = useRouter();
-	const { month, reloading, dataIsReady } = useUsage();
-	const [data, setData] = useState([]);
+	const { traffic } = useVnStat();
+	const [displayData, setDisplayData] = useState(null);
 
-	useEffect(async () => {
-		setData(month);
-	}, [dataIsReady]);
+	useEffect(() => {
+		let { preparedData, lineChartData, barChartData, total } =
+			prepareCustomIntervalData(
+				traffic?.month,
+				router.query.from,
+				router.query.to,
+			);
+		setDisplayData({ preparedData, lineChartData, barChartData, total });
+	}, [traffic]);
 
-	const FilteredData = useFilterDate(
-		data,
-		"custom",
-		router.query.from,
-		router.query.to,
-	);
-
-	const dataUsage = {
-		down: FilteredData.reduce((a, b) => a + b.rx, 0),
-		up: FilteredData.reduce((a, b) => a + b.tx, 0),
-	};
-	const lineChartData = [
-		{
-			id: "Upload",
-			data: FilteredData.map((e) => ({
-				x: format(new Date(e.date), "MMM d"),
-				y: (e.tx / 1024).toFixed(2),
-			})),
-		},
-		{
-			id: "Download",
-			data: FilteredData.map((e) => ({
-				x: format(new Date(e.date), "MMM d"),
-				y: (e.rx / 1024).toFixed(2),
-			})),
-		},
-	];
-	const barChartData = FilteredData.map((e) => ({
-		date: format(new Date(e.date), "MMM d"),
-		Download: (e.rx / 1024).toFixed(2),
-		Upload: (e.tx / 1024).toFixed(2),
-	}));
+	// const FilteredData = useFilterDate(
+	// 	data,
+	// 	"custom",
+	//
+	// );
 
 	return (
 		<>
-			{data.length <= 0 ? (
-				<Flex flexDir='column'>
-					<Heading m='4'>No Data is Found</Heading>
-					<Button
-						leftIcon={<HiRefresh size='1.4em' />}
-						mr={1}
-						onClick={() => {
-							reloading();
-							router.replace(router.asPath);
-						}}>
-						Refresh
-					</Button>
-				</Flex>
+			{traffic?.month?.length <= 0 ||
+			!displayData ||
+			displayData?.preparedData <= 0 ? (
+				<NotFound />
 			) : (
 				<>
 					<SwitchBar
@@ -83,13 +51,17 @@ export default function CustomInterval() {
 						}
 						canReset={false}
 					/>
-					<TotalTraffic data={dataUsage} />
+					<TotalTraffic data={displayData?.total} />
 					<DataDisplay
-						data={FilteredData}
-						lineChartData={lineChartData}
-						barChartData={barChartData}
-						barAxisBottomRotation={FilteredData.legnth > 15 ? 90 : 45}
-						lineAxisBottomRotation={FilteredData.legnth > 15 ? 90 : 45}
+						data={displayData?.preparedData}
+						lineChartData={displayData?.lineChartData}
+						barChartData={displayData?.barChartData}
+						barAxisBottomRotation={
+							displayData?.preparedData?.legnth > 15 ? 90 : 45
+						}
+						lineAxisBottomRotation={
+							displayData?.preparedData?.legnth > 15 ? 90 : 45
+						}
 					/>{" "}
 				</>
 			)}

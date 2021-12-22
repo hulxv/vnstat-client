@@ -60,10 +60,14 @@ function Logs({ children }) {
 			setIsLoading(false);
 		});
 	}, []);
+	function reloading() {
+		ipcRenderer.send("get-logs");
+	}
 
 	const value = {
 		GetLogs,
 		ClearLogs,
+		reloading,
 		isLoading,
 		logs,
 	};

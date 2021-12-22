@@ -11,10 +11,10 @@ export default class TrafficData extends vnStat {
 	}
 
 	SendTrafficData() {
-		return ipcMain.on("get-data", async (e) => {
+		return ipcMain.on("get-traffic", async (e) => {
 			log.info("Getting data...");
 			try {
-				e.sender.send("send-usage", await this.traffic().getData());
+				e.sender.send("send-traffic", await this.traffic().getData());
 				log.info("Getting data is successfully");
 			} catch (err) {
 				log.error(err);

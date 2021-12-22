@@ -1,4 +1,4 @@
-import UsageProvider from "./dataUsage";
+import VnStat from "./vnStat";
 import ReceviedMessagesProvider from "./recevied-messages";
 import Configration from "./configration";
 import Logs from "./logs";
@@ -7,9 +7,9 @@ function Contexts({ children }) {
 	return (
 		<Configration>
 			<ReceviedMessagesProvider>
-				<UsageProvider>
+				<VnStat>
 					<Logs>{children}</Logs>
-				</UsageProvider>
+				</VnStat>
 			</ReceviedMessagesProvider>
 		</Configration>
 	);

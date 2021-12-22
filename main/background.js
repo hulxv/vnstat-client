@@ -72,7 +72,7 @@ async function INIT(mainWindow) {
 		);
 
 		mainWindow.webContents.send(
-			"send-usage",
+			"send-traffic",
 			await new vnStat().traffic().getData(),
 		);
 		log.info("Getting data is successfully");

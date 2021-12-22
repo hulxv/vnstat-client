@@ -3,13 +3,17 @@
 		"baseUrl": ".",
 		"paths": {
 			"@Context/*": ["context/*"],
-			"@Components/*": ["components/*"],
-			"@Pages/*": ["pages/*"],
-			"@Layout/*": ["layout/*"],
 			"@Context": ["context"],
+			"@Components/*": ["components/*"],
 			"@Components": ["components"],
+			"@Pages/*": ["pages/*"],
 			"@Pages": ["pages"],
-			"@Layout": ["layout"]
+			"@Layout/*": ["layout/*"],
+			"@Layout": ["layout"],
+			"@Redux/*": ["redux/*"],
+			"@Redux": ["redux"],
+			"@Util/*": ["util/*"],
+			"@Util": ["util"]
 		}
 	}
 }

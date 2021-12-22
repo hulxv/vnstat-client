@@ -19,12 +19,12 @@ import Settings from "../Settings";
 
 import CustomIntervalModal from "./CustomIntervalModal";
 
-import { useUsage } from "@Context/dataUsage";
+import { useVnStat } from "@Context/vnStat";
 import { useConfig } from "@Context/configration";
 
 export default function NavigationBar() {
 	const { config, reloading: reloadConfigs } = useConfig();
-	const { reloading: reloadingTrafficData } = useUsage();
+	const { reloading: reloadingTrafficData } = useVnStat();
 
 	const [Page, setPage] = useState({
 		title: "",

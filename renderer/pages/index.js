@@ -1,57 +1,34 @@
 import NotFound from "./404";
 
 import { useState, useEffect } from "react";
-import useFilterDate from "../hooks/useFilterDate";
-import { getDate } from "date-fns";
+import { prepareMonthData } from "@Util/PrepareDataToDisplay";
 
 // Components
 import DataDisplay from "@Components/DataDisplay";
 import SwitchBar from "@Components/SwitchBar";
 import TotalTraffic from "@Components/TotalTraffic";
 
-import { useUsage } from "@Context/dataUsage";
+import { useVnStat } from "@Context/vnStat";
 
 export default function Month() {
 	const [previousMonths, setPreviousMonths] = useState(0);
-	const [data, setData] = useState([]);
+	const [displayData, setDisplayData] = useState(null);
 
-	const { month, reloading, dataIsReady } = useUsage();
+	const { traffic } = useVnStat();
 
-	useEffect(async () => {
-		setData(month);
-	}, [dataIsReady]);
-
-	const FilteredData = useFilterDate(data, "month", previousMonths);
-	const dataUsage = {
-		down: FilteredData.reduce((a, b) => a + b.rx, 0),
-		up: FilteredData.reduce((a, b) => a + b.tx, 0),
-	};
-
-	const lineChartData = [
-		{
-			id: "Upload",
-			data: FilteredData.map((e) => ({
-				x: getDate(new Date(e.date)),
-				y: (e.tx / 1024).toFixed(2),
-			})),
-		},
-		{
-			id: "Download",
-			data: FilteredData.map((e) => ({
-				x: getDate(new Date(e.date)),
-				y: (e.rx / 1024).toFixed(2),
-			})),
-		},
-	];
-	const barChartData = FilteredData.map((e) => ({
-		date: getDate(new Date(e.date)),
-		Download: (e.rx / 1024).toFixed(2),
-		Upload: (e.tx / 1024).toFixed(2),
-	}));
+	useEffect(() => {
+		let { preparedData, lineChartData, barChartData, total } = prepareMonthData(
+			traffic?.month,
+			previousMonths,
+		);
+		setDisplayData({ preparedData, lineChartData, barChartData, total });
+	}, [previousMonths, traffic]);
 
 	return (
 		<>
-			{data.length <= 0 ? (
+			{traffic?.month?.length <= 0 ||
+			!displayData ||
+			displayData?.preparedData <= 0 ? (
 				<NotFound />
 			) : (
 				<>
@@ -64,11 +41,11 @@ export default function Month() {
 						canGoToNext={previousMonths > 0}
 						canGoToPrevious={true}
 					/>
-					<TotalTraffic data={dataUsage} />
+					<TotalTraffic data={displayData?.total} />
 					<DataDisplay
-						lineChartData={lineChartData}
-						barChartData={barChartData}
-						data={FilteredData}
+						lineChartData={displayData?.lineChartData}
+						barChartData={displayData?.barChartData}
+						data={displayData?.preparedData}
 					/>{" "}
 				</>
 			)}

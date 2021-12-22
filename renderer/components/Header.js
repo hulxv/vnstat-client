@@ -2,13 +2,13 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Box, Flex, Heading, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-import { useUsage } from "@Context/dataUsage";
+import { useVnStat } from "@Context/vnStat";
 import { useConfig } from "@Context/configration";
 
 export default function Header() {
-	const { main, dataIsReady } = useUsage();
+	const { traffic, dataIsReady } = useVnStat();
 
-	const [usage, setUsage] = useState([
+	const [data, setData] = useState([
 		{
 			interval: "today",
 			data: [],
@@ -23,12 +23,12 @@ export default function Header() {
 		},
 	]);
 	useEffect(() => {
-		setUsage(main);
+		setData(traffic.main);
 	}, [dataIsReady]);
 
 	return (
 		<Flex justify='space-evenly' width='95%' my={16}>
-			{usage.map((e, index) => (
+			{data.map((e, index) => (
 				<UsageBox
 					key={index}
 					interval={e.interval}
