@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
 	Modal,
 	ModalOverlay,
@@ -23,11 +24,13 @@ import Info from "./Info";
 import Credits from "./Credits";
 
 import { useConfig } from "../../context/configration";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Settings({ children }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const { config } = useConfig();
+	useHotkeys("shift+s", onOpen);
 
 	return (
 		<>

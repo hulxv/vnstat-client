@@ -23,7 +23,6 @@ import Configs from "./Configs";
 function vnStat() {
 	const [daemonStatus, setDaemonStatus] = useState(false);
 	const { vnConfigs } = useConfig();
-	console.log("vvv00", vnConfigs);
 
 	if (!vnConfigs || !Object.keys(vnConfigs))
 		return (

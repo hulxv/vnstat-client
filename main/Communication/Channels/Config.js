@@ -22,7 +22,6 @@ export default class Config {
 	}
 	GetConfig() {
 		return ipcMain.on("get-config", (e) => {
-			console.log(AppConfig.get());
 			e.sender.send("send-config", AppConfig.get());
 		});
 	}

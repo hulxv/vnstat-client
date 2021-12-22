@@ -18,6 +18,7 @@ import { useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
 import { useConfig } from "@Context/configration";
+import VnStatD from "./vnStatD";
 function Configs({ vnConfigs }) {
 	const { config } = useConfig();
 
@@ -39,7 +40,6 @@ function Configs({ vnConfigs }) {
 	// Read only without changing
 
 	const Notes = {
-		durations: "data retention durations (-1 = unlimited, 0 = disabled)",
 		dateFormat: 'Pattern: "%Y-%m-%d"',
 	};
 
@@ -57,75 +57,16 @@ function Configs({ vnConfigs }) {
 		MonthFormat: vnConfigs["MonthFormat"].replace(/["]/gi, ""),
 		TopFormat: vnConfigs["TopFormat"].replace(/["]/gi, ""),
 	};
-	// DayFormat    "%Y-%m-%d"
-	// MonthFormat  "%Y-%m"
-	// TopFormat    "%Y-%m-%d"
+
 	return (
 		<Stack>
 			<Heading alignSelf='center' size='md'>
 				Configrations
 			</Heading>
-			<HStack>
-				<Heading size='sm'>Data retention durations </Heading>
-				<Tooltip label={Notes.durations} hasArrow placement='right'>
-					<IconButton icon={<HiInformationCircle />} variant='ghost' />
-				</Tooltip>
-			</HStack>
+
+			<VnStatD vnConfigs={vnConfigs} />
 
 			<Stack>
-				{Object.keys(defaultDurations).map((duration, index) => (
-					<HStack justify='space-between' key={`${duration}-${index}`}>
-						<Box>{duration}</Box>
-
-						<HStack>
-							{defaultDurations[duration] !== durations[duration] && (
-								<Tooltip label='Reset'>
-									<IconButton
-										icon={<BiReset size='1.2em' />}
-										variant='ghost'
-										onClick={() => {
-											setDurations({
-												...durations,
-												[duration]: defaultDurations[duration],
-											});
-										}}
-									/>
-								</Tooltip>
-							)}
-							<NumberInput
-								allowMouseWheel
-								value={Number(durations[duration])}
-								onChange={(value) =>
-									setDurations({ ...durations, [duration]: value })
-								}
-								min={-1}
-								max={250}>
-								<NumberInputField />
-								<NumberInputStepper>
-									<NumberIncrementStepper />
-									<NumberDecrementStepper />
-								</NumberInputStepper>
-							</NumberInput>
-							<Tooltip label='Unlimited'>
-								<Box>
-									<Switch
-										colorScheme={config.apperance.globalTheme}
-										isChecked={Number(durations[duration]) === -1}
-										onChange={() => {
-											setDurations({
-												...durations,
-												[duration]:
-													Number(durations[duration]) === -1
-														? defaultDurations[duration]
-														: -1,
-											});
-										}}
-									/>
-								</Box>
-							</Tooltip>
-						</HStack>
-					</HStack>
-				))}
 				<HStack>
 					<Heading size='sm'>Date Format</Heading>
 					<Tooltip label={Notes.dateFormat} hasArrow placement='right'>

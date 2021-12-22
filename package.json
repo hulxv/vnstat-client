@@ -10,9 +10,9 @@
 		"dev": "nextron ",
 		"build": "nextron build --linux",
 		"postinstall": "electron-builder install-app-deps",
-		"clean:Next": "if [ -d 'renderer/.next' ]; then rm -rf renderer/.next;fi;",
+		"clean:next": "if [ -d 'renderer/.next' ]; then rm -rf renderer/.next;fi;",
 		"clean:build": "if [ -d 'dist' ]; then rm -r dist;fi;",
-		"clean": "yarn clean:Next; yarn clean:build"
+		"clean": "yarn clean:next; yarn clean:build"
 	},
 	"dependencies": {
 		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
@@ -45,7 +45,8 @@
 		"react-dom": "^17.0.2",
 		"react-hotkeys-hook": "^3.4.4",
 		"react-icons": "^4.3.1",
-		"react-virtual": "^2.10.0",
-		"recharts": "^2.1.4"
+		"react-viewport-list": "^5.1.2",
+		"react-window": "^1.8.6",
+		"react-window-dynamic-list": "^2.4.2"
 	}
 }

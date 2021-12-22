@@ -1,29 +1,9 @@
 import { Flex, Box, Tooltip, Heading, List, ListItem } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
-import {
-	AiFillFacebook,
-	AiFillGithub,
-	AiOutlineLink,
-	AiOutlineMail,
-	AiOutlineInfoCircle,
-} from "react-icons/ai";
+import { AiFillGithub, AiOutlineLink } from "react-icons/ai";
 
 function Credits() {
 	const __credits = [
-		{
-			username: process.env.npm_package_author_email,
-			icon: <AiOutlineMail size='1.6em' />,
-			link: "",
-			site: "email",
-			openInBrowser: false,
-		},
-		{
-			username: "Mohamed Emad",
-			icon: <AiFillFacebook size='1.6em' />,
-			link: "https://www.facebook.com/hulxv/",
-			site: "facebook",
-			openInBrowser: true,
-		},
 		{
 			username: "Hulxv",
 			icon: <AiFillGithub size='1.6em' />,
@@ -32,11 +12,12 @@ function Credits() {
 			openInBrowser: true,
 		},
 		{
-			username: "vergoh (vnstat's Developer)",
+			username: "vergoh",
 			icon: <AiFillGithub size='1.6em' />,
 			link: "https://github.com/vergoh",
 			site: "github",
 			openInBrowser: true,
+			tip: "vnstat's Developer",
 		},
 	];
 
@@ -58,7 +39,9 @@ function Credits() {
 					<Box
 						_hover={{ textDecoration: acc.openInBrowser ? "underline" : "" }}
 						mx={1}>
-						{acc.username}
+						<Tooltip placement='right' hasArrow label={acc?.tip}>
+							{acc.username}
+						</Tooltip>
 					</Box>
 					{acc.openInBrowser && (
 						<Tooltip placement='right' hasArrow label='Open in browser'>

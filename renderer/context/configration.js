@@ -23,22 +23,19 @@ function Configration({ children }) {
 
 		return () => ipcRenderer.removeAllListeners("send-vn-config");
 	}
-	useEffect(() => {
-		console.log("vnConfigs", vnConfigs);
-	}, [vnConfigs]);
 
 	useEffect(() => {
 		GettingAppConfig();
 		GettingVnConfig();
 	}, []);
 
-	// ** Uncomment to debugging
-	useEffect(() => {
-		console.log("vnConfigs", vnConfigs);
-	}, [vnConfigs]);
-	useEffect(() => {
-		console.log("AppConfig", config);
-	}, [config]);
+	// ! Uncomment for debugging
+	// useEffect(() => {
+	// 	console.log("vnConfigs", vnConfigs);
+	// }, [vnConfigs]);
+	// useEffect(() => {
+	// 	console.log("AppConfig", config);
+	// }, [config]);
 
 	function reloading() {
 		setTimeout(() => {});
