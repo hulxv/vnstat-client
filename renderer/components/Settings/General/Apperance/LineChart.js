@@ -57,7 +57,6 @@ function LineChart() {
 	const [areaOpacitySlider, setAreaOpacitySlider] = useState(
 		config?.apperance?.lineChart?.areaOpacity ?? null,
 	);
-	console.log(config);
 	return (
 		<Stack spacing={2}>
 			<HStack>

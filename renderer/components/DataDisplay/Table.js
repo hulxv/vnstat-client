@@ -1,14 +1,4 @@
-import {
-	Table,
-	Thead,
-	Tbody,
-	Tfoot,
-	Tr,
-	Th,
-	Td,
-	TableCaption,
-} from "@chakra-ui/react";
-import { isYesterday } from "date-fns";
+import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
 function TableComponent({ data }) {
 	return (
@@ -17,8 +7,9 @@ function TableComponent({ data }) {
 				<Tr>
 					<Th>Date</Th>
 					<Th>interface</Th>
-					<Th>Download{"(MB)"}</Th>
-					<Th>Upload{"(MB)"}</Th>
+					<Th isNumeric>Total</Th>
+					<Th isNumeric>Download</Th>
+					<Th isNumeric>Upload</Th>
 				</Tr>
 			</Thead>
 			<Tbody>
@@ -26,16 +17,37 @@ function TableComponent({ data }) {
 					<Tr>
 						<Td>{traffic.date}</Td>
 						<Td>{traffic.interface ?? "-"}</Td>
-						<Td>{traffic.rx === 0 ? "-" : traffic.rx?.toFixed(2)}</Td>
-						<Td>{traffic.tx === 0 ? "-" : traffic.tx?.toFixed(2)}</Td>
+						<Td isNumeric>
+							{traffic.rx + traffic.tx === 0
+								? "-"
+								: (traffic.rx + traffic.tx)?.toFixed(2) > 1000
+								? ((traffic.rx + traffic.tx) / 1000)?.toFixed(2) + " GB"
+								: (traffic.rx + traffic.tx)?.toFixed(2) + " MB"}
+						</Td>
+						<Td isNumeric>
+							{traffic.rx + traffic.tx === 0
+								? "-"
+								: traffic.rx?.toFixed(2) > 1000
+								? (traffic.rx / 1000)?.toFixed(2) + " GB"
+								: traffic.rx?.toFixed(2) + " MB"}
+						</Td>
+						<Td isNumeric>
+							{traffic.tx === 0
+								? "-"
+								: traffic.tx?.toFixed(2) > 1000
+								? (traffic.tx / 1000)?.toFixed(2) + " GB"
+								: traffic.tx?.toFixed(2) + " MB"}
+						</Td>{" "}
 					</Tr>
 				))}
 			</Tbody>
 			<Tr>
 				<Th>Date</Th>
 				<Th>interface</Th>
-				<Th>Download{"(MB)"}</Th>
-				<Th>Upload{"(MB)"}</Th>
+				<Th>Total</Th>
+
+				<Th>Download</Th>
+				<Th>Upload</Th>
 			</Tr>
 		</Table>
 	);
