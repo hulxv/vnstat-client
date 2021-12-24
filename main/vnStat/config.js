@@ -9,7 +9,36 @@ const isProd = process.env.NODE_ENV === "production";
 export default class vnConfig {
 	constructor() {
 		this.configs = {};
-		this.configFilePath = isProd ? "/etc/vnstat.conf" : "/etc/vnstat.conf";
+		this.configFilePath = isProd ? "/etc/vnstat.conf" : "/etc/vnstat.test.conf";
+
+		if (!isProd) {
+			if (!fs.existsSync("/etc/vnstat.conf")) {
+				log.error("/etc/vnstat.conf not found");
+				return;
+			}
+			if (!fs.existsSync("/etc/vnstat.test.conf")) {
+				let cpCMD = "cp /etc/vnstat.conf /etc/vnstat.test.conf";
+				sudo.exec(
+					cpCMD,
+					{
+						name: "vnStat Client",
+					},
+					(error, stdout, stderr) => {
+						log.info(`[${process.env.NODE_ENV.toUpperCase()}] RUN: ${cpCMD}`);
+						if (error) {
+							log.error(stderr);
+							throw error;
+						}
+						log.info("'/etc/vnstat.test.conf' was created successfully");
+
+						new Communication().send("message", {
+							status: "success",
+							msg: "'/etc/vnstat.test.conf' was created successfully",
+						});
+					},
+				);
+			}
+		}
 		if (!fs.existsSync(this.configFilePath)) {
 			log.error(
 				`vnStat Configration file not found. [Path: ${this.configFilePath}]`,
@@ -38,7 +67,7 @@ export default class vnConfig {
 		const options = {
 			name: "vnStat Client",
 		};
-		let cmd = `sed '${changes
+		let cmd = `sed -i '${changes
 			.map((change) => {
 				let key = Object.keys(change)[0];
 
