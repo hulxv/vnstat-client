@@ -125,15 +125,13 @@ function Logs() {
 
 function LogAlert({ status, date, content }) {
 	return (
-		<Box>
-			<Alert status={status}>
-				<AlertIcon />
-				<Box flex={1}>
-					<AlertTitle mr={2}>{date}</AlertTitle>{" "}
-					<AlertDescription>{content}</AlertDescription>
-				</Box>
-			</Alert>
-		</Box>
+		<Alert status={status}>
+			<AlertIcon />
+			<Box flex={1}>
+				<AlertTitle mr={2}>{date}</AlertTitle>{" "}
+				<AlertDescription>{content}</AlertDescription>
+			</Box>
+		</Alert>
 	);
 }
 

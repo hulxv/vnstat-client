@@ -6,7 +6,7 @@ import { useVnStat } from "@Context/vnStat";
 import { useConfig } from "@Context/configration";
 
 export default function Header() {
-	const { traffic, dataIsReady } = useVnStat();
+	const { traffic } = useVnStat();
 
 	const [data, setData] = useState([
 		{
@@ -24,7 +24,7 @@ export default function Header() {
 	]);
 	useEffect(() => {
 		setData(traffic.main);
-	}, [dataIsReady]);
+	}, [traffic]);
 
 	return (
 		<Flex justify='space-evenly' width='95%' my={16}>

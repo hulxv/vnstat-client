@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
 	Heading,
 	HStack,
@@ -15,25 +14,44 @@ import {
 	IconButton,
 } from "@chakra-ui/react";
 
+// Icons
 import { HiInformationCircle } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
+
+// Hooks
+import { useState, useEffect } from "react";
+
 import { useConfig } from "@Context/configration";
-function vnStatD({ vnConfigs }) {
-	const { config } = useConfig();
-	const defaultDurations = {
-		"5MinuteHours": vnConfigs["5MinuteHours"],
-		HourlyDays: vnConfigs["HourlyDays"],
-		DailyDays: vnConfigs["DailyDays"],
-		MonthlyMonths: vnConfigs["MonthlyMonths"],
-		YearlyYears: vnConfigs["YearlyYears"],
-		TopDayEntries: vnConfigs["TopDayEntries"],
-	};
-	const [durations, setDurations] = useState({
-		...defaultDurations,
-	});
+import { useVnStat } from "@Context/vnStat";
+
+function vnStatD({}) {
 	const notes = {
 		durations: "data retention durations (-1 = unlimited, 0 = disabled)",
 	};
+
+	const {
+		visualVnConfigs: vnConfigs,
+		configs: defaultConfigs,
+		changeVnStatConfigs,
+	} = useVnStat();
+	const { config } = useConfig();
+
+	const [durations, setDurations] = useState({});
+
+	const [defaultDurations, setDefaultDurations] = useState({});
+	useEffect(() => {
+		setDefaultDurations({
+			"5MinuteHours": defaultConfigs["5MinuteHours"],
+			HourlyDays: defaultConfigs["HourlyDays"],
+			DailyDays: defaultConfigs["DailyDays"],
+			MonthlyMonths: defaultConfigs["MonthlyMonths"],
+			YearlyYears: defaultConfigs["YearlyYears"],
+			TopDayEntries: defaultConfigs["TopDayEntries"],
+		});
+	}, []);
+	useEffect(() => {
+		setDurations(defaultDurations);
+	}, [defaultDurations]);
 	return (
 		<Stack>
 			<Heading alignSelf='center' size='sm'>
@@ -60,6 +78,7 @@ function vnStatD({ vnConfigs }) {
 									icon={<BiReset size='1.2em' />}
 									variant='ghost'
 									onClick={() => {
+										changeVnStatConfigs(duration, defaultDurations[duration]);
 										setDurations({
 											...durations,
 											[duration]: defaultDurations[duration],
@@ -71,9 +90,10 @@ function vnStatD({ vnConfigs }) {
 						<NumberInput
 							allowMouseWheel
 							value={Number(durations[duration])}
-							onChange={(value) =>
-								setDurations({ ...durations, [duration]: value })
-							}
+							onChange={(value) => {
+								changeVnStatConfigs(duration, value);
+								setDurations({ ...durations, [duration]: value });
+							}}
 							min={-1}
 							max={250}>
 							<NumberInputField />
@@ -88,12 +108,15 @@ function vnStatD({ vnConfigs }) {
 									colorScheme={config.apperance.globalTheme}
 									isChecked={Number(durations[duration]) === -1}
 									onChange={() => {
+										let value =
+											Number(durations[duration]) === -1
+												? defaultDurations[duration]
+												: -1;
+
+										changeVnStatConfigs(duration, value);
 										setDurations({
 											...durations,
-											[duration]:
-												Number(durations[duration]) === -1
-													? defaultDurations[duration]
-													: -1,
+											[duration]: value,
 										});
 									}}
 								/>

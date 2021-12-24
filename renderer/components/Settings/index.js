@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// Chakra UI components
 import {
 	Modal,
 	ModalOverlay,
@@ -14,6 +14,13 @@ import {
 	TabPanels,
 	Tab,
 	TabPanel,
+	AlertDialog,
+	AlertDialogBody,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogContent,
+	AlertDialogOverlay,
+	AlertDialogCloseButton,
 } from "@chakra-ui/react";
 
 // Tabs Components
@@ -23,13 +30,25 @@ import Logs from "./Logs";
 import Info from "./Info";
 import Credits from "./Credits";
 
-import { useConfig } from "../../context/configration";
+// Hooks
+import { useRef } from "react";
+import { useConfig } from "@Context/configration";
+import { useVnStat } from "@Context/vnStat";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Settings({ children }) {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const cancelRef = useRef();
 
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const {
+		isOpen: isAlertDialogOpen,
+		onOpen: onAlertDialogOpen,
+		onClose: onAlertDialogClose,
+	} = useDisclosure();
+
+	const { isConfigChanged, resetVnConfigs, saveChanges } = useVnStat();
 	const { config } = useConfig();
+
 	useHotkeys("shift+s", onOpen);
 
 	return (
@@ -41,7 +60,10 @@ export default function Settings({ children }) {
 				scrollBehavior='inside'
 				isOpen={isOpen}
 				size='3xl'
-				onClose={onClose}>
+				onClose={() => {
+					resetVnConfigs();
+					onClose();
+				}}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Settings {"&"} Configuration</ModalHeader>
@@ -77,15 +99,53 @@ export default function Settings({ children }) {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button variant='ghost' mx={1} onClick={onClose}>
+						<Button
+							variant='ghost'
+							mx={1}
+							onClick={() => {
+								resetVnConfigs();
+								onClose();
+							}}>
 							Close
 						</Button>
-						<Button colorScheme={config?.apperance?.globalTheme} mr={3}>
+						<Button
+							isDisabled={!isConfigChanged} // * Enabled only when configs is changing
+							onClick={onAlertDialogOpen}
+							colorScheme={config?.apperance?.globalTheme}
+							mr={3}>
 							Save Changes
 						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
+
+			<AlertDialog
+				motionPreset='slideInBottom'
+				onClose={onAlertDialogClose}
+				isOpen={isAlertDialogOpen}
+				isCentered>
+				<AlertDialogOverlay />
+
+				<AlertDialogContent>
+					<AlertDialogHeader>Save Changes?</AlertDialogHeader>
+					<AlertDialogCloseButton />
+					<AlertDialogBody>
+						Are you sure you want to changes for vnStat configrations ?
+					</AlertDialogBody>
+					<AlertDialogFooter>
+						<Button onClick={onAlertDialogClose}>Cancel</Button>
+						<Button
+							colorScheme={config?.apperance?.globalTheme}
+							ml={3}
+							onClick={() => {
+								saveChanges();
+								onAlertDialogClose();
+							}}>
+							Save
+						</Button>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</>
 	);
 }

@@ -1,10 +1,11 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
 import AppConfigClass from "../../cfg";
-import vnConfig from "../../vnStat/config";
+import vnStatClass from "../../vnStat";
 
 // const vnConfig = new vnConfigClass();
 const AppConfig = new AppConfigClass();
+const vnConfig = new vnStatClass().configrations();
 export default class Config {
 	constructor() {}
 	Init() {
@@ -27,8 +28,13 @@ export default class Config {
 	}
 	GetVnConfigs() {
 		return ipcMain.on("get-vn-configs", (e) => {
-			e.sender.send("send-vn-configs", new vnConfig().read());
+			console.log("get-vn-configs");
+			e.sender.send("send-vn-configs", vnConfig.read());
 		});
 	}
-	SetVnConfigs() {}
+	SetVnConfigs() {
+		return ipcMain.on("change-vn-configs", async (e, changes) => {
+			await vnConfig.write(changes);
+		});
+	}
 }

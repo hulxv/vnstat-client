@@ -16,7 +16,7 @@ const AppConfig = new AppConfigClass();
 // const vnStat = new vnStatClass();
 //
 const isProd = process.env.NODE_ENV === "production";
-
+console.log(process.env.NODE_ENV);
 // Constants
 const ICON_NAME = "vnclient-icon.png";
 
@@ -28,7 +28,7 @@ if (isProd) {
 
 (async () => {
 	await app.whenReady();
-	log.info("vnStat-client is starting..");
+	log.info(`[${process.env.NODE_ENV.toUpperCase()}] vnStat Client is Running.`);
 	const mainWindow = createWindow("main", {
 		width: 920,
 		height: 600,
@@ -74,6 +74,10 @@ async function INIT(mainWindow) {
 		mainWindow.webContents.send(
 			"send-traffic",
 			await new vnStat().traffic().getData(),
+		);
+		mainWindow.webContents.send(
+			"send-vn-configs",
+			new vnStat().configrations().read(),
 		);
 		log.info("Getting data is successfully");
 	} catch (err) {

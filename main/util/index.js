@@ -18,3 +18,7 @@ export async function isInitSystemSupported(initSystem) {
 	const supportedInitSystems = ["systemd"];
 	return supportedInitSystems.includes(initSystem);
 }
+
+export function convertObjectItemForSedScript(key, value) {
+	return `s/${key}.*/${key} ${value}/g`;
+}

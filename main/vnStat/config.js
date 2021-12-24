@@ -1,10 +1,15 @@
 import log from "electron-log";
 import fs from "fs";
 import sudo from "sudo-prompt";
+
+import Communication from "../Communication";
+
+import { convertObjectItemForSedScript } from "../util";
+const isProd = process.env.NODE_ENV === "production";
 export default class vnConfig {
 	constructor() {
 		this.configs = {};
-		this.configFilePath = "/etc/vnstat.conf";
+		this.configFilePath = isProd ? "/etc/vnstat.conf" : "/etc/vnstat.conf";
 		if (!fs.existsSync(this.configFilePath)) {
 			log.error(
 				`vnStat Configration file not found. [Path: ${this.configFilePath}]`,
@@ -27,15 +32,37 @@ export default class vnConfig {
 		return this.configs;
 	}
 
-	edit(changes) {
+	async write(changes) {
 		if (!Array.isArray(changes)) return;
+
 		const options = {
 			name: "vnStat Client",
 		};
+		let cmd = `sed '${changes
+			.map((change) => {
+				let key = Object.keys(change)[0];
 
-		let cmd = "";
-		// sudo.exec(cmd, options, (error, stdout, stderr) => {
-		// 	if (error) throw error;
-		// });
+				return convertObjectItemForSedScript(
+					key,
+					change[key].toString().replace(/["]/gi, '"'),
+				);
+			})
+			.join(";")}' ${this.configFilePath}`;
+
+		log.info("RUN: ", cmd);
+		sudo.exec(cmd, options, (error, stdout, stderr) => {
+			if (error) {
+				log.error(stderr);
+				new Communication().send("message", {
+					status: "error",
+					msg: stderr,
+				});
+				throw error;
+			}
+			new Communication().send("message", {
+				status: "success",
+				msg: "Changes was Saved",
+			});
+		});
 	}
 }

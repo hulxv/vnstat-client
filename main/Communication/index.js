@@ -1,5 +1,6 @@
-import { ipcMain, app, shell } from "electron";
+import { ipcMain, app, shell, BrowserWindow } from "electron";
 import log from "electron-log";
+const {} = require("electron");
 
 // Channels
 import ConfigChannelClass from "./Channels/Config";
@@ -44,5 +45,9 @@ export default class Communication {
 			e.preventDefault();
 			shell.openExternal(url);
 		});
+	}
+
+	send(channel, args) {
+		BrowserWindow.getFocusedWindow().webContents.send(channel, args);
 	}
 }

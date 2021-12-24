@@ -48,7 +48,10 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 					tickSize: 1,
 					tickPadding: 5,
 					tickRotation: axisBottomRotation,
-					legend: "Date",
+					legend:
+						config?.apperance?.barChart?.layout === "horizontal"
+							? "Usage (GB)"
+							: "Date",
 					legendPosition: "middle",
 					legendOffset: 32,
 				}}
@@ -56,7 +59,10 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 					tickSize: 5,
 					tickPadding: 5,
 					tickRotation: 0,
-					legend: "Usage (GB)",
+					legend:
+						config?.apperance?.barChart?.layout === "horizontal"
+							? "Date"
+							: "Usage (GB)",
 					legendPosition: "middle",
 					legendOffset: -40,
 				}}
