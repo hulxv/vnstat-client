@@ -38,13 +38,6 @@ function Logs() {
 	// useEffect(() => console.log("search update to", search), [search]); // ! For Debugging
 	// useEffect(() => console.log("logs update to", logs), [logs]); // ! For Debugging
 
-	if (!logs)
-		return (
-			<Stack align='center'>
-				<Heading size='md'>No logs found</Heading>
-			</Stack>
-		);
-
 	return (
 		<>
 			<Flex w='full' justify='space-between' my={3}>
@@ -108,10 +101,17 @@ function Logs() {
 				</HStack>
 			</Flex>
 			<Stack spacing={1}>
-				{!logs ? (
-					<Stack align='center'>
-						<Heading size='md'>No logs found</Heading>
-					</Stack>
+				{isLoading ? (
+					<Spinner
+						size='xl'
+						color='green'
+						alignSelf='center'
+						justifySelf='center'
+					/>
+				) : !logs?.lines ? (
+					<Heading size='md' alignSelf='center'>
+						No logs found
+					</Heading>
 				) : (
 					<>
 						<LogRows data={logs?.lines} />

@@ -10,7 +10,7 @@ import { ipcRenderer } from "electron";
 const LogsProvider = createContext(null);
 
 function Logs({ children }) {
-	const [logs, setLogs] = useState([]);
+	const [logs, setLogs] = useState({ path: "", lines: [] });
 	const [isLoading, setIsLoading] = useState(false);
 	useEffect(() => {
 		GetLogs();
@@ -73,7 +73,7 @@ function Logs({ children }) {
 			isLoading,
 			logs,
 		}),
-		[logs],
+		[logs, isLoading],
 	);
 
 	return (
