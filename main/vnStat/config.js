@@ -24,7 +24,10 @@ export default class vnConfig {
 						name: "vnStat Client",
 					},
 					(error, stdout, stderr) => {
-						log.info(`[${process.env.NODE_ENV.toUpperCase()}] RUN: ${cpCMD}`);
+						log.info(
+							`[${process.env.NODE_ENV.toUpperCase()}][RUNNING-AS-SU] ${cpCMD}`,
+						);
+
 						if (error) {
 							log.error(stderr);
 							throw error;
@@ -78,7 +81,7 @@ export default class vnConfig {
 			})
 			.join(";")}' ${this.configFilePath}`;
 
-		log.info("RUN: ", cmd);
+		log.info("[RUNNING-AS-SU]", cmd);
 		sudo.exec(cmd, options, (error, stdout, stderr) => {
 			if (error) {
 				log.error(stderr);
@@ -92,6 +95,9 @@ export default class vnConfig {
 				status: "success",
 				msg: "Changes was Saved",
 			});
+
+			// Send configs to renderer
+			new Communication().send("send-vn-configs", this.read());
 		});
 	}
 }

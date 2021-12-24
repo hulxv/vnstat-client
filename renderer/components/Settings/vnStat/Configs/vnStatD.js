@@ -48,7 +48,7 @@ function vnStatD({}) {
 			YearlyYears: defaultConfigs["YearlyYears"],
 			TopDayEntries: defaultConfigs["TopDayEntries"],
 		});
-	}, []);
+	}, [defaultConfigs]);
 	useEffect(() => {
 		setDurations(defaultDurations);
 	}, [defaultDurations]);

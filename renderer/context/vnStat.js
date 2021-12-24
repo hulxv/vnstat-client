@@ -87,16 +87,19 @@ export default function TrafficProvider({ children }) {
 	}
 	// ** Context value
 
-	const value = {
-		traffic,
-		isConfigChanged,
-		configs,
-		visualVnConfigs,
-		reloading,
-		changeVnStatConfigs,
-		resetVnConfigs,
-		saveChanges,
-	};
+	const value = useMemo(
+		() => ({
+			traffic,
+			isConfigChanged,
+			configs,
+			visualVnConfigs,
+			reloading,
+			changeVnStatConfigs,
+			resetVnConfigs,
+			saveChanges,
+		}),
+		[traffic, configs, isConfigChanged],
+	);
 
 	return (
 		<vnStatContext.Provider value={value}>{children}</vnStatContext.Provider>

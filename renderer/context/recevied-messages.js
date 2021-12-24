@@ -18,7 +18,7 @@ export default function ReceviedMessagesProvider({ children }) {
 		});
 
 		return () => ipcRenderer.removeAllListeners("message");
-	});
+	}, []);
 	return (
 		<ReceviedMessagesContext.Provider>
 			{children}

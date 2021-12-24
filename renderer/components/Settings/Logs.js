@@ -17,6 +17,7 @@ import {
 	Input,
 	InputRightElement,
 	InputGroup,
+	Heading,
 } from "@chakra-ui/react";
 
 import {
@@ -32,20 +33,20 @@ function Logs() {
 	const { logs, GetLogs, ClearLogs, isLoading } = useLogs();
 
 	const [search, setSearch] = useState({ bool: false, value: "" });
-
 	useEffect(() => GetLogs(), []);
 
 	// useEffect(() => console.log("search update to", search), [search]); // ! For Debugging
 	// useEffect(() => console.log("logs update to", logs), [logs]); // ! For Debugging
 
+	if (!logs)
+		return (
+			<Stack align='center'>
+				<Heading size='md'>No logs found</Heading>
+			</Stack>
+		);
+
 	return (
 		<>
-			{/* {logs?.lines.length > 150 && (
-				<LogAlert
-					status={logs?.lines.lenghth < 400 ? "warning" : "error"}
-					content={`You have ${logs?.lines.length} message, We suggest you clear it for better performance.`}
-				/>
-			)} */}
 			<Flex w='full' justify='space-between' my={3}>
 				<Tooltip
 					hasArrow
@@ -107,12 +108,10 @@ function Logs() {
 				</HStack>
 			</Flex>
 			<Stack spacing={1}>
-				{isLoading ? (
-					<Flex my={3} w='full' h='full' align='center' justify='center'>
-						<Spinner size='xl' color='green' />
-					</Flex>
-				) : logs?.lines.length <= 0 ? (
-					<div>No logs found</div>
+				{!logs ? (
+					<Stack align='center'>
+						<Heading size='md'>No logs found</Heading>
+					</Stack>
 				) : (
 					<>
 						<LogRows data={logs?.lines} />

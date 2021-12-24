@@ -40,7 +40,7 @@ function Configs({}) {
 			MonthFormat: defaultConfigs["MonthFormat"],
 			TopFormat: defaultConfigs["TopFormat"],
 		});
-	}, []);
+	}, [defaultConfigs]);
 	useEffect(() => {
 		setDateFormat(defaultDateFormat);
 	}, [defaultDateFormat]);

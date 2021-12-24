@@ -7,17 +7,13 @@ import { createWindow } from "./helpers";
 // Classes
 import CommunicationClass from "./Communication";
 import AppConfigClass from "./cfg";
-import vnConfigClass from "./vnStat/config";
 import vnStat from "./vnStat";
 
 const Communication = new CommunicationClass();
-const vnConfig = new vnConfigClass();
 const AppConfig = new AppConfigClass();
-// const vnStat = new vnStatClass();
-//
-const isProd = process.env.NODE_ENV === "production";
-console.log(process.env.NODE_ENV);
+
 // Constants
+const isProd = process.env.NODE_ENV === "production";
 const ICON_NAME = "vnclient-icon.png";
 
 if (isProd) {

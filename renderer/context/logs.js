@@ -4,12 +4,13 @@ import {
 	useEffect,
 	useState,
 	useCallback,
+	useMemo,
 } from "react";
 import { ipcRenderer } from "electron";
 const LogsProvider = createContext(null);
 
 function Logs({ children }) {
-	const [logs, setLogs] = useState({ path: "", lines: {} });
+	const [logs, setLogs] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	useEffect(() => {
 		GetLogs();
@@ -64,13 +65,16 @@ function Logs({ children }) {
 		ipcRenderer.send("get-logs");
 	}
 
-	const value = {
-		GetLogs,
-		ClearLogs,
-		reloading,
-		isLoading,
-		logs,
-	};
+	const value = useMemo(
+		() => ({
+			GetLogs,
+			ClearLogs,
+			reloading,
+			isLoading,
+			logs,
+		}),
+		[logs],
+	);
 
 	return (
 		<LogsProvider.Provider value={value}>{children}</LogsProvider.Provider>
