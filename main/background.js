@@ -7,10 +7,11 @@ import { createWindow } from "./helpers";
 // Classes
 import CommunicationClass from "./Communication";
 import AppConfigClass from "./cfg";
-import vnStat from "./vnStat";
+import vnStatClass from "./vnStat";
 
 const Communication = new CommunicationClass();
 const AppConfig = new AppConfigClass();
+const vnStat = new vnStatClass();
 
 // Constants
 const isProd = process.env.NODE_ENV === "production";
@@ -41,7 +42,6 @@ if (isProd) {
 		await mainWindow.loadURL(`http://localhost:${port}/`);
 		// mainWindow.webContents.openDevTools();
 	}
-
 	try {
 		Communication.Init();
 		await INIT(mainWindow);
@@ -56,27 +56,20 @@ app.on("window-all-closed", () => {
 });
 
 async function INIT(mainWindow) {
-	// Send Configs
-	// await new vnStat().daemonStatus();
-	// Send Data
 	log.info("Getting data...");
-	try {
-		mainWindow.webContents.send("send-config", AppConfig.get());
-		mainWindow.webContents.send(
-			"send-vn-configs",
-			new vnStat().configrations(),
-		);
+	// Send Configs
+	mainWindow.webContents.send("send-config", AppConfig.get());
 
-		mainWindow.webContents.send(
-			"send-traffic",
-			await new vnStat().traffic().getData(),
-		);
-		mainWindow.webContents.send(
-			"send-vn-configs",
-			new vnStat().configrations().read(),
-		);
-		log.info("Getting data is successfully");
-	} catch (err) {
-		log.error(err);
-	}
+	mainWindow.webContents.send("send-vn-configs", vnStat.configrations().read());
+
+	// Send Data
+
+	mainWindow.webContents.send("send-traffic", await vnStat.traffic().getData());
+
+	mainWindow.webContents.send(
+		"send-vn-daemon-status",
+		await vnStat.daemon().status(),
+	);
+
+	log.info("Getting data is successfully");
 }

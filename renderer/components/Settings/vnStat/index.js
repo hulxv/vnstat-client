@@ -21,8 +21,8 @@ import { useVnStat } from "@Context/vnStat";
 import Configs from "./Configs";
 
 function vnStat() {
-	const [daemonStatus, setDaemonStatus] = useState(false);
-	const { configs } = useVnStat();
+	const { configs, daemonStatus, stopDaemon, startDaemon, restartDaemon } =
+		useVnStat();
 
 	if (!configs || !Object.keys(configs))
 		return (
@@ -38,11 +38,12 @@ function vnStat() {
 					Daemon
 				</Heading>
 				<Flex w='full' justify='space-between'>
-					<Box>Status: {daemonStatus ? "Acitve " : "Idle"}</Box>
+					<Box>Status: {daemonStatus ? "active" : "inactive"}</Box>
 					<HStack>
 						<Button
 							leftIcon={<BsArrowCounterclockwise size='1.4em' />}
-							variant='ghost'>
+							variant='ghost'
+							onClick={() => restartDaemon()}>
 							Restart
 						</Button>
 						<Button
@@ -54,7 +55,14 @@ function vnStat() {
 									<BsPlayFill size='1.4em' />
 								)
 							}
-							onClick={() => setDaemonStatus(!daemonStatus)}>
+							onClick={() => {
+								// console.log(daemonStatus.split(""));
+								if (daemonStatus) {
+									stopDaemon();
+								} else {
+									startDaemon();
+								}
+							}}>
 							{daemonStatus ? "Stop" : "Start"}
 						</Button>
 					</HStack>

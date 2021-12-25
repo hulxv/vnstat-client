@@ -1,65 +1,141 @@
 import { isInitSystemSupported, whichInitSystemUserUsed } from "../util";
-import { error } from "electron-log";
-import sudo from "sudo-prompt";
+import Communication from "../Communication";
+import { error, info } from "electron-log";
 
+import sudo from "sudo-prompt";
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 export default class Daemon {
 	#cmdOptions = {
 		name: "vnStat Client",
 	};
 	constructor() {}
 
-	async isActive() {
-		try {
-			if (await isInitSystemSupported()) {
-				const { stdout, stderr } = await exec(`systemctl is-active vnstat`);
-				if (stderr) throw stderr;
-				console.log("output =>", stdout);
-				return stdout === "active";
-			}
-		} catch (err) {
-			error(err);
-			return;
-		}
-		error(
-			`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-		);
-	}
 	async start() {
 		try {
 			if (await isInitSystemSupported()) {
-				sudo.exec(
-					"sudo systemctl start vnstat",
-					this.#cmdOptions,
-					(error, stdout, stderr) => {
-						if (error) throw error;
-					},
+				if ((await this.status()) === "active") {
+					info("Daemon is alreadey starting");
+					return;
+				}
+				let cmd = "systemctl start vnstat";
+
+				info(`[RUNNNG-AS-SU] ${cmd}`);
+				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
+					if (error) throw error;
+					new Communication().send(
+						"send-vn-daemon-status",
+						await this.status(),
+					);
+					new Communication().send("message", {
+						status: "success",
+						msg: "Daemon is starting.",
+					});
+				});
+			} else {
+				error(
+					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
 				);
 			}
 		} catch (err) {
-			error(err);
+			error(err.message);
+			new Communication().send("message", {
+				status: "error",
+				msg: err.message,
+			});
 			return;
 		}
-		error(
-			`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-		);
 	}
 	async stop() {
 		try {
 			if (await isInitSystemSupported()) {
-				sudo.exec(
-					"sudo systemctl stop vnstat",
-					this.#cmdOptions,
-					(error, stdout, stderr) => {
-						if (error) throw error;
-					},
+				if ((await this.status()) === "inactive") {
+					info("Daemon is already stopped ");
+					return;
+				}
+				let cmd = "systemctl stop vnstat";
+
+				info(`[RUNNNG-AS-SU], ${cmd}`);
+				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
+					if (error) throw error;
+					new Communication().send(
+						"send-vn-daemon-status",
+						await this.status(),
+					);
+					new Communication().send("message", {
+						status: "warning",
+						msg: "Daemon was stopped",
+					});
+				});
+			} else {
+				error(
+					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
+				);
+				new Communication().send("message", {
+					status: "error",
+					msg: `${await whichInitSystemUserUsed()} init system isn't supported yet.`,
+				});
+			}
+		} catch (err) {
+			error(err.message);
+			new Communication().send("message", {
+				status: "error",
+				msg: err.message,
+			});
+			return;
+		}
+	}
+	async restart() {
+		try {
+			if (await isInitSystemSupported()) {
+				let cmd = "systemctl restart vnstat";
+
+				info(`[RUNNNG-AS-SU], ${cmd}`);
+				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
+					if (error) throw error;
+					new Communication().send(
+						"send-vn-daemon-status",
+						await this.status(),
+					);
+					new Communication().send("message", {
+						status: "success",
+						msg: "Daemon restarting now",
+					});
+				});
+			} else {
+				error(
+					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
+				);
+			}
+		} catch (err) {
+			error(err.message);
+			new Communication().send("message", {
+				status: "error",
+				msg: err.message,
+			});
+			return;
+		}
+	}
+	async status() {
+		try {
+			if (await isInitSystemSupported()) {
+				let bash = `                                                                      
+					if [[ $(systemctl is-active vnstat) == "active" ]] 
+						then echo "true"                                                                                         
+					else echo "false"  
+					fi                                                                                                                    
+				`;
+
+				const { stdout, stderr } = await exec(bash);
+				if (stderr) throw stderr;
+				return stdout.replace(/[\n, " "]/, "") == "true";
+			} else {
+				error(
+					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
 				);
 			}
 		} catch (err) {
 			error(err);
-			return;
 		}
-		error(
-			`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-		);
 	}
 }

@@ -9,12 +9,12 @@ export async function whichInitSystemUserUsed() {
 		.split(" ")
 		[stdout.split(" ").length - 1].split("/");
 	initSystem = splitingOutput[splitingOutput.length - 1].replace("\n", "");
-	console.log("init ", initSystem);
-	console.log(stdout);
+
 	return initSystem;
 }
 
 export async function isInitSystemSupported(initSystem) {
+	initSystem = initSystem ?? (await whichInitSystemUserUsed());
 	const supportedInitSystems = ["systemd"];
 	return supportedInitSystems.includes(initSystem);
 }

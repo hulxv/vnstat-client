@@ -28,7 +28,6 @@ export default class Config {
 	}
 	GetVnConfigs() {
 		return ipcMain.on("get-vn-configs", (e) => {
-			console.log("get-vn-configs");
 			e.sender.send("send-vn-configs", vnConfig.read());
 		});
 	}

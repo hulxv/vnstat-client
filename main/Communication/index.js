@@ -7,12 +7,14 @@ import ConfigChannelClass from "./Channels/Config";
 import ExportingChannelClass from "./Channels/Exporting";
 import LogsChannelClass from "./Channels/Logs";
 import TrafficDataChannelClass from "./Channels/TrafficData";
+import DaemonChannelClass from "./Channels/Daemon";
 import vnStat from "../vnStat";
 
 const ConfigChannel = new ConfigChannelClass();
 const ExportingChannel = new ExportingChannelClass();
 const LogsChannel = new LogsChannelClass();
 const TrafficChannel = new TrafficDataChannelClass();
+const DaemonChannel = new DaemonChannelClass();
 
 export default class Communication {
 	constructor() {}
@@ -24,6 +26,7 @@ export default class Communication {
 		ExportingChannel.Init();
 		LogsChannel.Init();
 		TrafficChannel.Init();
+		DaemonChannel.Init();
 	}
 
 	GetInfos() {
