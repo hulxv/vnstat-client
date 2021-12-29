@@ -6,30 +6,44 @@ const {} = require("electron");
 import ConfigChannelClass from "./Channels/Config";
 import ExportingChannelClass from "./Channels/Exporting";
 import LogsChannelClass from "./Channels/Logs";
-import TrafficDataChannelClass from "./Channels/TrafficData";
+import vnStatChannelClass from "./Channels/vnStat";
 import DaemonChannelClass from "./Channels/Daemon";
 import vnStat from "../vnStat";
 
 const ConfigChannel = new ConfigChannelClass();
 const ExportingChannel = new ExportingChannelClass();
 const LogsChannel = new LogsChannelClass();
-const TrafficChannel = new TrafficDataChannelClass();
+const vnStatChannel = new vnStatChannelClass();
 const DaemonChannel = new DaemonChannelClass();
 
 export default class Communication {
 	constructor() {}
 
-	Init() {
-		this.GetInfos();
+	async Init() {
+		this.getInfos();
 		this.OpenURL();
+		// this.getVnStatInterfaces();
 		ConfigChannel.Init();
 		ExportingChannel.Init();
 		LogsChannel.Init();
-		TrafficChannel.Init();
+		await vnStatChannel.Init();
 		DaemonChannel.Init();
 	}
 
-	GetInfos() {
+	// async getVnStatInterfaces() {
+	// 	ipcMain.on("get-vnStat-interfaces", async (e) => {
+	// 		try {
+	// 			e.sender.send(
+	// 				"send-vnStat-interfaces",
+	// 				await new vnStat().db().get("interface"),
+	// 			);
+	// 		} catch (err) {
+	// 			log.error(err);
+	// 		}
+	// 	});
+	// }
+
+	getInfos() {
 		ipcMain.on("get-infos", async (e) => {
 			try {
 				e.sender.send("send-infos", [

@@ -77,7 +77,7 @@ function BarChart() {
 					<HStack alignSelf='start'>
 						<Box>Grouped mode</Box>
 						<Switch
-							colorScheme={config.apperance.globalTheme}
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							defaultChecked={config.apperance.barChart.isGrouped}
 							onChange={(e) =>
 								EditConfig("apperance.barChart.isGrouped", e.target.checked)

@@ -18,6 +18,7 @@ import {
 } from "date-fns";
 
 function prepareMonthData(Data, amountMonths = 0) {
+	// console.log("Data before prepareing ", Data);
 	let DaysInCurrentMonth = eachDayOfInterval({
 		start: startOfMonth(subMonths(new Date(), amountMonths)),
 		end: lastDayOfMonth(subMonths(new Date(), amountMonths)),

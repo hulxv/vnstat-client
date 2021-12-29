@@ -111,7 +111,7 @@ export default function Settings({ children }) {
 						<Button
 							isDisabled={!isConfigChanged} // * Enabled only when configs is changing
 							onClick={onAlertDialogOpen}
-							colorScheme={config?.apperance?.globalTheme}
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							mr={3}>
 							Save Changes
 						</Button>
@@ -135,7 +135,7 @@ export default function Settings({ children }) {
 					<AlertDialogFooter>
 						<Button onClick={onAlertDialogClose}>Cancel</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme}
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							ml={3}
 							onClick={() => {
 								saveChanges();

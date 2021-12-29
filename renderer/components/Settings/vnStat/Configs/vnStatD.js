@@ -105,7 +105,7 @@ function vnStatD({}) {
 						<Tooltip label='Unlimited'>
 							<Box>
 								<Switch
-									colorScheme={config.apperance.globalTheme}
+									colorScheme={config?.apperance?.globalTheme ?? "green"}
 									isChecked={Number(durations[duration]) === -1}
 									onChange={() => {
 										let value =

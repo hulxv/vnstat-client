@@ -113,9 +113,7 @@ function Logs() {
 						No logs found
 					</Heading>
 				) : (
-					<>
-						<LogRows data={logs?.lines} />
-					</>
+					<LogRows data={logs?.lines} />
 				)}
 			</Stack>
 		</>

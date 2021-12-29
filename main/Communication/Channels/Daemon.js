@@ -14,8 +14,7 @@ export default class Daemon {
 
 	Status() {
 		return ipcMain.on("get-vn-daemon-status", async (e) => {
-			console.log(await vnStat.daemon().status());
-			e.sender.send(await vnStat.daemon().status());
+			e.sender.send("send-vn-daemon-status", await vnStat.daemon().status());
 		});
 	}
 	Stop() {

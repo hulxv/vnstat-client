@@ -18,9 +18,7 @@ function Configration({ children }) {
 	}, []);
 
 	// ! Uncomment for debugging
-	// useEffect(() => {
-	// 	console.log("vnConfigs", vnConfigs);
-	// }, [vnConfigs]);
+
 	// useEffect(() => {
 	// 	console.log("AppConfig", config);
 	// }, [config]);

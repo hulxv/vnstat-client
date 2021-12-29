@@ -23,7 +23,32 @@ export default function Header() {
 		},
 	]);
 	useEffect(() => {
-		setData(traffic.main);
+		let defaultValue = [
+			{
+				interval: "today",
+				data: [],
+			},
+			{
+				interval: "yesterday",
+				data: [],
+			},
+			{
+				interval: "this month",
+				data: [],
+			},
+		];
+		console.log();
+		let dataAfterSetting = [
+			...traffic.main,
+			...defaultValue.filter(
+				(e) =>
+					traffic.main.findIndex((_e) => {
+						console.log(_e.interval, e.interval, _e.interval == e.interval);
+						return _e.interval == e.interval;
+					}) === -1,
+			),
+		];
+		setData(dataAfterSetting);
 	}, [traffic]);
 
 	return (
@@ -32,16 +57,15 @@ export default function Header() {
 				<UsageBox
 					key={index}
 					interval={e.interval}
-					total={e.data.rx + e.data.tx}
-					rx={e.data.rx}
-					tx={e.data.tx}
+					rx={e.data.rx ?? 0}
+					tx={e.data.tx ?? 0}
 				/>
 			))}
 		</Flex>
 	);
 }
 
-function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
+function UsageBox({ interval, tx = 0, rx = 0 }) {
 	const { config } = useConfig();
 
 	return (
@@ -64,7 +88,7 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 			<Flex align='center' flexDirection='column' w='full'>
 				<Flex mb={3}>
 					<Heading as='h3' size='xl' fontWeight='thin'>
-						{(total > 1024 ? total / 1024 : total)?.toFixed(2)}
+						{(rx + tx > 1024 ? (rx + tx) / 1024 : rx + tx)?.toFixed(2)}
 					</Heading>
 					<Heading as='h6' alignSelf='start' size='sm' fontWeight='thin'>
 						{rx + tx > 1024 ? "GB" : "MB"}
@@ -72,6 +96,7 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 				</Flex>
 
 				<Flex alignSelf='center' w='full' justify='space-around'>
+					{/* Download */}
 					<Flex align='center'>
 						<Box m='1px'>
 							<BsArrowDownShort size='1.4em' />
@@ -83,6 +108,8 @@ function UsageBox({ interval, tx = 0, rx = 0, total = 0 }) {
 							{rx > 1024 ? "GB" : "MB"}
 						</Heading>
 					</Flex>
+
+					{/* Upload */}
 					<Flex align='center'>
 						<Box m='2px'>
 							<BsArrowUpShort size='1.4em' />

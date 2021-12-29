@@ -28,7 +28,7 @@ export default class traffic {
 				main: await this.Main(),
 			};
 		} catch (err) {
-			console.log(err);
+			error(err);
 			throw err;
 		}
 	}

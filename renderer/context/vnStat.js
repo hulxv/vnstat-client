@@ -1,9 +1,11 @@
 import { useContext, useState, useEffect, createContext, useMemo } from "react";
 import { ipcRenderer } from "electron";
-
+import { useConfig } from "./configration";
 export const vnStatContext = createContext();
 
 export default function TrafficProvider({ children }) {
+	const { config: appConfig } = useConfig();
+
 	const [traffic, setTraffic] = useState({
 		month: [],
 		day: [],
@@ -11,19 +13,30 @@ export default function TrafficProvider({ children }) {
 		main: [],
 	});
 	const [daemonStatus, setDaemonStatus] = useState("inactive");
+
 	const [configs, setVnConfigs] = useState({});
 	const [visualVnConfigs, setVisualVnConfigs] = useState({});
 	const [isConfigChanged, setIsConfigChanged] = useState(false);
+
+	const [interfaces, setInterfaces] = useState([]);
+	const [interfaceID, setInterfaceID] = useState(appConfig?.interface ?? 1);
 
 	useEffect(() => {
 		getVnConfig();
 		getTrafficData();
 		getDaemonStatus();
+		getVnStatInterfaces();
 	}, []);
 
+	// When user change the interface
 	useEffect(() => {
-		console.log(daemonStatus);
-	}, [daemonStatus]);
+		setInterfaceID(appConfig?.interface);
+	}, [appConfig?.interface]);
+
+	// * Uncomment for debugging
+	// useEffect(() => {
+	// 	console.log(daemonStatus);
+	// }, [daemonStatus]);
 
 	// * Change 'visualVnConfigs' when send vnstat configs from backend
 	useEffect(() => {
@@ -58,6 +71,7 @@ export default function TrafficProvider({ children }) {
 		ipcRenderer.send("get-traffic");
 		ipcRenderer.send("get-vn-configs");
 		ipcRenderer.send("get-vn-daemon-status");
+		ipcRenderer.send("get-vnstat-interfaces");
 	}
 
 	// Traffic
@@ -117,15 +131,41 @@ export default function TrafficProvider({ children }) {
 		ipcRenderer.send("get-vn-daemon-status");
 	}
 
+	// Interfaces
+	function getVnStatInterfaces() {
+		ipcRenderer.on("send-vnstat-interfaces", (e, result) => {
+			setInterfaces(result);
+		});
+	}
+
+	function changeInterface(id) {
+		setInterfaceID(id);
+	}
+
+	function filterTrafficDataByInterfaceID() {
+		return {
+			...Object.fromEntries(
+				Object.keys(traffic).map((key) => [
+					key,
+					traffic[key].filter(
+						(e) => (e?.interface ?? e.data.interface) == interfaceID,
+					),
+				]),
+			),
+		};
+	}
+
 	// ** Context value
 
 	const value = useMemo(
 		() => ({
-			traffic,
+			traffic: filterTrafficDataByInterfaceID(),
 			configs,
 			visualVnConfigs,
 			isConfigChanged,
 			daemonStatus,
+			interfaces,
+			interfaceID,
 			reloading,
 			changeVnStatConfigs,
 			resetVnConfigs,
@@ -133,8 +173,9 @@ export default function TrafficProvider({ children }) {
 			stopDaemon,
 			startDaemon,
 			restartDaemon,
+			changeInterface,
 		}),
-		[traffic, configs, isConfigChanged, daemonStatus],
+		[traffic, configs, isConfigChanged, daemonStatus, interfaceID],
 	);
 
 	return (

@@ -10,7 +10,7 @@ import AppConfigClass from "./cfg";
 import vnStatClass from "./vnStat";
 
 const Communication = new CommunicationClass();
-const AppConfig = new AppConfigClass();
+const AppConfig = new AppConfigClass().init();
 const vnStat = new vnStatClass();
 
 // Constants
@@ -43,7 +43,7 @@ if (isProd) {
 		// mainWindow.webContents.openDevTools();
 	}
 	try {
-		Communication.Init();
+		await Communication.Init();
 		await INIT(mainWindow);
 	} catch (err) {
 		error(err);
@@ -57,14 +57,18 @@ app.on("window-all-closed", () => {
 
 async function INIT(mainWindow) {
 	log.info("Getting data...");
+
 	// Send Configs
-	mainWindow.webContents.send("send-config", AppConfig.get());
+	mainWindow.webContents.send("send-config", (await AppConfig).get());
 
 	mainWindow.webContents.send("send-vn-configs", vnStat.configrations().read());
 
 	// Send Data
-
 	mainWindow.webContents.send("send-traffic", await vnStat.traffic().getData());
+	mainWindow.webContents.send(
+		"send-vnstat-interfaces",
+		await vnStat.interfaces(),
+	);
 
 	mainWindow.webContents.send(
 		"send-vn-daemon-status",

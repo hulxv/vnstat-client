@@ -70,7 +70,7 @@ export default function CustomIntervalModal({
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme}
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							isDisabled={
 								selectedDayRange.to === null || selectedDayRange.from === null
 							}

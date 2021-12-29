@@ -2,7 +2,9 @@ import Store from "electron-store";
 import { app } from "electron";
 import { info, error } from "electron-log";
 import fs from "fs";
+import vnStatClass from "./vnStat";
 class cfg {
+	#vnStat = new vnStatClass();
 	CheckIfSchemeWasUpdated = () => {
 		/* 
 		* If all keys does exist, that mean schema didn't update then will be return false,
@@ -21,9 +23,17 @@ class cfg {
 		}
 	};
 	constructor() {
+		this.store;
+		this.scheme;
+		this.store;
+		this.store;
+	}
+	async init() {
 		// Default settings
 
 		this.scheme = {
+			// interface:
+			interface: (await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
 			apperance: {
 				globalTheme: "green",
 				lineChart: {
@@ -51,14 +61,16 @@ class cfg {
 			this.store.set(this.scheme);
 			info(`Configration file was updated at ${this.store.path}`);
 		}
+
+		return this;
 	}
 
-	get(key) {
+	get = (key) => {
 		return key ? this.store.get(key) : this.store.store;
-	}
-	set(key, value) {
+	};
+	set = (key, value) => {
 		this.store.set(key, value);
-	}
+	};
 }
 
 function CheckIfAllKeysExist(a, b) {

@@ -1,6 +1,6 @@
 import { isInitSystemSupported, whichInitSystemUserUsed } from "../util";
 import Communication from "../Communication";
-import { error, info } from "electron-log";
+import log, { error, info } from "electron-log";
 
 import sudo from "sudo-prompt";
 const util = require("util");
@@ -22,15 +22,24 @@ export default class Daemon {
 
 				info(`[RUNNNG-AS-SU] ${cmd}`);
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					if (error) throw error;
-					new Communication().send(
-						"send-vn-daemon-status",
-						await this.status(),
-					);
-					new Communication().send("message", {
-						status: "success",
-						msg: "Daemon is starting.",
-					});
+					if (stderr) throw stderr;
+					try {
+						new Communication().send(
+							"send-vn-daemon-status",
+							await this.status(),
+						);
+						new Communication().send("message", {
+							status: "success",
+							msg: "Daemon is starting.",
+						});
+					} catch (err) {
+						log.error(err);
+						new Communication().send("message", {
+							status: "error",
+							msg: err,
+						});
+						return;
+					}
 				});
 			} else {
 				error(
@@ -57,15 +66,24 @@ export default class Daemon {
 
 				info(`[RUNNNG-AS-SU], ${cmd}`);
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					if (error) throw error;
-					new Communication().send(
-						"send-vn-daemon-status",
-						await this.status(),
-					);
-					new Communication().send("message", {
-						status: "warning",
-						msg: "Daemon was stopped",
-					});
+					try {
+						if (stderr) throw stderr;
+						new Communication().send(
+							"send-vn-daemon-status",
+							await this.status(),
+						);
+						new Communication().send("message", {
+							status: "warning",
+							msg: "Daemon was stopped",
+						});
+					} catch (err) {
+						log.error(err);
+						new Communication().send("message", {
+							status: "error",
+							msg: err,
+						});
+						return;
+					}
 				});
 			} else {
 				error(
@@ -77,10 +95,10 @@ export default class Daemon {
 				});
 			}
 		} catch (err) {
-			error(err.message);
+			error(err);
 			new Communication().send("message", {
 				status: "error",
-				msg: err.message,
+				msg: err,
 			});
 			return;
 		}
@@ -92,15 +110,24 @@ export default class Daemon {
 
 				info(`[RUNNNG-AS-SU], ${cmd}`);
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					if (error) throw error;
-					new Communication().send(
-						"send-vn-daemon-status",
-						await this.status(),
-					);
-					new Communication().send("message", {
-						status: "success",
-						msg: "Daemon restarting now",
-					});
+					try {
+						if (stderr) throw stderr;
+						new Communication().send(
+							"send-vn-daemon-status",
+							await this.status(),
+						);
+						new Communication().send("message", {
+							status: "success",
+							msg: "Daemon restarting now",
+						});
+					} catch (err) {
+						log.error(err);
+						new Communication().send("message", {
+							status: "error",
+							msg: err,
+						});
+						return;
+					}
 				});
 			} else {
 				error(

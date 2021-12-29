@@ -121,7 +121,7 @@ function LineChart() {
 					<HStack>
 						<Box>Area</Box>
 						<Switch
-							colorScheme={config.apperance.globalTheme}
+							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							defaultChecked={config.apperance.lineChart.hasArea}
 							onChange={(e) =>
 								EditConfig("apperance.lineChart.hasArea", e.target.checked)
@@ -140,8 +140,11 @@ function LineChart() {
 							onChangeEnd={(value) =>
 								EditConfig("apperance.lineChart.areaOpacity", value)
 							}>
-							<SliderTrack bg={`${config.apperance.globalTheme}.200`}>
-								<SliderFilledTrack bg={`${config.apperance.globalTheme}.500`} />
+							<SliderTrack
+								bg={`${config?.apperance?.globalTheme ?? "green"}.200`}>
+								<SliderFilledTrack
+									bg={`${config?.apperance?.globalTheme ?? "green"}.500`}
+								/>
 							</SliderTrack>
 							<SliderThumb boxSize={6} />
 						</Slider>

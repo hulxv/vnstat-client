@@ -128,7 +128,7 @@ export default function NavigationBar() {
 							<MenuButton
 								as={Button}
 								rightIcon={<HiArrowSmDown />}
-								colorScheme={config?.apperance?.globalTheme}>
+								colorScheme={config?.apperance?.globalTheme ?? "green"}>
 								{Page.title}
 							</MenuButton>
 						</Tooltip>

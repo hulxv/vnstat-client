@@ -35,4 +35,8 @@ export default class vnStat {
 	traffic() {
 		return new Traffic();
 	}
+
+	async interfaces() {
+		return await this.db().get("interface");
+	}
 }
