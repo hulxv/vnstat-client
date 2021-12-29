@@ -41,16 +41,19 @@ function Logs() {
 	return (
 		<>
 			<Flex w='full' justify='space-between' my={3}>
-				<Tooltip
-					hasArrow
-					placement='right'
-					label={`Logs stored in ${logs.path}`}>
-					<IconButton
-						variant='ghost'
-						cursor='default'
-						icon={<HiOutlineInformationCircle size='1.3em' />}
-					/>
-				</Tooltip>
+				<HStack>
+					<Tooltip
+						hasArrow
+						placement='right'
+						label={`Logs stored in ${logs.path}`}>
+						<IconButton
+							variant='ghost'
+							cursor='default'
+							icon={<HiOutlineInformationCircle size='1.3em' />}
+						/>
+					</Tooltip>
+					<Box>{logs?.lines.length}</Box>
+				</HStack>
 
 				<HStack justify='end' spacing={3}>
 					{search.bool ? (
@@ -113,7 +116,17 @@ function Logs() {
 						No logs found
 					</Heading>
 				) : (
-					<LogRows data={logs?.lines} />
+					<LogRows
+						data={
+							search.bool
+								? logs?.lines.filter((line) =>
+										line.content
+											.toLowerCase()
+											.includes(search.value.toLowerCase()),
+								  )
+								: logs?.lines
+						}
+					/>
 				)}
 			</Stack>
 		</>

@@ -41,11 +41,7 @@ export default function Header() {
 		let dataAfterSetting = [
 			...traffic.main,
 			...defaultValue.filter(
-				(e) =>
-					traffic.main.findIndex((_e) => {
-						console.log(_e.interval, e.interval, _e.interval == e.interval);
-						return _e.interval == e.interval;
-					}) === -1,
+				(e) => traffic.main.findIndex((_e) => _e.interval == e.interval) === -1,
 			),
 		];
 		setData(dataAfterSetting);
