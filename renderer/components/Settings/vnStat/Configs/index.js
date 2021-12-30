@@ -14,7 +14,10 @@ import { useEffect, useState } from "react";
 
 import { HiInformationCircle } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
+
+// Sections
 import VnStatD from "./vnStatD";
+import VnStatI from "./vnStatI";
 
 // Hooks
 import { useConfig } from "@Context/configration";
@@ -109,7 +112,8 @@ function Configs({}) {
 						</Stack>
 					))}
 			</Stack>
-			<VnStatD vnConfigs={vnConfigs} />
+			<VnStatD />
+			<VnStatI />
 		</Stack>
 	);
 }

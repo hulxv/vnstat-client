@@ -65,6 +65,8 @@ export default function TrafficProvider({ children }) {
 				JSON.stringify(visualVnConfigsSortedObject)
 			),
 		);
+		// ! Uncommend for debugging
+		// console.log(vnConfigsSortedObject, visualVnConfigsSortedObject);
 	}, [visualVnConfigs, configs]);
 
 	function reloading() {

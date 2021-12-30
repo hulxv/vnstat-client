@@ -15,9 +15,10 @@ function Logs({ children }) {
 	useEffect(() => {
 		GetLogs();
 	}, []);
-	useEffect(() => {
-		console.log(logs);
-	}, [logs]);
+	// ! Uncomment for debugging
+	// useEffect(() => {
+	// 	console.log(logs);
+	// }, [logs]);
 	const GetLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("get-logs");

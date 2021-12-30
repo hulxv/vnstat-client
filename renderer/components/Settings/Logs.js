@@ -33,7 +33,7 @@ import { useLogs } from "../../context/logs";
 function Logs() {
 	const { logs, GetLogs, ClearLogs, isLoading } = useLogs();
 
-	const [logsFilterByStatus, setLogsFilterByStatus] = useState("all");
+	const [StatusFilter, setStatusFilter] = useState("all");
 	const [LogsAfterFiltering, setLogsAfterFiltering] = useState(
 		logs?.lines ?? [],
 	);
@@ -44,25 +44,26 @@ function Logs() {
 	useEffect(() => {
 		setLogsAfterFiltering(
 			logs?.lines?.filter((line) => {
-				if (logsFilterByStatus === "all") return true;
-				return line.status === logsFilterByStatus && line;
+				if (StatusFilter === "all") return true;
+				return line.status === StatusFilter && line;
 			}),
 		);
-	}, [logsFilterByStatus]);
+	}, [StatusFilter, logs]);
 
 	useEffect(() => {
 		setLogsAfterFiltering(
 			logs?.lines.filter(
 				(line) =>
 					(line.content.toLowerCase().includes(search.value.toLowerCase()) &&
-						line.status === logsFilterByStatus) ||
-					logsFilterByStatus === "all",
+						line.status === StatusFilter) ||
+					StatusFilter === "all",
 			),
 		);
-	}, [search.value]);
+	}, [search.value, logs]);
 
 	// useEffect(() => console.log("search update to", search), [search]); // ! For Debugging
 	// useEffect(() => console.log("logs update to", logs), [logs]); // ! For Debugging
+	// useEffect(() => console.log("LogsAfterFiltering update to", LogsAfterFiltering), [LogsAfterFiltering]); // ! For Debugging
 
 	return (
 		<>
@@ -83,9 +84,9 @@ function Logs() {
 				<HStack justify='end' spacing={3}>
 					<Select
 						maxW='120px'
-						value={logsFilterByStatus}
+						value={StatusFilter}
 						variant='filled'
-						onChange={(e) => setLogsFilterByStatus(e.target.value)}>
+						onChange={(e) => setStatusFilter(e.target.value)}>
 						<option value='all'>All</option>
 						<option value='info'>Info</option>
 						<option value='warning'>Warning</option>
