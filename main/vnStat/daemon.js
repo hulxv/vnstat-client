@@ -22,8 +22,8 @@ export default class Daemon {
 
 				info(`[RUNNNG-AS-SU] ${cmd}`);
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					if (stderr) throw stderr;
 					try {
+						if (stderr) throw stderr;
 						new Communication().send(
 							"send-vn-daemon-status",
 							await this.status(),
