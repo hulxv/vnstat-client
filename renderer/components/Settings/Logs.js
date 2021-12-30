@@ -18,6 +18,7 @@ import {
 	InputRightElement,
 	InputGroup,
 	Heading,
+	Select,
 } from "@chakra-ui/react";
 
 import {
@@ -32,8 +33,33 @@ import { useLogs } from "../../context/logs";
 function Logs() {
 	const { logs, GetLogs, ClearLogs, isLoading } = useLogs();
 
+	const [logsFilterByStatus, setLogsFilterByStatus] = useState("all");
+	const [LogsAfterFiltering, setLogsAfterFiltering] = useState(
+		logs?.lines ?? [],
+	);
+
 	const [search, setSearch] = useState({ bool: false, value: "" });
-	useEffect(() => GetLogs(), []);
+	useEffect(() => GetLogs(), []); // * Get Logs when user open the modal
+
+	useEffect(() => {
+		setLogsAfterFiltering(
+			logs?.lines?.filter((line) => {
+				if (logsFilterByStatus === "all") return true;
+				return line.status === logsFilterByStatus && line;
+			}),
+		);
+	}, [logsFilterByStatus]);
+
+	useEffect(() => {
+		setLogsAfterFiltering(
+			logs?.lines.filter(
+				(line) =>
+					(line.content.toLowerCase().includes(search.value.toLowerCase()) &&
+						line.status === logsFilterByStatus) ||
+					logsFilterByStatus === "all",
+			),
+		);
+	}, [search.value]);
 
 	// useEffect(() => console.log("search update to", search), [search]); // ! For Debugging
 	// useEffect(() => console.log("logs update to", logs), [logs]); // ! For Debugging
@@ -52,12 +78,21 @@ function Logs() {
 							icon={<HiOutlineInformationCircle size='1.3em' />}
 						/>
 					</Tooltip>
-					<Box>{logs?.lines.length}</Box>
 				</HStack>
 
 				<HStack justify='end' spacing={3}>
+					<Select
+						maxW='120px'
+						value={logsFilterByStatus}
+						variant='filled'
+						onChange={(e) => setLogsFilterByStatus(e.target.value)}>
+						<option value='all'>All</option>
+						<option value='info'>Info</option>
+						<option value='warning'>Warning</option>
+						<option value='error'>Error</option>
+					</Select>
 					{search.bool ? (
-						<InputGroup w='300px'>
+						<InputGroup w='200px'>
 							<Input
 								placeholder='Search'
 								variant='filled'
@@ -116,17 +151,7 @@ function Logs() {
 						No logs found
 					</Heading>
 				) : (
-					<LogRows
-						data={
-							search.bool
-								? logs?.lines.filter((line) =>
-										line.content
-											.toLowerCase()
-											.includes(search.value.toLowerCase()),
-								  )
-								: logs?.lines
-						}
-					/>
+					<LogRows data={LogsAfterFiltering} />
 				)}
 			</Stack>
 		</>

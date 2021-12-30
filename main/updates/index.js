@@ -11,7 +11,6 @@ export default class Updates {
 	init() {
 		let options = {
 			duration: 10000,
-			position: "top",
 			variant: "left-accent",
 		};
 		autoUpdater.on("checking-for-update", () => {
