@@ -36,7 +36,7 @@ export default class vnConfig {
 
 						new Communication().send("message", {
 							status: "success",
-							msg: "'/etc/vnstat.test.conf' was created successfully",
+							description: "'/etc/vnstat.test.conf' was created successfully",
 						});
 					},
 				);
@@ -87,13 +87,13 @@ export default class vnConfig {
 				log.error(stderr);
 				new Communication().send("message", {
 					status: "error",
-					msg: stderr,
+					description: stderr,
 				});
 				throw error;
 			}
 			new Communication().send("message", {
 				status: "success",
-				msg: "Changes was Saved",
+				description: "Changes was Saved",
 			});
 
 			// Send configs to renderer

@@ -18,7 +18,7 @@ export default class Logs {
 				e.sender.send("send-logs", log.transports.file.readAllLogs());
 				e.sender.send("message", {
 					status: "warning",
-					msg: "All logs was cleared",
+					description: "All logs was cleared",
 				});
 			} catch (err) {
 				log.error(err);

@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog } from "electron";
+import { app } from "electron";
 import log, { error } from "electron-log";
 import serve from "electron-serve";
 
@@ -6,27 +6,30 @@ import { createWindow } from "./helpers";
 
 // Classes
 import CommunicationClass from "./Communication";
-import AppConfigClass from "./cfg";
+import AppConfigClass from "./AppConfigs";
 import vnStatClass from "./vnStat";
+import TrayIconClass from "./Tray";
+import UpdatesClass from "./updates";
+
+import { ICON_NAME } from "./constants";
+import { isProd } from "./util";
 
 const Communication = new CommunicationClass();
 const AppConfig = new AppConfigClass().init();
+const TrayIcon = new TrayIconClass();
+const Updates = new UpdatesClass();
 const vnStat = new vnStatClass();
-
-// Constants
-const isProd = process.env.NODE_ENV === "production";
-const ICON_NAME = "vnclient-icon.png";
 
 if (isProd) {
 	serve({ directory: "app" });
 } else {
 	app.setPath("userData", `${app.getPath("userData")} (development)`);
 }
-
+let mainWindow;
 (async () => {
 	await app.whenReady();
 	log.info(`[${process.env.NODE_ENV.toUpperCase()}] vnStat Client is Running.`);
-	const mainWindow = createWindow("main", {
+	mainWindow = createWindow("main", {
 		width: 920,
 		height: 600,
 		minWidth: 550,
@@ -44,7 +47,7 @@ if (isProd) {
 	}
 	try {
 		await Communication.Init();
-		await INIT(mainWindow);
+		await INIT();
 	} catch (err) {
 		error(err);
 	}
@@ -55,8 +58,11 @@ app.on("window-all-closed", () => {
 	log.info("vnStat-client has been closed.");
 });
 
-async function INIT(mainWindow) {
+async function INIT() {
 	log.info("Getting data...");
+	await TrayIcon.init();
+	Updates.init();
+	Updates.check();
 
 	// Send Configs
 	mainWindow.webContents.send("send-config", (await AppConfig).get());
@@ -77,3 +83,5 @@ async function INIT(mainWindow) {
 
 	log.info("Getting data is successfully");
 }
+
+export { mainWindow };

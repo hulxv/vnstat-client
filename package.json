@@ -4,6 +4,7 @@
 	"description": "GUI Client for vnStat network traffic monitor",
 	"version": "1.0.0",
 	"license": "MIT",
+	"repository": "https://github.com/Hulxv/vnstat-client",
 	"author": "Hulxxv <hulxxv@gmail.com>",
 	"main": "app/background.js",
 	"scripts": {
@@ -15,19 +16,18 @@
 		"clean": "yarn clean:next; yarn clean:build"
 	},
 	"dependencies": {
-		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
 		"date-fns": "^2.25.0",
 		"electron-cfg": "^1.2.7",
 		"electron-log": "^4.4.1",
 		"electron-serve": "^1.1.0",
 		"electron-store": "^8.0.1",
+		"electron-updater": "^4.6.1",
 		"knex": "^0.95.12",
-		"react-json-view": "^1.21.3",
-		"react-xml-viewer": "^1.3.0",
 		"sqlite3": "^5.0.2",
 		"sudo-prompt": "^9.2.1"
 	},
 	"devDependencies": {
+		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
 		"@chakra-ui/react": "^1.6.9",
 		"@emotion/react": "^11",
 		"@emotion/styled": "^11",
@@ -45,8 +45,10 @@
 		"react-dom": "^17.0.2",
 		"react-hotkeys-hook": "^3.4.4",
 		"react-icons": "^4.3.1",
+		"react-json-view": "^1.21.3",
 		"react-viewport-list": "^5.1.2",
 		"react-window": "^1.8.6",
-		"react-window-dynamic-list": "^2.4.2"
+		"react-window-dynamic-list": "^2.4.2",
+		"react-xml-viewer": "^1.3.0"
 	}
 }

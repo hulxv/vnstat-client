@@ -22,3 +22,5 @@ export async function isInitSystemSupported(initSystem) {
 export function convertObjectItemForSedScript(key, value) {
 	return `s/${key}.*/${key} ${value}/g`;
 }
+
+export const isProd = process.env.NODE_ENV === "production";

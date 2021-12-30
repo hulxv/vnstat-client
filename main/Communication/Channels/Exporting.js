@@ -41,13 +41,13 @@ export default class Exporting {
 					fs.writeFileSync(`${saveFile.filePath}`, JSON.stringify(jsonOBJ));
 					e.sender.send("message", {
 						status: "success",
-						msg: `Successufully exported as JSON file in ${saveFile.filePath}`,
+						description: `Successufully exported as JSON file in ${saveFile.filePath}`,
 					});
 				} catch (err) {
 					log.error(err.message);
 					e.sender.send("message", {
 						status: "error",
-						msg: err.message,
+						description: err.message,
 					});
 				}
 			}
@@ -68,13 +68,13 @@ export default class Exporting {
 					fs.writeFileSync(`${saveFile.filePath}`, `${xmlOBJ}`);
 					e.sender.send("message", {
 						status: "success",
-						msg: `Successufully exported as XML file in ${saveFile.filePath}`,
+						description: `Successufully exported as XML file in ${saveFile.filePath}`,
 					});
 				} catch (err) {
 					log.error(err.message);
 					e.sender.send("message", {
 						status: "error",
-						msg: err.message,
+						description: err.message,
 					});
 				}
 			}

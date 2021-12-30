@@ -65,6 +65,9 @@ export default class Communication {
 	}
 
 	send(channel, args) {
-		BrowserWindow.getFocusedWindow().webContents.send(channel, args);
+		app.on("browser-window-created", () => {
+			console.log("Heeeeee");
+			BrowserWindow.getFocusedWindow().webContents.send(channel, args);
+		});
 	}
 }

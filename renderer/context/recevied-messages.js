@@ -7,13 +7,10 @@ export default function ReceviedMessagesProvider({ children }) {
 	const toast = useToast();
 	useEffect(() => {
 		ipcRenderer.on("message", (e, args) => {
-			const { status = "info", msg = "" } = args;
-
 			toast({
-				status: status,
-				description: msg,
 				position: "top",
 				isClosable: true,
+				...args,
 			});
 		});
 

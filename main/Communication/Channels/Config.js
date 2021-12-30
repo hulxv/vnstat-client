@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
-import AppConfigClass from "../../cfg";
+import AppConfigClass from "../../AppConfigs";
 import vnStatClass from "../../vnStat";
 
 // const vnConfig = new vnConfigClass();

@@ -15,7 +15,9 @@ function Logs({ children }) {
 	useEffect(() => {
 		GetLogs();
 	}, []);
-
+	useEffect(() => {
+		console.log(logs);
+	}, [logs]);
 	const GetLogs = useCallback(() => {
 		setIsLoading(true);
 		ipcRenderer.send("get-logs");
@@ -36,6 +38,7 @@ function Logs({ children }) {
 							matching !== null &&
 							matching[0].replace(/\[/g, "").replace(/\]/g, "");
 
+						if (status === "warn") status = "warning";
 						return {
 							content: line.replace(/\[(.*?)\]/g, ""),
 							date,

@@ -30,13 +30,13 @@ export default class Daemon {
 						);
 						new Communication().send("message", {
 							status: "success",
-							msg: "Daemon is starting.",
+							description: "Daemon is starting.",
 						});
 					} catch (err) {
 						log.error(err);
 						new Communication().send("message", {
 							status: "error",
-							msg: err,
+							description: err,
 						});
 						return;
 					}
@@ -50,7 +50,7 @@ export default class Daemon {
 			error(err.message);
 			new Communication().send("message", {
 				status: "error",
-				msg: err.message,
+				description: err.message,
 			});
 			return;
 		}
@@ -74,13 +74,13 @@ export default class Daemon {
 						);
 						new Communication().send("message", {
 							status: "warning",
-							msg: "Daemon was stopped",
+							description: "Daemon was stopped",
 						});
 					} catch (err) {
 						log.error(err);
 						new Communication().send("message", {
 							status: "error",
-							msg: err,
+							description: err,
 						});
 						return;
 					}
@@ -91,14 +91,14 @@ export default class Daemon {
 				);
 				new Communication().send("message", {
 					status: "error",
-					msg: `${await whichInitSystemUserUsed()} init system isn't supported yet.`,
+					description: `${await whichInitSystemUserUsed()} init system isn't supported yet.`,
 				});
 			}
 		} catch (err) {
 			error(err);
 			new Communication().send("message", {
 				status: "error",
-				msg: err,
+				description: err,
 			});
 			return;
 		}
@@ -118,13 +118,13 @@ export default class Daemon {
 						);
 						new Communication().send("message", {
 							status: "success",
-							msg: "Daemon restarting now",
+							description: "Daemon restarting now",
 						});
 					} catch (err) {
 						log.error(err);
 						new Communication().send("message", {
 							status: "error",
-							msg: err,
+							description: err,
 						});
 						return;
 					}
@@ -138,7 +138,7 @@ export default class Daemon {
 			error(err.message);
 			new Communication().send("message", {
 				status: "error",
-				msg: err.message,
+				description: err.message,
 			});
 			return;
 		}
