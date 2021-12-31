@@ -18,8 +18,19 @@ import { useConfig } from "@Context/configration";
 function General() {
 	const { interfaces, changeInterface } = useVnStat();
 	const { EditConfig, config } = useConfig();
+
 	return (
 		<Stack>
+			<HStack justify='space-between'>
+				<Box>Check updates on startup</Box>
+				<Switch
+					colorScheme={config?.apperance?.globalTheme ?? "green"}
+					isChecked={config?.checkUpdatesOnStartup}
+					onChange={() => {
+						EditConfig("checkUpdatesOnStartup", !config?.checkUpdatesOnStartup);
+					}}
+				/>
+			</HStack>
 			<HStack justify='space-between'>
 				<Box>Interface</Box>
 				<Select
@@ -35,6 +46,7 @@ function General() {
 					))}
 				</Select>
 			</HStack>
+
 			<Apperance />
 		</Stack>
 	);

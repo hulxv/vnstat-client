@@ -60,9 +60,11 @@ app.on("window-all-closed", () => {
 
 async function INIT() {
 	log.info("Getting data...");
-	await TrayIcon.init();
 	Updates.init();
-	Updates.check();
+	if ((await AppConfig).get("checkUpdatesOnStartup")) {
+		Updates.check();
+	}
+	await TrayIcon.init();
 
 	// Send Configs
 	mainWindow.webContents.send("send-config", (await AppConfig).get());

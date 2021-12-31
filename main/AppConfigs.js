@@ -32,7 +32,7 @@ export default class AppConfigs {
 		// Default settings
 
 		this.scheme = {
-			// interface:
+			checkUpdatesOnStartup: true,
 			interface: (await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
 			apperance: {
 				globalTheme: "green",
