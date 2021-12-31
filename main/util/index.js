@@ -37,4 +37,22 @@ export function arrayOfObjectToCSV(data) {
 	return lines.join("\n");
 }
 
+export async function vnStatIsInstalled() {
+	let bash = `        
+		if command -v vnstat &> /dev/null
+		then
+			echo "true"
+			else echo 'false'
+		fi             
+  `;
+
+	try {
+		const { stdout, stderr } = await exec(bash);
+		if (stderr) throw stderr;
+		return stdout.replace(/[\n, " "]/, "") == "true";
+	} catch (err) {
+		return err;
+	}
+}
+
 export const isProd = process.env.NODE_ENV === "production";

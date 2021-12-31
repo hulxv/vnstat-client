@@ -12,7 +12,7 @@ import TrayIconClass from "./Tray";
 import UpdatesClass from "./updates";
 
 import { ICON_NAME } from "./constants";
-import { isProd } from "./util";
+import { isProd, vnStatIsInstalled } from "./util";
 
 const Communication = new CommunicationClass();
 const AppConfig = new AppConfigClass().init();
@@ -65,6 +65,14 @@ async function INIT() {
 		Updates.check();
 	}
 	await TrayIcon.init();
+
+	if (!(await vnStatIsInstalled())) {
+		error(
+			"vnStat isn't installed, You should download and setup it before using this client.",
+		);
+		mainWindow.webContents.send("vnstat-is-not-installed");
+		return;
+	}
 
 	// Send Configs
 	mainWindow.webContents.send("send-config", (await AppConfig).get());
