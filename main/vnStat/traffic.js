@@ -25,6 +25,7 @@ export default class traffic {
 				month: await this.Month(),
 				day: await this.Day(),
 				year: await this.Year(),
+				week: await this.Week(),
 				main: await this.Main(),
 			};
 		} catch (err) {
@@ -55,6 +56,17 @@ export default class traffic {
 	async Day() {
 		try {
 			this.day = await this.#db.get("hour");
+
+			return this.day;
+		} catch (err) {
+			error(err.message);
+			throw err;
+		}
+	}
+
+	async Week() {
+		try {
+			this.day = await this.#db.get("day");
 
 			return this.day;
 		} catch (err) {

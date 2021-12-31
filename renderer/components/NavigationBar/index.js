@@ -42,6 +42,10 @@ export default function NavigationBar() {
 			path: "/",
 		},
 		{
+			title: "week",
+			path: "/week",
+		},
+		{
 			title: "year",
 			path: "/year",
 		},
@@ -61,7 +65,6 @@ export default function NavigationBar() {
 
 	function PressKeyHandler(e) {
 		if (e.key === "R" || e.key === "r") {
-			console.log("Reloading...");
 			reloadConfigs();
 			reloadingTrafficData();
 			router.replace(router.asPath);

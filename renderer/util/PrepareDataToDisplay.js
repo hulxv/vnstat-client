@@ -15,6 +15,9 @@ import {
 	endOfYear,
 	getDate,
 	getMonth,
+	startOfWeek,
+	lastDayOfWeek,
+	subWeeks,
 } from "date-fns";
 
 function prepareMonthData(Data, amountMonths = 0) {
@@ -176,6 +179,58 @@ function prepareYearData(Data, amountYears = 0) {
 	return { preparedData, lineChartData, barChartData, total };
 }
 
+function prepareWeekData(Data, amountWeeks = 0) {
+	// console.log("Data before prepareing ", Data);
+	let DaysInCurrentMonth = eachDayOfInterval({
+		start: startOfWeek(subWeeks(new Date(), amountWeeks)),
+		end: lastDayOfWeek(subWeeks(new Date(), amountWeeks)),
+	}).map((date) => format(new Date(date), "yyyy-MM-dd"));
+
+	let DefaultData = DaysInCurrentMonth.map((day) => ({
+		date: day,
+		rx: 0,
+		tx: 0,
+	}));
+
+	let dataAfterFiltering = DefaultData.map(
+		(day) => Data.find((data) => data.date === day.date) || day,
+	);
+
+	let preparedData = dataAfterFiltering.map((data) => ({
+		...data,
+		rx: data.rx / 1024 / 1024,
+		tx: data.tx / 1024 / 1024,
+	}));
+
+	let lineChartData = [
+		{
+			id: "Upload",
+			data: preparedData.map((e) => ({
+				x: format(new Date(e.date), "EEE"),
+				y: (e.tx / 1024).toFixed(2),
+			})),
+		},
+		{
+			id: "Download",
+			data: preparedData.map((e) => ({
+				x: format(new Date(e.date), "EEE"),
+				y: (e.rx / 1024).toFixed(2),
+			})),
+		},
+	];
+	let barChartData = preparedData.map((e) => ({
+		date: format(new Date(e.date), "EEE"),
+		Download: (e.rx / 1024).toFixed(2),
+		Upload: (e.tx / 1024).toFixed(2),
+	}));
+	let total = {
+		down: preparedData?.reduce((a, b) => a + b.rx, 0),
+		up: preparedData?.reduce((a, b) => a + b.tx, 0),
+	};
+
+	return { preparedData, lineChartData, barChartData, total };
+}
+
 function prepareCustomIntervalData(
 	Data,
 	from = `${getYear(new Date())}-1-1`,
@@ -235,5 +290,6 @@ export {
 	prepareMonthData,
 	prepareCustomIntervalData,
 	prepareDayData,
+	prepareWeekData,
 	prepareYearData,
 };

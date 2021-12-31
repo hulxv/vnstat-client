@@ -10,6 +10,7 @@ export default function TrafficProvider({ children }) {
 		month: [],
 		day: [],
 		year: [],
+		week: [],
 		main: [],
 	});
 	const [daemonStatus, setDaemonStatus] = useState("inactive");
