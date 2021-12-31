@@ -41,6 +41,18 @@ export default class Database {
 		}
 	}
 
+	async getTablesList() {
+		try {
+			const tablesList = (
+				await this.db("sqlite_master").where("type", "table")
+			).map((table) => table.name);
+			return tablesList;
+		} catch (err) {
+			error(err.message);
+			throw err;
+		}
+	}
+
 	async export(limit, format) {
 		const { stdout, stderr } = await exec(`vnstat --${format} ${limit || ""}`);
 		if (stderr) throw stderr;

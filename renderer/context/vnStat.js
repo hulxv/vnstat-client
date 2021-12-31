@@ -4,6 +4,14 @@ import { useConfig } from "./configration";
 export const vnStatContext = createContext();
 
 export default function TrafficProvider({ children }) {
+	const channels = [
+		"get-traffic",
+		"get-vn-configs",
+		"get-vn-daemon-status",
+		"get-vnstat-interfaces",
+		"get-vnstat-database-tables-list",
+	];
+
 	const { config: appConfig } = useConfig();
 
 	const [traffic, setTraffic] = useState({
@@ -22,11 +30,14 @@ export default function TrafficProvider({ children }) {
 	const [interfaces, setInterfaces] = useState([]);
 	const [interfaceID, setInterfaceID] = useState(appConfig?.interface ?? 1);
 
+	const [databaseTablesList, setDatabaseTablesList] = useState([]);
+
 	useEffect(() => {
 		getVnConfig();
 		getTrafficData();
 		getDaemonStatus();
 		getVnStatInterfaces();
+		getDatabaseTablesList();
 	}, []);
 
 	// When user change the interface
@@ -70,13 +81,6 @@ export default function TrafficProvider({ children }) {
 		// console.log(vnConfigsSortedObject, visualVnConfigsSortedObject);
 	}, [visualVnConfigs, configs]);
 
-	function reloading() {
-		ipcRenderer.send("get-traffic");
-		ipcRenderer.send("get-vn-configs");
-		ipcRenderer.send("get-vn-daemon-status");
-		ipcRenderer.send("get-vnstat-interfaces");
-	}
-
 	// Traffic
 	function getTrafficData() {
 		ipcRenderer.on("send-traffic", (e, result) => {
@@ -87,8 +91,6 @@ export default function TrafficProvider({ children }) {
 
 	// vnStat Configs
 	function getVnConfig() {
-		ipcRenderer.send("get-vn-configs");
-
 		ipcRenderer.on("send-vn-configs", (e, result) => {
 			setVnConfigs(result);
 		});
@@ -114,8 +116,6 @@ export default function TrafficProvider({ children }) {
 
 	//  vnStat daemon
 	function getDaemonStatus() {
-		ipcRenderer.send("get-vn-daemon-status");
-
 		ipcRenderer.on("send-vn-daemon-status", (e, res) => {
 			setDaemonStatus(res);
 		});
@@ -158,6 +158,24 @@ export default function TrafficProvider({ children }) {
 		};
 	}
 
+	// Database
+	function getDatabaseTablesList() {
+		ipcRenderer.on("send-vnstat-database-tables-list", (e, result) => {
+			setDatabaseTablesList(result);
+		});
+	}
+
+	useEffect(() => {
+		console.log("databaseTablesList", databaseTablesList);
+	}, [databaseTablesList]);
+
+	// Reloading function
+	function reloading() {
+		channels.forEach((channel) => {
+			ipcRenderer.send(channel);
+		});
+	}
+
 	// ** Context value
 
 	const value = useMemo(
@@ -169,6 +187,7 @@ export default function TrafficProvider({ children }) {
 			daemonStatus,
 			interfaces,
 			interfaceID,
+			databaseTablesList,
 			reloading,
 			changeVnStatConfigs,
 			resetVnConfigs,
@@ -177,8 +196,16 @@ export default function TrafficProvider({ children }) {
 			startDaemon,
 			restartDaemon,
 			changeInterface,
+			getDatabaseTablesList,
 		}),
-		[traffic, configs, isConfigChanged, daemonStatus, interfaceID],
+		[
+			traffic,
+			configs,
+			isConfigChanged,
+			daemonStatus,
+			interfaceID,
+			databaseTablesList,
+		],
 	);
 
 	return (

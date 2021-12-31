@@ -10,31 +10,32 @@ import {
 
 import XML from "./asXML";
 import JSON from "./asJSON";
+import CSV from "./asCSV";
 
 const ExportAs = () => {
 	return (
-		<div>
-			<Menu>
-				<Tooltip label='Export as'>
-					<MenuButton
-						as={IconButton}
-						icon={<BiExport />}
-						variant='ghost'
-						colorScheme='whiteAlpha'
-						textColor='whiteAlpha.900'
-						icon={<BiExport size='1.4em' />}
-					/>
-				</Tooltip>
-				<MenuList>
-					<MenuItem>
-						<JSON />
-					</MenuItem>
-					<MenuItem>
-						<XML />
-					</MenuItem>
-				</MenuList>
-			</Menu>
-		</div>
+		<Menu>
+			<MenuButton
+				as={IconButton}
+				icon={<BiExport />}
+				variant='ghost'
+				colorScheme='whiteAlpha'
+				textColor='whiteAlpha.900'
+				icon={<BiExport size='1.4em' />}
+			/>
+
+			<MenuList>
+				<MenuItem>
+					<JSON />
+				</MenuItem>
+				<MenuItem>
+					<XML />
+				</MenuItem>
+				<MenuItem>
+					<CSV />
+				</MenuItem>
+			</MenuList>
+		</Menu>
 	);
 };
 

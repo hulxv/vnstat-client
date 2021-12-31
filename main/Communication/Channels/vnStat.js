@@ -2,13 +2,15 @@ import { ipcMain } from "electron";
 import log from "electron-log";
 import vnStat from "../../vnStat";
 
-export default class TrafficData extends vnStat {
+export default class vnStatChannel extends vnStat {
 	constructor() {
 		super();
 	}
 	async Init() {
 		this.sendTrafficData();
 		await this.getVnStatInterfaces();
+		await this.getDatabaseTablesList();
+		await this.getDatabaseTableData();
 	}
 
 	sendTrafficData() {
@@ -27,6 +29,32 @@ export default class TrafficData extends vnStat {
 		ipcMain.on("get-vnstat-interfaces", async (e) => {
 			try {
 				e.sender.send("send-vnstat-interfaces", await this.interfaces());
+			} catch (err) {
+				log.error(err);
+			}
+		});
+	}
+
+	async getDatabaseTablesList() {
+		ipcMain.on("get-vnstat-database-tables-list", async (e) => {
+			try {
+				e.sender.send(
+					"send-vnstat-database-tables-list",
+					await this.db().getTablesList(),
+				);
+			} catch (err) {
+				log.error(err);
+			}
+		});
+	}
+
+	async getDatabaseTableData() {
+		ipcMain.on("get-vnstat-database-table-data", async (e, table) => {
+			try {
+				e.sender.send(
+					"send-vnstat-database-table-data",
+					await this.db().get(table),
+				);
 			} catch (err) {
 				log.error(err);
 			}

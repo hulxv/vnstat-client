@@ -43,7 +43,6 @@ export default function AsJSON() {
 
 	function exportJSON() {
 		if (Object.keys(json).length <= 0) {
-			toast.closeAll();
 			toast({
 				description: "You should choose a limit !",
 				status: "error",

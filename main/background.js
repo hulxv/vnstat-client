@@ -80,6 +80,10 @@ async function INIT() {
 		"send-vn-daemon-status",
 		await vnStat.daemon().status(),
 	);
+	mainWindow.webContents.send(
+		"send-vnstat-database-tables-list",
+		await vnStat.db().getTablesList(),
+	);
 
 	log.info("Getting data is successfully");
 }

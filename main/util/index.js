@@ -23,4 +23,18 @@ export function convertObjectItemForSedScript(key, value) {
 	return `s/${key}.*/${key} ${value}/g`;
 }
 
+export function arrayOfObjectToCSV(data) {
+	if (!(data.length > 0) && typeof data[0] !== "object") return;
+	let headers = Object.keys(data[0]);
+	let lines = [
+		headers.join(","),
+		...data.map((row) =>
+			Object.keys(row)
+				.map((e) => row[e])
+				.join(","),
+		),
+	];
+	return lines.join("\n");
+}
+
 export const isProd = process.env.NODE_ENV === "production";
