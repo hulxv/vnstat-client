@@ -1,4 +1,4 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Stack, Box, Heading } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
 
@@ -11,13 +11,16 @@ function Info() {
 		});
 	}, []);
 	return (
-		<Flex flexDir='column'>
+		<Stack>
 			{infos.map((info, index) => (
-				<div key={index}>
-					{info?.name}: {info?.value}
-				</div>
+				<Stack spacing={0.5} key={index}>
+					<Heading size='xs' opacity='50%'>
+						{info?.name}
+					</Heading>
+					<Heading size='sm'>{info?.value}</Heading>
+				</Stack>
 			))}
-		</Flex>
+		</Stack>
 	);
 }
 

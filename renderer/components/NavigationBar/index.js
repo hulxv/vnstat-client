@@ -36,14 +36,13 @@ export default function NavigationBar() {
 			title: "day",
 			path: "/day",
 		},
-
-		{
-			title: "month",
-			path: "/",
-		},
 		{
 			title: "week",
 			path: "/week",
+		},
+		{
+			title: "month",
+			path: "/",
 		},
 		{
 			title: "year",
