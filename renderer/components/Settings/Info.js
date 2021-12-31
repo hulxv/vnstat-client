@@ -11,7 +11,7 @@ function Info() {
 		});
 	}, []);
 	return (
-		<Stack>
+		<Stack spacing={4}>
 			{infos.map((info, index) => (
 				<Stack spacing={0.5} key={index}>
 					<Heading size='xs' opacity='50%'>
