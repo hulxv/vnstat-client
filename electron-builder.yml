@@ -24,4 +24,5 @@ linux:
     comment: GUI Client for vnStat Network Traffic Monitor
     categories: Network
 
-publish: null
+publish:
+  - github
