@@ -2,8 +2,6 @@
 
 <h3 align='center'> GUI Client for <a href='https://github.com/vergoh/vnstat'>vnStat traffic monitor</a> built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> </h3>
 
-> In Development and not ready to use
-
 ## Requirements
 
 - [vnstat (^2.8)](https://github.com/vergoh/vnstat)
