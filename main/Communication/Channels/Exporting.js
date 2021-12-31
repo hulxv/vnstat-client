@@ -100,7 +100,7 @@ export default class Exporting {
 					fs.writeFileSync(`${saveFile.filePath}`, fileContent);
 					e.sender.send("message", {
 						status: "success",
-						description: `Successufully exported as XML file in ${saveFile.filePath}`,
+						description: `Successufully exported as CSV file in ${saveFile.filePath}`,
 					});
 					log.info(
 						`Successufully exported as CSV file in ${saveFile.filePath}`,
