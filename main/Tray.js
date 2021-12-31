@@ -11,7 +11,7 @@ export default class TrayIcon {
 			isProd ? `${__dirname}/images` : "renderer/public/images"
 		}/${ICON_NAME}`;
 		this.menuItems = Menu.buildFromTemplate([
-			{ label: "Checking for updates", click: new Updates().check },
+			{ label: "Check for updates", click: new Updates().check },
 			{ label: "Quit", click: app.quit },
 		]);
 	}

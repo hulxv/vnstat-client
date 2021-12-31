@@ -83,14 +83,23 @@ function Logs() {
 
 				<HStack justify='end' spacing={3}>
 					<Select
-						maxW='120px'
+						maxW='150px'
 						value={StatusFilter}
 						variant='filled'
 						onChange={(e) => setStatusFilter(e.target.value)}>
-						<option value='all'>All</option>
-						<option value='info'>Info</option>
-						<option value='warning'>Warning</option>
-						<option value='error'>Error</option>
+						<option value='all'>All {logs?.lines?.length}</option>
+						<option value='info'>
+							Info{" "}
+							{logs?.lines?.filter((line) => line.status === "info").length}
+						</option>
+						<option value='warning'>
+							Warning{" "}
+							{logs?.lines?.filter((line) => line.status === "warning").length}
+						</option>
+						<option value='error'>
+							Error{" "}
+							{logs?.lines?.filter((line) => line.status === "error").length}
+						</option>
 					</Select>
 					{search.bool ? (
 						<InputGroup w='200px'>
@@ -147,7 +156,7 @@ function Logs() {
 						alignSelf='center'
 						justifySelf='center'
 					/>
-				) : !logs?.lines ? (
+				) : !(LogsAfterFiltering.length > 0) ? (
 					<Heading size='md' alignSelf='center'>
 						No logs found
 					</Heading>
