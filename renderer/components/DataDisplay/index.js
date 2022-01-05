@@ -44,9 +44,9 @@ const Chart = ({
 	};
 
 	// Shortcuts
-	useHotkeys("shift+b", () => setStyle("bar chart"));
-	useHotkeys("shift+l", () => setStyle("line chart"));
-	useHotkeys("shift+t", () => setStyle("table"));
+	useHotkeys("ctrl+b", () => setStyle("bar chart"));
+	useHotkeys("ctrl+l", () => setStyle("line chart"));
+	useHotkeys("ctrl+t", () => setStyle("table"));
 
 	return (
 		<>

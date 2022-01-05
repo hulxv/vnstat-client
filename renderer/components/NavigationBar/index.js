@@ -19,6 +19,7 @@ import Settings from "../Settings";
 
 import CustomIntervalModal from "./CustomIntervalModal";
 
+import { useHotkeys } from "react-hotkeys-hook";
 import { useVnStat } from "@Context/vnStat";
 import { useConfig } from "@Context/configration";
 
@@ -62,21 +63,13 @@ export default function NavigationBar() {
 		});
 	}, []);
 
-	function PressKeyHandler(e) {
-		if (e.key === "R" || e.key === "r") {
-			reloadConfigs();
-			reloadingTrafficData();
-			router.replace(router.asPath);
-		}
-	}
+	useHotkeys("ctrl+r", () => {
+		reloadConfigs();
+		reloadingTrafficData();
+		router.replace(router.asPath);
+	});
 
-	useEffect(() => {
-		window.addEventListener("keydown", PressKeyHandler);
-
-		return () => window.removeEventListener("keydown", PressKeyHandler); // Cleanup
-	}, [PressKeyHandler]);
-
-	// For debugging
+	// ! For debugging
 	// useEffect(() => {
 	// 	console.log(Page);
 	// 	console.log(router.pathname, router.asPath);

@@ -64,7 +64,7 @@ export default function Settings({ children }) {
 	} = useVnStat();
 	const { config } = useConfig();
 
-	useHotkeys("shift+s", onOpen);
+	useHotkeys("ctrl+s", onOpen);
 
 	return (
 		<>
