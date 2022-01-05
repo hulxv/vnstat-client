@@ -26,7 +26,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				tickSize: 5,
 				tickPadding: 10,
 				tickRotation: axisBottomRotation,
-				legend: "Date",
+				legend: "Date / Time",
 				legendOffset: 36,
 				legendPosition: "middle",
 			}}

@@ -5,7 +5,7 @@ function TableComponent({ data }) {
 		<Table variant='striped'>
 			<Thead>
 				<Tr>
-					<Th>Date</Th>
+					<Th>Date / Time</Th>
 					<Th>interface</Th>
 					<Th isNumeric>Total</Th>
 					<Th isNumeric>Download</Th>
