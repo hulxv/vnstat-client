@@ -1,9 +1,24 @@
-import { useContext, useState, useEffect, createContext, useMemo } from "react";
+import {
+	useContext,
+	useState,
+	useEffect,
+	createContext,
+	useMemo,
+	useReducer,
+	useCallback,
+	memo,
+	useRef,
+} from "react";
 import { ipcRenderer } from "electron";
 import { useConfig } from "./configration";
 export const vnStatContext = createContext();
 
-export default function TrafficProvider({ children }) {
+export default function vnStatProvider({ children }) {
+	// Re-render
+	const [reRenderState, reRender] = useState();
+
+	const forceReRender = () => reRender(Math.random());
+
 	const channels = [
 		"get-traffic",
 		"get-vn-configs",
@@ -24,8 +39,9 @@ export default function TrafficProvider({ children }) {
 	const [daemonStatus, setDaemonStatus] = useState("inactive");
 
 	const [configs, setVnConfigs] = useState({});
-	const [visualVnConfigs, setVisualVnConfigs] = useState({});
+	const visualVnConfigs = useRef({});
 	const [isConfigChanged, setIsConfigChanged] = useState(false);
+	const changes = useRef([]);
 
 	const [interfaces, setInterfaces] = useState([]);
 	const [interfaceID, setInterfaceID] = useState(appConfig?.interface ?? 1);
@@ -45,41 +61,19 @@ export default function TrafficProvider({ children }) {
 		setInterfaceID(appConfig?.interface);
 	}, [appConfig?.interface]);
 
-	// * Uncomment for debugging
+	// ! Uncomment for debugging
 	// useEffect(() => {
 	// 	console.log(daemonStatus);
 	// }, [daemonStatus]);
+	// useEffect(() => {
+	// 	console.log(changes);
+	// }, [changes]);
 
 	// * Change 'visualVnConfigs' when send vnstat configs from backend
 	useEffect(() => {
-		setVisualVnConfigs(configs);
+		visualVnConfigs.current = configs;
+		calcChanges();
 	}, [configs]);
-
-	// * To check if vnstat configs was changed or not
-	useEffect(() => {
-		let visualVnConfigsSortedObject = Object.keys(visualVnConfigs)
-			.sort()
-			.reduce((obj, key) => {
-				obj[key] = visualVnConfigs[key];
-				return obj;
-			}, {});
-
-		let vnConfigsSortedObject = Object.keys(configs)
-			.sort()
-			.reduce((obj, key) => {
-				obj[key] = configs[key];
-				return obj;
-			}, {});
-
-		setIsConfigChanged(
-			!(
-				JSON.stringify(vnConfigsSortedObject) ===
-				JSON.stringify(visualVnConfigsSortedObject)
-			),
-		);
-		// ! Uncommend for debugging
-		// console.log(vnConfigsSortedObject, visualVnConfigsSortedObject);
-	}, [visualVnConfigs, configs]);
 
 	// Traffic
 	function getTrafficData() {
@@ -98,20 +92,26 @@ export default function TrafficProvider({ children }) {
 		return () => ipcRenderer.removeAllListeners("send-vn-configs");
 	}
 
-	function changeVnStatConfigs(key, value) {
-		setVisualVnConfigs({ ...visualVnConfigs, [key]: value });
+	function calcChanges() {
+		changes.current = Object.keys(configs)
+			.filter((key) => configs[key] != visualVnConfigs.current[key])
+			.map((key) => ({ [key]: visualVnConfigs.current[key] }));
+
+		setIsConfigChanged(changes.current.length > 0);
 	}
+
+	function changeVnStatConfigs(key, value) {
+		visualVnConfigs.current = { ...visualVnConfigs.current, [key]: value };
+		calcChanges();
+	}
+
 	function resetVnConfigs() {
-		setVisualVnConfigs(configs);
+		visualVnConfigs.current = configs;
+		calcChanges();
 	}
 
 	function saveChanges() {
-		let changes = Object.keys(configs)
-			.filter((key) => configs[key] != visualVnConfigs[key])
-			.map((changedKey) => ({
-				[changedKey]: visualVnConfigs[changedKey],
-			}));
-		ipcRenderer && ipcRenderer.send("change-vn-configs", changes);
+		if (ipcRenderer) ipcRenderer.send("change-vn-configs", changes.current);
 	}
 
 	//  vnStat daemon
@@ -164,10 +164,10 @@ export default function TrafficProvider({ children }) {
 			setDatabaseTablesList(result);
 		});
 	}
-
-	useEffect(() => {
-		console.log("databaseTablesList", databaseTablesList);
-	}, [databaseTablesList]);
+	// ! Uncomment for debugging
+	// useEffect(() => {
+	// 	console.log("databaseTablesList", databaseTablesList);
+	// }, [databaseTablesList]);
 
 	// Reloading function
 	function reloading() {
@@ -182,6 +182,7 @@ export default function TrafficProvider({ children }) {
 		() => ({
 			traffic: filterTrafficDataByInterfaceID(),
 			configs,
+			changes: changes.current,
 			visualVnConfigs,
 			isConfigChanged,
 			daemonStatus,
@@ -197,7 +198,9 @@ export default function TrafficProvider({ children }) {
 			restartDaemon,
 			changeInterface,
 			getDatabaseTablesList,
+			forceReRender,
 		}),
+		// **  Re-render only when change these values (memoization)
 		[
 			traffic,
 			configs,
@@ -205,6 +208,7 @@ export default function TrafficProvider({ children }) {
 			daemonStatus,
 			interfaceID,
 			databaseTablesList,
+			reRenderState,
 		],
 	);
 

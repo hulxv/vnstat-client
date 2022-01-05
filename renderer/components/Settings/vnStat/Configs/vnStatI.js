@@ -103,8 +103,6 @@ function vnStatD({}) {
 								isChecked={Boolean(Number(rates[rate]))}
 								onChange={() => {
 									let value = Number(!Boolean(rates[rate]));
-									console.log(!Boolean(rates[rate]));
-									console.log(rates[rate]);
 									changeVnStatConfigs(rate, `${value}`);
 									setRates({
 										...rates,

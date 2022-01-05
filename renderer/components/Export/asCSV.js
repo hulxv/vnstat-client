@@ -38,7 +38,7 @@ export default function AsCSV() {
 
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	console.log(data);
+
 	useEffect(() => {
 		ipcRenderer.on("send-vnstat-database-table-data", (e, data) => {
 			setData(data);

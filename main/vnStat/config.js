@@ -65,6 +65,7 @@ export default class vnConfig {
 	}
 
 	async write(changes) {
+		console.log(changes);
 		if (!Array.isArray(changes)) return;
 
 		const options = {

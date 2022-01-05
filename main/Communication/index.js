@@ -1,6 +1,6 @@
-import { ipcMain, app, shell, BrowserWindow } from "electron";
+import { ipcMain, app, shell } from "electron";
+import { mainWindow } from "../background";
 import log from "electron-log";
-const {} = require("electron");
 
 // Channels
 import ConfigChannelClass from "./Channels/Config";
@@ -65,9 +65,6 @@ export default class Communication {
 	}
 
 	send(channel, args) {
-		app.on("browser-window-created", () => {
-			console.log("Heeeeee");
-			BrowserWindow.getFocusedWindow().webContents.send(channel, args);
-		});
+		mainWindow.webContents.send(channel, args);
 	}
 }

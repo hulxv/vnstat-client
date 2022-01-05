@@ -91,6 +91,7 @@ function vnStatD({}) {
 							allowMouseWheel
 							value={Number(durations[duration])}
 							onChange={(value) => {
+								// console.log(duration, value);
 								changeVnStatConfigs(duration, value);
 								setDurations({ ...durations, [duration]: value });
 							}}

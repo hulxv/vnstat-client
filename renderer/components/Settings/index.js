@@ -21,6 +21,14 @@ import {
 	AlertDialogContent,
 	AlertDialogOverlay,
 	AlertDialogCloseButton,
+	Table,
+	Thead,
+	Tbody,
+	Tfoot,
+	Tr,
+	Th,
+	Td,
+	TableCaption,
 } from "@chakra-ui/react";
 
 // Tabs Components
@@ -46,7 +54,14 @@ export default function Settings({ children }) {
 		onClose: onAlertDialogClose,
 	} = useDisclosure();
 
-	const { isConfigChanged, resetVnConfigs, saveChanges } = useVnStat();
+	const {
+		isConfigChanged,
+		configs,
+		changes,
+		resetVnConfigs,
+		saveChanges,
+		forceReRender,
+	} = useVnStat();
 	const { config } = useConfig();
 
 	useHotkeys("shift+s", onOpen);
@@ -110,7 +125,11 @@ export default function Settings({ children }) {
 						</Button>
 						<Button
 							isDisabled={!isConfigChanged} // * Enabled only when configs is changing
-							onClick={onAlertDialogOpen}
+							onClick={() => {
+								forceReRender();
+
+								onAlertDialogOpen();
+							}}
 							colorScheme={config?.apperance?.globalTheme ?? "green"}
 							mr={3}>
 							Save Changes
@@ -131,6 +150,27 @@ export default function Settings({ children }) {
 					<AlertDialogCloseButton />
 					<AlertDialogBody>
 						Are you sure you want to changes for vnStat configrations ?
+						<Table variant='striped'>
+							<TableCaption>Properties which changed</TableCaption>
+							<Thead>
+								<Tr>
+									<Th>Property</Th>
+									<Th>Old Value</Th>
+									<Th>New Value</Th>
+								</Tr>
+							</Thead>
+							<Tbody>
+								{changes.map((obj) =>
+									Object.entries(obj).map((o) => (
+										<Tr>
+											<Td>{o[0]}</Td>
+											<Td>{configs[o[0]]}</Td>
+											<Td>{o[1]}</Td>
+										</Tr>
+									)),
+								)}
+							</Tbody>
+						</Table>
 					</AlertDialogBody>
 					<AlertDialogFooter>
 						<Button onClick={onAlertDialogClose}>Cancel</Button>
