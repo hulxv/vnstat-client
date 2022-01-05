@@ -30,6 +30,8 @@ import {
 } from "react-icons/hi";
 import { useLogs } from "../../context/logs";
 
+const NUMBER_OF_MESSAGES = 100;
+
 function Logs() {
 	const { logs, GetLogs, ClearLogs, isLoading } = useLogs();
 
@@ -54,9 +56,8 @@ function Logs() {
 		setLogsAfterFiltering(
 			logs?.lines.filter(
 				(line) =>
-					(line.content.toLowerCase().includes(search.value.toLowerCase()) &&
-						line.status === StatusFilter) ||
-					StatusFilter === "all",
+					line.content.toLowerCase().includes(search.value.toLowerCase()) &&
+					(line.status === StatusFilter || StatusFilter === "all"),
 			),
 		);
 	}, [search.value, logs]);
@@ -161,7 +162,11 @@ function Logs() {
 						No logs found
 					</Heading>
 				) : (
-					<LogRows data={LogsAfterFiltering} />
+					<LogRows
+						data={LogsAfterFiltering.slice(
+							Math.max(LogsAfterFiltering.length - NUMBER_OF_MESSAGES, 0),
+						)}
+					/>
 				)}
 			</Stack>
 		</>
