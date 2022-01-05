@@ -11,6 +11,7 @@ import {
 	Flex,
 	Kbd,
 	Box,
+	HStack,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
 
@@ -63,7 +64,7 @@ export default function NavigationBar() {
 		});
 	}, []);
 
-	useHotkeys("ctrl+r", () => {
+	useHotkeys("alt+r", () => {
 		reloadConfigs();
 		reloadingTrafficData();
 		router.replace(router.asPath);
@@ -99,7 +100,9 @@ export default function NavigationBar() {
 					<Export />
 				</Flex>
 				<Flex>
-					<Box>
+					<HStack mr={1}>
+						<Kbd>ALT</Kbd>
+						<span style={{ color: "white" }}>+</span>
 						<Kbd>R</Kbd>
 						<Tooltip label='Refresh'>
 							<IconButton
@@ -116,7 +119,7 @@ export default function NavigationBar() {
 								}}
 							/>
 						</Tooltip>
-					</Box>
+					</HStack>
 
 					<Menu>
 						<Tooltip label='Interval'>
