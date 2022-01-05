@@ -2,7 +2,7 @@
 	"private": true,
 	"name": "vnstat-client",
 	"description": "GUI Client for vnStat network traffic monitor",
-	"version": "1.1.5",
+	"version": "22.1.6",
 	"license": "MIT",
 	"repository": "https://github.com/Hulxv/vnstat-client",
 	"author": "Hulxxv <hulxxv@gmail.com>",
