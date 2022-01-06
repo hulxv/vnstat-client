@@ -1,7 +1,7 @@
 import { ipcMain, app, shell } from "electron";
 import { mainWindow } from "../background";
 import log from "electron-log";
-
+import Updates from "../updates";
 // Channels
 import ConfigChannelClass from "./Channels/Config";
 import ExportingChannelClass from "./Channels/Exporting";
@@ -22,6 +22,7 @@ export default class Communication {
 	async Init() {
 		this.getInfos();
 		this.OpenURL();
+		this.checkUpdates();
 		// this.getVnStatInterfaces();
 		ConfigChannel.Init();
 		ExportingChannel.Init();
@@ -66,5 +67,10 @@ export default class Communication {
 
 	send(channel, args) {
 		mainWindow.webContents.send(channel, args);
+	}
+	checkUpdates() {
+		ipcMain.on("check-for-updates", () => {
+			new Updates().check();
+		});
 	}
 }

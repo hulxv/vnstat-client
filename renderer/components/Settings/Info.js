@@ -1,9 +1,10 @@
-import { Stack, Box, Heading } from "@chakra-ui/react";
+import { Stack, Button, Heading } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
-
+import { useConfig } from "@Context/configration";
 function Info() {
 	const [infos, setInfos] = useState([]);
+	const { config } = useConfig();
 	useEffect(() => {
 		ipcRenderer.send("get-infos");
 		ipcRenderer.on("send-infos", (e, result) => {
@@ -20,6 +21,16 @@ function Info() {
 					<Heading size='sm'>{info?.value}</Heading>
 				</Stack>
 			))}
+			<Button
+				colorScheme={config?.apperance?.globalTheme ?? "green"}
+				maxW={300}
+				alignSelf='center'
+				onClick={() => {
+					console.log("h");
+					if (ipcRenderer) ipcRenderer.send("check-for-updates");
+				}}>
+				Check for updates
+			</Button>
 		</Stack>
 	);
 }
