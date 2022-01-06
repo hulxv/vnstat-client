@@ -2,7 +2,6 @@
 
 #### Requirements
 
-- [vnstat (^2.8)](https://github.com/vergoh/vnstat)
 - [node (^16.9.1)](https://nodejs.org/en/)
 - [yarnpkg (^1.22.11)](https://yarnpkg.com/getting-started/install)
 
@@ -31,7 +30,7 @@ cd ./dist
 $ wget https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client_22.1.6_amd64.deb
 ```
 
-then
+then:
 
 ```bash
 $ sudo dpkg -i ~/path-to-file/vnstat-client_22.1.6_amd64.deb
