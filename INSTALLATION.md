@@ -20,9 +20,6 @@ cd ./dist
 
 ## Download & Installation
 
-<br/>
-<br/>
-
 - ### Ubuntu/Debian based
   Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client_22.1.6_amd64.deb) or :
 
