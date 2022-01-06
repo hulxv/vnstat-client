@@ -5,8 +5,6 @@
 ## Requirements
 
 - [vnstat (^2.8)](https://github.com/vergoh/vnstat)
-- [node (^16.9.1)](https://nodejs.org/en/)
-- [yarnpkg (^1.22.11)](https://yarnpkg.com/getting-started/install)
 
 ## Features
 
