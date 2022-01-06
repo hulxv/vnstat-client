@@ -21,6 +21,9 @@ cd ./dist
 
 ## Download & Installation
 
+<br/>
+<br/>
+
 - ### Ubuntu/Debian based
   Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client_22.1.6_amd64.deb) or :
 
@@ -34,6 +37,9 @@ then
 $ sudo dpkg -i ~/path-to-file/vnstat-client_22.1.6_amd64.deb
 ```
 
+<br/>
+<br/>
+
 - ### Arch Linux based
   Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.pacman) or :
 
@@ -46,6 +52,9 @@ then:
 ```bash
 $ sudo pacman -U ~/path-to-file/vnstat-client-22.1.6.pacman
 ```
+
+<br/>
+<br/>
 
 - ### AppImage
   Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.AppImage) or :
