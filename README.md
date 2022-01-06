@@ -8,28 +8,41 @@
 - [node (^16.9.1)](https://nodejs.org/en/)
 - [yarnpkg (^1.22.11)](https://yarnpkg.com/getting-started/install)
 
-## Build
+## Features
 
-> From Source code
+- Display statistics for your usage for different intervals
+  - Daily
+  - Weekly
+  - Monthly
+  - Yearly
+  - Custom Interval you choose
+- Different types of stats display
+  - Bar Chart
+  - Line Chart
+  - Table
+- Export all information as:
+  - CSV
+  - XML
+  - JSON
+- Beautiful UI (Thanks [Chakra UI](https://chakra-ui.com/) for this great UI components library)
+- Different themes and color schemes for UI and Charts (Line/Bar Chart and Thanks for [Nivo](https://nivo.rocks/) for great charts library)
+- Full controlling in vnStat Dameon (Support systemd only)
+- Easy changing vnStat's configurations
 
-```bash
-# clone repo
-git clone https://github.com/Hulxv/vnstat-client.git
-cd ./vnstat-client
+And more!
 
- # To install required packages
-yarn install
+## Installation
 
- # To build the app
-yarn build
-cd ./dist
-
-# Run App
-./vnstat-client-1.0.0.AppImage
-```
+> Please check [INSTALLATION.md](./INSTALLATION.md)
 
 ## Screenshot
 
-## ![line chart](screenshots/Screenshot-lineChart.png)
+![Table](screenshots/Screenshot%20from%202022-01-06%2023-42-33.png)
 
-![bar chart](screenshots/Screenshot-BarChart.png)
+![line chart](screenshots//Screenshot%20from%202022-01-06%2023-42-25.png)
+
+![bar chart](screenshots/Screenshot%20from%202022-01-06%2023-42-50.png)
+
+Show [More](screenshots).
+
+And thanks for any developer build a library used in this project.
