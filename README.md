@@ -43,4 +43,6 @@ And more!
 
 Show [More](screenshots).
 
-And thanks for any developer build a library used in this project.
+And thanks to any developer who build a library used in this project.
+
+You can see all packages used in the project in [package.json](./package.json)
