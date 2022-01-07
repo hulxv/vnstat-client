@@ -24,13 +24,13 @@ cd ./dist
   Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client_22.1.6_amd64.deb) or :
 
 ```bash
-$ wget https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client_22.1.6_amd64.deb
+wget https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client_22.1.6_amd64.deb
 ```
 
 then:
 
 ```bash
-$ sudo dpkg -i ~/path-to-file/vnstat-client_22.1.6_amd64.deb
+sudo dpkg -i ~/path-to-file/vnstat-client_22.1.6_amd64.deb
 ```
 
 <br/>
@@ -38,11 +38,11 @@ $ sudo dpkg -i ~/path-to-file/vnstat-client_22.1.6_amd64.deb
 - ### Arch Linux based
 
 ```bash
-$ sudo pacman -S yay # If you already have 'yay', You can skip this step
+sudo pacman -S yay # If you already have 'yay', You can skip this step
 ```
 
 ```bash
-$ yay -S vnstat-client
+yay -S vnstat-client
 ```
 
 <br/>
