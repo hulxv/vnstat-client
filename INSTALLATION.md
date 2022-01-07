@@ -34,34 +34,28 @@ $ sudo dpkg -i ~/path-to-file/vnstat-client_22.1.6_amd64.deb
 ```
 
 <br/>
-<br/>
 
 - ### Arch Linux based
-  Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.pacman) or :
 
 ```bash
-$ wget https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.pacman
+$ sudo pacman -S yay # If you already have 'yay', You can skip this step
 ```
-
-then:
 
 ```bash
-$ sudo pacman -U ~/path-to-file/vnstat-client-22.1.6.pacman
+$ yay -S vnstat-client
 ```
 
-<br/>
 <br/>
 
 - ### AppImage
   Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.AppImage) or :
 
 ```bash
-$ wget https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.AppImage
+wget https://github.com/Hulxv/vnstat-client/releases/download/v22.1.6/vnstat-client-22.1.6.AppImage
 ```
 
 then:
 
 ```bash
-$ chmod +x ~/path-to-file/vnstat-client-22.1.6.AppImage
-$ ~/path-to-file/vnstat-client-22.1.6.AppImage
+chmod +x ~/path-to-file/vnstat-client-22.1.6.AppImage && ~/path-to-file/vnstat-client-22.1.6.AppImage
 ```
