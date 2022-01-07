@@ -35,11 +35,11 @@ And more!
 
 ## Screenshot
 
-![Table](screenshots/Screenshot%20from%202022-01-06%2023-42-33.png)
+![Table](screenshots/2022-01-06-23-42-33.png)
 
-![line chart](screenshots//Screenshot%20from%202022-01-06%2023-42-25.png)
+![line chart](screenshots//2022-01-06-23-42-25.png)
 
-![bar chart](screenshots/Screenshot%20from%202022-01-06%2023-42-50.png)
+![bar chart](screenshots/2022-01-06-23-42-50.png)
 
 Show [More](screenshots).
 
