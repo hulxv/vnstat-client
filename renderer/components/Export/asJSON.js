@@ -61,6 +61,7 @@ export default function AsJSON() {
 
 			<Modal
 				isOpen={isOpen}
+				scrollBehavior='inside'
 				onClose={() => {
 					onClose();
 					setJson({});

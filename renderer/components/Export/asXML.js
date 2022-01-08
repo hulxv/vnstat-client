@@ -64,6 +64,7 @@ export default function AsXML() {
 			</Box>
 
 			<Modal
+				scrollBehavior='inside'
 				isOpen={isOpen}
 				onClose={() => {
 					setXML(null);
