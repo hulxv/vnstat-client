@@ -39,17 +39,21 @@ export function arrayOfObjectToCSV(data) {
 
 export async function vnStatIsInstalled() {
 	let bash = `        
-		if command -v vnstat &> /dev/null
-		then
-			echo "true"
-			else echo 'false'
-		fi             
+if ! [ -x "$(command -v vnstat)" ]; then
+  echo "false"
+  exit 1
+
+  else echo "true"
+fi                                                                                                                  
   `;
 
 	try {
 		const { stdout, stderr } = await exec(bash);
 		if (stderr) throw stderr;
-		return stdout.replace(/[\n, " "]/, "") == "true";
+		return stdout
+			.split("\n")
+			.map((e) => e.replace(/[\n, " "]/, ""))
+			.includes("true");
 	} catch (err) {
 		return err;
 	}
