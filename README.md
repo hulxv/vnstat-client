@@ -2,7 +2,7 @@
 ![nextjs](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=next-dot-js&logoColor=white)
 ![electronjs](https://img.shields.io/badge/Electron-47848F.svg?style=for-the-badge&logo=Electron&logoColor=white)
 
-[![GitHub release](https://img.shields.io/github/v/release/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
+[![GitHub release](https://img.shields.io/github/v/release/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/releases)
 [![GitHub stars](https://img.shields.io/github/stars/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/network)
 
