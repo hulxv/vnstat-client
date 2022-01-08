@@ -1,3 +1,13 @@
+![linux](https://img.shields.io/badge/Linux-FCC624.svg?style=for-the-badge&logo=Linux&logoColor=black)
+![nextjs](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=next-dot-js&logoColor=white)
+![electronjs](https://img.shields.io/badge/Electron-47848F.svg?style=for-the-badge&logo=Electron&logoColor=white)
+
+[![GitHub release](https://img.shields.io/github/v/release/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/network)
+
+[![GitHub license](https://img.shields.io/github/license/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/blob/main/LICENSE)
+
 <p align='center'> <img src="resources/icons/512x512.png" alt="vnstat-client-logo" width="300" /> <h1 align='center'>vnStat Client</h1> </p>
 
 <h3 align='center'> GUI Client for <a href='https://github.com/vergoh/vnstat'>vnStat traffic monitor</a> built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> </h3>
