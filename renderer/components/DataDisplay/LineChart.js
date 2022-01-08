@@ -1,6 +1,6 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveLine } from "@nivo/line";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 export default function LineChart({ data, axisBottomRotation = 0 }) {
 	const { config } = useConfig();
@@ -18,7 +18,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				reverse: false,
 			}}
 			yFormat=' >-.2f'
-			curve={config?.apperance?.lineChart?.curve}
+			curve={config?.appearance?.lineChart?.curve}
 			axisTop={null}
 			axisRight={null}
 			axisBottom={{
@@ -39,16 +39,16 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 				legendOffset: -40,
 				legendPosition: "middle",
 			}}
-			colors={{ scheme: config?.apperance?.lineChart?.colors ?? "nivo" }}
+			colors={{ scheme: config?.appearance?.lineChart?.colors ?? "nivo" }}
 			lineWidth={5}
 			pointSize={10}
 			pointColor={{ theme: "background" }}
 			pointBorderWidth={2}
-			pointBorderColor={{ from: "serieColor" }}
+			pointBorderColor={{ from: "seriesColor" }}
 			pointLabelYOffset={-12}
 			useMesh={true}
-			enableArea={config?.apperance?.lineChart?.hasArea ?? true}
-			areaOpacity={config?.apperance?.lineChart?.areaOpacity ?? 0.5}
+			enableArea={config?.appearance?.lineChart?.hasArea ?? true}
+			areaOpacity={config?.appearance?.lineChart?.areaOpacity ?? 0.5}
 			enableSlices='x'
 			legends={[
 				{

@@ -1,7 +1,7 @@
 // yarn add @nivo/core @nivo/line
 import { ResponsiveBar } from "@nivo/bar";
 
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 export default function BarChart({ data, axisBottomRotation = 0 }) {
 	const { config } = useConfig();
@@ -14,12 +14,12 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 				indexBy='date'
 				margin={{ top: 50, right: 110, bottom: 50, left: 50 }}
 				groupMode={
-					config?.apperance?.barChart?.isGrouped ? "grouped" : "stacked"
+					config?.appearance?.barChart?.isGrouped ? "grouped" : "stacked"
 				}
 				valueScale={{ type: "linear" }}
 				indexScale={{ type: "band", round: true }}
-				colors={{ scheme: config?.apperance?.barChart?.colors ?? "nivo" }}
-				layout={config?.apperance?.barChart?.layout ?? "vertical"}
+				colors={{ scheme: config?.appearance?.barChart?.colors ?? "nivo" }}
+				layout={config?.appearance?.barChart?.layout ?? "vertical"}
 				defs={[
 					{
 						id: "dots",
@@ -49,7 +49,7 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 					tickPadding: 5,
 					tickRotation: axisBottomRotation,
 					legend:
-						config?.apperance?.barChart?.layout === "horizontal"
+						config?.appearance?.barChart?.layout === "horizontal"
 							? "Usage (GB)"
 							: "Date / Time",
 					legendPosition: "middle",
@@ -60,7 +60,7 @@ export default function BarChart({ data, axisBottomRotation = 0 }) {
 					tickPadding: 5,
 					tickRotation: 0,
 					legend:
-						config?.apperance?.barChart?.layout === "horizontal"
+						config?.appearance?.barChart?.layout === "horizontal"
 							? "Date / Time"
 							: "Usage (GB)",
 					legendPosition: "middle",

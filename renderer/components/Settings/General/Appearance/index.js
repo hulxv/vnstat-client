@@ -11,11 +11,11 @@ import {
 	Select,
 } from "@chakra-ui/react";
 
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
-export default function Apperance() {
+export default function Appearance() {
 	const { config, EditConfig } = useConfig();
 
 	const GlobalThemes = [
@@ -39,7 +39,7 @@ export default function Apperance() {
 	return (
 		<Stack flexDir='column' w='full' spacing={5}>
 			<Heading size='md' alignSelf='center'>
-				Apperance
+				Appearance
 			</Heading>
 			{config && (
 				<Stack>
@@ -56,12 +56,12 @@ export default function Apperance() {
 										bgColor={`${theme}.500`}
 										size='xs'
 										boxShadow={
-											config?.apperance?.globalTheme === theme && "outline"
+											config?.appearance?.globalTheme === theme && "outline"
 										}
 										_hover={{ opacity: "90%" }}
 										borderColor='blackAlpha.800'
 										onClick={(e) =>
-											EditConfig("apperance.globalTheme", theme)
+											EditConfig("appearance.globalTheme", theme)
 										}></Box>
 								</Tooltip>
 							))}

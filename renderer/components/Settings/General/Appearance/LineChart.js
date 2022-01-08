@@ -24,7 +24,7 @@ import { ipcRenderer } from "electron";
 import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
 
-import { useConfig } from "../../../../context/configration";
+import { useConfig } from "../../../../context/configuration";
 import { useState } from "react";
 
 function LineChart() {
@@ -55,7 +55,7 @@ function LineChart() {
 
 	const { config, EditConfig } = useConfig();
 	const [areaOpacitySlider, setAreaOpacitySlider] = useState(
-		config?.apperance?.lineChart?.areaOpacity ?? null,
+		config?.appearance?.lineChart?.areaOpacity ?? null,
 	);
 	return (
 		<Stack spacing={2}>
@@ -94,9 +94,9 @@ function LineChart() {
 					<HStack alignSelf='start' spacing={4}>
 						<Box>Curve</Box>{" "}
 						<Select
-							value={config.apperance.lineChart.curve}
+							value={config.appearance.lineChart.curve}
 							onChange={(e) =>
-								EditConfig("apperance.lineChart.curve", e.target.value)
+								EditConfig("appearance.lineChart.curve", e.target.value)
 							}>
 							{" "}
 							{Curves.map((curve) => (
@@ -108,9 +108,9 @@ function LineChart() {
 					<HStack alignSelf='start' spacing={3}>
 						<Box>Colors</Box>{" "}
 						<Select
-							value={config.apperance.lineChart.colors}
+							value={config.appearance.lineChart.colors}
 							onChange={(e) =>
-								EditConfig("apperance.lineChart.colors", e.target.value)
+								EditConfig("appearance.lineChart.colors", e.target.value)
 							}>
 							{Colors.map((color) => (
 								<option>{color}</option>
@@ -121,29 +121,29 @@ function LineChart() {
 					<HStack>
 						<Box>Area</Box>
 						<Switch
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
-							defaultChecked={config.apperance.lineChart.hasArea}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							defaultChecked={config.appearance.lineChart.hasArea}
 							onChange={(e) =>
-								EditConfig("apperance.lineChart.hasArea", e.target.checked)
+								EditConfig("appearance.lineChart.hasArea", e.target.checked)
 							}
 						/>
 					</HStack>
 					<HStack spacing={5}>
 						<Box>Area Opacity</Box>
 						<Slider
-							defaultValue={config.apperance.lineChart.areaOpacity}
+							defaultValue={config.appearance.lineChart.areaOpacity}
 							min={0.0}
 							max={1}
 							step={0.01}
 							w='lg'
 							onChange={(value) => setAreaOpacitySlider(value)}
 							onChangeEnd={(value) =>
-								EditConfig("apperance.lineChart.areaOpacity", value)
+								EditConfig("appearance.lineChart.areaOpacity", value)
 							}>
 							<SliderTrack
-								bg={`${config?.apperance?.globalTheme ?? "green"}.200`}>
+								bg={`${config?.appearance?.globalTheme ?? "green"}.200`}>
 								<SliderFilledTrack
-									bg={`${config?.apperance?.globalTheme ?? "green"}.500`}
+									bg={`${config?.appearance?.globalTheme ?? "green"}.500`}
 								/>
 							</SliderTrack>
 							<SliderThumb boxSize={6} />

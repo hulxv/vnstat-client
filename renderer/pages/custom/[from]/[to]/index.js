@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-// Utilites
+// Utilities
 import { prepareCustomIntervalData } from "@Util/PrepareDataToDisplay";
 // Hooks
 import { useState, useEffect } from "react";
@@ -57,10 +57,10 @@ export default function CustomInterval() {
 						lineChartData={displayData?.lineChartData}
 						barChartData={displayData?.barChartData}
 						barAxisBottomRotation={
-							displayData?.preparedData?.legnth > 15 ? 90 : 45
+							displayData?.preparedData?.length > 15 ? 90 : 45
 						}
 						lineAxisBottomRotation={
-							displayData?.preparedData?.legnth > 15 ? 90 : 45
+							displayData?.preparedData?.length > 15 ? 90 : 45
 						}
 					/>{" "}
 				</>

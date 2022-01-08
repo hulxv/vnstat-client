@@ -22,7 +22,7 @@ import XMLViewer from "react-xml-viewer";
 
 import { BsArrowsCollapse, BsArrowsExpand } from "react-icons/bs";
 
-import { useConfig } from "../../context/configration";
+import { useConfig } from "../../context/configuration";
 
 export default function AsXML() {
 	const { config } = useConfig();
@@ -142,7 +142,7 @@ export default function AsXML() {
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							onClick={() => exportXML()}
 							isDisabled={!XML}>
 							Export

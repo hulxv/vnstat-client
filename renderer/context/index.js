@@ -1,17 +1,17 @@
 import VnStat from "./vnStat";
-import ReceviedMessagesProvider from "./recevied-messages";
-import Configration from "./configration";
+import ReceivedMessagesProvider from "./received-messages";
+import Configuration from "./configuration";
 import Logs from "./logs";
 
 function Contexts({ children }) {
 	return (
-		<Configration>
-			<ReceviedMessagesProvider>
+		<Configuration>
+			<ReceivedMessagesProvider>
 				<VnStat>
 					<Logs>{children}</Logs>
 				</VnStat>
-			</ReceviedMessagesProvider>
-		</Configration>
+			</ReceivedMessagesProvider>
+		</Configuration>
 	);
 }
 

@@ -3,7 +3,7 @@ import { ipcRenderer } from "electron";
 
 const ConfigProvider = createContext({});
 
-function Configration({ children }) {
+function Configuration({ children }) {
 	const [config, setConfig] = useState({});
 	function GettingAppConfig() {
 		ipcRenderer.send("get-config");
@@ -48,4 +48,4 @@ export function useConfig() {
 	return useContext(ConfigProvider);
 }
 
-export default Configration;
+export default Configuration;

@@ -21,7 +21,7 @@ import { ipcRenderer } from "electron";
 import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
 
-import { useConfig } from "../../../../context/configration";
+import { useConfig } from "../../../../context/configuration";
 
 function BarChart() {
 	// Check https://nivo.rocks/bar/
@@ -77,19 +77,19 @@ function BarChart() {
 					<HStack alignSelf='start'>
 						<Box>Grouped mode</Box>
 						<Switch
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
-							defaultChecked={config.apperance.barChart.isGrouped}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							defaultChecked={config.appearance.barChart.isGrouped}
 							onChange={(e) =>
-								EditConfig("apperance.barChart.isGrouped", e.target.checked)
+								EditConfig("appearance.barChart.isGrouped", e.target.checked)
 							}
 						/>
 					</HStack>
 					<HStack alignSelf='start' spacing={2.5}>
 						<Box>Colors</Box>
 						<Select
-							value={config.apperance.barChart.colors}
+							value={config.appearance.barChart.colors}
 							onChange={(e) =>
-								EditConfig("apperance.barChart.colors", e.target.value)
+								EditConfig("appearance.barChart.colors", e.target.value)
 							}>
 							{Colors.map((color) => (
 								<option>{color}</option>
@@ -99,9 +99,9 @@ function BarChart() {
 					<HStack alignSelf='start'>
 						<Box>Layout</Box>
 						<Select
-							value={config.apperance.barChart.layout}
+							value={config.appearance.barChart.layout}
 							onChange={(e) =>
-								EditConfig("apperance.barChart.layout", e.target.value)
+								EditConfig("appearance.barChart.layout", e.target.value)
 							}>
 							<option>horizontal</option>
 							<option>vertical</option>

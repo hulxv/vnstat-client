@@ -2,7 +2,7 @@ import router from "next/router";
 
 import { Flex, Heading, Button } from "@chakra-ui/react";
 import { useVnStat } from "@Context/vnStat";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 import { HiRefresh } from "react-icons/hi";
 
 function _404() {

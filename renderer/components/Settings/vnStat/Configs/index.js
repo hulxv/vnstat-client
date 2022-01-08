@@ -20,7 +20,7 @@ import VnStatD from "./vnStatD";
 import VnStatI from "./vnStatI";
 
 // Hooks
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnStat";
 function Configs({}) {
 	const { config } = useConfig();
@@ -51,7 +51,7 @@ function Configs({}) {
 	return (
 		<Stack>
 			<Heading alignSelf='center' size='md'>
-				Configrations
+				Configurations
 			</Heading>
 
 			<Stack>

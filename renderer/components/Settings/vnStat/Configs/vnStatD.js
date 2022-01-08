@@ -21,7 +21,7 @@ import { BiReset } from "react-icons/bi";
 // Hooks
 import { useState, useEffect } from "react";
 
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnStat";
 
 function vnStatD({}) {
@@ -106,7 +106,7 @@ function vnStatD({}) {
 						<Tooltip label='Unlimited'>
 							<Box>
 								<Switch
-									colorScheme={config?.apperance?.globalTheme ?? "green"}
+									colorScheme={config?.appearance?.globalTheme ?? "green"}
 									isChecked={Number(durations[duration]) === -1}
 									onChange={() => {
 										let value =

@@ -77,7 +77,7 @@ async function INIT() {
 	// Send Configs
 	mainWindow.webContents.send("send-config", (await AppConfig).get());
 
-	mainWindow.webContents.send("send-vn-configs", vnStat.configrations().read());
+	mainWindow.webContents.send("send-vn-configs", vnStat.configurations().read());
 
 	// Send Data
 	mainWindow.webContents.send("send-traffic", await vnStat.traffic().getData());

@@ -5,10 +5,10 @@ export async function whichInitSystemUserUsed() {
 	let initSystem = null;
 	const { stdout, stderr } = await exec(`file /sbin/init`);
 	if (stderr) throw stderr;
-	let splitingOutput = stdout
+	let splittingOutput = stdout
 		.split(" ")
 		[stdout.split(" ").length - 1].split("/");
-	initSystem = splitingOutput[splitingOutput.length - 1].replace("\n", "");
+	initSystem = splittingOutput[splittingOutput.length - 1].replace("\n", "");
 
 	return initSystem;
 }

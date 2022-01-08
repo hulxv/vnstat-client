@@ -40,7 +40,7 @@ import Credits from "./Credits";
 
 // Hooks
 import { useRef } from "react";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnStat";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -130,7 +130,7 @@ export default function Settings({ children }) {
 
 								onAlertDialogOpen();
 							}}
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							mr={3}>
 							Save Changes
 						</Button>
@@ -149,7 +149,7 @@ export default function Settings({ children }) {
 					<AlertDialogHeader>Save Changes?</AlertDialogHeader>
 					<AlertDialogCloseButton />
 					<AlertDialogBody>
-						Are you sure you want to changes for vnStat configrations ?
+						Are you sure you want to changes for vnStat configurations ?
 						<Table variant='striped'>
 							<TableCaption>Properties which changed</TableCaption>
 							<Thead>
@@ -175,7 +175,7 @@ export default function Settings({ children }) {
 					<AlertDialogFooter>
 						<Button onClick={onAlertDialogClose}>Cancel</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							ml={3}
 							onClick={() => {
 								saveChanges();

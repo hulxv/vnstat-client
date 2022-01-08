@@ -7,7 +7,7 @@ import { IconButton, Tooltip, HStack } from "@chakra-ui/react";
 
 import { BiLineChart, BiBarChart, BiTable } from "react-icons/bi";
 
-import { useConfig } from "../../context/configration";
+import { useConfig } from "../../context/configuration";
 import { useHotkeys } from "react-hotkeys-hook";
 const Chart = ({
 	lineChartData,
@@ -56,7 +56,7 @@ const Chart = ({
 						<IconButton
 							colorScheme={
 								__style__ === style
-									? config?.apperance?.globalTheme ?? "green"
+									? config?.appearance?.globalTheme ?? "green"
 									: "gray"
 							}
 							icon={DisplayStyles[__style__].icon}

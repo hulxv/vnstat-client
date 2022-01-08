@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { useVnStat } from "@Context/vnStat";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 export default function Header() {
 	const { traffic } = useVnStat();
@@ -79,7 +79,7 @@ function UsageBox({ interval, tx = 0, rx = 0 }) {
 			align='center'
 			shadow='xl'
 			border='4px'
-			borderColor={`${config?.apperance?.globalTheme ?? "green"}.500`}
+			borderColor={`${config?.appearance?.globalTheme ?? "green"}.500`}
 			pos='relative'>
 			<Flex align='center' flexDirection='column' w='full'>
 				<Flex mb={3}>
@@ -122,7 +122,7 @@ function UsageBox({ interval, tx = 0, rx = 0 }) {
 			<Button
 				pos='absolute'
 				bottom={-10}
-				colorScheme={`${config?.apperance?.globalTheme ?? "green"}`}
+				colorScheme={`${config?.appearance?.globalTheme ?? "green"}`}
 				cursor='default'
 				textTransform='capitalize'
 				roundedBottom='md'>

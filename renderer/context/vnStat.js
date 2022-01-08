@@ -10,7 +10,7 @@ import {
 	useRef,
 } from "react";
 import { ipcRenderer } from "electron";
-import { useConfig } from "./configration";
+import { useConfig } from "./configuration";
 export const vnStatContext = createContext();
 
 export default function vnStatProvider({ children }) {

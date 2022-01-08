@@ -34,7 +34,7 @@ export default class AppConfigs {
 		this.scheme = {
 			checkUpdatesOnStartup: true,
 			interface: (await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
-			apperance: {
+			appearance: {
 				globalTheme: "green",
 				lineChart: {
 					hasArea: true,
@@ -53,13 +53,13 @@ export default class AppConfigs {
 		this.store = new Store({});
 
 		if (!fs.existsSync(`${app.getPath("userData")}/config.json`)) {
-			info("Creating configration file...");
+			info("Creating configuration file...");
 			this.store.set(this.scheme);
-			info(`Configration file was created at ${this.store.path}`);
+			info(`Configuration file was created at ${this.store.path}`);
 		} else if (this.CheckIfSchemeWasUpdated()) {
-			info("Updating configration schema...");
+			info("Updating configuration schema...");
 			this.store.set(this.scheme);
-			info(`Configration file was updated at ${this.store.path}`);
+			info(`Configuration file was updated at ${this.store.path}`);
 		}
 
 		return this;

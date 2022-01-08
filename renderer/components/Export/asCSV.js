@@ -26,7 +26,7 @@ import { ipcRenderer } from "electron";
 
 // Hooks
 import { useState, useEffect } from "react";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnStat";
 
 export default function AsCSV() {
@@ -144,7 +144,7 @@ export default function AsCSV() {
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							onClick={() => exportAsCSV()}
 							isDisabled={!selectedTable}>
 							Export

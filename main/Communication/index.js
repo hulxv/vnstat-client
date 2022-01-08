@@ -57,7 +57,7 @@ export default class Communication {
 		});
 	}
 	OpenURL() {
-		// To opne URL in external browser
+		// To open URL in external browser
 		ipcMain.on("open-url", (e, url) => {
 			if (!url) return;
 			e.preventDefault();

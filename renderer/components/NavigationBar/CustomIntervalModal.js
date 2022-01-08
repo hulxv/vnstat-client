@@ -14,7 +14,7 @@ import {
 
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 import { Calendar, utils } from "@amir04lm26/react-modern-calendar-date-picker";
 
@@ -70,7 +70,7 @@ export default function CustomIntervalModal({
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							isDisabled={
 								selectedDayRange.to === null || selectedDayRange.from === null
 							}

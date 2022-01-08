@@ -3,7 +3,7 @@
 const fs = require("fs");
 
 const dir = ".";
-const extenstionTargets = ["png"];
+const extensionTargets = ["png"];
 
 fs.readdirSync(dir)
 	.filter((file) => {
@@ -12,7 +12,7 @@ fs.readdirSync(dir)
 			splitFileToGetExtension.length - 1,
 		);
 
-		return extenstionTargets.includes(fileExt);
+		return extensionTargets.includes(fileExt);
 	})
 	.forEach((file) => {
 		let newName = file.split(" ").slice(-2).join("-");

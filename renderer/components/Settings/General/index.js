@@ -11,9 +11,9 @@ import {
 	Select,
 } from "@chakra-ui/react";
 
-import Apperance from "./Apperance";
+import Appearance from "./Appearance";
 import { useVnStat } from "@Context/vnStat";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 function General() {
 	const { interfaces, changeInterface } = useVnStat();
@@ -24,7 +24,7 @@ function General() {
 			<HStack justify='space-between'>
 				<Box>Check updates on startup</Box>
 				<Switch
-					colorScheme={config?.apperance?.globalTheme ?? "green"}
+					colorScheme={config?.appearance?.globalTheme ?? "green"}
 					isChecked={config?.checkUpdatesOnStartup}
 					onChange={() => {
 						EditConfig("checkUpdatesOnStartup", !config?.checkUpdatesOnStartup);
@@ -47,7 +47,7 @@ function General() {
 				</Select>
 			</HStack>
 
-			<Apperance />
+			<Appearance />
 		</Stack>
 	);
 }

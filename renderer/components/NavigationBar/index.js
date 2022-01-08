@@ -22,7 +22,7 @@ import CustomIntervalModal from "./CustomIntervalModal";
 
 import { useHotkeys } from "react-hotkeys-hook";
 import { useVnStat } from "@Context/vnStat";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 
 export default function NavigationBar() {
 	const { config, reloading: reloadConfigs } = useConfig();
@@ -126,7 +126,7 @@ export default function NavigationBar() {
 							<MenuButton
 								as={Button}
 								rightIcon={<HiArrowSmDown />}
-								colorScheme={config?.apperance?.globalTheme ?? "green"}>
+								colorScheme={config?.appearance?.globalTheme ?? "green"}>
 								{Page.title}
 							</MenuButton>
 						</Tooltip>

@@ -18,7 +18,7 @@ import {
 import { ipcRenderer } from "electron";
 import { useState } from "react";
 
-import { useConfig } from "../../context/configration";
+import { useConfig } from "../../context/configuration";
 
 const JsonViewer = dynamic(import("react-json-view"), { ssr: false });
 
@@ -117,7 +117,7 @@ export default function AsJSON() {
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.apperance?.globalTheme ?? "green"}
+							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							onClick={() => exportJSON()}
 							isDisabled={Object.keys(json).length <= 0}>
 							Export

@@ -1,7 +1,7 @@
 import { Stack, Button, Heading } from "@chakra-ui/react";
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
-import { useConfig } from "@Context/configration";
+import { useConfig } from "@Context/configuration";
 function Info() {
 	const [infos, setInfos] = useState([]);
 	const { config } = useConfig();
@@ -22,7 +22,7 @@ function Info() {
 				</Stack>
 			))}
 			<Button
-				colorScheme={config?.apperance?.globalTheme ?? "green"}
+				colorScheme={config?.appearance?.globalTheme ?? "green"}
 				maxW={300}
 				alignSelf='center'
 				onClick={() => {

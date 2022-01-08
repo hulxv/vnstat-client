@@ -34,7 +34,7 @@
   - JSON
 - Beautiful UI (Thanks [Chakra UI](https://chakra-ui.com/) for this great UI components library)
 - Different themes and color schemes for UI and Charts (Line/Bar Chart and Thanks for [Nivo](https://nivo.rocks/) for great charts library)
-- Full controlling in vnStat Dameon (Support systemd only)
+- Full controlling in vnStat Daemon (Support systemd only)
 - Easy changing vnStat's configurations
 
 And more!

@@ -44,14 +44,14 @@ export default class vnConfig {
 		}
 		if (!fs.existsSync(this.configFilePath)) {
 			log.error(
-				`vnStat Configration file not found. [Path: ${this.configFilePath}]`,
+				`vnStat Configuration file not found. [Path: ${this.configFilePath}]`,
 			);
 			return;
 		}
 	}
 	read() {
 		if (!fs.existsSync(this.configFilePath)) {
-			log.error("vnStat Configration file not found.");
+			log.error("vnStat Configuration file not found.");
 			return;
 		}
 		let configsOutput = fs

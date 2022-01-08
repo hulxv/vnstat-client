@@ -5,7 +5,7 @@ import vnStatClass from "../../vnStat";
 
 // const vnConfig = new vnConfigClass();
 const AppConfig = new AppConfigClass().init();
-const vnConfig = new vnStatClass().configrations();
+const vnConfig = new vnStatClass().configurations();
 export default class Config {
 	constructor() {}
 	Init() {
