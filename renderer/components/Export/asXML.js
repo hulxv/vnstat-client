@@ -59,7 +59,7 @@ export default function AsXML() {
 	}
 	return (
 		<>
-			<Box onClick={onOpen} fontSize='xl' variant='ghost' w='full'>
+			<Box onClick={onOpen} fontSize='xl' w='full'>
 				XML
 			</Box>
 

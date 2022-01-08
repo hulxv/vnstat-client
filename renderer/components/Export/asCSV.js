@@ -66,7 +66,7 @@ export default function AsCSV() {
 	}
 	return (
 		<>
-			<Box onClick={onOpen} fontSize='xl' variant='ghost' w='full'>
+			<Box onClick={onOpen} fontSize='xl' w='full'>
 				CSV
 			</Box>
 

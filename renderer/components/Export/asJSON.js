@@ -55,7 +55,7 @@ export default function AsJSON() {
 	}
 	return (
 		<>
-			<Box onClick={onOpen} fontSize='xl' variant='ghost' w='full'>
+			<Box onClick={onOpen} fontSize='xl' w='full'>
 				JSON
 			</Box>
 
