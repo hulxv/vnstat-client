@@ -10,9 +10,10 @@ export default class vnStat {
 
 	db() {
 		try {
-			let dbPath = `${this.configurations()
-				.read()
-				["DatabaseDir"].replace(/[",']/gi, "")}/vnstat.db`;
+			let dbPath = `${
+				this.configurations().read()["DatabaseDir"].replace(/[",']/gi, "") ??
+				"/var/lib/vnstat/"
+			}/vnstat.db`;
 			return new DB(dbPath);
 		} catch (err) {
 			error(err);
