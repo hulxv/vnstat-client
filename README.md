@@ -56,3 +56,9 @@ Show [More](screenshots).
 And thanks to any developer who build a library used in this project.
 
 You can see all packages used in the project in [package.json](./package.json)
+
+---
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Hulxv/vnstat-client.svg)](https://starchart.cc/Hulxv/vnstat-client)
