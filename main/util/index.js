@@ -41,19 +41,14 @@ export async function vnStatIsInstalled() {
 	let bash = `        
 if ! [ -x "$(command -v vnstat)" ]; then
   echo "false"
-  exit 1
-
   else echo "true"
-fi                                                                                                                  
-  `;
+  exit 1
+fi`;
 
 	try {
 		const { stdout, stderr } = await exec(bash);
 		if (stderr) throw stderr;
-		return stdout
-			.split("\n")
-			.map((e) => e.replace(/[\n, " "]/, ""))
-			.includes("true");
+		return stdout.includes("true");
 	} catch (err) {
 		return err;
 	}

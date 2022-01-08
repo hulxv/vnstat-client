@@ -24,7 +24,7 @@ function vnStat() {
 	const { configs, daemonStatus, stopDaemon, startDaemon, restartDaemon } =
 		useVnStat();
 
-	if (!configs || !Object.keys(configs))
+	if (!configs || !(Object.keys(configs).length > 0))
 		return (
 			<Stack align='center'>
 				<Heading>Something went wrong</Heading>

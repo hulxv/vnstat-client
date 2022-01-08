@@ -66,6 +66,8 @@ async function INIT() {
 	}
 	await TrayIcon.init();
 
+	mainWindow.webContents.send("send-config", (await AppConfig).get());
+
 	if (!(await vnStatIsInstalled())) {
 		error(
 			"vnStat isn't installed, You should download and setup it before using this client.",
@@ -74,18 +76,18 @@ async function INIT() {
 		return;
 	}
 
-	// Send Configs
-	mainWindow.webContents.send("send-config", (await AppConfig).get());
+	// Send vnStat data
+	mainWindow.webContents.send(
+		"send-vn-configs",
+		vnStat.configurations().read(),
+	);
 
-	mainWindow.webContents.send("send-vn-configs", vnStat.configurations().read());
-
-	// Send Data
 	mainWindow.webContents.send("send-traffic", await vnStat.traffic().getData());
+
 	mainWindow.webContents.send(
 		"send-vnstat-interfaces",
 		await vnStat.interfaces(),
 	);
-
 	mainWindow.webContents.send(
 		"send-vn-daemon-status",
 		await vnStat.daemon().status(),
