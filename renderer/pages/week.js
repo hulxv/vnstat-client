@@ -9,7 +9,7 @@ import { prepareWeekData } from "@Util/PrepareDataToDisplay";
 import DataDisplay from "@Components/DataDisplay";
 import SwitchBar from "@Components/SwitchBar";
 import TotalTraffic from "@Components/TotalTraffic";
-import { Stack, Box } from "@chakra-ui/react";
+import { Stack, Heading } from "@chakra-ui/react";
 
 import { useVnStat } from "@Context/vnStat";
 
@@ -40,7 +40,7 @@ export default function Month() {
 					<SwitchBar
 						title={
 							<Stack align='center'>
-								<Box textTransform='capitalize'>
+								<Heading textTransform='capitalize'>
 									{format(
 										new Date(
 											displayData?.preparedData?.at(0)?.date ?? new Date(),
@@ -53,8 +53,8 @@ export default function Month() {
 											displayData?.preparedData?.at(0)?.date ?? new Date(),
 										),
 									)}
-								</Box>
-								<Box>
+								</Heading>
+								<Heading size='sm'>
 									{format(
 										new Date(
 											displayData?.preparedData?.at(0)?.date ?? new Date(),
@@ -70,7 +70,7 @@ export default function Month() {
 
 										"yyyy MMM dd",
 									)}`}
-								</Box>
+								</Heading>
 							</Stack>
 						}
 						state={PreviousWeeks}
