@@ -5,16 +5,19 @@
 [![GitHub release](https://img.shields.io/github/v/release/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/releases)
 [![GitHub stars](https://img.shields.io/github/stars/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/network)
+[![Github Downloads](https://img.shields.io/github/downloads/Hulxv/vnstat-client/total.svg?style=for-the-badge)]()
 
 [![GitHub license](https://img.shields.io/github/license/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/blob/main/LICENSE)
 
-<p align='center'> <img src="resources/icons/512x512.png" alt="vnstat-client-logo" width="300" /> <h1 align='center'>vnStat Client</h1> </p>
+<div align='center'> <img src="resources/icons/512x512.png" alt="vnstat-client-logo" width="300" /> <h1 align='center'>vnStat Client</h1> </div>
 
 <h3 align='center'> GUI Client for <a href='https://github.com/vergoh/vnstat'>vnStat traffic monitor</a> built with <a href='https://github.com/saltyshiomix/nextron/tree/v7.1.0'>Nextron</a> </h3>
 
 ## Requirements
 
-- [vnstat (^2.8)](https://github.com/vergoh/vnstat)
+- [vnStat (^2.8)](https://github.com/vergoh/vnstat)
+
+---
 
 ## Features
 
@@ -43,7 +46,9 @@ And more!
 
 > Please check [INSTALLATION.md](./INSTALLATION.md)
 
-## Screenshot
+---
+
+## Screenshots
 
 ![Table](screenshots/2022-01-06-23-42-33.png)
 
@@ -51,7 +56,7 @@ And more!
 
 ![bar chart](screenshots/2022-01-06-23-42-50.png)
 
-Show [More](screenshots).
+## Show [More](screenshots).
 
 And thanks to any developer who build a library used in this project.
 
@@ -59,6 +64,11 @@ You can see all packages used in the project in [package.json](./package.json)
 
 ---
 
-## Stargazers over time
+## Contribution
 
-[![Stargazers over time](https://starchart.cc/Hulxv/vnstat-client.svg)](https://starchart.cc/Hulxv/vnstat-client)
+You can contribute by doing one of the following:
+
+- Starring the repository.
+- Forking the repository.
+- Creating an Issue.
+- Creating a Pull Request.
