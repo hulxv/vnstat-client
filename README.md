@@ -72,3 +72,7 @@ You can contribute by doing one of the following:
 - Forking the repository.
 - Creating an Issue.
 - Creating a Pull Request.
+
+## Change log
+
+> Please check [CHANGELOG.md](./CHANGELOG.md)
