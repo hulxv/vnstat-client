@@ -58,9 +58,13 @@ And more!
 
 Show [More](screenshots).
 
+---
 
 ## Credits
-Thanks to any developer who build a library used in this project.
+
+- Thanks [vergoh](https://github.com/vergoh) for making this amazing [tool](https://github.com/vergoh/vnstat).
+- Thanks to any developer who build a library used in this project.
+
 ---
 
 ## Contribution
@@ -72,11 +76,10 @@ You can contribute by doing one of the following:
 - Creating an Issue.
 - Creating a Pull Request.
 
-## Change log
+## Change logs
 
 > Please check [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
 You can see all packages used in the project in [package.json](./package.json)
-
