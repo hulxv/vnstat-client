@@ -1,5 +1,4 @@
 {
-	"private": true,
 	"name": "vnstat-client",
 	"description": "GUI Client for vnStat network traffic monitor",
 	"version": "22.1.9",
