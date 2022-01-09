@@ -3,7 +3,7 @@
 	"name": "vnstat-client",
 	"description": "GUI Client for vnStat network traffic monitor",
 	"version": "22.1.9",
-	"license": "MIT",
+	"license": "GPLv2",
 	"repository": "https://github.com/Hulxv/vnstat-client",
 	"author": "Hulxxv <hulxxv@gmail.com>",
 	"main": "app/background.js",
