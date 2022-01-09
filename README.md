@@ -56,7 +56,7 @@ And more!
 
 ![bar chart](screenshots/2022-01-06-23-42-50.png)
 
-## Show [More](screenshots).
+Show [More](screenshots).
 
 And thanks to any developer who build a library used in this project.
 
