@@ -58,10 +58,9 @@ And more!
 
 Show [More](screenshots).
 
-And thanks to any developer who build a library used in this project.
 
-You can see all packages used in the project in [package.json](./package.json)
-
+## Credits
+Thanks to any developer who build a library used in this project.
 ---
 
 ## Contribution
@@ -76,3 +75,8 @@ You can contribute by doing one of the following:
 ## Change log
 
 > Please check [CHANGELOG.md](./CHANGELOG.md)
+
+---
+
+You can see all packages used in the project in [package.json](./package.json)
+
