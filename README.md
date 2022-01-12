@@ -84,4 +84,8 @@ You can contribute by doing one of the following:
 
 You can see all packages used in the project in [package.json](./package.json)
 
+---
+
+## Documentations
+
 > Read [Documentions](docs/index.md) for more informations
