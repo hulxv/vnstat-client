@@ -18,7 +18,6 @@ linux:
     - "tar.gz"
     - "pacman"
   desktop:
-    Terminal: true
     Name: vnStat Client
     Icon: "resources/icons"
     Comment: GUI Client for vnStat Network Traffic Monitor
