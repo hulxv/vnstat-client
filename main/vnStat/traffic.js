@@ -8,6 +8,8 @@ import {
 	startOfMonth,
 	startOfToday,
 	startOfYesterday,
+	isThisYear,
+	isThisMonth,
 } from "date-fns";
 import vnStat from ".";
 export default class traffic {
@@ -15,7 +17,7 @@ export default class traffic {
 	constructor() {
 		this.month = [];
 		this.year = [];
-		this.main = [];
+		this.summary = [];
 		this.day = [];
 	}
 
@@ -26,7 +28,7 @@ export default class traffic {
 				day: await this.Day(),
 				year: await this.Year(),
 				week: await this.Week(),
-				main: await this.Main(),
+				summary: await this.Summary(),
 			};
 		} catch (err) {
 			error(err);
@@ -75,11 +77,13 @@ export default class traffic {
 		}
 	}
 
-	async Main() {
+	async Summary() {
 		try {
-			const MonthUsageData = (await (
+			const CurrentMonthUsageData = (await (
 				await this.#db.get("month")
-			).find((e) => getMonth(new Date(e.date)) === getMonth(new Date()))) ?? {
+			).find(
+				(e) => isThisMonth(new Date(e.date)) && isThisYear(new Date(e.date)),
+			)) ?? {
 				date: format(startOfMonth(new Date()), "yyyy-MM-dd"),
 				rx: 0,
 				tx: 0,
@@ -101,16 +105,16 @@ export default class traffic {
 				tx: 0,
 			};
 			// For debugging ---
-			// console.log("month", MonthUsageData);
+			// console.log("month", CurrentMonthUsageData);
 			// console.log("today", TodayUsageData);
 			// console.log("yesterday", YesterdayUsageData);
-			this.main = [
+			this.summary = [
 				{
 					interval: "this month",
 					data: {
-						...MonthUsageData,
-						rx: MonthUsageData.rx / 1024 / 1024,
-						tx: MonthUsageData.tx / 1024 / 1024,
+						...CurrentMonthUsageData,
+						rx: CurrentMonthUsageData.rx / 1024 / 1024,
+						tx: CurrentMonthUsageData.tx / 1024 / 1024,
 					},
 				},
 				{
@@ -131,7 +135,7 @@ export default class traffic {
 				},
 			];
 
-			return this.main;
+			return this.summary;
 		} catch (err) {
 			error(err.message);
 			throw err;

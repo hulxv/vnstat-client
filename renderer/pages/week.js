@@ -25,7 +25,7 @@ export default function Month() {
 			PreviousWeeks,
 		);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
-		// console.log(displayData?.preparedData.at(0).date);
+		console.log(displayData?.preparedData);
 	}, [PreviousWeeks, traffic]);
 
 	return (
@@ -84,7 +84,10 @@ export default function Month() {
 					<DataDisplay
 						lineChartData={displayData?.lineChartData}
 						barChartData={displayData?.barChartData}
-						data={displayData?.preparedData}
+						data={displayData?.preparedData?.map((e) => ({
+							...e,
+							date: format(new Date(e.date), "EEEE"),
+						}))}
 					/>
 				</>
 			)}

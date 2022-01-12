@@ -34,7 +34,7 @@ export default function vnStatProvider({ children }) {
 		day: [],
 		year: [],
 		week: [],
-		main: [],
+		summary: [],
 	});
 	const [daemonStatus, setDaemonStatus] = useState("inactive");
 

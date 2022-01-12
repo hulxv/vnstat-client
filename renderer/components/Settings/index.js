@@ -24,11 +24,11 @@ import {
 	Table,
 	Thead,
 	Tbody,
-	Tfoot,
 	Tr,
 	Th,
 	Td,
 	TableCaption,
+	Tooltip,
 } from "@chakra-ui/react";
 
 // Tabs Components
@@ -123,17 +123,22 @@ export default function Settings({ children }) {
 							}}>
 							Close
 						</Button>
-						<Button
-							isDisabled={!isConfigChanged} // * Enabled only when configs is changing
-							onClick={() => {
-								forceReRender();
+						<Tooltip
+							hasArrow
+							placement='top'
+							label='Save Changes in vnStat Configurations'>
+							<Button
+								isDisabled={!isConfigChanged} // * Enabled only when configs is changing
+								onClick={() => {
+									forceReRender();
 
-								onAlertDialogOpen();
-							}}
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
-							mr={3}>
-							Save Changes
-						</Button>
+									onAlertDialogOpen();
+								}}
+								colorScheme={config?.appearance?.globalTheme ?? "green"}
+								mr={3}>
+								Save Changes
+							</Button>
+						</Tooltip>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

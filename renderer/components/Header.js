@@ -10,11 +10,11 @@ export default function Header() {
 
 	const [data, setData] = useState([
 		{
-			interval: "today",
+			interval: "yesterday",
 			data: [],
 		},
 		{
-			interval: "yesterday",
+			interval: "today",
 			data: [],
 		},
 		{
@@ -25,11 +25,11 @@ export default function Header() {
 	useEffect(() => {
 		let defaultValue = [
 			{
-				interval: "today",
+				interval: "yesterday",
 				data: [],
 			},
 			{
-				interval: "yesterday",
+				interval: "today",
 				data: [],
 			},
 			{
@@ -39,9 +39,10 @@ export default function Header() {
 		];
 		console.log();
 		let dataAfterSetting = [
-			...traffic.main,
+			...traffic.summary,
 			...defaultValue.filter(
-				(e) => traffic.main.findIndex((_e) => _e.interval == e.interval) === -1,
+				(e) =>
+					traffic.summary.findIndex((_e) => _e.interval == e.interval) === -1,
 			),
 		];
 		setData(dataAfterSetting);
