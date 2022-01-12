@@ -9,6 +9,7 @@ import { prepareYearData } from "@Util/PrepareDataToDisplay";
 import DataDisplay from "@Components/DataDisplay";
 import SwitchBar from "@Components/SwitchBar";
 import TotalTraffic from "@Components/TotalTraffic";
+import { format } from "date-fns";
 
 export default function Year() {
 	const { traffic } = useVnStat();
@@ -43,7 +44,10 @@ export default function Year() {
 					/>
 					<TotalTraffic data={displayData?.total} />
 					<DataDisplay
-						data={displayData?.preparedData}
+						data={displayData?.preparedData?.map((e) => ({
+							...e,
+							date: format(new Date(e.date), "MMM"),
+						}))}
 						lineChartData={displayData?.lineChartData}
 						barChartData={displayData?.barChartData}
 					/>{" "}

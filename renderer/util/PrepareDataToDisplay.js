@@ -152,21 +152,21 @@ function prepareYearData(Data, amountYears = 0) {
 		{
 			id: "Upload",
 			data: preparedData.map((e) => ({
-				x: getMonth(new Date(e.date)) + 1,
+				x: format(new Date(e.date), "MMM"),
 				y: (e.tx / 1024).toFixed(2),
 			})),
 		},
 		{
 			id: "Download",
 			data: preparedData.map((e) => ({
-				x: getMonth(new Date(e.date)) + 1,
+				x: format(new Date(e.date), "MMM"),
 				y: (e.rx / 1024).toFixed(2),
 			})),
 		},
 	];
 
 	let barChartData = preparedData.map((e) => ({
-		date: getMonth(new Date(e.date)) + 1,
+		date: format(new Date(e.date), "MMM"),
 		Download: (e.rx / 1024).toFixed(2),
 		Upload: (e.tx / 1024).toFixed(2),
 	}));
