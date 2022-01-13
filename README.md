@@ -76,7 +76,7 @@ You can contribute by doing one of the following:
 - Creating an Issue.
 - Creating a Pull Request.
 
-## Change logs
+## Changes logs
 
 > Please check [CHANGELOG.md](./CHANGELOG.md)
 
@@ -88,4 +88,4 @@ You can see all packages used in the project in [package.json](./package.json)
 
 ## Documentations
 
-> Read [Documentions](docs/index.md) for more informations
+> Read [Documentions](docs/index.md) for more information
