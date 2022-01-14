@@ -13,7 +13,8 @@
 			"@Redux/*": ["redux/*"],
 			"@Redux": ["redux"],
 			"@Util/*": ["util/*"],
-			"@Util": ["util"]
+			"@Util": ["util"],
+			"@Public": ["public"]
 		}
 	}
 }

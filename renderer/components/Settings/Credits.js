@@ -10,6 +10,7 @@ function Credits() {
 			link: "https://github.com/Hulxv",
 			site: "github",
 			openInBrowser: true,
+			tip: "Client Developer",
 		},
 		{
 			username: "vergoh",
@@ -17,7 +18,7 @@ function Credits() {
 			link: "https://github.com/vergoh",
 			site: "github",
 			openInBrowser: true,
-			tip: "vnstat's Developer",
+			tip: "vnStat Developer",
 		},
 	];
 
