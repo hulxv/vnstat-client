@@ -14,7 +14,8 @@
 			"@Redux": ["redux"],
 			"@Util/*": ["util/*"],
 			"@Util": ["util"],
-			"@Public": ["public"]
+			"@Assests": ["assests"],
+			"@Assests/": ["assests/"]
 		}
 	}
 }

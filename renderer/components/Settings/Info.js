@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
 
@@ -23,12 +22,12 @@ function Info() {
 	useEffect(() => {
 		ipcRenderer.send("get-infos");
 		ipcRenderer.on("send-infos", (e, result) => {
-			setInfos([...result]);
+			setInfos(result);
 		});
 	}, []);
 	return (
 		<Stack spacing={4} alignSelf='center' align='center'>
-			<Image
+			<img
 				src='/images/vnclient-icon.png'
 				width='250'
 				height='250'

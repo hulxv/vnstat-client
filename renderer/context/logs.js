@@ -9,6 +9,8 @@ import {
 import { ipcRenderer } from "electron";
 const LogsProvider = createContext(null);
 
+const availableTypes = ["warn", "error", "info"];
+
 function Logs({ children }) {
 	const [logs, setLogs] = useState({ path: "", lines: [] });
 	const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +41,7 @@ function Logs({ children }) {
 							matching !== null &&
 							matching[0].replace(/\[/g, "").replace(/\]/g, "");
 
-						if (status === "warn") status = "warning";
+						if (!availableTypes.includes(status)) status = "warning";
 						return {
 							content: line.replace(/\[(.*?)\]/g, ""),
 							date,
