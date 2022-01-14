@@ -3,7 +3,7 @@ import LineChart from "./LineChart";
 import BarChart from "./BarChart";
 import Table from "./Table";
 
-import { IconButton, Tooltip, HStack } from "@chakra-ui/react";
+import { IconButton, Tooltip, HStack, Stack } from "@chakra-ui/react";
 
 import { BiLineChart, BiBarChart, BiTable } from "react-icons/bi";
 
@@ -49,7 +49,7 @@ const Chart = ({
 	useHotkeys("ctrl+t", () => setStyle("table"));
 
 	return (
-		<>
+		<Stack minH={600} h='full' w='full'>
 			<HStack alignSelf='end' spacing={2} mr={1}>
 				{Object.keys(DisplayStyles).map((__style__) => (
 					<Tooltip textTransform='capitalize' label={__style__}>
@@ -66,7 +66,7 @@ const Chart = ({
 				))}
 			</HStack>
 			{DisplayStyles[style].render}
-		</>
+		</Stack>
 	);
 };
 

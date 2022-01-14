@@ -164,7 +164,8 @@ function Logs() {
 				) : (
 					<LogRows
 						data={LogsAfterFiltering.slice(
-							Math.max(LogsAfterFiltering.length - NUMBER_OF_MESSAGES, 0),
+							0,
+							Math.min(LogsAfterFiltering.length, NUMBER_OF_MESSAGES),
 						)}
 					/>
 				)}
