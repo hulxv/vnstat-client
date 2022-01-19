@@ -87,17 +87,13 @@ export default function NetStats() {
 						<HStack>
 							<HiArrowDown />
 							<Box>
-								{(Object.values(networkStats)[0]?.speed?.rx / 1024)?.toFixed(2)}{" "}
-								KB/s {"  "}
+								{(networkStats?.speed?.rx / 1024)?.toFixed(2)} KB/s {"  "}
 							</Box>
 						</HStack>
 
 						<HStack>
 							<HiArrowUp />
-							<Box>
-								{(Object.values(networkStats)[0]?.speed?.tx / 1024)?.toFixed(2)}{" "}
-								KB/s
-							</Box>
+							<Box>{(networkStats?.speed?.tx / 1024)?.toFixed(2)} KB/s</Box>
 						</HStack>
 					</Stack>
 				</Button>
@@ -115,7 +111,7 @@ export default function NetStats() {
 				<ModalContent>
 					<ModalHeader>
 						Network Speed Statistics for{" "}
-						{toCapitalize(Object.keys(networkStats)[0] ?? "")}{" "}
+						{toCapitalize(Object.keys(networkStats ?? {})[0] ?? "")}{" "}
 					</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
@@ -125,20 +121,14 @@ export default function NetStats() {
 									<HStack>
 										<HiArrowDown />
 										<Box>
-											{(
-												Object.values(networkStats)[0]?.speed?.rx / 1024
-											)?.toFixed(2)}{" "}
-											KB/s {"  "}
+											{(networkStats?.speed?.rx / 1024)?.toFixed(2)} KB/s {"  "}
 										</Box>
 									</HStack>
 
 									<HStack>
 										<HiArrowUp />
 										<Box>
-											{(
-												Object.values(networkStats)[0]?.speed?.tx / 1024
-											)?.toFixed(2)}{" "}
-											KB/s
+											{(networkStats?.speed?.tx / 1024)?.toFixed(2)} KB/s
 										</Box>
 									</HStack>
 								</HStack>

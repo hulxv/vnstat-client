@@ -12,7 +12,6 @@ const NetwrokStatsContext = createContext(null);
 export default function NetworkStatsProvider({ children }) {
 	const [isRecording, setIsRecordeing] = useState(true);
 	const [networkStats, setNetworkStats] = useState(null);
-	const [bytesOnStartRecording, setBytesOnStartRecording] = useState(null);
 
 	const recordedSpeedStats = useRef(Array(60).fill({ rx: 0, tx: 0 }));
 	const seconds = useRef(0);
@@ -20,11 +19,7 @@ export default function NetworkStatsProvider({ children }) {
 	useEffect(() => {
 		ipcRenderer.on("send-network-stats", (e, result) => {
 			setNetworkStats(result);
-			if (bytesOnStartRecording === null)
-				setBytesOnStartRecording({
-					rx: Object.values(result)[0]?.bytes?.rx,
-					tx: Object.values(result)[0]?.bytes?.rx,
-				});
+
 			if (isRecording) {
 				recordedSpeedStats.current = [
 					...Array(60).fill({ rx: 0, tx: 0 }),
@@ -54,16 +49,15 @@ export default function NetworkStatsProvider({ children }) {
 
 	const value = useMemo(
 		() => ({
-			networkStats,
+			networkStats: Object.values(networkStats ?? {})[0],
 			recordedSpeedStats: recordedSpeedStats.current,
 			isRecording,
 			seconds: seconds.current,
-			bytesOnStartRecording,
 			reset,
 			startRecording,
 			stopRecording,
 		}),
-		[networkStats, isRecording, bytesOnStartRecording],
+		[networkStats, isRecording],
 	);
 	return (
 		<NetwrokStatsContext.Provider value={value}>
