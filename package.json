@@ -24,7 +24,8 @@
 		"electron-updater": "^4.6.1",
 		"knex": "^0.95.12",
 		"sqlite3": "^5.0.2",
-		"sudo-prompt": "^9.2.1"
+		"sudo-prompt": "^9.2.1",
+		"systeminformation": "^5.10.3"
 	},
 	"devDependencies": {
 		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",

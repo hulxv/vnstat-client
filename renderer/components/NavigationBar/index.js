@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import router from "next/router";
+import { toCapitalize } from "@Util";
+
 import {
 	Menu,
 	MenuButton,
@@ -10,7 +12,6 @@ import {
 	Tooltip,
 	Flex,
 	Kbd,
-	Box,
 	HStack,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
@@ -23,6 +24,9 @@ import CustomIntervalModal from "./CustomIntervalModal";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useVnStat } from "@Context/vnStat";
 import { useConfig } from "@Context/configuration";
+
+import NetworkStats from "@Context/network-stats";
+import NetSpeed from "./NetSpeed";
 
 export default function NavigationBar() {
 	const { config, reloading: reloadConfigs } = useConfig();
@@ -86,7 +90,7 @@ export default function NavigationBar() {
 				shadow='2xl'
 				rounded='2xl'
 				width='95%'>
-				<Flex>
+				<HStack spacing={1}>
 					<Tooltip label='Settings'>
 						<Settings>
 							<IconButton
@@ -98,7 +102,10 @@ export default function NavigationBar() {
 						</Settings>
 					</Tooltip>
 					<Export />
-				</Flex>
+					<NetworkStats>
+						<NetSpeed />
+					</NetworkStats>
+				</HStack>
 				<Flex>
 					<HStack mr={1}>
 						<Kbd>ALT</Kbd>
@@ -159,19 +166,4 @@ export default function NavigationBar() {
 			/>
 		</>
 	);
-}
-
-function toCapitalize(str) {
-	if (typeof str === "string") {
-		let string = str.split(" ");
-		let result = [];
-
-		for (let i = 0; i < string.length; i++) {
-			let _s =
-				string[i][0].toUpperCase() + string[i].substr(1, string[i].length);
-			result.push(_s);
-		}
-		return result.join(" ");
-	}
-	return "";
 }

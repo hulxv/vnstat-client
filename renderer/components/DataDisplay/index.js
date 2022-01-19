@@ -25,6 +25,8 @@ const Chart = ({
 				<LineChart
 					data={lineChartData}
 					axisBottomRotation={lineAxisBottomRotation}
+					LeftLegend='Usage (GB)'
+					LeftLegend='Date / Time'
 				/>
 			),
 			icon: <BiLineChart size='1.4em' />,

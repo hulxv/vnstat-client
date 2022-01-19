@@ -2,7 +2,14 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useConfig } from "@Context/configuration";
 
-export default function LineChart({ data, axisBottomRotation = 0 }) {
+export default function LineChart({
+	data,
+	axisBottomRotation = 0,
+	BottomLegend,
+	LeftLegend,
+	disableAxisBottom,
+	disableAnimate,
+}) {
 	const { config } = useConfig();
 
 	return (
@@ -21,21 +28,25 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 			curve={config?.appearance?.lineChart?.curve}
 			axisTop={null}
 			axisRight={null}
-			axisBottom={{
-				orient: "bottom",
-				tickSize: 5,
-				tickPadding: 10,
-				tickRotation: axisBottomRotation,
-				legend: "Date / Time",
-				legendOffset: 36,
-				legendPosition: "middle",
-			}}
+			axisBottom={
+				disableAxisBottom
+					? false
+					: {
+							orient: "bottom",
+							tickSize: 5,
+							tickPadding: 10,
+							tickRotation: axisBottomRotation,
+							legend: BottomLegend,
+							legendOffset: 36,
+							legendPosition: "middle",
+					  }
+			}
 			axisLeft={{
 				orient: "left",
 				tickSize: 5,
 				tickPadding: 5,
 				tickRotation: 0,
-				legend: "Usaeg (GB)",
+				legend: LeftLegend,
 				legendOffset: -40,
 				legendPosition: "middle",
 			}}
@@ -77,6 +88,7 @@ export default function LineChart({ data, axisBottomRotation = 0 }) {
 					],
 				},
 			]}
+			animate={!disableAnimate}
 			motionConfig='slow'
 		/>
 	);

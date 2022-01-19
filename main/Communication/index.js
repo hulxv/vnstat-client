@@ -8,6 +8,7 @@ import ExportingChannelClass from "./Channels/Exporting";
 import LogsChannelClass from "./Channels/Logs";
 import vnStatChannelClass from "./Channels/vnStat";
 import DaemonChannelClass from "./Channels/Daemon";
+import NetworkChannelClass from "./Channels/Network";
 import vnStat from "../vnStat";
 
 const ConfigChannel = new ConfigChannelClass();
@@ -15,6 +16,7 @@ const ExportingChannel = new ExportingChannelClass();
 const LogsChannel = new LogsChannelClass();
 const vnStatChannel = new vnStatChannelClass();
 const DaemonChannel = new DaemonChannelClass();
+const Network = new NetworkChannelClass();
 
 export default class Communication {
 	constructor() {}
@@ -29,6 +31,7 @@ export default class Communication {
 		LogsChannel.Init();
 		await vnStatChannel.Init();
 		DaemonChannel.Init();
+		Network.init();
 	}
 
 	// async getVnStatInterfaces() {

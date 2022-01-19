@@ -175,7 +175,6 @@ function Logs() {
 }
 
 function LogAlert({ status, date, content }) {
-	console.log("status =>>", status);
 	return (
 		<Alert status={status ?? "info"}>
 			<AlertIcon />
