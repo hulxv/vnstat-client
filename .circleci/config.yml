@@ -36,6 +36,14 @@ jobs:
       - run:
           name: Generate Builds
           command: yarn build
+      - run:
+          name: Creating Dummy Artifacts
+          command: |
+            mkdir /tmp/artifacts;
 
       - store_artifacts:
-          path: ~/vnstat-client/dist
+          path: /tmp/artifact-1
+          destination: artifact-file
+
+      - store_artifacts:
+          path: /tmp/artifacts
