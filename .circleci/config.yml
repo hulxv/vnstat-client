@@ -7,6 +7,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update Nodejs
+          command: "sudo apt install nodejs"
+      - run:
           name: Update NPM
           command: "sudo npm install -g npm"
       - run:
