@@ -14,17 +14,25 @@ jobs:
           command: "sudo npm install -g npm"
       - run:
           name: Install Yarn
-          command: "sudo npm install --global yarn"
+          command: "curl -o- -L https://yarnpkg.com/install.sh | bash"
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install Dependencies
           command: yarn install
 
+      - restore_cache:
+            name: Restore Yarn Package Cache
+            keys:
+              - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - ./node_modules
+            - ~/.cache/yarn
       - run:
           name: Generate Builds
           command: yarn build
