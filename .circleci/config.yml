@@ -40,8 +40,7 @@ jobs:
       - run:
           name: Creating Dummy Artifacts
           command: |
-            echo "my artifact file" > /tmp/art-1;
             mkdir /tmp/artifacts;
-            
+            mv ~/repo/dist /tmp/artifacts;
       - store_artifacts:
             path: /tmp/artifacts
