@@ -31,6 +31,9 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run:
+          name: Install libarchive-tools for pacman build # Related https://github.com/electron-userland/electron-builder/issues/4181
+          command: sudo apt-get install libarchive-tools
+      - run:
           name: Generate Builds
           command: yarn build
 
