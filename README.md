@@ -51,6 +51,7 @@ And more!
 ## Screenshots
 
 ![Table](screenshots/2022-01-06-23-42-33.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHulxv%2Fvnstat-client.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FHulxv%2Fvnstat-client?ref=badge_shield)
 
 ![line chart](screenshots//2022-01-06-23-42-25.png)
 
@@ -89,3 +90,7 @@ You can see all packages used in the project in [package.json](./package.json)
 ## Documentations
 
 > Read [Documentions](docs/index.md) for more information
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHulxv%2Fvnstat-client.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FHulxv%2Fvnstat-client?ref=badge_large)
