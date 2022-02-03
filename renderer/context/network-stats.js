@@ -13,7 +13,7 @@ export default function NetworkStatsProvider({ children }) {
 	const [isRecording, setIsRecordeing] = useState(true);
 	const [networkStats, setNetworkStats] = useState(null);
 
-	const recordedSpeedStats = useRef(Array(60).fill({ rx: 0, tx: 0 }));
+	const recordedNetworkStats = useRef(Array(60).fill({ rx: 0, tx: 0 }));
 	const seconds = useRef(0);
 
 	useEffect(() => {
@@ -21,13 +21,10 @@ export default function NetworkStatsProvider({ children }) {
 			setNetworkStats(result);
 
 			if (isRecording) {
-				recordedSpeedStats.current = [
+				recordedNetworkStats.current = [
 					...Array(60).fill({ rx: 0, tx: 0 }),
-					...recordedSpeedStats.current,
-					{
-						rx: Object.values(result)[0]?.speed?.rx / 1024,
-						tx: Object.values(result)[0]?.speed?.tx / 1024,
-					},
+					...recordedNetworkStats.current,
+					result,
 				].splice(-60);
 				seconds.current += 1;
 			}
@@ -36,7 +33,7 @@ export default function NetworkStatsProvider({ children }) {
 	}, [isRecording]);
 
 	function reset() {
-		recordedSpeedStats.current = [];
+		recordedNetworkStats.current = [];
 		seconds.current = 0;
 	}
 	function startRecording() {
@@ -48,8 +45,9 @@ export default function NetworkStatsProvider({ children }) {
 
 	const value = useMemo(
 		() => ({
-			networkStats: Object.values(networkStats ?? {})[0],
-			recordedSpeedStats: recordedSpeedStats.current,
+			networkStats: Object.values(networkStats ?? {}).at(0),
+			iface: Object.keys(networkStats ?? {}).at(0),
+			recordedNetworkStats: recordedNetworkStats.current,
 			isRecording,
 			seconds: seconds.current,
 			reset,

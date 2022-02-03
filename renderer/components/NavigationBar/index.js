@@ -26,7 +26,7 @@ import { useVnStat } from "@Context/vnStat";
 import { useConfig } from "@Context/configuration";
 
 import NetworkStats from "@Context/network-stats";
-import NetSpeed from "./NetSpeed";
+import NetStats from "./NetStats";
 
 export default function NavigationBar() {
 	const { config, reloading: reloadConfigs } = useConfig();
@@ -103,7 +103,7 @@ export default function NavigationBar() {
 					</Tooltip>
 					<Export />
 					<NetworkStats>
-						<NetSpeed />
+						<NetStats />
 					</NetworkStats>
 				</HStack>
 				<Flex>
