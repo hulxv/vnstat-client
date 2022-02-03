@@ -1,5 +1,5 @@
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
-import { Box, Flex, Heading, Button } from "@chakra-ui/react";
+import { Box, HStack, Flex, Heading, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { useVnStat } from "@Context/vnStat";
@@ -49,16 +49,18 @@ export default function Header() {
 	}, [traffic]);
 
 	return (
-		<Flex justify='space-evenly' width='95%' my={16}>
+		<HStack justify='space-evenly' flexWrap='wrap' width='95%' my={10}>
 			{data.map((e, index) => (
-				<UsageBox
-					key={index}
-					interval={e.interval}
-					rx={e.data.rx ?? 0}
-					tx={e.data.tx ?? 0}
-				/>
+				<Box my={12}>
+					<UsageBox
+						key={index}
+						interval={e.interval}
+						rx={e.data.rx ?? 0}
+						tx={e.data.tx ?? 0}
+					/>
+				</Box>
 			))}
-		</Flex>
+		</HStack>
 	);
 }
 

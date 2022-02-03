@@ -38,7 +38,6 @@ export default function NetworkStatsProvider({ children }) {
 	function reset() {
 		recordedSpeedStats.current = [];
 		seconds.current = 0;
-		setBytesOnStartRecording(null);
 	}
 	function startRecording() {
 		setIsRecordeing(true);
