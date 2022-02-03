@@ -9,7 +9,7 @@ import {
 import { ipcRenderer } from "electron";
 import { format } from "date-fns";
 
-const NetwrokStatsContext = createContext(null);
+const NetworkStatsContext = createContext(null);
 
 export default function NetworkStatsProvider({ children }) {
 	const [isRecording, setIsRecordeing] = useState(true);
@@ -67,12 +67,12 @@ export default function NetworkStatsProvider({ children }) {
 		[networkStats, isRecording],
 	);
 	return (
-		<NetwrokStatsContext.Provider value={value}>
+		<NetworkStatsContext.Provider value={value}>
 			{children}
-		</NetwrokStatsContext.Provider>
+		</NetworkStatsContext.Provider>
 	);
 }
 
 export function useNetStats() {
-	return useContext(NetwrokStatsContext);
+	return useContext(NetworkStatsContext);
 }
