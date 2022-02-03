@@ -1,0 +1,41 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm"
+      - run:
+          name: Install Yarn
+          command: "curl -o- -L https://yarnpkg.com/install.sh | bash"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      - restore_cache:
+            name: Restore Yarn Package Cache
+            keys:
+              - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Install libarchive-tools for pacman build # Related https://github.com/electron-userland/electron-builder/issues/4181
+          command: sudo apt-get install libarchive-tools
+      - run:
+          name: Generate Builds
+          command: yarn build
+
+      - store_artifacts:
+          path: ~/vnstat-client/dist
