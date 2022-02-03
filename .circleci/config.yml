@@ -19,9 +19,9 @@ jobs:
           command: yarn install
 
       - restore_cache:
-            name: Restore Yarn Package Cache
-            keys:
-              - yarn-packages-{{ checksum "yarn.lock" }}
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
@@ -38,4 +38,4 @@ jobs:
           command: yarn build
 
       - store_artifacts:
-          path: ~/vnstat-client/dist
+          path: ~/repo/dist
