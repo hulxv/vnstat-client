@@ -51,7 +51,7 @@ export default function AsJSON() {
 			});
 			return;
 		}
-		ipcRenderer.send("export-as-json", { jsonOBJ: json });
+		ipcRenderer.send("export-to-file", { data: json, ext: "json" });
 	}
 	return (
 		<>

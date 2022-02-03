@@ -55,7 +55,7 @@ export default function AsXML() {
 			});
 			return;
 		}
-		ipcRenderer.send("export-as-xml", { xmlOBJ: XML });
+		ipcRenderer.send("export-to-file", { data: XML, ext: "xml" });
 	}
 	return (
 		<>

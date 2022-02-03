@@ -1,8 +1,10 @@
 import { useNetStats } from "@Context/network-stats";
 import { useConfig } from "@Context/configuration";
 import { useEffect, useState } from "react";
-import { toCapitalize } from "@Util";
+
 import LineChart from "@Components/DataDisplay/LineChart";
+import ExportAsJsonModal from "./ExportAsJsonModal";
+
 import {
 	Modal,
 	ModalOverlay,
@@ -20,19 +22,26 @@ import {
 	Tooltip,
 } from "@chakra-ui/react";
 
+// ICONS
 import { HiArrowDown, HiArrowUp } from "react-icons/hi";
 import { GrPowerReset } from "react-icons/gr";
 import { BsPlayFill, BsPauseFill, BsSpeedometer2 } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { RiSignalWifiErrorFill } from "react-icons/ri";
 import { BiTimer } from "react-icons/bi";
+
 export default function NetStats() {
 	const { EditConfig, config } = useConfig();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const {
+		isOpen: isExportModalOpen,
+		onOpen: onOpenExportModal,
+		onClose: onCloseExportModal,
+	} = useDisclosure();
+	const {
 		networkStats,
 		seconds,
-		recordedNetworkStats,
+		recordedNetworkSpeed,
 		reset,
 		startRecording,
 		stopRecording,
@@ -43,16 +52,16 @@ export default function NetStats() {
 	const [lineChartData, setLineChartData] = useState([
 		{
 			id: "Upload",
-			data: recordedNetworkStats.map((e, index) => ({
+			data: recordedNetworkSpeed.map((e, index) => ({
 				x: index,
-				y: ((e[Object.keys(e).at(0)]?.speed?.tx ?? 0) / 1024).toFixed(2),
+				y: ((e?.tx ?? 0) / 1024).toFixed(2),
 			})),
 		},
 		{
 			id: "Download",
-			data: recordedNetworkStats.map((e, index) => ({
+			data: recordedNetworkSpeed.map((e, index) => ({
 				x: index,
-				y: ((e[Object.keys(e).at(0)]?.speed?.rx ?? 0) / 1024).toFixed(2),
+				y: ((e?.rx ?? 0) / 1024).toFixed(2),
 			})),
 		},
 	]);
@@ -61,22 +70,22 @@ export default function NetStats() {
 		setLineChartData([
 			{
 				id: "Upload",
-				data: recordedNetworkStats.map((e, index) => ({
+				data: recordedNetworkSpeed.map((e, index) => ({
 					x: index,
-					y: ((e[Object.keys(e).at(0)]?.speed?.tx ?? 0) / 1024).toFixed(2),
+					y: ((e?.tx ?? 0) / 1024).toFixed(2),
 				})),
 			},
 			{
 				id: "Download",
-				data: recordedNetworkStats.map((e, index) => ({
+				data: recordedNetworkSpeed.map((e, index) => ({
 					x: index,
-					y: ((e[Object.keys(e).at(0)]?.speed?.rx ?? 0) / 1024).toFixed(2),
+					y: ((e?.rx ?? 0) / 1024).toFixed(2),
 				})),
 			},
 		]);
 
-		console.log(networkStats);
-	}, [recordedNetworkStats]);
+		console.log(lineChartData);
+	}, [recordedNetworkSpeed]);
 
 	const { speed, bytes, errors, dropped, ms, ...otherStats } = networkStats ?? {
 		speed: { rx: 0, tx: 0 },
@@ -274,14 +283,19 @@ export default function NetStats() {
 						<Button
 							colorScheme={config?.appearance?.globalTheme ?? "green"}
 							mr={3}
-							onClick={() => {
-								onClose();
-							}}>
+							isDisabled={isRecording}
+							onClick={onOpenExportModal}>
 							Export Records As JSON
 						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
+
+			<ExportAsJsonModal
+				isOpen={isExportModalOpen}
+				onOpen={onOpenExportModal}
+				onClose={onCloseExportModal}
+			/>
 		</>
 	);
 }

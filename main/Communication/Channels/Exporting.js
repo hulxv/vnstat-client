@@ -2,15 +2,14 @@ import { ipcMain, dialog } from "electron";
 import log from "electron-log";
 import fs from "fs";
 import vnStat from "../../vnStat";
-import { arrayOfObjectToCSV } from "../../util";
+import { arrayOfObjectToCSV, isJson } from "../../util";
 
 export default class Exporting {
 	constructor() {}
 	Init() {
-		this.ExportAsJSON();
-		this.ExportAsXML();
 		this.ExportAsCSV();
 		this.ExportDBView();
+		this.ExportToFile();
 	}
 	ExportDBView() {
 		return ipcMain.on("export-db-view", async (e, arg) => {
@@ -25,66 +24,6 @@ export default class Exporting {
 			}
 		});
 	}
-
-	ExportAsJSON() {
-		return ipcMain.on("export-as-json", async (e, arg) => {
-			const { jsonOBJ } = arg;
-			const saveFile = await dialog.showSaveDialog({
-				defaultPath: "~/",
-				title: "Save as json",
-				filters: [{ name: "JSON", extensions: ["json"] }],
-			});
-
-			if (!saveFile.canceled) {
-				try {
-					fs.writeFileSync(`${saveFile.filePath}`, JSON.stringify(jsonOBJ));
-					e.sender.send("message", {
-						status: "success",
-						description: `Successufully exported as JSON file in ${saveFile.filePath}`,
-					});
-					log.info(
-						`Successufully exported as JSON file in ${saveFile.filePath}`,
-					);
-				} catch (err) {
-					log.error(err.message);
-					e.sender.send("message", {
-						status: "error",
-						description: err.message,
-					});
-				}
-			}
-		});
-	}
-	ExportAsXML() {
-		return ipcMain.on("export-as-xml", async (e, arg) => {
-			const { xmlOBJ } = arg;
-			const saveFile = await dialog.showSaveDialog({
-				defaultPath: "~/",
-				title: "Save as XML",
-				filters: [{ name: "XML", extensions: ["xml"] }],
-			});
-
-			if (!saveFile.canceled) {
-				try {
-					fs.writeFileSync(`${saveFile.filePath}`, `${xmlOBJ}`);
-					e.sender.send("message", {
-						status: "success",
-						description: `Successufully exported as XML file in ${saveFile.filePath}`,
-					});
-					log.info(
-						`Successufully exported as XML file in ${saveFile.filePath}`,
-					);
-				} catch (err) {
-					log.error(err.message);
-					e.sender.send("message", {
-						status: "error",
-						description: err.message,
-					});
-				}
-			}
-		});
-	}
-
 	ExportAsCSV() {
 		return ipcMain.on("export-as-csv", async (e, table) => {
 			const saveFile = await dialog.showSaveDialog({
@@ -100,10 +39,45 @@ export default class Exporting {
 					fs.writeFileSync(`${saveFile.filePath}`, fileContent);
 					e.sender.send("message", {
 						status: "success",
-						description: `Successufully exported as CSV file in ${saveFile.filePath}`,
+						description: `Successufully exporting as CSV file in ${saveFile.filePath}`,
 					});
 					log.info(
-						`Successufully exported as CSV file in ${saveFile.filePath}`,
+						`Successufully exporting as CSV file in ${saveFile.filePath}`,
+					);
+				} catch (err) {
+					log.error(err.message);
+					e.sender.send("message", {
+						status: "error",
+						description: err.message,
+					});
+				}
+			}
+		});
+	}
+	ExportToFile() {
+		return ipcMain.on("export-to-file", async (e, { data, ext = "" }) => {
+			const saveFile = await dialog.showSaveDialog({
+				defaultPath: "~/",
+				title: `Save as ${ext?.toUpperCase()}`,
+				filters: [{ name: ext?.toUpperCase(), extensions: [ext] }],
+			});
+
+			if (!saveFile.canceled) {
+				try {
+					fs.writeFileSync(
+						`${saveFile.filePath}`,
+						isJson(data) ? JSON.stringify(data) : `${data}`,
+					);
+					e.sender.send("message", {
+						status: "success",
+						description: `Successufully exporting as ${ext?.toUpperCase()} file in ${
+							saveFile.filePath
+						}`,
+					});
+					log.info(
+						`Successufully exporting as ${ext?.toUpperCase()} file in ${
+							saveFile.filePath
+						}`,
 					);
 				} catch (err) {
 					log.error(err.message);
