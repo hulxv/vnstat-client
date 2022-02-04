@@ -7,9 +7,7 @@ function Contexts({ children }) {
 	return (
 		<Configuration>
 			<ReceivedMessagesProvider>
-				<VnStat>
-					<Logs>{children}</Logs>
-				</VnStat>
+				<VnStat>{children}</VnStat>
 			</ReceivedMessagesProvider>
 		</Configuration>
 	);

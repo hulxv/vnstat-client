@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
-export default class Logs {
+export default class __Logs__ {
 	constructor() {}
 	Init() {
 		this.ClearLogs();
@@ -26,3 +26,5 @@ export default class Logs {
 		});
 	}
 }
+
+export const LogsChannel = new __Logs__();

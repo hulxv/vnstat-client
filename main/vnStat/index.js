@@ -1,11 +1,11 @@
-import DB from "./db";
-import Traffic from "./traffic";
-import Daemon from "./daemon";
-import Config from "./config";
+import { Database } from "./db";
+import { Traffic } from "./traffic";
+import { Daemon } from "./daemon";
+import { vnConfig } from "./config";
 
 import { error } from "electron-log";
 
-export default class vnStat {
+export default class __vnStat__ {
 	constructor() {}
 
 	db() {
@@ -14,30 +14,32 @@ export default class vnStat {
 				this.configurations().read()["DatabaseDir"].replace(/[",']/gi, "") ??
 				"/var/lib/vnstat/"
 			}/vnstat.db`;
-			return new DB(dbPath);
+			return Database(dbPath);
 		} catch (err) {
-			error(err);
+			throw err;
 		}
 	}
 	configurations() {
-		return new Config();
+		return vnConfig;
 	}
 	daemon() {
-		return new Daemon();
+		return Daemon;
 	}
 	async info() {
 		try {
 			return await this.db().get("info");
 		} catch (err) {
-			error(err);
+			throw err;
 		}
 	}
 
 	traffic() {
-		return new Traffic();
+		return Traffic;
 	}
 
 	async interfaces() {
 		return await this.db().get("interface");
 	}
 }
+
+export const vnStat = new __vnStat__();

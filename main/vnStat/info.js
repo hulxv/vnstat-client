@@ -1,5 +1,5 @@
 import vnDB from "./db";
-export default class vnInfo {
+export default class __vnInfo__ {
 	#db = new vnDB();
 	constructor() {
 		this.info = [];
@@ -14,3 +14,5 @@ export default class vnInfo {
 		}
 	}
 }
+
+export const vnInfo = new __vnInfo__();

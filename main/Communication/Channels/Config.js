@@ -6,7 +6,7 @@ import vnStatClass from "../../vnStat";
 // const vnConfig = new vnConfigClass();
 const AppConfig = new AppConfigClass().init();
 const vnConfig = new vnStatClass().configurations();
-export default class Config {
+export default class __Config__ {
 	constructor() {}
 	Init() {
 		this.SetConfig();
@@ -37,3 +37,5 @@ export default class Config {
 		});
 	}
 }
+
+export const ConfigChannel = new __Config__();

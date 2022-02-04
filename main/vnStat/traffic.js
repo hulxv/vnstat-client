@@ -2,7 +2,6 @@ import { error } from "electron-log";
 
 import {
 	format,
-	getMonth,
 	isToday,
 	isYesterday,
 	startOfMonth,
@@ -11,9 +10,8 @@ import {
 	isThisYear,
 	isThisMonth,
 } from "date-fns";
-import vnStat from ".";
-export default class traffic {
-	#db = new vnStat().db();
+import { vnStat } from "./index";
+export default class __Traffic__ {
 	constructor() {
 		this.month = [];
 		this.year = [];
@@ -38,7 +36,7 @@ export default class traffic {
 
 	async Month() {
 		try {
-			this.month = await this.#db.get("day");
+			this.month = await vnStat.db().get("day");
 			return this.month;
 		} catch (err) {
 			error(err.message);
@@ -47,7 +45,7 @@ export default class traffic {
 	}
 	async Year() {
 		try {
-			this.year = await this.#db.get("month");
+			this.year = await vnStat.db().get("month");
 
 			return this.year;
 		} catch (err) {
@@ -57,7 +55,7 @@ export default class traffic {
 	}
 	async Day() {
 		try {
-			this.day = await this.#db.get("hour");
+			this.day = await vnStat.db().get("hour");
 
 			return this.day;
 		} catch (err) {
@@ -68,7 +66,7 @@ export default class traffic {
 
 	async Week() {
 		try {
-			this.day = await this.#db.get("day");
+			this.day = await vnStat.db().get("day");
 
 			return this.day;
 		} catch (err) {
@@ -80,7 +78,7 @@ export default class traffic {
 	async Summary() {
 		try {
 			const CurrentMonthUsageData = (await (
-				await this.#db.get("month")
+				await vnStat.db().get("month")
 			).find(
 				(e) => isThisMonth(new Date(e.date)) && isThisYear(new Date(e.date)),
 			)) ?? {
@@ -90,7 +88,7 @@ export default class traffic {
 			};
 
 			const TodayUsageData = (await (
-				await this.#db.get("day")
+				await vnStat.db().get("day")
 			).find((e) => isToday(new Date(e.date)))) ?? {
 				date: format(startOfToday(new Date()), "yyyy-MM-dd"),
 				rx: 0,
@@ -98,7 +96,7 @@ export default class traffic {
 			};
 
 			const YesterdayUsageData = (await (
-				await this.#db.get("day")
+				await vnStat.db().get("day")
 			).find((e) => isYesterday(new Date(e.date)))) ?? {
 				date: format(startOfYesterday(new Date()), "yyyy-MM-dd"),
 				rx: 0,
@@ -142,3 +140,5 @@ export default class traffic {
 		}
 	}
 }
+
+export const Traffic = new __Traffic__();

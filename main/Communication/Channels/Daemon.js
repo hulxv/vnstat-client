@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import vnStatClass from "../../vnStat";
 
 const vnStat = new vnStatClass();
-export default class Daemon {
+export default class __Daemon__ {
 	constructor() {}
 
 	Init() {
@@ -33,3 +33,5 @@ export default class Daemon {
 		});
 	}
 }
+
+export const DaemonChannel = new __Daemon__();

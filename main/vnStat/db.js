@@ -5,7 +5,7 @@ const exec = util.promisify(require("child_process").exec);
 
 const DEFAULT_DB_PATH = "/var/lib/vnstat/vnstat.db";
 
-export default class Database {
+export default class __Database__ {
 	constructor(path) {
 		this.SUPPORTED_DB_VERSIONS = ["1"];
 		this.path = path || DEFAULT_DB_PATH;
@@ -59,3 +59,5 @@ export default class Database {
 		return stdout;
 	}
 }
+
+export const Database = (Path) => new __Database__(Path);

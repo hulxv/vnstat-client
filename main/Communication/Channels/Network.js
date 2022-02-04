@@ -1,6 +1,6 @@
 import sysInfo from "systeminformation";
 import Communication from "../index";
-export default class Network {
+export default class __Network__ {
 	constructor() {}
 	init() {
 		this.sendNetworkStats();
@@ -38,3 +38,5 @@ export default class Network {
 		});
 	}
 }
+
+export const NetworkChannel = new __Network__();

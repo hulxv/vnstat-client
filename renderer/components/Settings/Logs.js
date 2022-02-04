@@ -28,7 +28,7 @@ import {
 	HiSearch,
 	HiX,
 } from "react-icons/hi";
-import { useLogs } from "../../context/logs";
+import LogsProvider, { useLogs } from "@Context/logs";
 
 const NUMBER_OF_MESSAGES = 100;
 
@@ -214,4 +214,8 @@ const LogRows = ({ data }) => {
 	);
 };
 
-export default Logs;
+export default () => (
+	<LogsProvider>
+		<Logs />
+	</LogsProvider>
+);

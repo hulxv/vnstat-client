@@ -4,7 +4,7 @@ import fs from "fs";
 import vnStat from "../../vnStat";
 import { arrayOfObjectToCSV, isJson } from "../../util";
 
-export default class Exporting {
+export default class __Exporting__ {
 	constructor() {}
 	Init() {
 		this.ExportAsCSV();
@@ -90,3 +90,5 @@ export default class Exporting {
 		});
 	}
 }
+
+export const ExportingChannel = new __Exporting__();

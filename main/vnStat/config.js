@@ -6,7 +6,7 @@ import Communication from "../Communication";
 
 import { convertObjectItemForSedScript } from "../util";
 const isProd = process.env.NODE_ENV === "production";
-export default class vnConfig {
+export default class __vnConfig__ {
 	constructor() {
 		this.configs = {};
 		this.configFilePath = isProd ? "/etc/vnstat.conf" : "/etc/vnstat.test.conf";
@@ -65,7 +65,6 @@ export default class vnConfig {
 	}
 
 	async write(changes) {
-		console.log(changes);
 		if (!Array.isArray(changes)) return;
 
 		const options = {
@@ -96,9 +95,12 @@ export default class vnConfig {
 				status: "success",
 				description: "Changes was Saved",
 			});
+			log.info("vnStat Config Changes was saved.");
 
 			// Send configs to renderer
 			new Communication().send("send-vn-configs", this.read());
 		});
 	}
 }
+
+export const vnConfig = new __vnConfig__();

@@ -5,7 +5,7 @@ import log, { error, info } from "electron-log";
 import sudo from "sudo-prompt";
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
-export default class Daemon {
+export default class __Daemon__ {
 	#cmdOptions = {
 		name: "vnStat Client",
 	};
@@ -166,3 +166,5 @@ export default class Daemon {
 		}
 	}
 }
+
+export const Daemon = new __Daemon__();

@@ -3,20 +3,13 @@ import { mainWindow } from "../background";
 import log from "electron-log";
 import Updates from "../updates";
 // Channels
-import ConfigChannelClass from "./Channels/Config";
-import ExportingChannelClass from "./Channels/Exporting";
-import LogsChannelClass from "./Channels/Logs";
-import vnStatChannelClass from "./Channels/vnStat";
-import DaemonChannelClass from "./Channels/Daemon";
-import NetworkChannelClass from "./Channels/Network";
-import vnStat from "../vnStat";
-
-const ConfigChannel = new ConfigChannelClass();
-const ExportingChannel = new ExportingChannelClass();
-const LogsChannel = new LogsChannelClass();
-const vnStatChannel = new vnStatChannelClass();
-const DaemonChannel = new DaemonChannelClass();
-const Network = new NetworkChannelClass();
+import { ConfigChannel } from "./Channels/Config";
+import { ExportingChannel } from "./Channels/Exporting";
+import { LogsChannel } from "./Channels/Logs";
+import { vnStatChannel } from "./Channels/vnStat";
+import { DaemonChannel } from "./Channels/Daemon";
+import { NetworkChannel } from "./Channels/Network";
+import { vnStat } from "../vnStat";
 
 export default class Communication {
 	constructor() {}
@@ -25,34 +18,22 @@ export default class Communication {
 		this.getInfos();
 		this.OpenURL();
 		this.checkUpdates();
-		// this.getVnStatInterfaces();
+
+		// Initlize Channels
+		await vnStatChannel.Init();
 		ConfigChannel.Init();
 		ExportingChannel.Init();
 		LogsChannel.Init();
-		await vnStatChannel.Init();
 		DaemonChannel.Init();
-		Network.init();
+		NetworkChannel.init();
 	}
-
-	// async getVnStatInterfaces() {
-	// 	ipcMain.on("get-vnStat-interfaces", async (e) => {
-	// 		try {
-	// 			e.sender.send(
-	// 				"send-vnStat-interfaces",
-	// 				await new vnStat().db().get("interface"),
-	// 			);
-	// 		} catch (err) {
-	// 			log.error(err);
-	// 		}
-	// 	});
-	// }
 
 	getInfos() {
 		ipcMain.on("get-infos", async (e) => {
 			try {
 				e.sender.send("send-infos", [
 					{ name: "version", value: app.getVersion() },
-					...(await new vnStat().info()),
+					...(await vnStat.info()),
 				]);
 			} catch (err) {
 				log.error(err);

@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import log from "electron-log";
 import vnStat from "../../vnStat";
 
-export default class vnStatChannel extends vnStat {
+export default class __vnStatChannel__ extends vnStat {
 	constructor() {
 		super();
 	}
@@ -61,3 +61,5 @@ export default class vnStatChannel extends vnStat {
 		});
 	}
 }
+
+export const vnStatChannel = new __vnStatChannel__();
