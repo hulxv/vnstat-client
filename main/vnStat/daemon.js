@@ -9,18 +9,42 @@ export default class __Daemon__ {
 	#cmdOptions = {
 		name: "vnStat Client",
 	};
-	constructor() {}
+	constructor() {
+		this.commands = {
+			systemd: {
+				start: "systemctl start vnstat",
+				stop: "systemctl stop vnstat",
+				restart: "systemctl restart vnstat",
+				status: ["systemctl is-active vnstat", "active"],
+			},
+			sysvinit: {
+				start: "",
+				stop: "",
+				restart: "",
+				status: "",
+			},
+			upstart: {
+				start: "",
+				stop: "",
+				restart: "",
+				status: "",
+			},
+		};
+	}
 
 	async start() {
 		try {
 			if (await isInitSystemSupported()) {
-				if ((await this.status()) === "active") {
-					info("Daemon is alreadey starting");
+				if (await this.status()) {
+					info("Daemon is already starting");
 					return;
 				}
-				let cmd = "systemctl start vnstat";
-
-				info(`[RUNNNG-AS-SU] ${cmd}`);
+				let cmd = this.commands[await whichInitSystemUserUsed()].start;
+				info(`(RUNNNG-AS-SU) ${cmd}`);
+				new Communication().send("message", {
+					status: "info",
+					description: `(RUNNNG-AS-SU) ${cmd}`,
+				});
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
 					try {
 						if (stderr) throw stderr;
@@ -58,13 +82,17 @@ export default class __Daemon__ {
 	async stop() {
 		try {
 			if (await isInitSystemSupported()) {
-				if ((await this.status()) === "inactive") {
+				if (!(await this.status())) {
 					info("Daemon is already stopped ");
 					return;
 				}
-				let cmd = "systemctl stop vnstat";
+				let cmd = this.commands[await whichInitSystemUserUsed()].stop;
 
-				info(`[RUNNNG-AS-SU], ${cmd}`);
+				info(`(RUNNNG-AS-SU) ${cmd}`);
+				new Communication().send("message", {
+					status: "info",
+					description: `(RUNNNG-AS-SU) ${cmd}`,
+				});
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
 					try {
 						if (stderr) throw stderr;
@@ -106,9 +134,13 @@ export default class __Daemon__ {
 	async restart() {
 		try {
 			if (await isInitSystemSupported()) {
-				let cmd = "systemctl restart vnstat";
+				let cmd = this.commands[await whichInitSystemUserUsed()].restart;
 
-				info(`[RUNNNG-AS-SU], ${cmd}`);
+				info(`(RUNNNG-AS-SU) ${cmd}`);
+				new Communication().send("message", {
+					status: "info",
+					description: `(RUNNNG-AS-SU) ${cmd}`,
+				});
 				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
 					try {
 						if (stderr) throw stderr;

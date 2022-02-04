@@ -2,21 +2,28 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
 export async function whichInitSystemUserUsed() {
-	let initSystem = null;
-	const { stdout, stderr } = await exec(`file /sbin/init`);
-	if (stderr) throw stderr;
-	let splittingOutput = stdout
-		.split(" ")
-		[stdout.split(" ").length - 1].split("/");
-	initSystem = splittingOutput[splittingOutput.length - 1].replace("\n", "");
+	const supportedInitSys = ["sysvinit", "systemd", "upstart"];
 
-	return initSystem;
+	let bash = `
+    strings /sbin/init |
+  awk 'match($0, /(${supportedInitSys.join(
+		"|",
+	)})/) { print tolower(substr($0, RSTART, RLENGTH));exit; }'
+`;
+	try {
+		const { stdout, stderr } = await exec(bash);
+		if (stderr) throw stderr;
+		return stdout.replace(/\n/, "").trim().length <= 0
+			? null
+			: stdout.replace(/\n/, "");
+	} catch (err) {
+		throw err;
+	}
 }
 
 export async function isInitSystemSupported(initSystem) {
 	initSystem = initSystem ?? (await whichInitSystemUserUsed());
-	const supportedInitSystems = ["systemd"];
-	return supportedInitSystems.includes(initSystem);
+	return Boolean(initSystem);
 }
 
 export function convertObjectItemForSedScript(key, value) {
@@ -55,3 +62,12 @@ fi`;
 }
 
 export const isProd = process.env.NODE_ENV === "production";
+
+export function isJson(str) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
