@@ -32,7 +32,7 @@ function Configs({}) {
 
 	const Notes = {
 		dateFormat:
-			'Pattern: "%Y-%m-%d", \nDon\'t delete double quotation (") mark !',
+			'Pattern: "%Y-%m-%d", \nDon\'t delete double quotations (") mark !',
 	};
 
 	const [defaultDateFormat, setDefaultDateFormat] = useState({});

@@ -37,7 +37,7 @@ export default function Header() {
 				data: [],
 			},
 		];
-		console.log();
+
 		let dataAfterSetting = [
 			...traffic.summary,
 			...defaultValue.filter(
@@ -49,7 +49,7 @@ export default function Header() {
 	}, [traffic]);
 
 	return (
-		<HStack justify='space-evenly' flexWrap='wrap' width='95%' my={10}>
+		<HStack justify='space-evenly' flexWrap='wrap' width='95%' mb={8}>
 			{data.map((e, index) => (
 				<Box my={12}>
 					<UsageBox

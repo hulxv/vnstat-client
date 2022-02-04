@@ -6,6 +6,8 @@ import {
 	HStack,
 	Button,
 	Tooltip,
+	keyframes,
+	usePrefersReducedMotion,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -24,6 +26,16 @@ function vnStat() {
 	const { configs, daemonStatus, stopDaemon, startDaemon, restartDaemon } =
 		useVnStat();
 
+	const prefersReducedMotion = usePrefersReducedMotion();
+	const animationFade = keyframes`
+			from { opacity:100%;}
+			to {opacity: 85%;}
+		`;
+
+	const animation = prefersReducedMotion
+		? undefined
+		: `${animationFade} infinite ${daemonStatus ? "2s" : ".5s"} alternate`;
+
 	if (!configs || !(Object.keys(configs).length > 0))
 		return (
 			<Stack align='center'>
@@ -38,7 +50,17 @@ function vnStat() {
 					Daemon
 				</Heading>
 				<Flex w='full' justify='space-between'>
-					<Box>Status: {daemonStatus ? "active" : "inactive"}</Box>
+					<Tooltip
+						hasArrow
+						placement='right'
+						textTransform='capitalize'
+						label={`Daemon is ${daemonStatus ? "active" : "inactive !"}`}>
+						<Button
+							animation={animation}
+							size='xs'
+							colorScheme={daemonStatus ? "green" : "red"}
+						/>
+					</Tooltip>
 					<HStack>
 						<Button
 							leftIcon={<BsArrowCounterclockwise size='1.4em' />}
