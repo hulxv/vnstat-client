@@ -18,16 +18,10 @@ export default class __Daemon__ {
 				status: ["systemctl is-active vnstat", "active"],
 			},
 			sysvinit: {
-				start: "",
-				stop: "",
-				restart: "",
-				status: "",
-			},
-			upstart: {
-				start: "",
-				stop: "",
-				restart: "",
-				status: "",
+				start: "service vnstat start",
+				stop: "service vnstat stop",
+				restart: "service vnstat restart",
+				status: ["service vnstat status", "is running"],
 			},
 		};
 	}
@@ -66,9 +60,7 @@ export default class __Daemon__ {
 					}
 				});
 			} else {
-				error(
-					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-				);
+				error(`Youe init system isn't supported yet.`);
 			}
 		} catch (err) {
 			error(err.message);
@@ -178,11 +170,15 @@ export default class __Daemon__ {
 	async status() {
 		try {
 			if (await isInitSystemSupported()) {
+				const statusCommand =
+					this.commands[await whichInitSystemUserUsed()].status.at(0);
+				const comparingWord =
+					this.commands[await whichInitSystemUserUsed()].status.at(1);
 				let bash = `                                                                      
-					if [[ $(systemctl is-active vnstat) == "active" ]] 
-						then echo "true"                                                                                         
-					else echo "false"  
-					fi                                                                                                                    
+					if grep -q "$(${statusCommand})" <<< "${comparingWord}" ;
+						then echo "true"                                        
+					else echo "false"
+				fi                                          
 				`;
 
 				const { stdout, stderr } = await exec(bash);

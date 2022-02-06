@@ -2,7 +2,7 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
 export async function whichInitSystemUserUsed() {
-	const supportedInitSys = ["sysvinit", "systemd", "upstart"];
+	const supportedInitSys = ["sysvinit", "systemd"];
 
 	let bash = `
     strings /sbin/init |
