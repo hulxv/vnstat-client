@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/Hulxv/vnstat-client.svg?style=svg)](https://circleci.com/gh/Hulxv/vnstat-client.svg)
+[![CircleCI](https://circleci.com/gh/Hulxv/vnstat-client.svg?style=svg)](https://circleci.com/gh/Hulxv/vnstat-client)
 
 ![linux](https://img.shields.io/badge/Linux-FCC624.svg?style=for-the-badge&logo=Linux&logoColor=black)
 ![nextjs](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=next-dot-js&logoColor=white)
