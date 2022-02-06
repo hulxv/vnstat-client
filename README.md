@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Hulxv/vnstat-client.svg?style=svg)](https://circleci.com/gh/Hulxv/vnstat-client.svg)
+
 ![linux](https://img.shields.io/badge/Linux-FCC624.svg?style=for-the-badge&logo=Linux&logoColor=black)
 ![nextjs](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=next-dot-js&logoColor=white)
 ![electronjs](https://img.shields.io/badge/Electron-47848F.svg?style=for-the-badge&logo=Electron&logoColor=white)
