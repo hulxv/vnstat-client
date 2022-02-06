@@ -1,10 +1,10 @@
-import { Flex, Heading, Tooltip } from "@chakra-ui/react";
+import { Heading, Tooltip, HStack } from "@chakra-ui/react";
 import { BsArrowDownShort, BsArrowUpShort, BsWifi2 } from "react-icons/bs";
 
 function TotalTraffic({ data = { down: 0, up: 0 } }) {
 	const { down, up } = data;
 	return (
-		<Flex justify='space-around' w='full' align='end' my={2}>
+		<HStack justify='space-around' w='full' align='end' my={2}>
 			<Tooltip label='Download'>
 				<Heading display='flex' alignItems='center' fontWeight='thin' size='lg'>
 					<BsArrowDownShort size='1.4em' />
@@ -32,7 +32,7 @@ function TotalTraffic({ data = { down: 0, up: 0 } }) {
 					}`}
 				</Heading>
 			</Tooltip>
-		</Flex>
+		</HStack>
 	);
 }
 

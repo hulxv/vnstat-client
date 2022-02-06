@@ -41,8 +41,10 @@ function General() {
 						changeInterface(e.target.value);
 						// console.log(e.target.value);
 					}}>
-					{interfaces?.map((__interface__) => (
-						<option value={__interface__?.id}>{__interface__.name}</option>
+					{interfaces?.map((__interface__, index) => (
+						<option key={index} value={__interface__?.id}>
+							{__interface__.name}
+						</option>
 					))}
 				</Select>
 			</HStack>

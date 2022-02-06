@@ -91,8 +91,8 @@ function BarChart() {
 							onChange={(e) =>
 								EditConfig("appearance.barChart.colors", e.target.value)
 							}>
-							{Colors.map((color) => (
-								<option>{color}</option>
+							{Colors.map((color, index) => (
+								<option key={index}>{color}</option>
 							))}
 						</Select>
 					</HStack>

@@ -46,8 +46,8 @@ export default function Appearance() {
 					<HStack>
 						<Box>Global Theme</Box>
 						<HStack>
-							{GlobalThemes.map((theme) => (
-								<Tooltip label={theme} textTransform='capitalize'>
+							{GlobalThemes.map((theme, index) => (
+								<Tooltip label={theme} key={index} textTransform='capitalize'>
 									<Box
 										rounded='md'
 										w={6}

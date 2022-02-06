@@ -13,8 +13,8 @@ function TableComponent({ data }) {
 				</Tr>
 			</Thead>
 			<Tbody>
-				{data.map((traffic) => (
-					<Tr>
+				{data.map((traffic, index) => (
+					<Tr key={index}>
 						<Td>{traffic.date}</Td>
 						<Td>{traffic.interface ?? "-"}</Td>
 						<Td isNumeric>

@@ -78,8 +78,8 @@ function vnStatD({}) {
 
 			<Stack spacing={4}>
 				<Heading size='xs'>Rates</Heading>
-				{Object.keys(rates).map((rate) => (
-					<HStack justify='space-between'>
+				{Object.keys(rates).map((rate, index) => (
+					<HStack justify='space-between' key={index}>
 						<Box>{rate}</Box>
 						<HStack>
 							{defaultRates[rate] != rates[rate] && (
@@ -116,8 +116,8 @@ function vnStatD({}) {
 			</Stack>
 			<Stack spacing={4}>
 				<Heading size='xs'>Image Colors</Heading>
-				{Object.keys(Colors).map((color) => (
-					<HStack justify='space-between'>
+				{Object.keys(Colors).map((color, index) => (
+					<HStack justify='space-between' key={index}>
 						<Box>{color}</Box>
 						<HStack>
 							{defaultColors[color].toUpperCase() !==

@@ -166,8 +166,8 @@ export default function Settings({ children }) {
 							</Thead>
 							<Tbody>
 								{changes.map((obj) =>
-									Object.entries(obj).map((o) => (
-										<Tr>
+									Object.entries(obj).map((o, index) => (
+										<Tr key={index}>
 											<Td>{o[0]}</Td>
 											<Td>{configs[o[0]]}</Td>
 											<Td>{o[1]}</Td>

@@ -108,24 +108,24 @@ export default function AsCSV() {
 									<TableCaption>Export Output</TableCaption>
 									<Thead>
 										<Tr>
-											{Object.keys(data[0]).map((e) => (
-												<Th>{e}</Th>
+											{Object.keys(data[0]).map((e, index) => (
+												<Th key={index}>{e}</Th>
 											))}
 										</Tr>
 									</Thead>
 									<Tbody>
-										{data.map((row) => (
-											<Tr>
-												{Object.keys(row).map((e) => (
-													<Td>{row[e]}</Td>
+										{data.map((row, index) => (
+											<Tr key={index}>
+												{Object.keys(row).map((e, index) => (
+													<Td key={index}>{row[e]}</Td>
 												))}
 											</Tr>
 										))}
 									</Tbody>
 									<Tfoot>
 										<Tr>
-											{Object.keys(data[0]).map((e) => (
-												<Th>{e}</Th>
+											{Object.keys(data[0]).map((e, index) => (
+												<Th key={index}>{e}</Th>
 											))}
 										</Tr>
 									</Tfoot>

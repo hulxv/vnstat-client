@@ -24,6 +24,7 @@ export default function SwitchBar({
 	canGoToNext = false,
 	title,
 	canReset = true,
+	durationInDays,
 }) {
 	const subs = {
 		year: () => subYears(new Date(), state),
@@ -49,22 +50,8 @@ export default function SwitchBar({
 		return () => window.removeEventListener("keydown", ArrowPressHandler); // Cleanup
 	}, [ArrowPressHandler]);
 
-	/*
-	function GoToPrevious() {
-		console.log(`(${state}) Prev ${canGoToPrevious}`);
-
-		if (canGoToPrevious) setTimeout(() => setState(state + 1), 10);
-	}
-	function GoToNext() {
-		console.log(`(${state}) Next ${canGoToNext}`);
-		if (canGoToNext) setTimeout(() => setState(state - 1), 10);
-	}
-	useHotkeys("left", GoToPrevious);
-	useHotkeys("right", GoToNext);
-	*/
-
 	return (
-		<Flex justify='space-around' w='full' mb={4}>
+		<Flex align='center' justify='space-around' w='full' mb={4}>
 			<Box w='30px'>
 				{canGoToPrevious && (
 					<Tooltip label='Previous'>
@@ -80,6 +67,11 @@ export default function SwitchBar({
 				<Heading>
 					{title || format(subs[interval](), dateFormat || "yyyy MM dd")}
 				</Heading>
+				{durationInDays > 0 && (
+					<Heading size='sm'>
+						{`${durationInDays} ${durationInDays > 1 ? "Days" : "Day"}`}
+					</Heading>
+				)}
 				{canReset && (
 					<Button
 						size='xs'

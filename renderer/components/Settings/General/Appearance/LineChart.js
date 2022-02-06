@@ -99,8 +99,8 @@ function LineChart() {
 								EditConfig("appearance.lineChart.curve", e.target.value)
 							}>
 							{" "}
-							{Curves.map((curve) => (
-								<option>{curve}</option>
+							{Curves.map((curve, index) => (
+								<option key={index}>{curve}</option>
 							))}
 						</Select>{" "}
 					</HStack>
@@ -112,8 +112,8 @@ function LineChart() {
 							onChange={(e) =>
 								EditConfig("appearance.lineChart.colors", e.target.value)
 							}>
-							{Colors.map((color) => (
-								<option>{color}</option>
+							{Colors.map((color, index) => (
+								<option key={index}>{color}</option>
 							))}
 						</Select>
 					</HStack>

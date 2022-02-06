@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
 // Utilities
 import { prepareCustomIntervalData } from "@Util/PrepareDataToDisplay";
 // Hooks
@@ -11,19 +11,17 @@ import DataDisplay from "@Components/DataDisplay";
 import TotalTraffic from "@Components/TotalTraffic";
 import SwitchBar from "@Components/SwitchBar";
 import NotFound from "@Pages/404";
+import { Box } from "@chakra-ui/react";
 
 export default function CustomInterval() {
 	const router = useRouter();
+	const { from, to } = router.query;
 	const { traffic } = useVnStat();
 	const [displayData, setDisplayData] = useState(null);
 
 	useEffect(() => {
 		let { preparedData, lineChartData, barChartData, total } =
-			prepareCustomIntervalData(
-				traffic?.month,
-				router.query.from,
-				router.query.to,
-			);
+			prepareCustomIntervalData(traffic?.month, from, to);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
 	}, [traffic]);
 
@@ -44,12 +42,12 @@ export default function CustomInterval() {
 					<SwitchBar
 						title={
 							<>
-								{format(new Date(router.query.from), "yyyy MMM dd")}
-								{router.query.from !== router.query.to &&
-									` - ${format(new Date(router.query.to), "yyyy MMM dd")}`}
+								{format(new Date(from), "yyyy MMM dd")}
+								{from !== to && ` - ${format(new Date(to), "yyyy MMM dd")}`}
 							</>
 						}
 						canReset={false}
+						durationInDays={differenceInDays(new Date(to), new Date(from))}
 					/>
 					<TotalTraffic data={displayData?.total} />
 					<DataDisplay
