@@ -83,8 +83,6 @@ export default function NetStats() {
 				})),
 			},
 		]);
-
-		console.log(lineChartData);
 	}, [recordedNetworkSpeed]);
 
 	const { speed, bytes, errors, dropped, ms, ...otherStats } = networkStats ?? {

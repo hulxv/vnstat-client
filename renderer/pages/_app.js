@@ -8,8 +8,6 @@ import router from "next/router";
 // context
 import Contexts from "@Context";
 
-import VnStatIsNotInstalledAlert from "@Components/vnStatIsNotInstalledAlert";
-// Styles
 import "../styles/global.css";
 
 export default function App(props) {
@@ -38,7 +36,6 @@ export default function App(props) {
 			<ChakraProvider>
 				<Contexts>
 					<PageLayout isLoading={isLoading}>
-						<VnStatIsNotInstalledAlert />
 						<Component {...pageProps} />
 					</PageLayout>
 				</Contexts>

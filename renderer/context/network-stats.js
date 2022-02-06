@@ -33,7 +33,6 @@ export default function NetworkStatsProvider({ children }) {
 					stats: result,
 					time: format(new Date(), "MMM d Y, hh:mm:ss aa"),
 				});
-				console.log(recordedNetworkSpeed);
 				seconds.current += 1;
 			}
 		});
