@@ -47,9 +47,4 @@ export default class __Network__ {
 	}
 }
 
-function recreateInterval(oldInterval, callback, time) {
-	clearInterval(oldInterval);
-	return setInterval(callback, time);
-}
-
 export const NetworkChannel = new __Network__();
