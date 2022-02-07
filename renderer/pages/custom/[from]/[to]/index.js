@@ -42,8 +42,8 @@ export default function CustomInterval() {
 					<SwitchBar
 						title={
 							<>
-								{format(new Date(from), "yyyy MMM dd")}
-								{from !== to && ` - ${format(new Date(to), "yyyy MMM dd")}`}
+								{format(new Date(from), "d MMM yyyy ")}
+								{from !== to && ` - ${format(new Date(to), "d MMM yyyy")}`}
 							</>
 						}
 						canReset={false}
