@@ -48,6 +48,8 @@ export default function Hour() {
 						data={displayData?.preparedData}
 						lineChartData={displayData?.lineChartData}
 						barChartData={displayData?.barChartData}
+						barAxisBottomRotation={45}
+						lineAxisBottomRotation={45}
 					/>
 				</>
 			)}
