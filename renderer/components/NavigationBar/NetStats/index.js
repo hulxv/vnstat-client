@@ -1,3 +1,5 @@
+import { intervalToDuration } from "date-fns";
+
 import { useNetStats } from "@Context/network-stats";
 import { useConfig } from "@Context/configuration";
 import { useEffect, useState } from "react";
@@ -48,7 +50,7 @@ export default function NetStats() {
 	} = useDisclosure();
 	const {
 		networkStats,
-		seconds,
+		duration,
 		recordedNetworkSpeed,
 		reset,
 		startRecording,
@@ -301,11 +303,20 @@ export default function NetStats() {
 								/>
 								<Tooltip label='Recording time'>
 									<Heading size='xs'>
-										{Math.floor(seconds / 3600 < 10 && "0")}
-										{Math.floor(seconds / 3600)}:
-										{Math.floor((seconds / 60) % 60 < 10 && "0")}
-										{Math.floor(seconds / 60)}:{seconds % 60 < 10 ? "0" : ""}
-										{seconds % 60}
+										{(() => {
+											let time = intervalToDuration({
+												start: new Date(duration?.start ?? 0),
+												end: new Date(duration?.end ?? 0),
+											});
+
+											return `${
+												time.hours < 10 ? `0${time.hours}` : time.hours
+											}:${
+												time.minutes < 10 ? `0${time.minutes}` : time.minutes
+											}:${
+												time.seconds < 10 ? `0${time.seconds}` : time.seconds
+											}`;
+										})()}
 									</Heading>
 								</Tooltip>
 							</Stack>

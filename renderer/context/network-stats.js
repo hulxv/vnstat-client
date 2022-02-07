@@ -17,7 +17,7 @@ export default function NetworkStatsProvider({ children }) {
 
 	const recordedNetworkSpeed = useRef(Array(60).fill({ rx: 0, tx: 0 }));
 	const recordedNetworkStats = useRef([]);
-	const seconds = useRef(0);
+	const duration = useRef({ start: null, end: null });
 
 	useEffect(() => {
 		ipcRenderer.on("send-network-stats", (e, result) => {
@@ -31,18 +31,30 @@ export default function NetworkStatsProvider({ children }) {
 				].splice(-60);
 				recordedNetworkStats.current.push({
 					stats: result,
-					time: format(new Date(), "MMM d Y, hh:mm:ss aa"),
+					duration: format(new Date(), "MMM d Y, hh:mm:ss aa"),
 				});
-				seconds.current += 1;
 			}
 		});
+
 		return () => ipcRenderer.removeAllListeners("send-network-stats");
 	}, [isRecording]);
+
+	useEffect(() => {
+		if (isRecording) {
+			duration.current = {
+				start:
+					duration.current.start === null
+						? new Date().getTime()
+						: duration.current.start,
+				end: new Date().getTime(),
+			};
+		}
+	});
 
 	function reset() {
 		recordedNetworkStats.current = [];
 		recordedNetworkSpeed.current = [];
-		seconds.current = 0;
+		duration.current = { start: null, end: null };
 	}
 	function startRecording() {
 		setIsRecordeing(true);
@@ -58,7 +70,7 @@ export default function NetworkStatsProvider({ children }) {
 			recordedNetworkStats: recordedNetworkStats.current,
 			recordedNetworkSpeed: recordedNetworkSpeed.current,
 			isRecording,
-			seconds: seconds.current,
+			duration: duration.current,
 			reset,
 			startRecording,
 			stopRecording,
