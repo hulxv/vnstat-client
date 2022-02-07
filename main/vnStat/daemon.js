@@ -1,6 +1,6 @@
 import { isInitSystemSupported, whichInitSystemUserUsed } from "../util";
 import Communication from "../Communication";
-import log, { error, info } from "electron-log";
+import log, { error, info, warn } from "electron-log";
 
 import sudo from "sudo-prompt";
 const util = require("util");
@@ -29,7 +29,7 @@ export default class __Daemon__ {
 	async start() {
 		try {
 			if (await isInitSystemSupported()) {
-				if (await this.status()) {
+				if (await this.isActive()) {
 					info("Daemon is already starting");
 					return;
 				}
@@ -44,14 +44,15 @@ export default class __Daemon__ {
 						if (stderr) throw stderr;
 						new Communication().send(
 							"send-vn-daemon-status",
-							await this.status(),
+							await this.isActive(),
 						);
 						new Communication().send("message", {
 							status: "success",
 							description: "Daemon is starting.",
 						});
+						info("Daemon is starting.");
 					} catch (err) {
-						log.error(err);
+						error(err);
 						new Communication().send("message", {
 							status: "error",
 							description: err,
@@ -74,7 +75,7 @@ export default class __Daemon__ {
 	async stop() {
 		try {
 			if (await isInitSystemSupported()) {
-				if (!(await this.status())) {
+				if (!(await this.isActive())) {
 					info("Daemon is already stopped ");
 					return;
 				}
@@ -90,14 +91,15 @@ export default class __Daemon__ {
 						if (stderr) throw stderr;
 						new Communication().send(
 							"send-vn-daemon-status",
-							await this.status(),
+							await this.isActive(),
 						);
 						new Communication().send("message", {
 							status: "warning",
 							description: "Daemon was stopped",
 						});
+						warn("Daemon was stopped.");
 					} catch (err) {
-						log.error(err);
+						error(err);
 						new Communication().send("message", {
 							status: "error",
 							description: err,
@@ -138,14 +140,15 @@ export default class __Daemon__ {
 						if (stderr) throw stderr;
 						new Communication().send(
 							"send-vn-daemon-status",
-							await this.status(),
+							await this.isActive(),
 						);
 						new Communication().send("message", {
 							status: "success",
 							description: "Daemon restarting now",
 						});
+						info("Daemon restarting now");
 					} catch (err) {
-						log.error(err);
+						error(err);
 						new Communication().send("message", {
 							status: "error",
 							description: err,
@@ -167,7 +170,7 @@ export default class __Daemon__ {
 			return;
 		}
 	}
-	async status() {
+	async isActive() {
 		try {
 			if (await isInitSystemSupported()) {
 				const statusCommand =
