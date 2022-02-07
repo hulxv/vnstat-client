@@ -7,9 +7,10 @@ import {
 	useMemo,
 } from "react";
 import { ipcRenderer } from "electron";
+import { format } from "date-fns";
 const LogsProvider = createContext(null);
 
-const availableTypes = ["warn", "error", "info"];
+const availableTypes = ["warning", "error", "info"];
 
 function Logs({ children }) {
 	const [logs, setLogs] = useState({ path: "", lines: [] });
@@ -44,7 +45,7 @@ function Logs({ children }) {
 						if (!availableTypes.includes(status)) status = "warning";
 						return {
 							content: line.replace(/\[(.*?)\]/g, ""),
-							date,
+							date: format(new Date(date), "MMM d Y, hh:mm:ss aa"),
 							status,
 						};
 					}),
