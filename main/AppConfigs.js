@@ -32,6 +32,7 @@ export default class AppConfigs {
 		// Default settings
 
 		this.scheme = {
+			netStatsRefreshTime: 1000,
 			checkUpdatesOnStartup: true,
 			interface: (await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
 			appearance: {

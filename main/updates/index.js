@@ -68,7 +68,7 @@ export default class Updates {
 			try {
 				await autoUpdater.downloadUpdate();
 			} catch (err) {
-				mainWindow.webContents.send("downlod-update-error");
+				mainWindow.webContents.send("download-update-error");
 			}
 		});
 	}
