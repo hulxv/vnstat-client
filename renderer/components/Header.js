@@ -51,9 +51,8 @@ export default function Header() {
 	return (
 		<HStack justify='space-evenly' flexWrap='wrap' width='95%' mb={8}>
 			{data.map((e, index) => (
-				<Box my={12}>
+				<Box my={12} key={index}>
 					<UsageBox
-						key={index}
 						interval={e.interval}
 						rx={e.data.rx ?? 0}
 						tx={e.data.tx ?? 0}

@@ -175,8 +175,10 @@ function Logs() {
 }
 
 function LogAlert({ status, date, content }) {
+	const availableTypes = ["warning", "error", "info"];
+
 	return (
-		<Alert status={status ?? "info"}>
+		<Alert status={availableTypes.includes(status) ? status : "warning"}>
 			<AlertIcon />
 			<Box flex={1}>
 				<AlertTitle mr={2}>{date}</AlertTitle>{" "}
