@@ -16,6 +16,12 @@ import {
 	Stack,
 	HStack,
 	Tooltip,
+	Alert,
+	AlertIcon,
+	Box,
+	AlertTitle,
+	AlertDescription,
+	CloseButton,
 } from "@chakra-ui/react";
 
 import { css } from "@emotion/react";
@@ -28,10 +34,16 @@ import { MdDateRange, MdOutlineInsertDriveFile } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { useConfig } from "@Context/configuration";
 
-function AvailableUpdateAlert({ children }) {
+function AvailableUpdateAlert() {
 	const { config } = useConfig();
-
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	// Booleans
+	const [isUpdateStartDownload, setIsUpdateStartDownload] = useState(false);
+	const [isThereUpdateError, setIsThereUpdateError] = useState(false);
+	const [isUpdateDownloaded, setIsUpdateDownloaded] = useState(false);
+
+	// States
 	const [releaseData, setReleaseData] = useState(null);
 	const [downloadProgress, setDownloadProgress] = useState(null);
 	useEffect(() => {
@@ -39,8 +51,16 @@ function AvailableUpdateAlert({ children }) {
 			onOpen();
 			setReleaseData(data);
 		});
+
 		ipcRenderer.on("download-update-progress", (e, result) => {
 			setDownloadProgress(result);
+		});
+		ipcRenderer.on("downlod-update-error", () => {
+			setIsThereUpdateError(true);
+			setIsUpdateStartDownload(false);
+		});
+		ipcRenderer.on("update-downloaded", () => {
+			setIsUpdateDownloaded(true);
 		});
 	}, []);
 
@@ -58,7 +78,27 @@ function AvailableUpdateAlert({ children }) {
 					<AlertDialogCloseButton />
 					<AlertDialogBody>
 						<Stack>
-							<Heading>What's new ?</Heading>
+							{isUpdateDownloaded && (
+								<Alert status='success'>
+									<Stack align='center' flex='1'>
+										<HStack>
+											<AlertTitle>Update Downloaded!</AlertTitle>
+											<AlertIcon />
+										</HStack>
+										<AlertDescription display='block'>
+											Do you want to restart app to install new update?
+										</AlertDescription>
+										<Button
+											onClick={() => {
+												ipcRenderer.send("quit-and-update");
+											}}
+											variant='ghost'>
+											Restart
+										</Button>
+									</Stack>
+								</Alert>
+							)}
+							<Heading size='md'>What's new ?</Heading>
 							<Text
 								css={css`
 									${new Array(6)
@@ -136,13 +176,25 @@ function AvailableUpdateAlert({ children }) {
 						</Button>
 						<Button
 							onClick={() => {
+								if (isUpdateDownloaded || isUpdateStartDownload) return;
+								setIsUpdateStartDownload(true);
 								ipcRenderer.send("start-download-new-update");
 							}}
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							colorScheme={
+								isThereUpdateError
+									? "red"
+									: config?.appearance?.globalTheme ?? "green"
+							}
 							ml={3}>
-							{downloadProgress !== null
-								? `${downloadProgress.percent}%`
-								: "Update Now"}
+							{isThereUpdateError
+								? "Retry"
+								: isUpdateDownloaded
+								? "Done"
+								: `${
+										downloadProgress !== null
+											? `${Math.round(downloadProgress.percent)}%`
+											: "Update Now"
+								  }`}
 						</Button>
 					</AlertDialogFooter>
 				</AlertDialogContent>
