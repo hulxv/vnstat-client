@@ -1,7 +1,6 @@
 import { ipcMain } from "electron";
-import vnStatClass from "../../vnStat";
+import { vnStat } from "../../vnStat";
 
-const vnStat = new vnStatClass();
 export default class __Daemon__ {
 	constructor() {}
 
@@ -14,7 +13,7 @@ export default class __Daemon__ {
 
 	Status() {
 		return ipcMain.on("get-vn-daemon-status", async (e) => {
-			e.sender.send("send-vn-daemon-status", await vnStat.daemon().status());
+			e.sender.send("send-vn-daemon-status", await vnStat.daemon().isActive());
 		});
 	}
 	Stop() {

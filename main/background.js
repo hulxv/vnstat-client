@@ -90,7 +90,7 @@ async function INIT() {
 	);
 	mainWindow.webContents.send(
 		"send-vn-daemon-status",
-		await vnStat.daemon().status(),
+		await vnStat.daemon().isActive(),
 	);
 	mainWindow.webContents.send(
 		"send-vnstat-database-tables-list",
