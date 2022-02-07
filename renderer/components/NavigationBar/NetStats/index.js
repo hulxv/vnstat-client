@@ -20,6 +20,11 @@ import {
 	Heading,
 	HStack,
 	Tooltip,
+	NumberInput,
+	NumberInputField,
+	NumberInputStepper,
+	NumberIncrementStepper,
+	NumberDecrementStepper,
 } from "@chakra-ui/react";
 
 // ICONS
@@ -32,6 +37,9 @@ import { BiTimer } from "react-icons/bi";
 
 export default function NetStats() {
 	const { EditConfig, config } = useConfig();
+	const [refreshTime, setRefreshTime] = useState(
+		config?.netStatsRefreshTime ?? null,
+	);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const {
 		isOpen: isExportModalOpen,
@@ -85,6 +93,10 @@ export default function NetStats() {
 		]);
 	}, [recordedNetworkSpeed]);
 
+	useEffect(() => {
+		setRefreshTime(config?.netStatsRefreshTime);
+	}, [config]);
+
 	const { speed, bytes, errors, dropped, ms, ...otherStats } = networkStats ?? {
 		speed: { rx: 0, tx: 0 },
 		dropped: { rx: 0, tx: 0 },
@@ -137,11 +149,48 @@ export default function NetStats() {
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader textTransform='capitalize'>
-						Networw Statistics {`(${iface})`}
+						Network Statistics {`(${iface})`}
 					</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
 						<Stack w='full' align='center' spacing={5}>
+							<HStack justify='space-between' w='full'>
+								<Heading size='sm'>Refresh Time</Heading>
+								<HStack>
+									<NumberInput
+										value={Number(
+											refreshTime === null
+												? config?.netStatsRefreshTime
+												: refreshTime,
+										)}
+										onChange={(value) => {
+											setRefreshTime(value);
+										}}
+										allowMouseWheel
+										min={100}
+										max={10000}
+										maxW={32}>
+										<NumberInputField />
+										<NumberInputStepper>
+											<NumberIncrementStepper />
+											<NumberDecrementStepper />
+										</NumberInputStepper>
+									</NumberInput>
+									<Button
+										isDisabled={
+											Number(refreshTime) ===
+												Number(config?.netStatsRefreshTime) ||
+											refreshTime === null
+										}
+										onClick={() =>
+											EditConfig("netStatsRefreshTime", refreshTime)
+										}
+										size='sm'
+										colorScheme={config?.appearance?.globalTheme ?? "green"}>
+										Save
+									</Button>
+								</HStack>
+							</HStack>
 							<Stack w='full' align='center'>
 								<HStack
 									w='full'

@@ -55,7 +55,7 @@ function AvailableUpdateAlert() {
 		ipcRenderer.on("download-update-progress", (e, result) => {
 			setDownloadProgress(result);
 		});
-		ipcRenderer.on("downlod-update-error", () => {
+		ipcRenderer.on("download-update-error", () => {
 			setIsThereUpdateError(true);
 			setIsUpdateStartDownload(false);
 		});
