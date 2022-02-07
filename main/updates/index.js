@@ -5,9 +5,8 @@ import { isProd } from "../util";
 import { ipcMain } from "electron";
 export default class Updates {
 	constructor() {
-		let log = require("electron-log");
-		log.transports.file.level = "debug";
-		autoUpdater.logger = log;
+		require("electron-log").transports.file.level = "debug";
+		autoUpdater.logger = require("electron-log");
 		autoUpdater.autoDownload = false;
 	}
 
@@ -40,11 +39,17 @@ export default class Updates {
 				...options,
 				description: "Your client is up-to-date",
 			});
+			mainWindow.webContents.send("update-available", info);
 		});
 
 		autoUpdater.on("download-progress", (progress) => {
 			mainWindow.webContents.send("download-update-progress", progress);
 		});
+
+		autoUpdater.on("update-downloaded", () => {
+			mainWindow.webContents.send("update-downloaded");
+		});
+
 		autoUpdater.on("error", (err) => {
 			mainWindow.webContents.send("message", {
 				...options,
@@ -53,9 +58,18 @@ export default class Updates {
 			});
 		});
 
+		ipcMain.on("quit-and-update", () => {
+			autoUpdater.quitAndInstall();
+		});
+
 		ipcMain.on("start-download-new-update", async () => {
 			info("Starting update...");
-			await autoUpdater.downloadUpdate();
+
+			try {
+				await autoUpdater.downloadUpdate();
+			} catch (err) {
+				mainWindow.webContents.send("downlod-update-error");
+			}
 		});
 	}
 
