@@ -4,11 +4,7 @@ on: push
 
 jobs:
   release:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out Git repository
