@@ -35,7 +35,7 @@ jobs:
           command: sudo apt-get install libarchive-tools
       - run:
           name: Generate Builds
-          command: yarn build
+          command: yarn build:linux
 
       - store_artifacts:
           path: ~/repo/dist
