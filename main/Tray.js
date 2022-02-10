@@ -4,7 +4,7 @@ import Updates from "./updates";
 import { isProd } from "./util";
 import { ICON_NAME } from "./constants";
 
-export default class TrayIcon {
+export default class __TrayIcon__ {
 	constructor() {
 		this.tray = null;
 		this.icon = `${
@@ -23,3 +23,5 @@ export default class TrayIcon {
 		this.tray.setContextMenu(this.menuItems);
 	}
 }
+
+export const TrayIcon = new __TrayIcon__();

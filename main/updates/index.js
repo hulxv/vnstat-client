@@ -3,7 +3,7 @@ import { info, error } from "electron-log";
 import { mainWindow } from "../background";
 import { isProd } from "../util";
 import { ipcMain } from "electron";
-export default class Updates {
+export default class __Updates__ {
 	constructor() {
 		require("electron-log").transports.file.level = "debug";
 		autoUpdater.logger = require("electron-log");
@@ -39,7 +39,6 @@ export default class Updates {
 				...options,
 				description: "Your client is up-to-date",
 			});
-			mainWindow.webContents.send("update-available", info);
 		});
 
 		autoUpdater.on("download-progress", (progress) => {
@@ -77,3 +76,5 @@ export default class Updates {
 		autoUpdater.checkForUpdates();
 	}
 }
+
+export const Updates = new __Updates__();

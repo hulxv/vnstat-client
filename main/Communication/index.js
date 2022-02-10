@@ -11,7 +11,7 @@ import { DaemonChannel } from "./Channels/Daemon";
 import { NetworkChannel } from "./Channels/Network";
 import { vnStat } from "../vnStat";
 
-export default class Communication {
+export default class __Communication__ {
 	constructor() {}
 
 	async Init() {
@@ -58,3 +58,5 @@ export default class Communication {
 		});
 	}
 }
+
+export const Communication = new __Communication__();

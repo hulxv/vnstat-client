@@ -17,7 +17,7 @@ import {
 import { ipcRenderer } from "electron";
 import { useEffect } from "react";
 
-function VnStatIsNotInstalledAlert({ children }) {
+function VnStatIsNotInstalledAlert() {
 	const { isOpen, onOpen } = useDisclosure();
 	useEffect(() => {
 		ipcRenderer.on("vnstat-is-not-installed", () => {

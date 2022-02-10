@@ -3,7 +3,7 @@ import { app } from "electron";
 import { info, error } from "electron-log";
 import fs from "fs";
 import vnStatClass from "./vnStat";
-export default class AppConfigs {
+export default class __AppConfigs__ {
 	#vnStat = new vnStatClass();
 	CheckIfSchemeWasUpdated = () => {
 		/* 
@@ -85,3 +85,5 @@ function CheckIfAllKeysExist(a, b) {
 	}
 	return true;
 }
+
+export const AppConfigs = new __AppConfigs__().init();

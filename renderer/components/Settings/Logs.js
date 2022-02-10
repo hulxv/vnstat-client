@@ -216,8 +216,12 @@ const LogRows = ({ data }) => {
 	);
 };
 
-export default () => (
-	<LogsProvider>
-		<Logs />
-	</LogsProvider>
-);
+function LogsComponent() {
+	return (
+		<LogsProvider>
+			<Logs />
+		</LogsProvider>
+	);
+}
+
+export default LogsComponent;
