@@ -12,8 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
+// Icons
 import { HiInformationCircle } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 // Sections
 import VnStatD from "./vnStatD";
@@ -82,6 +84,18 @@ function Configs({}) {
 							<HStack justify='space-between' key={`${date}-${index}`}>
 								<Box>{date}</Box>
 								<HStack>
+									{dateFormat[date] === null && (
+										<Tooltip
+											hasArrow
+											placement='right'
+											label="This attribute is disabled, You should change the value and save to enable it. But if wasn't enabled, You should add it for config file manually">
+											<IconButton
+												size='sm'
+												icon={<RiErrorWarningLine size='1.2em' />}
+												variant='ghost'
+											/>
+										</Tooltip>
+									)}
 									{defaultDateFormat[date] !== dateFormat[date] && (
 										<Tooltip label='Reset'>
 											<IconButton

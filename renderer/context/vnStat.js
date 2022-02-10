@@ -87,6 +87,7 @@ export default function vnStatProvider({ children }) {
 	function getVnConfig() {
 		ipcRenderer.on("send-vn-configs", (e, result) => {
 			setVnConfigs(result);
+			console.log(result);
 		});
 		// Cleanup
 		return () => ipcRenderer.removeAllListeners("send-vn-configs");
@@ -96,6 +97,11 @@ export default function vnStatProvider({ children }) {
 		changes.current = Object.keys(configs)
 			.filter((key) => configs[key] != visualVnConfigs.current[key])
 			.map((key) => ({ [key]: visualVnConfigs.current[key] }));
+		changes.current = changes.current.concat(
+			Object.keys(visualVnConfigs.current)
+				.filter((key) => !Object.keys(configs).includes(key))
+				.map((key) => ({ [key]: visualVnConfigs.current[key] })),
+		);
 
 		setIsConfigChanged(changes.current.length > 0);
 	}

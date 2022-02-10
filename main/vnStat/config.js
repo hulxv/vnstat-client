@@ -57,7 +57,8 @@ export default class __vnConfig__ {
 		let configsOutput = fs
 			.readFileSync(this.configFilePath, "utf-8")
 			.split("\n")
-			.filter((line) => line && !line.startsWith("#"))
+			.map((line) => line.trim())
+			.filter((line) => line && !line.startsWith("/[#,;]/"))
 			.map((line) => line.split(" ").filter((_e) => _e && _e));
 		this.configs = Object.fromEntries([...configsOutput]);
 
@@ -65,7 +66,8 @@ export default class __vnConfig__ {
 	}
 
 	async write(changes) {
-		if (!Array.isArray(changes)) return;
+		if (!Array.isArray(changes))
+			throw new Error("Changes must be array of objects");
 
 		const options = {
 			name: "vnStat Client",

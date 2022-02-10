@@ -2,7 +2,6 @@ import {
 	Heading,
 	HStack,
 	Stack,
-	Input,
 	NumberInput,
 	NumberInputField,
 	NumberInputStepper,
@@ -17,6 +16,7 @@ import {
 // Icons
 import { HiInformationCircle } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 // Hooks
 import { useState, useEffect } from "react";
@@ -41,12 +41,12 @@ function vnStatD({}) {
 	const [defaultDurations, setDefaultDurations] = useState({});
 	useEffect(() => {
 		setDefaultDurations({
-			"5MinuteHours": defaultConfigs["5MinuteHours"],
-			HourlyDays: defaultConfigs["HourlyDays"],
-			DailyDays: defaultConfigs["DailyDays"],
-			MonthlyMonths: defaultConfigs["MonthlyMonths"],
-			YearlyYears: defaultConfigs["YearlyYears"],
-			TopDayEntries: defaultConfigs["TopDayEntries"],
+			"5MinuteHours": defaultConfigs["5MinuteHours"] ?? null,
+			HourlyDays: defaultConfigs["HourlyDays"] ?? null,
+			DailyDays: defaultConfigs["DailyDays"] ?? null,
+			MonthlyMonths: defaultConfigs["MonthlyMonths"] ?? null,
+			YearlyYears: defaultConfigs["YearlyYears"] ?? null,
+			TopDayEntries: defaultConfigs["TopDayEntries"] ?? null,
 		});
 	}, [defaultConfigs]);
 	useEffect(() => {
@@ -72,6 +72,18 @@ function vnStatD({}) {
 					<Box>{duration}</Box>
 
 					<HStack>
+						{durations[duration] === null && (
+							<Tooltip
+								hasArrow
+								placement='right'
+								label="This attribute is disabled, You should change the value and save to enable it. But if wasn't enabled, You should add it for config file manually">
+								<IconButton
+									size='sm'
+									icon={<RiErrorWarningLine size='1.2em' />}
+									variant='ghost'
+								/>
+							</Tooltip>
+						)}
 						{defaultDurations[duration] !== durations[duration] && (
 							<Tooltip label='Reset'>
 								<IconButton
@@ -87,6 +99,7 @@ function vnStatD({}) {
 								/>
 							</Tooltip>
 						)}
+
 						<NumberInput
 							allowMouseWheel
 							value={Number(durations[duration])}
