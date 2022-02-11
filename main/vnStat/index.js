@@ -3,7 +3,7 @@ import { Traffic } from "./traffic";
 import { Daemon } from "./daemon";
 import { vnConfig } from "./config";
 
-import { error } from "electron-log";
+import { existsSync } from "fs";
 
 export default class __vnStat__ {
 	constructor() {}
@@ -14,6 +14,9 @@ export default class __vnStat__ {
 				this.configurations().read()["DatabaseDir"].replace(/[",']/gi, "") ??
 				"/var/lib/vnstat/"
 			}/vnstat.db`;
+			if (!existsSync(dbPath)) {
+				throw "DB file isn't exists";
+			}
 			return Database(dbPath);
 		} catch (err) {
 			throw err;

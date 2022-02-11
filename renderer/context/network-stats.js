@@ -31,7 +31,7 @@ export default function NetworkStatsProvider({ children }) {
 				].splice(-60);
 				recordedNetworkStats.current.push({
 					stats: result,
-					duration: format(new Date(), "MMM d Y, hh:mm:ss aa"),
+					date: format(new Date(), "MMM d Y, hh:mm:ss aa"),
 				});
 			}
 		});

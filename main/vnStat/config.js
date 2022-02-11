@@ -5,6 +5,7 @@ import sudo from "sudo-prompt";
 import Communication from "../Communication";
 
 import { convertObjectItemForSedScript } from "../util";
+
 const isProd = process.env.NODE_ENV === "production";
 export default class __vnConfig__ {
 	constructor() {
@@ -25,7 +26,7 @@ export default class __vnConfig__ {
 					},
 					(error, stdout, stderr) => {
 						log.info(
-							`[${process.env.NODE_ENV.toUpperCase()}][RUNNING-AS-SU] ${cpCMD}`,
+							`[${process.env.NODE_ENV.toUpperCase()}](RUNNING-AS-SU) ${cpCMD}`,
 						);
 
 						if (error) {
@@ -58,7 +59,7 @@ export default class __vnConfig__ {
 			.readFileSync(this.configFilePath, "utf-8")
 			.split("\n")
 			.map((line) => line.trim())
-			.filter((line) => line && !line.startsWith("/[#,;]/"))
+			.filter((line) => line && !["#", ";"].some((e) => line.startsWith(e)))
 			.map((line) => line.split(" ").filter((_e) => _e && _e));
 		this.configs = Object.fromEntries([...configsOutput]);
 
@@ -67,12 +68,15 @@ export default class __vnConfig__ {
 
 	async write(changes) {
 		if (!Array.isArray(changes))
-			throw new Error("Changes must be array of objects");
+			throw new Error("'changes' must be an  array of objects");
 
 		const options = {
 			name: "vnStat Client",
 		};
 		let cmd = `sed -i '${changes
+			.filter(
+				(e) => !this.getAttributesDoesntExistInConfigFile(changes).includes(e),
+			)
 			.map((change) => {
 				let key = Object.keys(change)[0];
 
@@ -81,27 +85,85 @@ export default class __vnConfig__ {
 					change[key].toString().replace(/["]/gi, '"'),
 				);
 			})
-			.join(";")}' ${this.configFilePath}`;
+			.join(";")}' ${this.configFilePath} `;
 
-		log.info("[RUNNING-AS-SU]", cmd);
-		sudo.exec(cmd, options, (error, stdout, stderr) => {
-			if (error) {
-				log.error(stderr);
+		log.info("(RUNNING-AS-SU)", cmd);
+
+		try {
+			sudo.exec(cmd, options, async (error, stdout, stderr) => {
+				if (error) {
+					log.error(stderr);
+					new Communication().send("message", {
+						status: "error",
+						description: stderr,
+					});
+					throw error;
+				}
+
+				/**
+				 
+				 && `;
+				 */
+				this.read();
+				if (this.getAttributesDoesntExistInConfigFile(changes).length > 0) {
+					let command = `echo "#ADDED BY VNSTAT-CLIENT\n${this.getAttributesDoesntExistInConfigFile(
+						changes,
+					)
+						.map((attr) => {
+							let value = Object.values(
+								changes.find((e) => Object.keys(e).at(0) === attr),
+							).at(0);
+
+							return `${attr} ${value}`;
+						})
+						.join("\n")}" >> ${this.configFilePath}`;
+					new Communication().send("message", {
+						status: "info",
+						description: `There's attributes doesn't exist, Need to root permissions to adds it to ${this.configFilePath}`,
+						duration: 10000,
+					});
+					new Communication().send("message", {
+						status: "warning",
+						description: `(RUNNING-AS-SU) ${command}`,
+						duration: 10000,
+					});
+					log.info("(RUNNING-AS-SU)", command);
+
+					sudo.exec(command, options, (_error, _stdout, _stderr) => {
+						if (error) {
+							log.error(stderr);
+							new Communication().send("message", {
+								status: "error",
+								description: stderr,
+							});
+							throw error;
+						}
+					});
+				}
+
 				new Communication().send("message", {
-					status: "error",
-					description: stderr,
+					status: "success",
+					description: "Changes was Saved",
 				});
-				throw error;
-			}
-			new Communication().send("message", {
-				status: "success",
-				description: "Changes was Saved",
-			});
-			log.info("vnStat Config Changes was saved.");
+				log.info("vnStat Config Changes was saved.");
 
-			// Send configs to renderer
-			new Communication().send("send-vn-configs", this.read());
-		});
+				// Send configs to renderer
+				new Communication().send("send-vn-configs", this.read());
+			});
+		} catch (err) {
+			return;
+		}
+	}
+
+	getAttributesDoesntExistInConfigFile(attributes) {
+		if (!Array.isArray(attributes))
+			throw new Error("'attributes' must be an array of objects.");
+
+		let allConfigs = Object.keys(this.read());
+
+		let __attrs__ = attributes.map((attr) => Object.keys(attr).at(0));
+
+		return __attrs__.filter((attr) => !allConfigs.includes(attr));
 	}
 }
 
