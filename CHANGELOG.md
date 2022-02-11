@@ -1,8 +1,8 @@
 # Change Log
 
-- ## v22.2.11
+- ## [v22.2.11](https://github.com/Hulxv/vnstat-client/releases/tag/v22.2.11) ( Latest )
   ### New features:
-  - Network statistics recorder
+  - Network statistics monitor
   - Support `sysvinit` init system in addition to `systemd`
   - Support [vnStat 2.9](https://github.com/vergoh/vnstat/releases/tag/v2.9)
   ### Others:
@@ -12,14 +12,14 @@
 
 ---
 
-- ## v22.1.9
+- ## [v22.1.9](https://github.com/Hulxv/vnstat-client/releases/tag/v22.1.9)
 
   - Fix issue #1.
   - Fix typos (Thanks to [vergoh](https://github.com/vergoh) for suggest [typos](https://github.com/crate-ci/typos)).
 
 ---
 
-- ## v22.1.6 ( Initial release )
+- ## [v22.1.6](https://github.com/Hulxv/vnstat-client/releases/tag/v22.1.6) ( Initial release )
 
   - ### Features
 

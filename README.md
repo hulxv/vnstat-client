@@ -17,12 +17,13 @@
 
 ## Requirements
 
-- [vnStat (^2.8)](https://github.com/vergoh/vnstat)
+- vnStat^2.8 ([guide](docs/vnstat-installation-guide.md))
 
 ---
 
 ## Features
 
+- Network statistics monitor
 - Display statistics for your usage for different intervals
   - Daily
   - Weekly
