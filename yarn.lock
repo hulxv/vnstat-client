@@ -2426,22 +2426,6 @@
   dependencies:
     "@types/react" "^16"
 
-"@types/react-window@^1.8.2":
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/@types/react-window/-/react-window-1.8.5.tgz#285fcc5cea703eef78d90f499e1457e9b5c02fc1"
-  integrity sha512-V9q3CvhC9Jk9bWBOysPGaWy/Z0lxYcTXLtLipkt2cnRj1JOSFNF7wqGpkScSXMgBwC+fnVRg/7shwgddBG5ICw==
-  dependencies:
-    "@types/react" "*"
-
-"@types/react@*":
-  version "17.0.37"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.37.tgz#6884d0aa402605935c397ae689deed115caad959"
-  integrity sha512-2FS1oTqBGcH/s0E+CjrCCR9+JMpsu9b69RTFO+40ua43ZqP5MmQ4iUde/dMjWR909KxZwmOQIFq6AV6NjEG5xg==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
 "@types/react@^16", "@types/react@^16.8.10":
   version "16.14.17"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.17.tgz#c57fcfb05efa6423f5b65fcd4a75f63f05b162bf"
@@ -3991,11 +3975,6 @@ detect-node@^2.0.4:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.1.0.tgz#c9c70775a49c3d03bc2c06d9a73be550f978f8b1"
   integrity sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==
-
-devicon-react-svg@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/devicon-react-svg/-/devicon-react-svg-0.2.3.tgz#7960a46d327fe8ca83f955c60d6dcfa3e518408f"
-  integrity sha512-sy81d4yTglUNextq3Q4sUI1LB+gUrgfRzyNG3H3Skg36TQZ/WFlWwXFhgJ+53kZ9vU0kg33tgjHKhI8LX3DDZw==
 
 diffie-hellman@^5.0.0:
   version "5.0.3"
@@ -5697,11 +5676,6 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-"memoize-one@>=3.1.1 <6":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
-  integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
-
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
@@ -6768,23 +6742,6 @@ react-viewport-list@^5.1.2:
   integrity sha512-aANwgemguSYtqcu1B5qhyrB7Rp9tHyusC2IgwpUNCe1gIoUb9CUqBUB2blucUFr6rHTR/AcO+bhzeGEGVD13uA==
   dependencies:
     babel-eslint "^10.1.0"
-
-react-window-dynamic-list@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/react-window-dynamic-list/-/react-window-dynamic-list-2.4.2.tgz#e9cabcd067cb066619613af00f5dd42bca9f4b19"
-  integrity sha512-vFTTOt//53KShp9skE/xW/y0YVFllgCCWWKi97Ma69XZ6Rn/+wLPXCVGVBCtbjxi3l/KYCenzsDbb4lHgI3Gvw==
-  dependencies:
-    "@types/react-window" "^1.8.2"
-    lodash.debounce "^4.0.8"
-    react-window "^1.8.5"
-
-react-window@^1.8.5, react-window@^1.8.6:
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.6.tgz#d011950ac643a994118632665aad0c6382e2a112"
-  integrity sha512-8VwEEYyjz6DCnGBsd+MgkD0KJ2/OXFULyDtorIiTz+QzwoP94tBoA7CnbtyXMm+cCeAUER5KJcPtWl9cpKbOBg==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    memoize-one ">=3.1.1 <6"
 
 react-xml-viewer@^1.3.0:
   version "1.3.0"
