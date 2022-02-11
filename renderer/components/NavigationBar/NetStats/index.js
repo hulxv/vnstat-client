@@ -169,6 +169,7 @@ export default function NetStats() {
 											setRefreshTime(value);
 										}}
 										allowMouseWheel
+										step={100}
 										min={100}
 										max={10000}
 										maxW={32}>
