@@ -35,7 +35,7 @@
 		"@nivo/bar": "^0.74.0",
 		"@nivo/core": "^0.74.0",
 		"@nivo/line": "^0.74.0",
-		"electron": "^15.0.0",
+		"electron": "^15.3.5",
 		"electron-builder": "^22.11.7",
 		"framer-motion": "^5.3.3",
 		"next": "^12.1.0",
