@@ -27,7 +27,7 @@ export default class __Exporting__ {
 	ExportAsCSV() {
 		return ipcMain.on("export-as-csv", async (e, table) => {
 			const saveFile = await dialog.showSaveDialog({
-				defaultPath: "~/",
+				defaultPath: "vnstat-client.csv",
 				title: "Save as CSV",
 				filters: [{ name: "CSV", extensions: ["csv"] }],
 			});
@@ -57,7 +57,7 @@ export default class __Exporting__ {
 	ExportToFile() {
 		return ipcMain.on("export-to-file", async (e, { data, ext = "" }) => {
 			const saveFile = await dialog.showSaveDialog({
-				defaultPath: "~/",
+				defaultPath: `vnstat-client${ext.length > 0 && `.${ext}`}`,
 				title: `Save as ${ext?.toUpperCase()}`,
 				filters: [{ name: ext?.toUpperCase(), extensions: [ext] }],
 			});
