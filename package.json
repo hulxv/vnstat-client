@@ -9,7 +9,7 @@
 	"scripts": {
 		"dev": "nextron ",
 		"build": "nextron build --x64 --arm64",
-		"release": "nextron build --linux --publish always",
+		"test:build": "nextron build --linux --publish never",
 		"postinstall": "electron-builder install-app-deps",
 		"clean:next": "if [ -d 'renderer/.next' ]; then rm -rf renderer/.next;fi;",
 		"clean:build": "if [ -d 'dist' ]; then rm -r dist;fi;",
