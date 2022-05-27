@@ -13,10 +13,23 @@ linux:
   icon: "resources/icons"
   category: Network
   target:
-    - "AppImage"
-    - "deb"
-    - "tar.gz"
-    - "pacman"
+    - target: AppImage
+      arch:
+        - x64
+        - arm64
+    - target: tar.gz
+      arch:
+        - x64
+        - arm64
+    - target: deb
+      arch:
+        - x64
+        - arm64
+    - target: pacman
+      arch:
+        - x64
+        - arm64
+
   desktop:
     Name: vnStat Client
     Comment: GUI Client for vnStat Network Traffic Monitor
