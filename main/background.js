@@ -68,7 +68,7 @@ async function INIT() {
 		error(
 			"vnStat isn't installed, You should download and setup it before using this client.",
 		);
-		mainWindow.webContents.send("vnstat-is-not-installed");
+		mainWindow.webContents.send("error-vnstat-is-not-installed");
 		return;
 	}
 

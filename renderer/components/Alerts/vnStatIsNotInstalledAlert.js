@@ -20,7 +20,7 @@ import { useEffect } from "react";
 function VnStatIsNotInstalledAlert() {
 	const { isOpen, onOpen } = useDisclosure();
 	useEffect(() => {
-		ipcRenderer.on("vnstat-is-not-installed", () => {
+		ipcRenderer.on("error-vnstat-is-not-installed", () => {
 			onOpen();
 		});
 	}, []);

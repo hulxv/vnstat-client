@@ -2,7 +2,8 @@ import { Database } from "./db";
 import { Traffic } from "./traffic";
 import { Daemon } from "./daemon";
 import { vnConfig } from "./config";
-
+import Communication from "../Communication";
+import { error } from "electron-log";
 import { existsSync } from "fs";
 
 export default class __vnStat__ {
@@ -11,11 +12,13 @@ export default class __vnStat__ {
 	db() {
 		try {
 			let dbPath = `${
-				this.configurations().read()["DatabaseDir"].replace(/[",']/gi, "") ??
+				this.configurations().read()["DatabaseDir"]?.replace(/[",']/gi, "") ??
 				"/var/lib/vnstat/"
-			}/vnstat.db`;
+			}/vnstatdd.db`;
 			if (!existsSync(dbPath)) {
-				throw "DB file isn't exists";
+				error("database filepath not found");
+				new Communication().send("error-database-not-found");
+				return;
 			}
 			return Database(dbPath);
 		} catch (err) {
