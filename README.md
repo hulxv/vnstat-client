@@ -1,17 +1,17 @@
-> Recently, I'm working on a new project called [vnStat Client Server](https://github.com/Hulxv/vcs) based on [AnonymousWebHacker](https://github.com/AnonymousWebHacker)'s suggestion ([#4](https://github.com/Hulxv/vnstat-client/issues/4)), So if have some ideas which want me to apply it, You can create a new issue and I will be thankful for you :).
+> Recently, I'm working on a new project called [vnStat Server](https://github.com/Hulxv/vns) based on [AnonymousWebHacker](https://github.com/AnonymousWebHacker)'s suggestion ([#4](https://github.com/Hulxv/vnstat-client/issues/4)), So if have some ideas which want me to apply it, You can create a new issue and I will be thankful for you :).
+
+<div align="center"> 
 
 [![CircleCI](https://circleci.com/gh/Hulxv/vnstat-client.svg?style=svg)](https://circleci.com/gh/Hulxv/vnstat-client)
+
+[![GitHub release](https://img.shields.io/github/v/release/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/releases)
+
 
 ![linux](https://img.shields.io/badge/Linux-FCC624.svg?style=for-the-badge&logo=Linux&logoColor=black)
 ![nextjs](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=next-dot-js&logoColor=white)
 ![electronjs](https://img.shields.io/badge/Electron-47848F.svg?style=for-the-badge&logo=Electron&logoColor=white)
 
-[![GitHub release](https://img.shields.io/github/v/release/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/releases)
-[![GitHub stars](https://img.shields.io/github/stars/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/network)
-[![Github Downloads](https://img.shields.io/github/downloads/Hulxv/vnstat-client/total.svg?style=for-the-badge)]()
-
-[![GitHub license](https://img.shields.io/github/license/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/blob/main/LICENSE)
+</div>
 
 <div align='center'> <img src="resources/icons/512x512.png" alt="vnstat-client-logo" width="300" /> <h1 align='center'>vnStat Client</h1> </div>
 
@@ -94,3 +94,30 @@ You can see all packages used in the project in [package.json](./package.json)
 ## Documentations
 
 > Read [Documentions](docs/index.md) for more information
+
+---
+
+## Statistics
+<div align="center"> 
+
+[![GitHub stars](https://img.shields.io/github/stars/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/network)
+[![Github Downloads](https://img.shields.io/github/downloads/Hulxv/vnstat-client/total.svg?style=for-the-badge)]()
+
+</div>
+
+
+---
+
+## License
+
+vnStat Client is available under the [GPL-2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) license.
+For more, you can read [License](https://github.com/Hulxv/vnstat-client/blob/main/LICENSE) file.
+
+
+<div align="center"> 
+
+[![GitHub license](https://img.shields.io/github/license/Hulxv/vnstat-client?style=for-the-badge)](https://github.com/Hulxv/vnstat-client/blob/main/LICENSE)
+
+</div>
+
