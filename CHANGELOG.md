@@ -1,6 +1,16 @@
 # Change Log
 
-- ## [v22.2.11](https://github.com/Hulxv/vnstat-client/releases/tag/v22.2.11) ( Latest )
+- ## [v22.5.28](https://github.com/Hulxv/vnstat-client/releases/tag/v22.5.28) ( Latest )
+
+  ### New features:
+
+  - Support arm64
+
+  ### Others:
+
+  - Bug fixs
+
+- ## [v22.2.11](https://github.com/Hulxv/vnstat-client/releases/tag/v22.2.11)
   ### New features:
   - Network statistics monitor
   - Support `sysvinit` init system in addition to `systemd`
