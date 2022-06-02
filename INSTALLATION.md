@@ -23,7 +23,7 @@ yarn install
 yarn build
 cd ./dist
 # Run App
-./vnstat-client-22.2.11.AppImage
+./vnstat-client-x.y.z.AppImage
 ```
 
 ---
@@ -31,16 +31,16 @@ cd ./dist
 ## Download & Installation
 
 - ### Ubuntu/Debian based
-  Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.2.11/vnstat-client_22.2.11_amd64.deb) or :
+  Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.5.28/vnstat-client_22.5.28_amd64.deb) or :
 
 ```bash
-wget https://github.com/Hulxv/vnstat-client/releases/download/v22.2.11/vnstat-client_22.2.11_amd64.deb
+wget https://github.com/Hulxv/vnstat-client/releases/download/vx.y.z/vnstat-client_x.y.z_amd64.deb
 ```
 
 then:
 
 ```bash
-sudo dpkg -i ~/path-to-file/vnstat-client_22.2.11_amd64.deb
+sudo dpkg -i ~/path-to-file/vnstat-client_x.y.z_amd64.deb
 ```
 
 <br/>
@@ -58,14 +58,14 @@ yay -S vnstat-client
 <br/>
 
 - ### AppImage
-  Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/v22.2.11/vnstat-client-22.2.11.AppImage) or :
+  Download from [here](https://github.com/Hulxv/vnstat-client/releases/download/vx.y.z/vnstat-client-x.y.z.AppImage) or :
 
 ```bash
-wget https://github.com/Hulxv/vnstat-client/releases/download/v22.2.11/vnstat-client-22.2.11.AppImage
+wget https://github.com/Hulxv/vnstat-client/releases/download/vx.y.x/vnstat-client-x.y.z.AppImage
 ```
 
 then:
 
 ```bash
-chmod +x ~/path-to-file/vnstat-client-22.2.11.AppImage && ~/path-to-file/vnstat-client-22.2.11.AppImage
+chmod +x ~/path-to-file/vnstat-client-x.y.z.AppImage && ~/path-to-file/vnstat-client-x.y.z.AppImage
 ```
