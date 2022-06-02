@@ -14,9 +14,9 @@ export default class __vnStat__ {
 			let dbPath = `${
 				this.configurations().read()["DatabaseDir"]?.replace(/[",']/gi, "") ??
 				"/var/lib/vnstat/"
-			}/vnstatdd.db`;
+			}/vnstat.db`;
 			if (!existsSync(dbPath)) {
-				error("database filepath not found");
+				error(`${dbPath}: database filepath not found`);
 				new Communication().send("error-database-not-found");
 				return;
 			}
