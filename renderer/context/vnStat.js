@@ -87,7 +87,7 @@ export default function vnStatProvider({ children }) {
 	function getVnConfig() {
 		ipcRenderer.on("send-vn-configs", (e, result) => {
 			setVnConfigs(result);
-			console.log(result);
+			// console.log(result);
 		});
 		// Cleanup
 		return () => ipcRenderer.removeAllListeners("send-vn-configs");

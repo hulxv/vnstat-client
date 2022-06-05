@@ -118,7 +118,7 @@ function Configs({}) {
 										onChange={(e) => {
 											setDateFormat({ ...dateFormat, [date]: e.target.value });
 											changeVnStatConfigs(date, e.target.value);
-											console.log(e.target.value);
+											// console.log(e.target.value);
 										}}
 									/>
 								</HStack>

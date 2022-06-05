@@ -25,7 +25,7 @@ export default function Month() {
 			PreviousWeeks,
 		);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
-		console.log(displayData?.preparedData);
+		// console.log(displayData?.preparedData);
 	}, [PreviousWeeks, traffic]);
 
 	return (

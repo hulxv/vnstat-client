@@ -127,7 +127,7 @@ function AvailableUpdateAlert() {
 									e.preventDefault();
 									let url = e.target.getAttribute("href");
 									if (url !== null) {
-										console.log("open-url", url);
+										// console.log("open-url", url);
 										ipcRenderer.send("open-url", url);
 									}
 								}}
