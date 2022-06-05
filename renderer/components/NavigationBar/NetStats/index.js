@@ -302,24 +302,6 @@ export default function NetStats() {
 									LeftLegend='Speed (KB/S)'
 									disableAnimate
 								/>
-								<Tooltip label='Recording time'>
-									<Heading size='xs'>
-										{(() => {
-											let time = intervalToDuration({
-												start: new Date(duration?.start ?? 0),
-												end: new Date(duration?.end ?? 0),
-											});
-
-											return `${
-												time.hours < 10 ? `0${time.hours}` : time.hours
-											}:${
-												time.minutes < 10 ? `0${time.minutes}` : time.minutes
-											}:${
-												time.seconds < 10 ? `0${time.seconds}` : time.seconds
-											}`;
-										})()}
-									</Heading>
-								</Tooltip>
 							</Stack>
 							<Button leftIcon={<GrPowerReset />} onClick={() => reset()}>
 								Reset Statistics
