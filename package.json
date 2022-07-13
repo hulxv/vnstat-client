@@ -41,13 +41,13 @@
 		"lazy-load-list": "^1.2.2",
 		"next": "^12.1.6",
 		"nextron": "^8.1.0",
+		"prettier": "2.6.1",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
 		"react-hotkeys-hook": "^3.4.6",
-		"react-icons": "^4.3.1",
+		"react-icons": "^4.4.0",
 		"react-json-view": "^1.21.3",
 		"react-viewport-list": "^5.2.1",
-		"react-xml-viewer": "^1.3.0",
-		"prettier": "2.6.1"
+		"react-xml-viewer": "^1.3.0"
 	}
 }
