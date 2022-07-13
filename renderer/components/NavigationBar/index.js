@@ -13,13 +13,16 @@ import {
 	Flex,
 	Kbd,
 	HStack,
+	useDisclosure,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
+import { TbPlugConnected } from "react-icons/tb";
 
 import Export from "../Export";
 import Settings from "../Settings";
 
 import CustomIntervalModal from "./CustomIntervalModal";
+import ConnectModal from "@Components/ConnectToServerModal";
 
 import { useHotkeys } from "react-hotkeys-hook";
 import { useVnStat } from "@Context/vnStat";
@@ -36,7 +39,10 @@ export default function NavigationBar() {
 		title: "",
 		path: "",
 	});
+
 	const [ModalIsOpen, setModalIsOpen] = useState(false);
+	const disclosure = useDisclosure();
+
 	const pages = [
 		{
 			title: "day",
@@ -63,7 +69,9 @@ export default function NavigationBar() {
 
 	useEffect(() => {
 		setPage({
-			title: toCapitalize(pages.find((e) => e.path === router.pathname)?.title),
+			title: toCapitalize(
+				pages.find(e => e.path === router.pathname)?.title
+			),
 			path: router.asPath || "/",
 		});
 	}, []);
@@ -82,24 +90,36 @@ export default function NavigationBar() {
 	return (
 		<>
 			<Flex
-				bgColor='#111513'
-				justifyContent='space-between'
-				alignItems='center'
-				alignSelf='self'
+				bgColor="#111513"
+				justifyContent="space-between"
+				alignItems="center"
+				alignSelf="self"
 				padding={6}
-				shadow='2xl'
-				rounded='2xl'
-				width='95%'>
+				shadow="2xl"
+				rounded="2xl"
+				width="95%">
 				<HStack spacing={1}>
-					<Tooltip label='Settings'>
+					<Tooltip label="Settings">
 						<Settings>
 							<IconButton
-								variant='ghost'
-								colorScheme='whiteAlpha'
-								textColor='whiteAlpha.900'
-								icon={<HiAdjustments size='1.4em' />}
+								variant="ghost"
+								colorScheme="whiteAlpha"
+								textColor="whiteAlpha.900"
+								icon={<HiAdjustments size="1.4em" />}
 							/>
 						</Settings>
+					</Tooltip>
+					<Tooltip
+						placement="right"
+						hasArrow
+						label="Connect to vnStat Server">
+						<IconButton
+							onClick={disclosure.onOpen}
+							colorScheme="whiteAlpha"
+							textColor="whiteAlpha.900"
+							variant="ghost"
+							icon={<TbPlugConnected size="1.4em" />}
+						/>
 					</Tooltip>
 					<Export />
 					<NetworkStats>
@@ -111,12 +131,12 @@ export default function NavigationBar() {
 						<Kbd>ALT</Kbd>
 						<span style={{ color: "white" }}>+</span>
 						<Kbd>R</Kbd>
-						<Tooltip label='Refresh'>
+						<Tooltip label="Refresh">
 							<IconButton
-								icon={<HiRefresh size='1.4em' />}
-								variant='ghost'
-								colorScheme='whiteAlpha'
-								textColor='whiteAlpha.900'
+								icon={<HiRefresh size="1.4em" />}
+								variant="ghost"
+								colorScheme="whiteAlpha"
+								textColor="whiteAlpha.900"
 								mr={1}
 								onClick={() => {
 									reloadConfigs();
@@ -129,11 +149,13 @@ export default function NavigationBar() {
 					</HStack>
 
 					<Menu>
-						<Tooltip label='Interval'>
+						<Tooltip label="Interval">
 							<MenuButton
 								as={Button}
 								rightIcon={<HiArrowSmDown />}
-								colorScheme={config?.appearance?.globalTheme ?? "green"}>
+								colorScheme={
+									config?.appearance?.globalTheme ?? "green"
+								}>
 								{Page.title}
 							</MenuButton>
 						</Tooltip>
@@ -142,7 +164,9 @@ export default function NavigationBar() {
 								<MenuItem
 									key={index}
 									onClick={() => {
-										if (typeof page?.onClick !== "undefined") {
+										if (
+											typeof page?.onClick !== "undefined"
+										) {
 											page.onClick();
 											return;
 										}
@@ -164,6 +188,8 @@ export default function NavigationBar() {
 				ModalState={ModalIsOpen}
 				setModalState={setModalIsOpen}
 			/>
+
+			<ConnectModal {...disclosure} />
 		</>
 	);
 }
