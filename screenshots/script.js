@@ -6,15 +6,15 @@ const dir = ".";
 const extensionTargets = ["png"];
 
 fs.readdirSync(dir)
-	.filter((file) => {
+	.filter(file => {
 		let splitFileToGetExtension = file.split(".");
 		let fileExt = splitFileToGetExtension.at(
-			splitFileToGetExtension.length - 1,
+			splitFileToGetExtension.length - 1
 		);
 
 		return extensionTargets.includes(fileExt);
 	})
-	.forEach((file) => {
+	.forEach(file => {
 		let newName = file.split(" ").slice(-2).join("-");
 		try {
 			console.log(`Change '${file}' to '${newName}'`);

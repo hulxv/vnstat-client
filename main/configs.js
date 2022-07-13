@@ -14,8 +14,11 @@ export default class __AppConfigs__ {
 			return !CheckIfAllKeysExist(
 				this.scheme,
 				JSON.parse(
-					fs.readFileSync(`${app.getPath("userData")}/config.json`, "utf-8"),
-				),
+					fs.readFileSync(
+						`${app.getPath("userData")}/config.json`,
+						"utf-8"
+					)
+				)
 			);
 		} catch (err) {
 			error(err);
@@ -34,7 +37,8 @@ export default class __AppConfigs__ {
 		this.scheme = {
 			netStatsRefreshTime: 1000,
 			checkUpdatesOnStartup: true,
-			interface: (await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
+			interface:
+				(await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
 			appearance: {
 				globalTheme: "green",
 				lineChart: {
@@ -66,7 +70,7 @@ export default class __AppConfigs__ {
 		return this;
 	}
 
-	get = (key) => {
+	get = key => {
 		return key ? this.store.get(key) : this.store.store;
 	};
 	set = (key, value) => {

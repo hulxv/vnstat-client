@@ -23,7 +23,9 @@ if (isProd) {
 let mainWindow;
 (async () => {
 	await app.whenReady();
-	log.info(`[${process.env.NODE_ENV.toUpperCase()}] vnStat Client is Running.`);
+	log.info(
+		`[${process.env.NODE_ENV.toUpperCase()}] vnStat Client is Running.`
+	);
 	mainWindow = createWindow("main", {
 		width: 920,
 		height: 600,
@@ -66,7 +68,7 @@ async function INIT() {
 
 	if (!(await vnStatIsInstalled())) {
 		error(
-			"vnStat isn't installed, You should download and setup it before using this client.",
+			"vnStat isn't installed, You should download and setup it before using this client."
 		);
 		mainWindow.webContents.send("error-vnstat-is-not-installed");
 		return;
@@ -75,22 +77,25 @@ async function INIT() {
 	// Send vnStat data
 	mainWindow.webContents.send(
 		"send-vn-configs",
-		vnStat.configurations().read(),
+		vnStat.configurations().read()
 	);
 
-	mainWindow.webContents.send("send-traffic", await vnStat.traffic().getData());
+	mainWindow.webContents.send(
+		"send-traffic",
+		await vnStat.traffic().getData()
+	);
 
 	mainWindow.webContents.send(
 		"send-vnstat-interfaces",
-		await vnStat.interfaces(),
+		await vnStat.interfaces()
 	);
 	mainWindow.webContents.send(
 		"send-vn-daemon-status",
-		await vnStat.daemon().isActive(),
+		await vnStat.daemon().isActive()
 	);
 	mainWindow.webContents.send(
 		"send-vnstat-database-tables-list",
-		await vnStat.db().getTablesList(),
+		await vnStat.db().getTablesList()
 	);
 
 	log.info("Getting data is successfully");

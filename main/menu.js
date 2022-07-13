@@ -23,7 +23,11 @@ export default class __Menu__ {
 			},
 			{
 				label: "Window",
-				submenu: [{ role: "minimize" }, { role: "zoom" }, { role: "close" }],
+				submenu: [
+					{ role: "minimize" },
+					{ role: "zoom" },
+					{ role: "close" },
+				],
 			},
 			{
 				role: "help",
@@ -33,7 +37,7 @@ export default class __Menu__ {
 						click: async () => {
 							const { shell } = require("electron");
 							await shell.openExternal(
-								"https://github.com/Hulxv/vnstat-client/issues",
+								"https://github.com/Hulxv/vnstat-client/issues"
 							);
 						},
 					},
@@ -42,7 +46,7 @@ export default class __Menu__ {
 						click: async () => {
 							const { shell } = require("electron");
 							await shell.openExternal(
-								"https://github.com/Hulxv/vnstat-client/issues/new/choose",
+								"https://github.com/Hulxv/vnstat-client/issues/new/choose"
 							);
 						},
 					},
