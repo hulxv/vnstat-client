@@ -1,5 +1,5 @@
 import { isInitSystemSupported, whichInitSystemUserUsed } from "../util";
-import Communication from "../Communication";
+import Communication from "../communication";
 import log, { error, info, warn } from "electron-log";
 
 import sudo from "sudo-prompt";

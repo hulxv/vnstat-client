@@ -3,12 +3,12 @@ import { mainWindow } from "../background";
 import log from "electron-log";
 import Updates from "../updates";
 // Channels
-import { ConfigChannel } from "./Channels/Config";
-import { ExportingChannel } from "./Channels/Exporting";
-import { LogsChannel } from "./Channels/Logs";
+import { ConfigChannel } from "./Channels/config";
+import { ExportingChannel } from "./Channels/exporting";
+import { LogsChannel } from "./Channels/log";
 import { vnStatChannel } from "./Channels/vnStat";
-import { DaemonChannel } from "./Channels/Daemon";
-import { NetworkChannel } from "./Channels/Network";
+import { DaemonChannel } from "./Channels/daemon";
+import { NetworkChannel } from "./Channels/network";
 import { vnStat } from "../vnStat";
 
 export default class __Communication__ {

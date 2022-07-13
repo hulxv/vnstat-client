@@ -2,7 +2,7 @@ import { Database } from "./db";
 import { Traffic } from "./traffic";
 import { Daemon } from "./daemon";
 import { vnConfig } from "./config";
-import Communication from "../Communication";
+import Communication from "../communication";
 import { error } from "electron-log";
 import { existsSync } from "fs";
 

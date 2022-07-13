@@ -4,13 +4,13 @@ import serve from "electron-serve";
 
 import { createWindow } from "./helpers";
 
-import { Communication } from "./Communication";
-import { AppConfigs } from "./AppConfigs";
+import { Communication } from "./communication";
+import { AppConfigs } from "./configs";
 import { vnStat } from "./vnStat";
 import { Updates } from "./updates";
 
-import { TrayIcon } from "./Tray";
-import { Menu } from "./Menu";
+import { TrayIcon } from "./tray";
+import { Menu } from "./menu";
 
 import { ICON_NAME } from "./constants";
 import { isProd, vnStatIsInstalled } from "./util";

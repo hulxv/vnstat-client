@@ -1,6 +1,6 @@
 import sysInfo from "systeminformation";
 import Communication from "../index";
-import Config from "../../AppConfigs";
+import Config from "../../configs";
 export default class __Network__ {
 	constructor() {}
 	init() {

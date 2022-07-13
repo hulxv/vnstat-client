@@ -2,7 +2,7 @@ import log from "electron-log";
 import fs from "fs";
 import sudo from "sudo-prompt";
 
-import Communication from "../Communication";
+import Communication from "../communication";
 
 import { convertObjectItemForSedScript } from "../util";
 
