@@ -33,7 +33,7 @@ export default function CustomIntervalModal({
 	const [address, setAddress] = useState("");
 	const [password, setPassword] = useState("");
 
-	const [isPasswordVisiable, setIsPasswordVisiable] = useState(false);
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
 	function connectHandler() {
@@ -75,13 +75,13 @@ export default function CustomIntervalModal({
 							</Stack>
 							<Stack spacing={0.3}>
 								<Heading opacity={0.7} size="xs">
-									Passowrd
+									Password
 								</Heading>
 								<Box position="relative">
 									<IconButton
 										onClick={() =>
-											setIsPasswordVisiable(
-												!isPasswordVisiable
+											setIsPasswordVisible(
+												!isPasswordVisible
 											)
 										}
 										variant="ghost"
@@ -89,7 +89,7 @@ export default function CustomIntervalModal({
 										position="absolute"
 										right={0}
 										icon={
-											isPasswordVisiable ? (
+											isPasswordVisible ? (
 												<AiFillEyeInvisible size="1.4em" />
 											) : (
 												<AiFillEye size="1.4em" />
@@ -103,7 +103,7 @@ export default function CustomIntervalModal({
 										value={password}
 										variant="filled"
 										type={
-											isPasswordVisiable
+											isPasswordVisible
 												? "text"
 												: "password"
 										}
