@@ -28,8 +28,6 @@ export default class __AppConfigs__ {
 	constructor() {
 		this.store;
 		this.scheme;
-		this.store;
-		this.store;
 	}
 	async init() {
 		// Default settings
