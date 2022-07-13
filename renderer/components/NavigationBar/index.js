@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import electron from "electron";
 import router from "next/router";
 import { toCapitalize } from "@Util";
 
@@ -16,13 +17,14 @@ import {
 	useDisclosure,
 } from "@chakra-ui/react";
 import { HiArrowSmDown, HiAdjustments, HiRefresh } from "react-icons/hi";
-import { TbPlugConnected } from "react-icons/tb";
+import { TbPlugConnected, TbPlugConnectedX } from "react-icons/tb";
 
 import Export from "../Export";
 import Settings from "../Settings";
 
 import CustomIntervalModal from "./CustomIntervalModal";
-import ConnectModal from "@Components/ConnectToServerModal";
+import ConnectModal from "@Components/Server/ConnectModal";
+import DisconnectAlert from "@Components/Server/DisconnectAlert";
 
 import { useHotkeys } from "react-hotkeys-hook";
 import { useVnStat } from "@Context/vnStat";
@@ -41,7 +43,9 @@ export default function NavigationBar() {
 	});
 
 	const [ModalIsOpen, setModalIsOpen] = useState(false);
-	const disclosure = useDisclosure();
+	const [isServerConnected, setIsServerConnected] = useState(false);
+	const disclosureConnectServerModal = useDisclosure();
+	const disclosureDisconnetServerAlert = useDisclosure();
 
 	const pages = [
 		{
@@ -74,6 +78,21 @@ export default function NavigationBar() {
 			),
 			path: router.asPath || "/",
 		});
+	}, []);
+
+	useEffect(() => {
+		if (electron && window) {
+			electron.ipcRenderer
+				.invoke("server-is-connected")
+				.then(({ is_connected }) => setIsServerConnected(is_connected));
+
+			electron.ipcRenderer.on("server-was-disconnected", () => {
+				setIsServerConnected(false);
+			});
+			electron.ipcRenderer.on("server-was-connected", () => {
+				setIsServerConnected(true);
+			});
+		}
 	}, []);
 
 	useHotkeys("alt+r", () => {
@@ -112,13 +131,27 @@ export default function NavigationBar() {
 					<Tooltip
 						placement="right"
 						hasArrow
-						label="Connect to vnStat Server">
+						label={
+							isServerConnected
+								? "Disconnect with vnStat Server"
+								: "Connect to vnStat Server"
+						}>
 						<IconButton
-							onClick={disclosure.onOpen}
+							onClick={() =>
+								isServerConnected
+									? disclosureDisconnetServerAlert.onOpen()
+									: disclosureConnectServerModal.onOpen()
+							}
 							colorScheme="whiteAlpha"
 							textColor="whiteAlpha.900"
 							variant="ghost"
-							icon={<TbPlugConnected size="1.4em" />}
+							icon={
+								isServerConnected ? (
+									<TbPlugConnectedX size="1.4em" />
+								) : (
+									<TbPlugConnected size="1.4em" />
+								)
+							}
 						/>
 					</Tooltip>
 					<Export />
@@ -189,7 +222,8 @@ export default function NavigationBar() {
 				setModalState={setModalIsOpen}
 			/>
 
-			<ConnectModal {...disclosure} />
+			<ConnectModal {...disclosureConnectServerModal} />
+			<DisconnectAlert {...disclosureDisconnetServerAlert} />
 		</>
 	);
 }

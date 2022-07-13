@@ -15,9 +15,10 @@ import {
 	Input,
 	Heading,
 	IconButton,
+	useToast,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useConfig } from "@Context/configuration";
 
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -29,6 +30,8 @@ export default function CustomIntervalModal({
 	onOpen,
 	onClose,
 }) {
+	const toast = useToast();
+
 	const { config } = useConfig();
 	const [address, setAddress] = useState("");
 	const [password, setPassword] = useState("");
@@ -36,14 +39,22 @@ export default function CustomIntervalModal({
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	function connectHandler() {
+	async function connectHandler() {
 		if (ipcRenderer) {
 			setIsLoading(true);
-			ipcRenderer.send("connect-to-vnstat-server", { address, password });
-
-			ipcRenderer.on("connect-to-server-is-done", () => {
-				setIsLoading(false);
+			let res = await ipcRenderer.invoke("server-connect", {
+				address,
+				password,
 			});
+
+			toast({
+				position: "top",
+				isClosable: true,
+				...res,
+			});
+			setIsLoading(false);
+
+			if (res.status === "success") onClose();
 		}
 	}
 
@@ -63,7 +74,7 @@ export default function CustomIntervalModal({
 						<Stack spacing={8}>
 							<Stack spacing={0.3}>
 								<Heading opacity={0.7} size="xs">
-									IP Address
+									Address
 								</Heading>
 								<Input
 									onChange={e => setAddress(e.target.value)}
@@ -129,7 +140,7 @@ export default function CustomIntervalModal({
 							colorScheme={
 								config?.appearance?.globalTheme ?? "green"
 							}
-							onClick={connectHandler}>
+							onClick={async () => await connectHandler()}>
 							Connect
 						</Button>
 					</ModalFooter>

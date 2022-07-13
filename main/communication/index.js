@@ -9,6 +9,7 @@ import { LogsChannel } from "./Channels/log";
 import { vnStatChannel } from "./Channels/vnStat";
 import { DaemonChannel } from "./Channels/daemon";
 import { NetworkChannel } from "./Channels/network";
+import { ServerChannel } from "./Channels/server";
 import { vnStat } from "../vnStat";
 
 export default class __Communication__ {
@@ -26,10 +27,11 @@ export default class __Communication__ {
 		LogsChannel.Init();
 		DaemonChannel.Init();
 		NetworkChannel.init();
+		await new ServerChannel().init();
 	}
 
 	getInfos() {
-		ipcMain.on("get-infos", async (e) => {
+		ipcMain.on("get-infos", async e => {
 			try {
 				e.sender.send("send-infos", [
 					{ name: "version", value: app.getVersion() },
