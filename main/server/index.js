@@ -46,18 +46,26 @@ export class Server {
 	}
 
 	isConnected() {
-		return this.store.get("is_connected") && this.store.get("address");
+		return (
+			this.store.get("is_connected") && this.store.get("address") !== ""
+		);
 	}
 
-	async request() {
+	async request(path, method, data) {
+		// console.log("address", this.store.store);
 		try {
-			let res = await axios.post(`${this.store.get("address")}/${path}`, {
-				password,
+			let res = await axios.request({
+				method,
+				url: `${this.store.get("address")}/api/${path}`,
+				data,
+				headers: {
+					Authorization: `Bearer ${this.store.get("key.value")}`,
+				},
 			});
 
 			return res.data.data;
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 			throw err?.response?.data?.data?.details ?? err.toString();
 		}
 	}

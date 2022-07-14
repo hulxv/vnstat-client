@@ -20,6 +20,7 @@ import {
 
 import { useState, useEffect } from "react";
 import { useConfig } from "@Context/configuration";
+import { useVnStat } from "@Context/vnStat";
 
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
@@ -38,6 +39,7 @@ export default function CustomIntervalModal({
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const { reloading } = useVnStat();
 
 	async function connectHandler() {
 		if (ipcRenderer) {
@@ -53,7 +55,7 @@ export default function CustomIntervalModal({
 				...res,
 			});
 			setIsLoading(false);
-
+			reloading();
 			if (res.status === "success") onClose();
 		}
 	}

@@ -14,10 +14,11 @@ import {
 import electron from "electron";
 
 import { useConfig } from "@Context/configuration";
-
+import { useVnStat } from "@Context/vnStat";
 export default function DisconnetAlert({ isOpen, onOpen, onClose }) {
 	const { config } = useConfig();
 	const toast = useToast();
+	const { reloading } = useVnStat();
 
 	return (
 		<>
@@ -49,6 +50,7 @@ export default function DisconnetAlert({ isOpen, onOpen, onClose }) {
 												isClosable: true,
 												...res,
 											});
+											reloading();
 											onClose();
 										});
 							}}

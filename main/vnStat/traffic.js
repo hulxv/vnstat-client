@@ -11,6 +11,8 @@ import {
 	isThisMonth,
 } from "date-fns";
 import { vnStat } from "./index";
+import { Server } from "../server";
+
 export default class __Traffic__ {
 	constructor() {
 		this.month = [];
@@ -22,11 +24,11 @@ export default class __Traffic__ {
 	async getData() {
 		try {
 			return {
-				month: await this.Month(),
-				day: await this.Day(),
-				year: await this.Year(),
-				week: await this.Week(),
-				summary: await this.Summary(),
+				month: await this.monthly(),
+				day: await this.daily(),
+				year: await this.yearly(),
+				week: await this.weekly(),
+				summary: await this.getSummary(),
 			};
 		} catch (err) {
 			error(err);
@@ -34,29 +36,34 @@ export default class __Traffic__ {
 		}
 	}
 
-	async Month() {
+	async monthly() {
 		try {
-			this.month = await vnStat.db().get("day");
+			this.month = new Server().isConnected()
+				? await new Server().request("traffic/day", "get")
+				: await vnStat.db().get("day");
+
 			return this.month;
 		} catch (err) {
 			error(err.message);
 			throw err;
 		}
 	}
-	async Year() {
+	async yearly() {
 		try {
-			this.year = await vnStat.db().get("month");
-
+			this.year = new Server().isConnected()
+				? await new Server().request("traffic/month", "get")
+				: await vnStat.db().get("month");
 			return this.year;
 		} catch (err) {
 			error(err.message);
 			throw err;
 		}
 	}
-	async Day() {
+	async daily() {
 		try {
-			this.day = await vnStat.db().get("hour");
-
+			this.day = new Server().isConnected()
+				? await new Server().request("traffic/hour", "get")
+				: await vnStat.db().get("hour");
 			return this.day;
 		} catch (err) {
 			error(err.message);
@@ -64,10 +71,11 @@ export default class __Traffic__ {
 		}
 	}
 
-	async Week() {
+	async weekly() {
 		try {
-			this.day = await vnStat.db().get("day");
-
+			this.day = new Server().isConnected()
+				? await new Server().request("traffic/day", "get")
+				: await vnStat.db().get("day");
 			return this.day;
 		} catch (err) {
 			error(err.message);
@@ -75,29 +83,34 @@ export default class __Traffic__ {
 		}
 	}
 
-	async Summary() {
+	async getSummary() {
 		try {
-			const CurrentMonthUsageData = (await (
-				await vnStat.db().get("month")
+			const CurrentMonthUsageData = (await (new Server().isConnected()
+				? await new Server().request("traffic/month")
+				: await vnStat.db().get("month")
 			).find(
-				(e) => isThisMonth(new Date(e.date)) && isThisYear(new Date(e.date)),
+				e =>
+					isThisMonth(new Date(e.date)) &&
+					isThisYear(new Date(e.date))
 			)) ?? {
 				date: format(startOfMonth(new Date()), "yyyy-MM-dd"),
 				rx: 0,
 				tx: 0,
 			};
 
-			const TodayUsageData = (await (
-				await vnStat.db().get("day")
-			).find((e) => isToday(new Date(e.date)))) ?? {
+			const TodayUsageData = (await (new Server().isConnected()
+				? await new Server().request("traffic/day")
+				: await vnStat.db().get("day")
+			).find(e => isToday(new Date(e.date)))) ?? {
 				date: format(startOfToday(new Date()), "yyyy-MM-dd"),
 				rx: 0,
 				tx: 0,
 			};
 
-			const YesterdayUsageData = (await (
-				await vnStat.db().get("day")
-			).find((e) => isYesterday(new Date(e.date)))) ?? {
+			const YesterdayUsageData = (await (new Server().isConnected()
+				? await new Server().request("traffic/day")
+				: await vnStat.db().get("day")
+			).find(e => isYesterday(new Date(e.date)))) ?? {
 				date: format(startOfYesterday(new Date()), "yyyy-MM-dd"),
 				rx: 0,
 				tx: 0,
