@@ -31,14 +31,19 @@ export default class __Communication__ {
 	}
 
 	getInfos() {
-		ipcMain.on("get-infos", async e => {
+		ipcMain.handle("get-infos", async e => {
 			try {
-				e.sender.send("send-infos", [
-					{ name: "version", value: app.getVersion() },
+				return [
+					{ name: "version", value: `v${app.getVersion()}` },
 					...(await vnStat.info()),
-				]);
+				];
 			} catch (err) {
-				log.error(err);
+				e.sender.send("message", {
+					status: "error",
+					title: "Cannot get information from server",
+					description: err.toString(),
+				});
+				return [];
 			}
 		});
 	}

@@ -3,6 +3,7 @@ import { Traffic } from "./traffic";
 import { Daemon } from "./daemon";
 import { vnConfig } from "./config";
 import Communication from "../communication";
+import { vnInfo } from "./info";
 import { error } from "electron-log";
 import { existsSync } from "fs";
 
@@ -12,7 +13,9 @@ export default class __vnStat__ {
 	db() {
 		try {
 			let dbPath = `${
-				this.configurations().read()["DatabaseDir"]?.replace(/[",']/gi, "") ??
+				this.configurations()
+					.read()
+					["DatabaseDir"]?.replace(/[",']/gi, "") ??
 				"/var/lib/vnstat/"
 			}/vnstat.db`;
 			if (!existsSync(dbPath)) {
@@ -33,7 +36,7 @@ export default class __vnStat__ {
 	}
 	async info() {
 		try {
-			return await this.db().get("info");
+			return await vnInfo.get();
 		} catch (err) {
 			throw err;
 		}
