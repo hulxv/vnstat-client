@@ -40,7 +40,7 @@ export default class __Communication__ {
 			} catch (err) {
 				e.sender.send("message", {
 					status: "error",
-					title: "Cannot get information from server",
+					title: "Cannot get information",
 					description: err.toString(),
 				});
 				return [];

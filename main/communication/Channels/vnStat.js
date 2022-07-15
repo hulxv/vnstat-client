@@ -14,21 +14,29 @@ export default class __vnStatChannel__ extends vnStat {
 	}
 
 	sendTrafficData() {
-		return ipcMain.on("get-traffic", async (e) => {
+		return ipcMain.on("get-traffic", async e => {
 			log.info("Getting data...");
 			try {
 				e.sender.send("send-traffic", await this.traffic().getData());
 				log.info("Getting data is successfully");
 			} catch (err) {
 				log.error(err);
+				e.sender.send("message", {
+					title: "Cannot get traffic data",
+					description: err.toString(),
+					status: "error",
+				});
 			}
 		});
 	}
 
 	async getVnStatInterfaces() {
-		ipcMain.on("get-vnstat-interfaces", async (e) => {
+		ipcMain.on("get-vnstat-interfaces", async e => {
 			try {
-				e.sender.send("send-vnstat-interfaces", await this.interfaces());
+				e.sender.send(
+					"send-vnstat-interfaces",
+					await this.interfaces()
+				);
 			} catch (err) {
 				log.error(err);
 			}
@@ -36,11 +44,11 @@ export default class __vnStatChannel__ extends vnStat {
 	}
 
 	async getDatabaseTablesList() {
-		ipcMain.on("get-vnstat-database-tables-list", async (e) => {
+		ipcMain.on("get-vnstat-database-tables-list", async e => {
 			try {
 				e.sender.send(
 					"send-vnstat-database-tables-list",
-					await this.db().getTablesList(),
+					await this.db().getTablesList()
 				);
 			} catch (err) {
 				log.error(err);
@@ -53,7 +61,7 @@ export default class __vnStatChannel__ extends vnStat {
 			try {
 				e.sender.send(
 					"send-vnstat-database-table-data",
-					await this.db().get(table),
+					await this.db().get(table)
 				);
 			} catch (err) {
 				log.error(err);
