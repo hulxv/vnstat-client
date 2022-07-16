@@ -45,7 +45,7 @@ export default function NavigationBar() {
 	const [ModalIsOpen, setModalIsOpen] = useState(false);
 	const [isServerConnected, setIsServerConnected] = useState(false);
 	const disclosureConnectServerModal = useDisclosure();
-	const disclosureDisconnetServerAlert = useDisclosure();
+	const disclosureDisconnectServerAlert = useDisclosure();
 
 	const pages = [
 		{

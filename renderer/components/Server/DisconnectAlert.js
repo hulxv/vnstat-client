@@ -15,7 +15,7 @@ import electron from "electron";
 
 import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnStat";
-export default function DisconnetAlert({ isOpen, onOpen, onClose }) {
+export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
 	const { config } = useConfig();
 	const toast = useToast();
 	const { reloading } = useVnStat();

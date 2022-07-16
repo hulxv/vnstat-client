@@ -19,7 +19,7 @@ function Info() {
 	const toast = useToast();
 	const [showMoreInfo, setShowMoreInfo] = useState(false);
 
-	const [informations, setInfos] = useState([]);
+	const [information, setInfos] = useState([]);
 	const { config } = useConfig();
 	useEffect(() => {
 		if (ipcRenderer)
@@ -39,7 +39,7 @@ function Info() {
 				alt="vnStat Client Icon"
 			/>
 			<Heading size="md">
-				{informations.find(info => info.name === "version")?.value}
+				{information.find(info => info.name === "version")?.value}
 			</Heading>
 			<Button
 				colorScheme={config?.appearance?.globalTheme ?? "green"}
@@ -64,7 +64,7 @@ function Info() {
 				</Button>
 			</Tooltip>
 
-			{informations.length > 0 && (
+			{information.length > 0 && (
 				<Tooltip
 					hasArrow
 					placement="top"
@@ -80,7 +80,7 @@ function Info() {
 			)}
 			{showMoreInfo && (
 				<HStack spacing={10} alignSelf="center">
-					{informations
+					{information
 						.filter(info => info.name !== "version")
 						.map((info, index) => (
 							<Stack align="center" spacing={0.5} key={index}>
