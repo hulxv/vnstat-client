@@ -154,7 +154,7 @@ export default function NavigationBar() {
 							}
 						/>
 					</Tooltip>
-					<Export />
+					<Export isDisabled={isServerConnected} />
 					<NetworkStats>
 						<NetStats />
 					</NetworkStats>

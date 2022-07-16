@@ -12,16 +12,17 @@ import XML from "./asXML";
 import JSON from "./asJSON";
 import CSV from "./asCSV";
 
-const ExportAs = () => {
+const ExportAs = ({ isDisabled }) => {
 	return (
 		<Menu>
 			<MenuButton
 				as={IconButton}
 				icon={<BiExport />}
-				variant='ghost'
-				colorScheme='whiteAlpha'
-				textColor='whiteAlpha.900'
-				icon={<BiExport size='1.4em' />}
+				variant="ghost"
+				colorScheme="whiteAlpha"
+				textColor="whiteAlpha.900"
+				icon={<BiExport size="1.4em" />}
+				isDisabled={isDisabled}
 			/>
 
 			<MenuList>
