@@ -6,12 +6,14 @@ import Communication from "../communication";
 import { vnInfo } from "./info";
 import { error } from "electron-log";
 import { existsSync } from "fs";
+import { Server } from "../server";
 
 export default class __vnStat__ {
 	constructor() {}
 
 	db() {
 		try {
+			if (new Server().isConnected()) return;
 			let dbPath = `${
 				this.configurations()
 					.read()

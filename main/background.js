@@ -77,7 +77,7 @@ async function INIT() {
 	// Send vnStat data
 	mainWindow.webContents.send(
 		"send-vn-configs",
-		vnStat.configurations().read()
+		await vnStat.configurations().read()
 	);
 
 	mainWindow.webContents.send(

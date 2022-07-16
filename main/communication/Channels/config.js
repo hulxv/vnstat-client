@@ -3,35 +3,46 @@ import log from "electron-log";
 import { AppConfigs } from "../../configs";
 import { vnStat } from "../../vnStat";
 
-const vnConfig = vnStat.configurations();
+// const vnConfig = vnStat.configurations();
 export default class __Config__ {
 	constructor() {}
 	Init() {
-		this.SetConfig();
-		this.GetConfig();
-		this.GetVnConfigs();
-		this.SetVnConfigs();
+		this.setConfig();
+		this.getConfig();
+		this.getVnConfigs();
+		this.setVnConfigs();
 	}
-	SetConfig() {
+	setConfig() {
 		return ipcMain.on("set-config", async (e, key, value) => {
 			(await AppConfigs).set(key, value);
 			log.info(`${key} was changed to ${(await AppConfigs).get(key)}`);
 			e.sender.send("send-config", (await AppConfigs).get());
 		});
 	}
-	GetConfig() {
-		return ipcMain.on("get-config", async (e) => {
+	getConfig() {
+		return ipcMain.on("get-config", async e => {
 			e.sender.send("send-config", (await AppConfigs).get());
 		});
 	}
-	GetVnConfigs() {
-		return ipcMain.on("get-vn-configs", (e) => {
-			e.sender.send("send-vn-configs", vnConfig.read());
+	getVnConfigs() {
+		return ipcMain.on("get-vn-configs", async e => {
+			e.sender.send(
+				"send-vn-configs",
+				await vnStat.configurations().read()
+			);
 		});
 	}
-	SetVnConfigs() {
+	setVnConfigs() {
 		return ipcMain.on("change-vn-configs", async (e, changes) => {
-			await vnConfig.write(changes);
+			try {
+				await vnStat.configurations().write(changes);
+			} catch (err) {
+				log.error("Cannot write vnStat confiugration:", err);
+				e.sender.send("message", {
+					title: "Writing failed",
+					description: err.toString(),
+				});
+			}
 		});
 	}
 }

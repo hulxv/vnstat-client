@@ -3,6 +3,7 @@ import fs from "fs";
 import sudo from "sudo-prompt";
 
 import Communication from "../communication";
+import { Server } from "../server";
 
 import { convertObjectItemForSedScript } from "../util";
 
@@ -10,7 +11,11 @@ const isProd = process.env.NODE_ENV === "production";
 export default class __vnConfig__ {
 	constructor() {
 		this.configs = {};
-		this.configFilePath = isProd ? "/etc/vnstat.conf" : "/etc/vnstat.test.conf";
+		if (new Server().isConnected()) return;
+
+		this.configFilePath = isProd
+			? "/etc/vnstat.conf"
+			: "/etc/vnstat.test.conf";
 
 		if (!isProd) {
 			if (!fs.existsSync("/etc/vnstat.conf")) {
@@ -26,63 +31,93 @@ export default class __vnConfig__ {
 					},
 					(error, stdout, stderr) => {
 						log.info(
-							`[${process.env.NODE_ENV.toUpperCase()}](RUNNING-AS-SU) ${cpCMD}`,
+							`[${process.env.NODE_ENV.toUpperCase()}](RUNNING-AS-SU) ${cpCMD}`
 						);
 
 						if (error) {
 							log.error(stderr);
 							throw error;
 						}
-						log.info("'/etc/vnstat.test.conf' was created successfully");
+						log.info(
+							"'/etc/vnstat.test.conf' was created successfully"
+						);
 
 						new Communication().send("message", {
 							status: "success",
-							description: "'/etc/vnstat.test.conf' was created successfully",
+							description:
+								"'/etc/vnstat.test.conf' was created successfully",
 						});
-					},
+					}
 				);
 			}
 		}
 		if (!fs.existsSync(this.configFilePath)) {
 			log.error(
-				`vnStat Configuration file not found. [Path: ${this.configFilePath}]`,
+				`vnStat Configuration file not found. [Path: ${this.configFilePath}]`
 			);
 			return;
 		}
 	}
-	read() {
-		if (!fs.existsSync(this.configFilePath)) {
+	async read() {
+		if (
+			!fs.existsSync(this.configFilePath) &&
+			!new Server().isConnected()
+		) {
 			log.error("vnStat Configuration file not found.");
 			return;
 		}
-		let configsOutput = fs
-			.readFileSync(this.configFilePath, "utf-8")
-			.split("\n")
-			.map((line) => line.trim())
-			.filter((line) => line && !["#", ";"].some((e) => line.startsWith(e)))
-			.map((line) => line.split(" ").filter((_e) => _e && _e));
-		this.configs = Object.fromEntries([...configsOutput]);
+		if (new Server().isConnected()) {
+			this.configs = await new Server().request("config", "get");
+		} else {
+			let configsOutput = fs
+				.readFileSync(this.configFilePath, "utf-8")
+				.split("\n")
+				.map(line => line.trim())
+				.filter(
+					line => line && !["#", ";"].some(e => line.startsWith(e))
+				)
+				.map(line => line.split(" ").filter(_e => _e && _e));
+			this.configs = Object.fromEntries([...configsOutput]);
+		}
 
 		return this.configs;
 	}
 
 	async write(changes) {
+		console.log(changes);
+
 		if (!Array.isArray(changes))
 			throw new Error("'changes' must be an  array of objects");
+		if (new Server().isConnected()) {
+			await new Server().request(
+				"config",
+				"put",
+				changes.map(e => ({
+					prop: Object.keys(e).at(0),
+					value: Object.values(e).at(0),
+				}))
+			);
+
+			new Communication().send("send-vn-configs", await this.read());
+			return;
+		}
 
 		const options = {
 			name: "vnStat Client",
 		};
 		let cmd = `sed -i '${changes
 			.filter(
-				(e) => !this.getAttributesDoesntExistInConfigFile(changes).includes(e),
+				e =>
+					!this.getAttributesDoesntExistInConfigFile(
+						changes
+					).includes(e)
 			)
-			.map((change) => {
+			.map(change => {
 				let key = Object.keys(change)[0];
 
 				return convertObjectItemForSedScript(
 					key,
-					change[key].toString().replace(/["]/gi, '"'),
+					change[key].toString().replace(/["]/gi, '"')
 				);
 			})
 			.join(";")}' ${this.configFilePath} `;
@@ -100,18 +135,17 @@ export default class __vnConfig__ {
 					throw error;
 				}
 
-				/**
-				 
-				 && `;
-				 */
-				this.read();
-				if (this.getAttributesDoesntExistInConfigFile(changes).length > 0) {
+				await this.read();
+				if (
+					this.getAttributesDoesntExistInConfigFile(changes).length >
+					0
+				) {
 					let command = `echo "#ADDED BY VNSTAT-CLIENT\n${this.getAttributesDoesntExistInConfigFile(
-						changes,
+						changes
 					)
-						.map((attr) => {
+						.map(attr => {
 							let value = Object.values(
-								changes.find((e) => Object.keys(e).at(0) === attr),
+								changes.find(e => Object.keys(e).at(0) === attr)
 							).at(0);
 
 							return `${attr} ${value}`;
@@ -119,7 +153,7 @@ export default class __vnConfig__ {
 						.join("\n")}" >> ${this.configFilePath}`;
 					new Communication().send("message", {
 						status: "info",
-						description: `There's attributes doesn't exist, Need to root permissions to adds it to ${this.configFilePath}`,
+						description: `There's attributes doesn't exist, Need to root permissions to add it to ${this.configFilePath}`,
 						duration: 10000,
 					});
 					new Communication().send("message", {
@@ -145,10 +179,10 @@ export default class __vnConfig__ {
 					status: "success",
 					description: "Changes was Saved",
 				});
-				log.info("vnStat Config Changes was saved.");
+				log.info("vnStat configuration changes has been saved.");
 
 				// Send configs to renderer
-				new Communication().send("send-vn-configs", this.read());
+				new Communication().send("send-vn-configs", await this.read());
 			});
 		} catch (err) {
 			return;
@@ -159,11 +193,11 @@ export default class __vnConfig__ {
 		if (!Array.isArray(attributes))
 			throw new Error("'attributes' must be an array of objects.");
 
-		let allConfigs = Object.keys(this.read());
+		let allConfigs = Object.keys(this.configs);
 
-		let __attrs__ = attributes.map((attr) => Object.keys(attr).at(0));
-
-		return __attrs__.filter((attr) => !allConfigs.includes(attr));
+		return attributes
+			.map(attr => Object.keys(attr).at(0))
+			.filter(attr => !allConfigs.includes(attr));
 	}
 }
 
