@@ -53,22 +53,21 @@ export default class __vnConfig__ {
 		}
 		if (!fs.existsSync(this.configFilePath)) {
 			log.error(
-				`vnStat Configuration file not found. [Path: ${this.configFilePath}]`
+				`${this.configFilePath}: vnStat Configuration file not found.`
 			);
 			return;
 		}
 	}
 	async read() {
-		if (
-			!fs.existsSync(this.configFilePath) &&
-			!new Server().isConnected()
-		) {
-			log.error("vnStat Configuration file not found.");
-			return;
-		}
 		if (new Server().isConnected()) {
 			this.configs = await new Server().request("config", "get");
 		} else {
+			if (!fs.existsSync(this.configFilePath)) {
+				log.error(
+					`${this.configFilePath}: vnStat Configuration  file not found.`
+				);
+				return;
+			}
 			let configsOutput = fs
 				.readFileSync(this.configFilePath, "utf-8")
 				.split("\n")
@@ -94,7 +93,7 @@ export default class __vnConfig__ {
 				"put",
 				changes.map(e => ({
 					prop: Object.keys(e).at(0),
-					value: Object.values(e).at(0),
+					value: `${Object.values(e).at(0)}`,
 				}))
 			);
 

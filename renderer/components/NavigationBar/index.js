@@ -139,7 +139,7 @@ export default function NavigationBar() {
 						<IconButton
 							onClick={() =>
 								isServerConnected
-									? disclosureDisconnetServerAlert.onOpen()
+									? disclosureDisconnectServerAlert.onOpen()
 									: disclosureConnectServerModal.onOpen()
 							}
 							colorScheme="whiteAlpha"
@@ -223,7 +223,7 @@ export default function NavigationBar() {
 			/>
 
 			<ConnectModal {...disclosureConnectServerModal} />
-			<DisconnectAlert {...disclosureDisconnetServerAlert} />
+			<DisconnectAlert {...disclosureDisconnectServerAlert} />
 		</>
 	);
 }

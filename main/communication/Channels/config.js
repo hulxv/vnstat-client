@@ -41,6 +41,7 @@ export default class __Config__ {
 				e.sender.send("message", {
 					title: "Writing failed",
 					description: err.toString(),
+					status: "error",
 				});
 			}
 		});
