@@ -16,7 +16,7 @@ export default class __TrayIcon__ {
 		]);
 	}
 	async init() {
-		let traffic = await new vnStat().traffic().Summary();
+		let traffic = await new vnStat().traffic().getSummary();
 		let todayData = traffic.filter(e => e.interval === "today").at(0).data;
 		this.tray = new Tray(this.icon);
 		this.tray.setToolTip(`Down: ${todayData.rx}, Up: ${todayData.tx}`);
