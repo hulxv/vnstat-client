@@ -48,7 +48,10 @@ export default class __vnStat__ {
 		return Traffic;
 	}
 
-	async interfaces() {
+	async interface() {
+		if (new Server().isConnected()) {
+			return await new Server().request("interface", "get");
+		}
 		return await this.db().get("interface");
 	}
 }

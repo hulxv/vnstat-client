@@ -2,9 +2,8 @@ import Store from "electron-store";
 import { app } from "electron";
 import { info, error } from "electron-log";
 import fs from "fs";
-import vnStatClass from "./vnStat";
+import { vnStat } from "./vnStat";
 export default class __AppConfigs__ {
-	#vnStat = new vnStatClass();
 	CheckIfSchemeWasUpdated = () => {
 		/* 
 		* If all keys does exist, that mean schema didn't update then will be return false,
@@ -35,8 +34,7 @@ export default class __AppConfigs__ {
 		this.scheme = {
 			netStatsRefreshTime: 1000,
 			checkUpdatesOnStartup: true,
-			interface:
-				(await this.#vnStat.db().get("interface")).at(0)?.id ?? 1,
+			interface: (await vnStat.interface()).at(0).id ?? 1,
 			appearance: {
 				globalTheme: "green",
 				lineChart: {

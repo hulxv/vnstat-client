@@ -33,10 +33,7 @@ export default class __vnStatChannel__ extends vnStat {
 	async getVnStatInterfaces() {
 		ipcMain.on("get-vnstat-interfaces", async e => {
 			try {
-				e.sender.send(
-					"send-vnstat-interfaces",
-					await this.interfaces()
-				);
+				e.sender.send("send-vnstat-interfaces", await this.interface());
 			} catch (err) {
 				log.error(err);
 			}

@@ -87,7 +87,7 @@ async function INIT() {
 
 	mainWindow.webContents.send(
 		"send-vnstat-interfaces",
-		await vnStat.interfaces()
+		await vnStat.interface()
 	);
 	mainWindow.webContents.send(
 		"send-vn-daemon-status",
