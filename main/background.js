@@ -5,7 +5,7 @@ import serve from "electron-serve";
 import { createWindow } from "./helpers";
 
 import { Communication } from "./communication";
-import { AppConfigs } from "./configs";
+import { Configs } from "./configs";
 import { vnStat } from "./vnStat";
 import { Updates } from "./updates";
 
@@ -59,12 +59,12 @@ app.on("window-all-closed", () => {
 async function INIT() {
 	log.info("Getting data...");
 	Updates.init();
-	if ((await AppConfigs).get("checkUpdatesOnStartup")) {
+	if (Configs.get("checkUpdatesOnStartup")) {
 		Updates.check();
 	}
 	await TrayIcon.init();
 
-	mainWindow.webContents.send("send-config", (await AppConfigs).get());
+	mainWindow.webContents.send("send-config", Configs.get());
 
 	if (!(await vnStatIsInstalled())) {
 		error(
@@ -92,10 +92,6 @@ async function INIT() {
 	mainWindow.webContents.send(
 		"send-vn-daemon-status",
 		await vnStat.daemon().isActive()
-	);
-	mainWindow.webContents.send(
-		"send-vnstat-database-tables-list",
-		await vnStat.db().getTablesList()
 	);
 
 	log.info("Getting data is successfully");

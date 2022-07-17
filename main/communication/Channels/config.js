@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import log from "electron-log";
-import { AppConfigs } from "../../configs";
+import { Configs } from "../../configs";
 import { vnStat } from "../../vnStat";
 
 // const vnConfig = vnStat.configurations();
@@ -14,14 +14,14 @@ export default class __Config__ {
 	}
 	setConfig() {
 		return ipcMain.on("set-config", async (e, key, value) => {
-			(await AppConfigs).set(key, value);
-			log.info(`${key} was changed to ${(await AppConfigs).get(key)}`);
-			e.sender.send("send-config", (await AppConfigs).get());
+			Configs.set(key, value);
+			log.info(`${key} was changed to ${Configs.get(key)}`);
+			e.sender.send("send-config", Configs.get());
 		});
 	}
 	getConfig() {
 		return ipcMain.on("get-config", async e => {
-			e.sender.send("send-config", (await AppConfigs).get());
+			e.sender.send("send-config", Configs.get());
 		});
 	}
 	getVnConfigs() {

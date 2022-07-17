@@ -27,14 +27,10 @@ export default class __AppConfigs__ {
 	constructor() {
 		this.store;
 		this.scheme;
-	}
-	async init() {
-		// Default settings
-
 		this.scheme = {
 			netStatsRefreshTime: 1000,
 			checkUpdatesOnStartup: true,
-			interface: (await vnStat.interface()).at(0).id ?? 1,
+			interface: 1,
 			appearance: {
 				globalTheme: "green",
 				lineChart: {
@@ -62,8 +58,6 @@ export default class __AppConfigs__ {
 			this.store.set(this.scheme);
 			info(`Configuration file was updated at ${this.store.path}`);
 		}
-
-		return this;
 	}
 
 	get = key => {
@@ -86,4 +80,4 @@ function CheckIfAllKeysExist(a, b) {
 	return true;
 }
 
-export const AppConfigs = new __AppConfigs__().init();
+export const Configs = new __AppConfigs__();
