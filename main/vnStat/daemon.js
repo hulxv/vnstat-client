@@ -3,6 +3,7 @@ import Communication from "../communication";
 import log, { error, info, warn } from "electron-log";
 
 import sudo from "sudo-prompt";
+import { Server } from "../server";
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 export default class __Daemon__ {
@@ -24,176 +25,122 @@ export default class __Daemon__ {
 				status: ["service vnstat status", "is running"],
 			},
 		};
+		(async () => {
+			if (!(await isInitSystemSupported())) {
+				throw new Error(
+					`${await whichInitSystemUserUsed()} init system isn't supported yet.`
+				);
+			}
+		})();
 	}
 
 	async start() {
 		try {
-			if (await isInitSystemSupported()) {
-				if (await this.isActive()) {
-					info("Daemon is already starting");
-					return;
-				}
-				let cmd = this.commands[await whichInitSystemUserUsed()].start;
-				info(`(RUNNNG-AS-SU) ${cmd}`);
+			if (new Server().isConnected()) {
+				let res = await new Server().request("daemon/restart", "post");
 				new Communication().send("message", {
-					status: "info",
-					description: `(RUNNNG-AS-SU) ${cmd}`,
+					status: "success",
+					description: res.details,
 				});
-				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					try {
-						if (stderr) throw stderr;
-						new Communication().send(
-							"send-vn-daemon-status",
-							await this.isActive(),
-						);
-						new Communication().send("message", {
-							status: "success",
-							description: "Daemon is starting.",
-						});
-						info("Daemon is starting.");
-					} catch (err) {
-						error(err);
-						new Communication().send("message", {
-							status: "error",
-							description: err,
-						});
-						return;
-					}
-				});
-			} else {
-				error(`Youe init system isn't supported yet.`);
+				return;
 			}
-		} catch (err) {
-			error(err.message);
+			if (await this.isActive()) {
+				info("Daemon is already starting");
+				return;
+			}
+			let cmd = this.commands[await whichInitSystemUserUsed()].start;
+			info(`running with root privileges: ${cmd}`);
 			new Communication().send("message", {
-				status: "error",
-				description: err.message,
+				status: "info",
+				description: `(RUNNNG-AS-SU) ${cmd}`,
 			});
-			return;
+			sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
+				if (stderr) throw stderr;
+			});
+		} catch (err) {
+			console.dir(err, { depth: null });
+			throw err.toString();
 		}
 	}
 	async stop() {
 		try {
-			if (await isInitSystemSupported()) {
-				if (!(await this.isActive())) {
-					info("Daemon is already stopped ");
-					return;
-				}
-				let cmd = this.commands[await whichInitSystemUserUsed()].stop;
-
-				info(`(RUNNNG-AS-SU) ${cmd}`);
+			if (new Server().isConnected()) {
+				let res = await new Server().request("daemon/stop", "post");
 				new Communication().send("message", {
-					status: "info",
-					description: `(RUNNNG-AS-SU) ${cmd}`,
+					status: "success",
+					description: res.details,
 				});
-				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					try {
-						if (stderr) throw stderr;
-						new Communication().send(
-							"send-vn-daemon-status",
-							await this.isActive(),
-						);
-						new Communication().send("message", {
-							status: "warning",
-							description: "Daemon was stopped",
-						});
-						warn("Daemon was stopped.");
-					} catch (err) {
-						error(err);
-						new Communication().send("message", {
-							status: "error",
-							description: err,
-						});
-						return;
-					}
-				});
-			} else {
-				error(
-					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-				);
-				new Communication().send("message", {
-					status: "error",
-					description: `${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-				});
+				return;
 			}
-		} catch (err) {
-			error(err);
+			let cmd = this.commands[await whichInitSystemUserUsed()].stop;
+
+			info(`running with root privileges: ${cmd}`);
 			new Communication().send("message", {
-				status: "error",
-				description: err,
+				status: "info",
+				description: `${cmd}`,
+				title: "Running with root privileges.",
 			});
-			return;
+			sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
+				try {
+					if (stderr) throw stderr;
+
+					warn("Daemon was stopped.");
+				} catch (err) {
+					throw err;
+				}
+			});
+		} catch (err) {
+			throw err.toString();
 		}
 	}
 	async restart() {
 		try {
-			if (await isInitSystemSupported()) {
-				let cmd = this.commands[await whichInitSystemUserUsed()].restart;
-
-				info(`(RUNNNG-AS-SU) ${cmd}`);
+			if (new Server().isConnected()) {
+				let res = await new Server().request("daemon/restart", "post");
 				new Communication().send("message", {
-					status: "info",
-					description: `(RUNNNG-AS-SU) ${cmd}`,
+					status: "success",
+					description: res.details,
 				});
-				sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
-					try {
-						if (stderr) throw stderr;
-						new Communication().send(
-							"send-vn-daemon-status",
-							await this.isActive(),
-						);
-						new Communication().send("message", {
-							status: "success",
-							description: "Daemon restarting now",
-						});
-						info("Daemon restarting now");
-					} catch (err) {
-						error(err);
-						new Communication().send("message", {
-							status: "error",
-							description: err,
-						});
-						return;
-					}
-				});
-			} else {
-				error(
-					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-				);
+				return;
 			}
-		} catch (err) {
-			error(err.message);
+			let cmd = this.commands[await whichInitSystemUserUsed()].restart;
+
+			info(`running with root privileges: ${cmd}`);
 			new Communication().send("message", {
-				status: "error",
-				description: err.message,
+				status: "info",
+				description: `${cmd}`,
+				title: "Running with root privileges.",
 			});
-			return;
+			sudo.exec(cmd, this.#cmdOptions, async (error, stdout, stderr) => {
+				if (stderr) throw stderr;
+			});
+		} catch (err) {
+			throw err.toString();
 		}
 	}
 	async isActive() {
 		try {
-			if (await isInitSystemSupported()) {
-				const statusCommand =
-					this.commands[await whichInitSystemUserUsed()].status.at(0);
-				const comparingWord =
-					this.commands[await whichInitSystemUserUsed()].status.at(1);
-				let bash = `                                                                      
+			if (new Server().isConnected()) {
+				let res = await new Server().request("daemon", "get");
+				return res.is_active;
+			}
+			const statusCommand =
+				this.commands[await whichInitSystemUserUsed()].status.at(0);
+			const comparingWord =
+				this.commands[await whichInitSystemUserUsed()].status.at(1);
+			let bash = `                                                                      
 					if grep -q "$(${statusCommand})" <<< "${comparingWord}" ;
 						then echo "true"                                        
 					else echo "false"
 				fi                                          
 				`;
 
-				const { stdout, stderr } = await exec(bash);
-				if (stderr) throw stderr;
-				return stdout.replace(/[\n, " "]/, "") == "true";
-			} else {
-				error(
-					`${await whichInitSystemUserUsed()} init system isn't supported yet.`,
-				);
-			}
+			const { stdout, stderr } = await exec(bash);
+			if (stderr) throw stderr;
+			return stdout.replace(/[\n, " "]/, "") == "true";
 		} catch (err) {
-			error(err);
+			console.dir(err, { depth: null });
+			throw err.toString();
 		}
 	}
 }
