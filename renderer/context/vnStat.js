@@ -53,7 +53,6 @@ export default function vnStatProvider({ children }) {
 		getTrafficData();
 		getDaemonStatus();
 		getVnStatInterfaces();
-		getDatabaseTablesList();
 	}, []);
 
 	// When user change the interface
@@ -95,12 +94,12 @@ export default function vnStatProvider({ children }) {
 
 	function calcChanges() {
 		changes.current = Object.keys(configs)
-			.filter((key) => configs[key] != visualVnConfigs.current[key])
-			.map((key) => ({ [key]: visualVnConfigs.current[key] }));
+			.filter(key => configs[key] != visualVnConfigs.current[key])
+			.map(key => ({ [key]: visualVnConfigs.current[key] }));
 		changes.current = changes.current.concat(
 			Object.keys(visualVnConfigs.current)
-				.filter((key) => !Object.keys(configs).includes(key))
-				.map((key) => ({ [key]: visualVnConfigs.current[key] })),
+				.filter(key => !Object.keys(configs).includes(key))
+				.map(key => ({ [key]: visualVnConfigs.current[key] }))
 		);
 
 		setIsConfigChanged(changes.current.length > 0);
@@ -154,22 +153,22 @@ export default function vnStatProvider({ children }) {
 	function filterTrafficDataByInterfaceID() {
 		return {
 			...Object.fromEntries(
-				Object.keys(traffic).map((key) => [
+				Object.keys(traffic).map(key => [
 					key,
 					traffic[key].filter(
-						(e) => (e?.interface ?? e.data.interface) == interfaceID,
+						e => (e?.interface ?? e.data.interface) == interfaceID
 					),
-				]),
+				])
 			),
 		};
 	}
 
-	// Database
-	function getDatabaseTablesList() {
-		ipcRenderer.on("send-vnstat-database-tables-list", (e, result) => {
-			setDatabaseTablesList(result);
-		});
-	}
+	// // Database
+	// function getDatabaseTablesList() {
+	// 	ipcRenderer.on("send-vnstat-database-tables-list", (e, result) => {
+	// 		setDatabaseTablesList(result);
+	// 	});
+	// }
 	// ! Uncomment for debugging
 	// useEffect(() => {
 	// 	console.log("databaseTablesList", databaseTablesList);
@@ -177,7 +176,7 @@ export default function vnStatProvider({ children }) {
 
 	// Reloading function
 	function reloading() {
-		channels.forEach((channel) => {
+		channels.forEach(channel => {
 			ipcRenderer.send(channel);
 		});
 	}
@@ -194,7 +193,6 @@ export default function vnStatProvider({ children }) {
 			daemonStatus,
 			interfaces,
 			interfaceID,
-			databaseTablesList,
 			reloading,
 			changeVnStatConfigs,
 			resetVnConfigs,
@@ -203,7 +201,6 @@ export default function vnStatProvider({ children }) {
 			startDaemon,
 			restartDaemon,
 			changeInterface,
-			getDatabaseTablesList,
 			forceReRender,
 		}),
 		// **  Re-render only when change these values (memoization)
@@ -213,13 +210,14 @@ export default function vnStatProvider({ children }) {
 			isConfigChanged,
 			daemonStatus,
 			interfaceID,
-			databaseTablesList,
 			reRenderState,
-		],
+		]
 	);
 
 	return (
-		<vnStatContext.Provider value={value}>{children}</vnStatContext.Provider>
+		<vnStatContext.Provider value={value}>
+			{children}
+		</vnStatContext.Provider>
 	);
 }
 

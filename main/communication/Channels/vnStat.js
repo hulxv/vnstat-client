@@ -40,29 +40,35 @@ export default class __vnStatChannel__ extends vnStat {
 		});
 	}
 
-	async getDatabaseTablesList() {
-		ipcMain.on("get-vnstat-database-tables-list", async e => {
+	getDatabaseTablesList() {
+		ipcMain.handle("get-vnstat-database-tables-list", async e => {
 			try {
-				e.sender.send(
-					"send-vnstat-database-tables-list",
-					await this.db().getTablesList()
-				);
+				return await this.db().getTablesList();
 			} catch (err) {
 				log.error(err);
+				e.sender.send("message", {
+					description: err.toString(),
+					status: "error",
+					title: "Cannot get vnStat database table list",
+				});
 			}
+			return [];
 		});
 	}
 
 	async getDatabaseTableData() {
-		ipcMain.on("get-vnstat-database-table-data", async (e, table) => {
+		ipcMain.handle("get-vnstat-database-table-data", async (e, table) => {
 			try {
-				e.sender.send(
-					"send-vnstat-database-table-data",
-					await this.db().get(table)
-				);
+				return await this.db().get(table);
 			} catch (err) {
 				log.error(err);
+				e.sender.send("message", {
+					description: err.toString(),
+					status: "error",
+					title: `Cannot get vnStat database table that called '${table}' data`,
+				});
 			}
+			return [];
 		});
 	}
 }

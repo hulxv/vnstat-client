@@ -30,23 +30,22 @@ import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnStat";
 
 export default function AsCSV() {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const toast = useToast();
 	const { config } = useConfig();
-	const { databaseTablesList } = useVnStat();
 
 	const [selectedTable, setSelectedTable] = useState("");
+
+	const [tableList, setTableList] = useState([]);
 	const [data, setData] = useState([]);
 
-	const toast = useToast();
-	const { isOpen, onOpen, onClose } = useDisclosure();
-
 	useEffect(() => {
-		ipcRenderer.on("send-vnstat-database-table-data", (e, data) => {
-			setData(data);
-		});
-		return () => {
-			ipcRenderer.removeAllListeners("send-vnstat-database-table-data");
-		};
-	}, []);
+		isOpen &&
+			ipcRenderer &&
+			ipcRenderer
+				.invoke("get-vnstat-database-tables-list")
+				.then(list => setTableList(list));
+	}, [isOpen]);
 
 	function exportAsCSV() {
 		if (selectedTable) {
@@ -62,41 +61,45 @@ export default function AsCSV() {
 	}
 
 	function getTableData(table) {
-		ipcRenderer.send("get-vnstat-database-table-data", table);
+		ipcRenderer
+			.invoke("get-vnstat-database-table-data", table)
+			.then(res => setData(res));
 	}
 	return (
 		<>
-			<Box onClick={onOpen} fontSize='xl' w='full'>
+			<Box onClick={onOpen} fontSize="xl" w="full">
 				CSV
 			</Box>
 
 			<Modal
 				isOpen={isOpen}
-				scrollBehavior='inside'
+				scrollBehavior="inside"
 				onClose={() => {
 					onClose();
 				}}
-				size='5xl'>
+				size="5xl">
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Export as CSV</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Flex flexDir='column'>
+						<Flex flexDir="column">
 							<Select
-								variant='filled'
-								m='10px'
-								placeholder='table'
-								textTransform='capitalize'
-								alignSelf='center'
+								variant="filled"
+								m="10px"
+								placeholder="table"
+								textTransform="capitalize"
+								alignSelf="center"
 								value={selectedTable}
-								onChange={(e) => {
+								onChange={e => {
 									setSelectedTable(e.target.value);
 
 									getTableData(e.target.value);
 								}}>
-								{databaseTablesList.map((table, index) => (
-									<option key={index} style={{ textTransform: "capitalize" }}>
+								{tableList.map((table, index) => (
+									<option
+										key={index}
+										style={{ textTransform: "capitalize" }}>
 										{table}
 									</option>
 								))}
@@ -104,29 +107,37 @@ export default function AsCSV() {
 							{!(data.length > 0) ? (
 								<Box>Choose a table</Box>
 							) : (
-								<Table variant='simple'>
+								<Table variant="simple">
 									<TableCaption>Export Output</TableCaption>
 									<Thead>
 										<Tr>
-											{Object.keys(data[0]).map((e, index) => (
-												<Th key={index}>{e}</Th>
-											))}
+											{Object.keys(data[0]).map(
+												(e, index) => (
+													<Th key={index}>{e}</Th>
+												)
+											)}
 										</Tr>
 									</Thead>
 									<Tbody>
 										{data.map((row, index) => (
 											<Tr key={index}>
-												{Object.keys(row).map((e, index) => (
-													<Td key={index}>{row[e]}</Td>
-												))}
+												{Object.keys(row).map(
+													(e, index) => (
+														<Td key={index}>
+															{row[e]}
+														</Td>
+													)
+												)}
 											</Tr>
 										))}
 									</Tbody>
 									<Tfoot>
 										<Tr>
-											{Object.keys(data[0]).map((e, index) => (
-												<Th key={index}>{e}</Th>
-											))}
+											{Object.keys(data[0]).map(
+												(e, index) => (
+													<Th key={index}>{e}</Th>
+												)
+											)}
 										</Tr>
 									</Tfoot>
 								</Table>
@@ -136,7 +147,7 @@ export default function AsCSV() {
 
 					<ModalFooter>
 						<Button
-							variant='ghost'
+							variant="ghost"
 							mr={3}
 							onClick={() => {
 								onClose();
@@ -144,7 +155,9 @@ export default function AsCSV() {
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
 							onClick={() => exportAsCSV()}
 							isDisabled={!selectedTable}>
 							Export
