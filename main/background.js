@@ -64,35 +64,37 @@ async function INIT() {
 	}
 	await TrayIcon.init();
 
-	mainWindow.webContents.send("send-config", Configs.get());
+	let isVnstatDetect = await vnStat.isDetect();
+	let channels = [
+		{ name: "send-config", data: Configs.get() },
+		{ name: "res:is-vnstat-detect", data: isVnstatDetect },
+		{
+			name: "send-traffic",
+			data: await vnStat.traffic().getData(),
+			_if: isVnstatDetect,
+		},
+		{
+			name: "send-vnstat-configs",
+			data: await vnStat.configurations().read(),
+			_if: isVnstatDetect,
+		},
+		{
+			name: "send-vnstat-interfaces",
+			data: await vnStat.interface(),
+			_if: isVnstatDetect,
+		},
+		{
+			name: "send-vn-daemon-status",
+			data: await vnStat.daemon().isActive(),
+			_if: isVnstatDetect,
+		},
+	];
 
-	if (!(await vnStatIsInstalled())) {
-		error(
-			"vnStat isn't installed, You should download and setup it before using this client."
-		);
-		mainWindow.webContents.send("error-vnstat-is-not-installed");
-		return;
-	}
-
-	// Send vnStat data
-	mainWindow.webContents.send(
-		"send-vn-configs",
-		await vnStat.configurations().read()
-	);
-
-	mainWindow.webContents.send(
-		"send-traffic",
-		await vnStat.traffic().getData()
-	);
-
-	mainWindow.webContents.send(
-		"send-vnstat-interfaces",
-		await vnStat.interface()
-	);
-	mainWindow.webContents.send(
-		"send-vn-daemon-status",
-		await vnStat.daemon().isActive()
-	);
+	channels.forEach(({ name, data, _if = true }) => {
+		if (_if) {
+			mainWindow.webContents.send(name, data);
+		}
+	});
 
 	log.info("Getting data is successfully");
 }

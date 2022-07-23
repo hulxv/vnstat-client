@@ -7,6 +7,8 @@ import { vnInfo } from "./info";
 import { error } from "electron-log";
 import { existsSync } from "fs";
 import { Server } from "../server";
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 
 export default class __vnStat__ {
 	constructor() {}
@@ -48,6 +50,21 @@ export default class __vnStat__ {
 		return Traffic;
 	}
 
+	async isDetect() {
+		let bash = `        
+		if ! [ -x "$(command -v vnstat)" ]; then
+			echo "false"
+			else echo "true"
+		fi`;
+
+		try {
+			const { stdout, stderr } = await exec(bash);
+			if (stderr) throw stderr;
+			return stdout.includes("true");
+		} catch (err) {
+			return err;
+		}
+	}
 	async interface() {
 		if (new Server().isConnected()) {
 			return await new Server().request("interface", "get");
