@@ -32,7 +32,7 @@ function VnStatIsNotInstalledAlert() {
 	const connectModalDisclousre = useDisclosure();
 
 	const [isServerConnected, setIsServerConnected] = useState(false);
-	const [isVnstatDetect, setIsVnstatDetect] = useState(true);
+	const [isVnstatDetect, setIsVnstatDetect] = useState(false);
 
 	useEffect(() => {
 		if (window) {
@@ -42,7 +42,7 @@ function VnStatIsNotInstalledAlert() {
 				setIsVnstatDetect(res);
 			});
 		}
-	}, [typeof window]);
+	}, [typeof window, isServerConnected]);
 
 	useEffect(() => {
 		if (ipcRenderer && window) {
@@ -59,13 +59,15 @@ function VnStatIsNotInstalledAlert() {
 		}
 	}, []);
 
-	// ! Debugging
 	useEffect(() => {
-		console.log("is server connected?", isServerConnected);
-		console.log("is vnstat detected?", isVnstatDetect);
+		// ! Debuggin
+		// console.log("is server connected?", isServerConnected);
+		// console.log("is vnstat detected?", isVnstatDetect);
+
 		if (isServerConnected || isVnstatDetect) {
-			console.log("close");
 			onClose();
+		} else {
+			onOpen();
 		}
 	}, [isVnstatDetect, isServerConnected]);
 
