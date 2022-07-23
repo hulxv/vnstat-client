@@ -8,9 +8,10 @@ export default class __vnStatChannel__ extends vnStat {
 	}
 	async Init() {
 		this.sendTrafficData();
-		await this.getVnStatInterfaces();
-		await this.getDatabaseTablesList();
-		await this.getDatabaseTableData();
+		this.isDetect();
+		this.getVnStatInterfaces();
+		this.getDatabaseTablesList();
+		this.getDatabaseTableData();
 	}
 
 	sendTrafficData() {
@@ -30,7 +31,26 @@ export default class __vnStatChannel__ extends vnStat {
 		});
 	}
 
-	async getVnStatInterfaces() {
+	isDetect() {
+		let reqChannel = "req:is-vnstat-detect";
+		let resChannel = "req:is-vnstat-detect";
+		return ipcMain.on(reqChannel, async e => {
+			try {
+				if (!(await this.isDetect())) {
+					error(
+						"vnStat isn't installed, You should download and setup it before using this client."
+					);
+					e.sender.send(resChannel, false);
+				}
+			} catch (err) {
+				log.error(err);
+			}
+			
+			e.sender.send(resChannel, true);
+		});
+	}
+
+	getVnStatInterfaces() {
 		ipcMain.on("get-vnstat-interfaces", async e => {
 			try {
 				e.sender.send("send-vnstat-interfaces", await this.interface());
@@ -56,7 +76,7 @@ export default class __vnStatChannel__ extends vnStat {
 		});
 	}
 
-	async getDatabaseTableData() {
+	getDatabaseTableData() {
 		ipcMain.handle("get-vnstat-database-table-data", async (e, table) => {
 			try {
 				return await this.db().get(table);
