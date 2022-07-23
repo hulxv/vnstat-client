@@ -29,7 +29,7 @@ import { TiWarningOutline } from "react-icons/ti";
 function VnStatIsNotInstalledAlert() {
 	const { config } = useConfig();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const connectModalDisclousre = useDisclosure();
+	const connectModalDisclosure = useDisclosure();
 
 	const [isServerConnected, setIsServerConnected] = useState(false);
 	const [isVnstatDetect, setIsVnstatDetect] = useState(false);
@@ -130,7 +130,7 @@ function VnStatIsNotInstalledAlert() {
 					</AlertDialogBody>
 					<AlertDialogFooter display="flex" justifyContent={"center"}>
 						<Button
-							onClick={connectModalDisclousre.onOpen}
+							onClick={connectModalDisclosure.onOpen}
 							colorScheme={
 								config?.appearance?.globalTheme ?? "green"
 							}>
@@ -139,7 +139,7 @@ function VnStatIsNotInstalledAlert() {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
-			<ConnectModal {...connectModalDisclousre} />
+			<ConnectModal {...connectModalDisclosure} />
 		</>
 	);
 }

@@ -32,7 +32,7 @@ import { TiWarningOutline } from "react-icons/ti";
 function DatabaseNotFoundAlert() {
 	const { config } = useConfig();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const connectModalDisclousre = useDisclosure();
+	const connectModalDisclosure = useDisclosure();
 
 	const [isServerConnected, setIsServerConnected] = useState(false);
 	const [isDatabaseNotFound, setIsDatabaseNotFound] = useState(false);
@@ -129,7 +129,7 @@ function DatabaseNotFoundAlert() {
 					</AlertDialogBody>
 					<AlertDialogFooter display="flex" justifyContent={"center"}>
 						<Button
-							onClick={connectModalDisclousre.onOpen}
+							onClick={connectModalDisclosure.onOpen}
 							colorScheme={
 								config?.appearance?.globalTheme ?? "green"
 							}>
@@ -138,7 +138,7 @@ function DatabaseNotFoundAlert() {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
-			<ConnectModal {...connectModalDisclousre} />
+			<ConnectModal {...connectModalDisclosure} />
 		</>
 	);
 }
