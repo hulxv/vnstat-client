@@ -5,85 +5,142 @@ import {
 	AlertDialogHeader,
 	AlertDialogContent,
 	AlertDialogOverlay,
+	Box,
+	Link,
 	useDisclosure,
-	AlertDialogCloseButton,
-	Button,
-	Heading,
 	Alert,
 	AlertIcon,
-	AlertTitle,
 	AlertDescription,
-	CloseButton,
-	Link,
-	Box,
+	AlertTitle,
+	Text,
+	Button,
+	Divider,
+	Stack,
+	Heading,
+	List,
+	ListItem,
+	UnorderedList,
 } from "@chakra-ui/react";
-
-import { css } from "@emotion/react";
+import { ConnectModal } from "@Components/Server";
 
 import { ipcRenderer } from "electron";
-import { format } from "date-fns";
-
-import { MdDateRange, MdOutlineInsertDriveFile } from "react-icons/md";
-
 import { useEffect, useState } from "react";
 import { useConfig } from "@Context/configuration";
 
-function AvailableUpdateAlert() {
+import { TiWarningOutline } from "react-icons/ti";
+
+function DatabaseNotFoundAlert() {
+	const { config } = useConfig();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const connectModalDisclousre = useDisclosure();
+
+	const [isServerConnected, setIsServerConnected] = useState(false);
+	const [isDatabaseNotFound, setIsDatabaseNotFound] = useState(false);
 
 	useEffect(() => {
 		ipcRenderer.on("error-database-not-found", () => {
-			onOpen();
+			setIsDatabaseNotFound(true);
 		});
+	}, []);
+
+	useEffect(() => {
+		if (ipcRenderer && window) {
+			ipcRenderer
+				.invoke("server-is-connected")
+				.then(({ is_connected }) => setIsServerConnected(is_connected));
+
+			ipcRenderer.on("server-was-disconnected", () => {
+				setIsServerConnected(false);
+			});
+			ipcRenderer.on("server-was-connected", () => {
+				setIsServerConnected(true);
+			});
+		}
 	}, []);
 
 	return (
 		<>
-			<>
-				<AlertDialog motionPreset='slideInBottom' isOpen={isOpen} isCentered>
-					<AlertDialogOverlay />
+			<AlertDialog
+				motionPreset="slideInBottom"
+				closeOnOverlayClick={false}
+				closeOnEsc={false}
+				isOpen={!isServerConnected && isDatabaseNotFound}
+				onClose={onClose}
+				isCentered>
+				<AlertDialogOverlay />
 
-					<AlertDialogContent py={3}>
-						<AlertDialogBody>
-							<Alert
-								status='error'
-								flexDirection='column'
-								alignItems='center'
-								justifyContent='center'
-								textAlign='center'
-								py={10}>
-								<AlertIcon boxSize='40px' />
-								<AlertTitle fontSize='2xl' my={5}>
-									Database isn't found!
-								</AlertTitle>
-								<AlertDescription maxWidth='sm'>
-									<Box mb={4}>
-										Please check from database filepath in your vnstat
-										configuration file or read{" "}
-										<Link
-											textDecorationLine='underline'
-											onClick={() =>
-												ipcRenderer &&
-												ipcRenderer.send(
-													"open-url",
-													"https://github.com/Hulxv/vnstat-client/issues/7",
-												)
-											}>
-											#7
-										</Link>{" "}
-										to solve this problem.
-									</Box>
-								</AlertDescription>
-							</Alert>
-						</AlertDialogBody>
-						<AlertDialogFooter>
-							<Button onClick={onClose}>Close</Button>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
-			</>
+				<AlertDialogContent py={1}>
+					<AlertDialogHeader>
+						vnStat database isn't found
+					</AlertDialogHeader>
+					<AlertDialogBody>
+						<Stack spacing={6}>
+							<span style={{ alignSelf: "center" }}>
+								<TiWarningOutline size="5em" />
+							</span>
+							<Stack spacing={0.1}>
+								<Text align={"center"} mb={4}>
+									vnStat database path is not file or
+									directory
+								</Text>
+								<Text align="center">
+									Please check from database filepath in your
+									vnstat configuration file or read to solve
+									this problem.
+								</Text>
+							</Stack>
+							<Stack>
+								<Heading size="sm">Maybe useful</Heading>
+								<Box pl={6}>
+									<UnorderedList>
+										<ListItem>
+											Issue{" "}
+											<Link
+												color="teal.500"
+												textDecorationLine="underline"
+												onClick={() =>
+													ipcRenderer &&
+													ipcRenderer.send(
+														"open-url",
+														"https://github.com/Hulxv/vnstat-client/issues/7"
+													)
+												}>
+												#7
+											</Link>
+										</ListItem>
+									</UnorderedList>
+								</Box>
+							</Stack>
+							<Stack
+								position={"relative"}
+								justify="center"
+								align="center">
+								<Divider />
+								<Heading
+									bgColor="white"
+									px={3}
+									top={-4}
+									position={"absolute"}
+									size="xs">
+									OR
+								</Heading>
+							</Stack>
+						</Stack>
+					</AlertDialogBody>
+					<AlertDialogFooter display="flex" justifyContent={"center"}>
+						<Button
+							onClick={connectModalDisclousre.onOpen}
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}>
+							Connect to server
+						</Button>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+			<ConnectModal {...connectModalDisclousre} />
 		</>
 	);
 }
 
-export default AvailableUpdateAlert;
+export default DatabaseNotFoundAlert;
