@@ -106,6 +106,10 @@ You can see all packages used in the project in [package.json](./package.json)
 
 </div>
 
+---
+
+## Related
+- [vnstat-server](https://github.com/hulxv/vnstat-server)
 
 ---
 
