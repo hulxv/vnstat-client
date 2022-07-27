@@ -78,12 +78,10 @@ export default class __vnConfig__ {
 				.map(line => line.split(" ").filter(_e => _e && _e));
 			this.configs = Object.fromEntries([...configsOutput]);
 		}
-
 		return this.configs;
 	}
 
 	async write(changes) {
-		console.log(changes);
 
 		if (!Array.isArray(changes))
 			throw new Error("'changes' must be an  array of objects");

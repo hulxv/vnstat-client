@@ -22,51 +22,40 @@ import { ConnectModal } from "@Components/Server";
 
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
+
 import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnstat";
+import { useServer } from "@Context/server";
 
 import { TiWarningOutline } from "react-icons/ti";
 
 function VnStatIsNotInstalledAlert() {
+	const { reloading } = useVnStat();
 	const { config } = useConfig();
+	const { isServerConnected } = useServer();
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const connectModalDisclosure = useDisclosure();
 
-	const [isServerConnected, setIsServerConnected] = useState(false);
 	const [isVnstatDetect, setIsVnstatDetect] = useState(false);
 
 	useEffect(() => {
-		if (window) {
+		if (window && ipcRenderer) {
 			ipcRenderer.send("req:is-vnstat-detect");
 			ipcRenderer.on("res:is-vnstat-detect", (_, res) => {
-				console.log(res);
 				setIsVnstatDetect(res);
 			});
 		}
-	}, [typeof window, isServerConnected]);
-
-	useEffect(() => {
-		if (ipcRenderer && window) {
-			ipcRenderer
-				.invoke("server-is-connected")
-				.then(({ is_connected }) => setIsServerConnected(is_connected));
-
-			ipcRenderer.on("server-was-disconnected", () => {
-				setIsServerConnected(false);
-			});
-			ipcRenderer.on("server-was-connected", () => {
-				setIsServerConnected(true);
-			});
-		}
-	}, []);
+	}, [typeof window, typeof ipcRenderer, isServerConnected]);
 
 	useEffect(() => {
 		// ! Debuggin
-		// console.log("is server connected?", isServerConnected);
-		// console.log("is vnstat detected?", isVnstatDetect);
+		console.log("is server connected?", isServerConnected);
+		console.log("is vnstat detected?", isVnstatDetect);
 
 		if (isServerConnected || isVnstatDetect) {
 			onClose();
+			reloading();
 		} else {
 			onOpen();
 		}

@@ -2,19 +2,25 @@ import { ipcMain, dialog } from "electron";
 import log from "electron-log";
 import fs from "fs";
 import vnStat from "../../vnStat";
+import { Server } from "../../server";
 import { arrayOfObjectToCSV, isJson } from "../../util";
 
 export default class __Exporting__ {
 	constructor() {}
-	Init() {
-		this.ExportAsCSV();
-		this.ExportDBView();
+	async Init() {
+		await this.ExportAsCSV();
+		await this.ExportDBView();
 		this.ExportToFile();
 	}
-	ExportDBView() {
+	async ExportDBView() {
 		return ipcMain.on("export-db-view", async (e, arg) => {
 			const { limit, format } = arg;
 			try {
+				if (!(await vnStat.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
 				const result = await new vnStat().db().export(limit, format);
 
 				e.sender.send("export-result", result);
@@ -24,7 +30,7 @@ export default class __Exporting__ {
 			}
 		});
 	}
-	ExportAsCSV() {
+	async ExportAsCSV() {
 		return ipcMain.on("export-as-csv", async (e, table) => {
 			const saveFile = await dialog.showSaveDialog({
 				defaultPath: "vnstat-client.csv",
@@ -34,6 +40,14 @@ export default class __Exporting__ {
 
 			if (!saveFile.canceled) {
 				try {
+					if (
+						!(await vnStat.isDetect()) &&
+						!new Server().isConnected()
+					) {
+						throw new Error(
+							"vnStat isn't detected or client connected with vnstat-server."
+						);
+					}
 					let tableData = await new vnStat().db().get(table);
 					let fileContent = arrayOfObjectToCSV(tableData);
 					fs.writeFileSync(`${saveFile.filePath}`, fileContent);
@@ -42,7 +56,7 @@ export default class __Exporting__ {
 						description: `Successufully exporting as CSV file in ${saveFile.filePath}`,
 					});
 					log.info(
-						`Successufully exporting as CSV file in ${saveFile.filePath}`,
+						`Successufully exporting as CSV file in ${saveFile.filePath}`
 					);
 				} catch (err) {
 					log.error(err.message);
@@ -66,7 +80,7 @@ export default class __Exporting__ {
 				try {
 					fs.writeFileSync(
 						`${saveFile.filePath}`,
-						isJson(data) ? JSON.stringify(data) : `${data}`,
+						isJson(data) ? JSON.stringify(data) : `${data}`
 					);
 					e.sender.send("message", {
 						status: "success",
@@ -77,7 +91,7 @@ export default class __Exporting__ {
 					log.info(
 						`Successufully exporting as ${ext?.toUpperCase()} file in ${
 							saveFile.filePath
-						}`,
+						}`
 					);
 				} catch (err) {
 					log.error(err.message);

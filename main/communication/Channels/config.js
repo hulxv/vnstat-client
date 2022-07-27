@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 import log from "electron-log";
 import { Configs } from "../../configs";
 import { vnStat } from "../../vnStat";
+import { Server } from "../../server";
 
 // const vnConfig = vnStat.configurations();
 export default class __Config__ {
@@ -26,20 +27,39 @@ export default class __Config__ {
 	}
 	getVnConfigs() {
 		return ipcMain.on("get-vn-configs", async e => {
-			e.sender.send(
-				"send-vn-configs",
-				await vnStat.configurations().read()
-			);
+			try {
+				if (!(await vnStat.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
+				e.sender.send(
+					"send-vn-configs",
+					await vnStat.configurations().read()
+				);
+			} catch (err) {
+				log.error("Cannot read vnStat confiugration:", err);
+				e.sender.send("message", {
+					title: "Reading vnStat configuration failed",
+					description: err.toString(),
+					status: "error",
+				});
+			}
 		});
 	}
 	setVnConfigs() {
 		return ipcMain.on("change-vn-configs", async (e, changes) => {
 			try {
+				if (!(await vnStat.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
 				await vnStat.configurations().write(changes);
 			} catch (err) {
 				log.error("Cannot write vnStat confiugration:", err);
 				e.sender.send("message", {
-					title: "Writing failed",
+					title: "Writing vnStat Configuration failed",
 					description: err.toString(),
 					status: "error",
 				});

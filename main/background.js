@@ -14,6 +14,7 @@ import { Menu } from "./menu";
 
 import { ICON_NAME } from "./constants";
 import { isProd, vnStatIsInstalled } from "./util";
+import { Server } from "./server";
 
 if (isProd) {
 	serve({ directory: "app" });
@@ -45,7 +46,8 @@ let mainWindow;
 	}
 	try {
 		await Communication.Init();
-		await INIT();
+
+		await initlize();
 	} catch (err) {
 		error(err);
 	}
@@ -56,47 +58,45 @@ app.on("window-all-closed", () => {
 	log.info("vnStat-client has been closed.");
 });
 
-async function INIT() {
-	log.info("Getting data...");
+async function initlize() {
 	Updates.init();
 	if (Configs.get("checkUpdatesOnStartup")) {
 		Updates.check();
 	}
 	await TrayIcon.init();
+	mainWindow.webContents.send("send-config", Configs.get());
+
+	if (new Server().isConnected()) {
+		mainWindow.webContents.send("server-was-connected");
+	} else {
+		mainWindow.webContents.send("server-was-disconnected");
+	}
 
 	let isVnstatDetect = await vnStat.isDetect();
-	let channels = [
-		{ name: "send-config", data: Configs.get() },
-		{ name: "res:is-vnstat-detect", data: isVnstatDetect },
-		{
-			name: "send-traffic",
-			data: await vnStat.traffic().getData(),
-			_if: isVnstatDetect,
-		},
-		{
-			name: "send-vnstat-configs",
-			data: await vnStat.configurations().read(),
-			_if: isVnstatDetect,
-		},
-		{
-			name: "send-vnstat-interfaces",
-			data: await vnStat.interface(),
-			_if: isVnstatDetect,
-		},
-		{
-			name: "send-vn-daemon-status",
-			data: await vnStat.daemon().isActive(),
-			_if: isVnstatDetect,
-		},
-	];
-
-	channels.forEach(({ name, data, _if = true }) => {
-		if (_if) {
-			mainWindow.webContents.send(name, data);
-		}
-	});
-
-	log.info("Getting data is successfully");
+	mainWindow.webContents.send("res:is-vnstat-detect", isVnstatDetect);
+	if (isVnstatDetect) {
+		let channels = [
+			{
+				name: "send-traffic",
+				data: vnStat.traffic().getData(),
+			},
+			{
+				name: "send-vnstat-configs",
+				data: vnStat.configurations().read(),
+			},
+			{
+				name: "send-vnstat-interfaces",
+				data: vnStat.interface(),
+			},
+			{
+				name: "send-vn-daemon-status",
+				data: vnStat.daemon().isActive(),
+			},
+		];
+		channels.forEach(async ({ name, data }) =>
+			mainWindow.webContents.send(name, await data)
+		);
+	}
 }
 
 export { mainWindow };

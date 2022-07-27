@@ -23,13 +23,12 @@ export default class __vnStat__ {
 				"/var/lib/vnstat/"
 			}/vnstat.db`;
 			if (!existsSync(dbPath)) {
-				error(`${dbPath}: database filepath not found`);
 				new Communication().send("error-database-not-found");
-				return;
+				throw `${dbPath}: database filepath not found`;
 			}
 			return Database(dbPath);
 		} catch (err) {
-			throw err;
+			throw "database error: " + err;
 		}
 	}
 	configurations() {

@@ -2,6 +2,8 @@ import { ipcMain } from "electron";
 import log from "electron-log";
 import vnStat from "../../vnStat";
 
+import { Configs } from "../../configs";
+import { Server } from "../../server";
 export default class __vnStatChannel__ extends vnStat {
 	constructor() {
 		super();
@@ -18,6 +20,11 @@ export default class __vnStatChannel__ extends vnStat {
 		return ipcMain.on("get-traffic", async e => {
 			log.info("Getting data...");
 			try {
+				if (!(await this.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
 				e.sender.send("send-traffic", await this.traffic().getData());
 				log.info("Getting data is successfully");
 			} catch (err) {
@@ -45,7 +52,7 @@ export default class __vnStatChannel__ extends vnStat {
 			} catch (err) {
 				log.error(err);
 			}
-			
+
 			e.sender.send(resChannel, true);
 		});
 	}
@@ -53,6 +60,11 @@ export default class __vnStatChannel__ extends vnStat {
 	getVnStatInterfaces() {
 		ipcMain.on("get-vnstat-interfaces", async e => {
 			try {
+				if (!(await this.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
 				e.sender.send("send-vnstat-interfaces", await this.interface());
 			} catch (err) {
 				log.error(err);
@@ -63,6 +75,11 @@ export default class __vnStatChannel__ extends vnStat {
 	getDatabaseTablesList() {
 		ipcMain.handle("get-vnstat-database-tables-list", async e => {
 			try {
+				if (!(await this.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
 				return await this.db().getTablesList();
 			} catch (err) {
 				log.error(err);
@@ -79,6 +96,11 @@ export default class __vnStatChannel__ extends vnStat {
 	getDatabaseTableData() {
 		ipcMain.handle("get-vnstat-database-table-data", async (e, table) => {
 			try {
+				if (!(await this.isDetect()) && !new Server().isConnected()) {
+					throw new Error(
+						"vnStat isn't detected or client connected with vnstat-server."
+					);
+				}
 				return await this.db().get(table);
 			} catch (err) {
 				log.error(err);

@@ -1,3 +1,5 @@
+import { ipcRenderer } from "electron";
+import { useState, useEffect } from "react";
 import {
 	AlertDialog,
 	AlertDialogBody,
@@ -11,8 +13,6 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 
-import electron from "electron";
-
 import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnstat";
 export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
@@ -20,6 +20,15 @@ export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
 	const toast = useToast();
 	const { reloading } = useVnStat();
 
+	const [isVnstatDetect, setIsVnstatDetect] = useState(false);
+	useEffect(() => {
+		if (window && ipcRenderer) {
+			ipcRenderer.send("req:is-vnstat-detect");
+			ipcRenderer.on("res:is-vnstat-detect", (_, res) => {
+				setIsVnstatDetect(res);
+			});
+		}
+	}, [typeof window, typeof ipcRenderer]);
 	return (
 		<>
 			<AlertDialog
@@ -41,8 +50,8 @@ export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
 						</Button>
 						<Button
 							onClick={() => {
-								if (electron && window)
-									electron.ipcRenderer
+								if (ipcRenderer)
+									ipcRenderer
 										.invoke("server-disconnect")
 										.then(res => {
 											toast({
@@ -50,8 +59,8 @@ export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
 												isClosable: true,
 												...res,
 											});
-											reloading();
 											onClose();
+											if (isVnstatDetect) reloading();
 										});
 							}}
 							colorScheme={

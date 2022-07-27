@@ -23,7 +23,7 @@ export default class __Communication__ {
 		// Initlize Channels
 		await vnStatChannel.Init();
 		ConfigChannel.Init();
-		ExportingChannel.Init();
+		await ExportingChannel.Init();
 		LogsChannel.Init();
 		DaemonChannel.Init();
 		NetworkChannel.init();

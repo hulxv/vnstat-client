@@ -27,15 +27,18 @@ import ConnectModal from "@Components/Server/ConnectModal";
 import DisconnectAlert from "@Components/Server/DisconnectAlert";
 
 import { useHotkeys } from "react-hotkeys-hook";
+
 import { useVnStat } from "@Context/vnstat";
 import { useConfig } from "@Context/configuration";
-
+import { useServer } from "@Context/server";
 import NetworkStats from "@Context/network-stats";
+
 import NetStats from "./NetStats";
 
 export default function NavigationBar() {
 	const { config, reloading: reloadConfigs } = useConfig();
 	const { reloading: reloadingTrafficData } = useVnStat();
+	const { isServerConnected } = useServer();
 
 	const [Page, setPage] = useState({
 		title: "",
@@ -43,7 +46,6 @@ export default function NavigationBar() {
 	});
 
 	const [ModalIsOpen, setModalIsOpen] = useState(false);
-	const [isServerConnected, setIsServerConnected] = useState(false);
 	const disclosureConnectServerModal = useDisclosure();
 	const disclosureDisconnectServerAlert = useDisclosure();
 
@@ -78,21 +80,6 @@ export default function NavigationBar() {
 			),
 			path: router.asPath || "/",
 		});
-	}, []);
-
-	useEffect(() => {
-		if (electron && window) {
-			electron.ipcRenderer
-				.invoke("server-is-connected")
-				.then(({ is_connected }) => setIsServerConnected(is_connected));
-
-			electron.ipcRenderer.on("server-was-disconnected", () => {
-				setIsServerConnected(false);
-			});
-			electron.ipcRenderer.on("server-was-connected", () => {
-				setIsServerConnected(true);
-			});
-		}
 	}, []);
 
 	useHotkeys("alt+r", () => {

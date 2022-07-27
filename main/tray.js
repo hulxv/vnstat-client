@@ -1,4 +1,5 @@
 import { Tray, Menu, app } from "electron";
+import { error } from "electron-log";
 import vnStat from "./vnStat";
 import Updates from "./updates";
 import { isProd } from "./util";
@@ -16,11 +17,17 @@ export default class __TrayIcon__ {
 		]);
 	}
 	async init() {
-		let traffic = await new vnStat().traffic().getSummary();
-		let todayData = traffic.filter(e => e.interval === "today").at(0).data;
-		this.tray = new Tray(this.icon);
-		this.tray.setToolTip(`Down: ${todayData.rx}, Up: ${todayData.tx}`);
-		this.tray.setContextMenu(this.menuItems);
+		try {
+			let traffic = await new vnStat().traffic().getSummary();
+			let todayData = traffic
+				.filter(e => e.interval === "today")
+				.at(0).data;
+			this.tray = new Tray(this.icon);
+			this.tray.setToolTip(`Down: ${todayData.rx}, Up: ${todayData.tx}`);
+			this.tray.setContextMenu(this.menuItems);
+		} catch (err) {
+			error("Cannot initlize tray icon: ", err);
+		}
 	}
 }
 

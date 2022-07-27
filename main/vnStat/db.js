@@ -28,7 +28,7 @@ export default class __Database__ {
 					warn("dbversion not supported yet, maybe some errors will happen");
 			})();
 		} catch (err) {
-			throw err;
+			throw "database error: "+ err;
 		}
 	}
 

@@ -37,6 +37,7 @@ export default function CustomIntervalModal({
 	const [address, setAddress] = useState("");
 	const [password, setPassword] = useState("");
 
+
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const { reloading } = useVnStat();
@@ -49,14 +50,18 @@ export default function CustomIntervalModal({
 				password,
 			});
 
+			console.log("res:", res);
 			toast({
 				position: "top",
 				isClosable: true,
 				...res,
 			});
+
 			setIsLoading(false);
-			reloading();
-			if (res.status === "success") onClose();
+			if (res.status === "success") {
+				onClose();
+				reloading();
+			}
 		}
 	}
 
