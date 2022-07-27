@@ -1,4 +1,3 @@
-> Recently, I'm working on a new project called [vnStat Server](https://github.com/Hulxv/vnstat-server) based on [AnonymousWebHacker](https://github.com/AnonymousWebHacker)'s suggestion ([#4](https://github.com/Hulxv/vnstat-client/issues/4)), So if have some ideas which want me to apply it, You can create a new issue and I will be thankful for you :).
 
 <div align="center"> 
 
