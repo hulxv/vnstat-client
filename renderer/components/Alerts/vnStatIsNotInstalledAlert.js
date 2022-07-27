@@ -23,6 +23,7 @@ import { ConnectModal } from "@Components/Server";
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
 import { useConfig } from "@Context/configuration";
+import { useVnStat } from "@Context/vnstat";
 
 import { TiWarningOutline } from "react-icons/ti";
 

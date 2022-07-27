@@ -1,7 +1,7 @@
 import router from "next/router";
 
 import { Flex, Heading, Button } from "@chakra-ui/react";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 import { useConfig } from "@Context/configuration";
 import { HiRefresh } from "react-icons/hi";
 

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import Appearance from "./Appearance";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 import { useConfig } from "@Context/configuration";
 
 function General() {

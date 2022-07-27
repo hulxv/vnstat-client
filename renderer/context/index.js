@@ -1,4 +1,4 @@
-import VnStat from "./vnStat";
+import VnStat from "./vnstat";
 import ReceivedMessagesProvider from "./received-messages";
 import Configuration from "./configuration";
 import Logs from "./logs";

@@ -23,7 +23,7 @@ import VnStatI from "./vnStatI";
 
 // Hooks
 import { useConfig } from "@Context/configuration";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 function Configs({}) {
 	const { config } = useConfig();
 	const {

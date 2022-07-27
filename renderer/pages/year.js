@@ -1,6 +1,6 @@
 import NotFound from "@Pages/404";
 
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 import { useState, useEffect } from "react";
 import { prepareYearData } from "@Util/PrepareDataToDisplay";

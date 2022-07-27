@@ -1,7 +1,7 @@
 import NotFound from "./404";
 
 // Hooks
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 import { useEffect, useState } from "react";
 
 // Utils

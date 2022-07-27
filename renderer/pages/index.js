@@ -8,7 +8,7 @@ import DataDisplay from "@Components/DataDisplay";
 import SwitchBar from "@Components/SwitchBar";
 import TotalTraffic from "@Components/TotalTraffic";
 
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 export default function Month() {
 	const [previousMonths, setPreviousMonths] = useState(0);

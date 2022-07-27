@@ -10,7 +10,7 @@ import {
 	useRef,
 } from "react";
 import { ipcRenderer } from "electron";
-import { useConfig } from "./configuration";
+import { useConfig } from "../configuration";
 export const vnStatContext = createContext();
 
 export default function vnStatProvider({ children }) {
@@ -85,8 +85,7 @@ export default function vnStatProvider({ children }) {
 	// vnStat Configs
 	function getVnConfig() {
 		ipcRenderer.on("send-vn-configs", (e, result) => {
-			setVnConfigs(result);
-			// console.log(result);
+			setVnConfigs(result ?? []);
 		});
 		// Cleanup
 		return () => ipcRenderer.removeAllListeners("send-vn-configs");

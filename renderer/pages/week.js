@@ -11,7 +11,7 @@ import SwitchBar from "@Components/SwitchBar";
 import TotalTraffic from "@Components/TotalTraffic";
 import { Stack, Heading } from "@chakra-ui/react";
 
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 export default function Month() {
 	const [PreviousWeeks, setPreviousWeeks] = useState(0);

@@ -27,7 +27,7 @@ import ConnectModal from "@Components/Server/ConnectModal";
 import DisconnectAlert from "@Components/Server/DisconnectAlert";
 
 import { useHotkeys } from "react-hotkeys-hook";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 import { useConfig } from "@Context/configuration";
 
 import NetworkStats from "@Context/network-stats";

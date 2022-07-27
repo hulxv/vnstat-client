@@ -2,7 +2,7 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Box, HStack, Flex, Heading, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 import { useConfig } from "@Context/configuration";
 
 export default function Header() {

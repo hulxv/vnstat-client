@@ -27,7 +27,7 @@ import { ipcRenderer } from "electron";
 // Hooks
 import { useState, useEffect } from "react";
 import { useConfig } from "@Context/configuration";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 export default function AsCSV() {
 	const { isOpen, onOpen, onClose } = useDisclosure();

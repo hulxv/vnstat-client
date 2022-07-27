@@ -41,7 +41,7 @@ import Credits from "./Credits";
 // Hooks
 import { useRef } from "react";
 import { useConfig } from "@Context/configuration";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Settings({ children }) {

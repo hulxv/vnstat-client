@@ -17,7 +17,7 @@ import {
 	BsArrowCounterclockwise,
 } from "react-icons/bs";
 
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 // Components
 import Configs from "./Configs";

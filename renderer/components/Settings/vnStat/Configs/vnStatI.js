@@ -17,7 +17,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
 
 import { useConfig } from "@Context/configuration";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 function vnStatD({}) {
 	const notes = {

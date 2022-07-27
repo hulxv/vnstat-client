@@ -20,7 +20,7 @@ import {
 
 import { useState, useEffect } from "react";
 import { useConfig } from "@Context/configuration";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 

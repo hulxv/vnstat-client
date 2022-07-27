@@ -4,7 +4,7 @@ import { prepareCustomIntervalData } from "@Util/PrepareDataToDisplay";
 // Hooks
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useVnStat } from "@Context/vnStat";
+import { useVnStat } from "@Context/vnstat";
 
 // Components
 import DataDisplay from "@Components/DataDisplay";
