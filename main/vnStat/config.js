@@ -27,7 +27,7 @@ export default class __vnConfig__ {
 				log.info(
 					"You are in development mode. to keep your data, we need to backup your '/etc/vnstat.conf and use '/etc/vnstat.test.conf'"
 				);
-				log.info("running with root privilages: ", cmd);
+				log.info("running with root privileges : ", cmd);
 
 				sudo.exec(
 					cmd,
