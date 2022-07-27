@@ -21,7 +21,6 @@
 
 - vnStat^2.8 ([guide](docs/vnstat-installation-guide.md))
 
----
 
 ## Features
 
@@ -63,14 +62,14 @@ And more!
 
 Show [More](screenshots).
 
----
+
 
 ## Credits
 
 - Thanks [vergoh](https://github.com/vergoh) for making this amazing [tool](https://github.com/vergoh/vnstat).
 - Thanks to any developer who build a library used in this project.
 
----
+
 
 ## Contribution
 
@@ -85,17 +84,17 @@ You can contribute by doing one of the following:
 
 > Please check [CHANGELOG.md](./CHANGELOG.md)
 
----
+
 
 You can see all packages used in the project in [package.json](./package.json)
 
----
+
 
 ## Documentations
 
 > Read [Documentions](docs/index.md) for more information
 
----
+
 
 ## Statistics
 <div align="center"> 
@@ -106,12 +105,12 @@ You can see all packages used in the project in [package.json](./package.json)
 
 </div>
 
----
+
 
 ## Related
 - [vnstat-server](https://github.com/hulxv/vnstat-server)
 
----
+
 
 ## License
 
