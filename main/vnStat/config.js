@@ -23,17 +23,18 @@ export default class __vnConfig__ {
 				return;
 			}
 			if (!fs.existsSync("/etc/vnstat.test.conf")) {
-				let cpCMD = "cp /etc/vnstat.conf /etc/vnstat.test.conf";
+				let cmd = "cp /etc/vnstat.conf /etc/vnstat.test.conf";
+				log.info(
+					"You are in development mode. to keep your data, we need to backup your '/etc/vnstat.conf and use '/etc/vnstat.test.conf'"
+				);
+				log.info("running with root privilages: ", cmd);
+
 				sudo.exec(
-					cpCMD,
+					cmd,
 					{
 						name: "vnStat Client",
 					},
 					(error, stdout, stderr) => {
-						log.info(
-							`[${process.env.NODE_ENV.toUpperCase()}](RUNNING-AS-SU) ${cpCMD}`
-						);
-
 						if (error) {
 							log.error(stderr);
 							throw error;
@@ -82,7 +83,6 @@ export default class __vnConfig__ {
 	}
 
 	async write(changes) {
-
 		if (!Array.isArray(changes))
 			throw new Error("'changes' must be an  array of objects");
 		if (new Server().isConnected()) {
