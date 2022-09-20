@@ -123,3 +123,7 @@ For more, you can read [License](https://github.com/Hulxv/vnstat-client/blob/mai
 
 </div>
 
+
+## Next Step 
+> It's not expected to be soon, it may take about a year to get started due to the pressure of studying in high school. If there are any suggestions, You can open an [issue](https://github.com/Hulxv/vnstat-client/issues/new/choose)!
+- Moving from Electronjs to [Tauri](https://tauri.app/) to improve performance, decrease bundle size, and use fewer resources.
