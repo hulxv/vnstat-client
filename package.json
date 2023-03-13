@@ -23,7 +23,7 @@
 		"electron-store": "^8.0.1",
 		"electron-updater": "^5.0.1",
 		"knex": "^2.1.0",
-		"sqlite3": "^5.0.8",
+		"sqlite3": "^5.1.5",
 		"sudo-prompt": "^9.2.1",
 		"systeminformation": "^5.11.15"
 	},
