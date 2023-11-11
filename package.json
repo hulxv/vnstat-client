@@ -16,7 +16,7 @@
 		"pret": "prettier --write ./**/*.js"
 	},
 	"dependencies": {
-		"axios": "^0.27.2",
+		"axios": "^1.6.0",
 		"date-fns": "^2.28.0",
 		"electron-log": "^4.4.7",
 		"electron-serve": "^1.1.0",
