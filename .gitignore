@@ -6,3 +6,7 @@ dist
 test
 .vscode
 build
+
+# Tauri / Rust
+src-tauri/target/
+src-tauri/gen/
