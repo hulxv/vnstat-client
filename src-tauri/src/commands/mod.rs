@@ -6,3 +6,4 @@ pub mod network;
 pub mod server;
 pub mod system;
 pub mod traffic;
+pub mod update;
