@@ -5,25 +5,21 @@ import {
 	AlertDialogHeader,
 	AlertDialogContent,
 	AlertDialogOverlay,
-	Box,
 	Link,
 	useDisclosure,
-	Alert,
-	AlertIcon,
-	AlertDescription,
-	AlertTitle,
 	Text,
 	Button,
 	Divider,
 	Stack,
 	Heading,
-	List,
-	ListItem,
+	Box,
 	UnorderedList,
+	ListItem,
 } from "@chakra-ui/react";
 import { ConnectModal } from "@Components/Server";
 
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { useEffect, useState } from "react";
 import { useConfig } from "@Context/configuration";
 
@@ -38,24 +34,25 @@ function DatabaseNotFoundAlert() {
 	const [isDatabaseNotFound, setIsDatabaseNotFound] = useState(false);
 
 	useEffect(() => {
-		ipcRenderer.on("error-database-not-found", () => {
+		const unlisten = [];
+
+		listen("error-database-not-found", () => {
 			setIsDatabaseNotFound(true);
-		});
-	}, []);
+		}).then(u => unlisten.push(u));
 
-	useEffect(() => {
-		if (ipcRenderer && window) {
-			ipcRenderer
-				.invoke("server-is-connected")
-				.then(({ is_connected }) => setIsServerConnected(is_connected));
+		listen("server-was-disconnected", () => {
+			setIsServerConnected(false);
+		}).then(u => unlisten.push(u));
 
-			ipcRenderer.on("server-was-disconnected", () => {
-				setIsServerConnected(false);
-			});
-			ipcRenderer.on("server-was-connected", () => {
-				setIsServerConnected(true);
-			});
-		}
+		listen("server-was-connected", () => {
+			setIsServerConnected(true);
+		}).then(u => unlisten.push(u));
+
+		invoke("server_is_connected")
+			.then(({ is_connected }) => setIsServerConnected(is_connected))
+			.catch(console.error);
+
+		return () => unlisten.forEach(u => u());
 	}, []);
 
 	return (
@@ -99,11 +96,9 @@ function DatabaseNotFoundAlert() {
 												color="teal.500"
 												textDecorationLine="underline"
 												onClick={() =>
-													ipcRenderer &&
-													ipcRenderer.send(
-														"open-url",
-														"https://github.com/Hulxv/vnstat-client/issues/7"
-													)
+													invoke("open_url", {
+														url: "https://github.com/Hulxv/vnstat-client/issues/7",
+													}).catch(console.error)
 												}>
 												#7
 											</Link>

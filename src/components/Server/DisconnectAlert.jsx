@@ -1,4 +1,4 @@
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 import { useState, useEffect } from "react";
 import {
 	AlertDialog,
@@ -7,28 +7,26 @@ import {
 	AlertDialogHeader,
 	AlertDialogContent,
 	AlertDialogOverlay,
-	useDisclosure,
 	AlertDialogCloseButton,
 	Button,
 	useToast,
 } from "@chakra-ui/react";
 
+
 import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnstat";
-export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
+export default function DisconnectAlert({ isOpen, onClose }) {
 	const { config } = useConfig();
 	const toast = useToast();
 	const { reloading } = useVnStat();
 
 	const [isVnstatDetect, setIsVnstatDetect] = useState(false);
 	useEffect(() => {
-		if (window && ipcRenderer) {
-			ipcRenderer.send("req:is-vnstat-detect");
-			ipcRenderer.on("res:is-vnstat-detect", (_, res) => {
-				setIsVnstatDetect(res);
-			});
-		}
-	}, [typeof window, typeof ipcRenderer]);
+		invoke("is_vnstat_detect")
+			.then(res => setIsVnstatDetect(res))
+			.catch(console.error);
+	}, []);
+
 	return (
 		<>
 			<AlertDialog
@@ -50,18 +48,19 @@ export default function DisconnectAlert({ isOpen, onOpen, onClose }) {
 						</Button>
 						<Button
 							onClick={() => {
-								if (ipcRenderer)
-									ipcRenderer
-										.invoke("server-disconnect")
-										.then(res => {
-											toast({
-												position: "top",
-												isClosable: true,
-												...res,
-											});
-											onClose();
-											if (isVnstatDetect) reloading();
+								invoke("server_disconnect")
+									.then(res => {
+										toast({
+											position: "top",
+											isClosable: true,
+											...res,
 										});
+										onClose();
+										if (isVnstatDetect) reloading();
+									})
+									.catch(err =>
+										toast({ position: "top", status: "error", description: String(err) })
+									);
 							}}
 							colorScheme={
 								config?.appearance?.globalTheme ?? "green"

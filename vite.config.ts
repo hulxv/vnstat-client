@@ -26,8 +26,6 @@ export default defineConfig({
       "@Pages": resolve(__dirname, "src/pages"),
       "@Layout": resolve(__dirname, "src/layout"),
       "@Util": resolve(__dirname, "src/util"),
-      // Stub electron APIs until Tauri IPC migration (issue #43)
-      electron: resolve(__dirname, "src/stubs/electron.ts"),
     },
   },
 

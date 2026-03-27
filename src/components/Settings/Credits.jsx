@@ -1,5 +1,5 @@
-import { Flex, Box, Tooltip, Heading, List, ListItem } from "@chakra-ui/react";
-import { ipcRenderer } from "electron";
+import { Flex, Box, Tooltip } from "@chakra-ui/react";
+import { invoke } from "@tauri-apps/api/core";
 import { AiFillGithub, AiOutlineLink } from "react-icons/ai";
 
 function Credits() {
@@ -32,7 +32,7 @@ function Credits() {
 					mb={2}
 					w='max-content'
 					onClick={() => {
-						ipcRenderer && ipcRenderer.send("open-url", acc.link);
+						if (acc.openInBrowser) invoke("open_url", { url: acc.link });
 					}}>
 					<Tooltip label={acc.site} textTransform='capitalize'>
 						<Box>{acc.icon}</Box>

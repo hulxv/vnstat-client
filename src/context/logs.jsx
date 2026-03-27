@@ -6,80 +6,44 @@ import {
 	useCallback,
 	useMemo,
 } from "react";
-import { ipcRenderer } from "electron";
-import { format } from "date-fns";
-const LogsProvider = createContext(null);
+import { invoke } from "@tauri-apps/api/core";
 
-const availableTypes = ["warning", "error", "info"];
+const LogsProvider = createContext(null);
 
 function Logs({ children }) {
 	const [logs, setLogs] = useState({ path: "", lines: [] });
 	const [isLoading, setIsLoading] = useState(false);
+
 	useEffect(() => {
 		GetLogs();
 	}, []);
-	// ! Uncomment for debugging
-	// useEffect(() => {
-	// 	console.log(logs);
-	// }, [logs]);
-	const GetLogs = useCallback(() => {
+
+	const GetLogs = useCallback(async () => {
 		setIsLoading(true);
-		ipcRenderer.send("get-logs");
-		ipcRenderer.on("send-logs", (e, res) => {
-			setLogs({
-				path: res["0"].path,
-				lines: [...res["0"].lines]
-					.reverse()
-					.filter((line) => line && line)
-					.map((line) => {
-						let matching = line.match(/\[(.*?)\]/g);
-
-						let status =
-							matching !== null
-								? matching[1].replace(/\[/g, "").replace(/\]/g, "")
-								: "info";
-						let date =
-							matching !== null &&
-							matching[0].replace(/\[/g, "").replace(/\]/g, "");
-
-						if (!availableTypes.includes(status)) status = "warning";
-						return {
-							content: line.replace(/\[(.*?)\]/g, ""),
-							date: format(new Date(date), "MMM d Y, hh:mm:ss aa"),
-							status,
-						};
-					}),
-			});
-
+		try {
+			const res = await invoke("get_logs");
+			setLogs({ path: res.path, lines: res.lines });
+		} catch (err) {
+			console.error("get_logs failed:", err);
+		} finally {
 			setIsLoading(false);
-		});
-		return () => ipcRenderer.removeAllListeners("send-logs");
+		}
 	}, []);
 
-	const ClearLogs = useCallback(() => {
+	const ClearLogs = useCallback(async () => {
 		setIsLoading(true);
-		ipcRenderer.send("clear-logs");
-
-		ipcRenderer.on("send-logs", (e, res) => {
-			setLogs({
-				path: res["0"].path,
-				lines: [...res["0"].lines].reverse().filter((line) => line && line),
-			});
+		try {
+			const res = await invoke("clear_logs");
+			setLogs({ path: res.path, lines: res.lines });
+		} catch (err) {
+			console.error("clear_logs failed:", err);
+		} finally {
 			setIsLoading(false);
-		});
+		}
 	}, []);
-	function reloading() {
-		ipcRenderer.send("get-logs");
-	}
 
 	const value = useMemo(
-		() => ({
-			GetLogs,
-			ClearLogs,
-			reloading,
-			isLoading,
-			logs,
-		}),
+		() => ({ GetLogs, ClearLogs, reloading: GetLogs, isLoading, logs }),
 		[logs, isLoading],
 	);
 

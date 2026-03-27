@@ -4,49 +4,30 @@ import {
 	useEffect,
 	createContext,
 	useMemo,
-	useReducer,
 	useCallback,
-	memo,
 	useRef,
 } from "react";
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 import { useConfig } from "../configuration";
+
 export const vnStatContext = createContext();
 
 export default function vnStatProvider({ children }) {
-	// Re-render
 	const [reRenderState, reRender] = useState();
-
 	const forceReRender = () => reRender(Math.random());
-
-	const channels = [
-		"get-traffic",
-		"get-vn-configs",
-		"get-vn-daemon-status",
-		"get-vnstat-interfaces",
-		"get-vnstat-database-tables-list",
-	];
 
 	const { config: appConfig } = useConfig();
 
 	const [traffic, setTraffic] = useState({
-		month: [],
-		day: [],
-		year: [],
-		week: [],
-		summary: [],
+		month: [], day: [], year: [], week: [], summary: [],
 	});
-	const [daemonStatus, setDaemonStatus] = useState("inactive");
-
+	const [daemonStatus, setDaemonStatus] = useState(false);
 	const [configs, setVnConfigs] = useState({});
 	const visualVnConfigs = useRef({});
 	const [isConfigChanged, setIsConfigChanged] = useState(false);
 	const changes = useRef([]);
-
 	const [interfaces, setInterfaces] = useState([]);
 	const [interfaceID, setInterfaceID] = useState(appConfig?.interface ?? 1);
-
-	const [databaseTablesList, setDatabaseTablesList] = useState([]);
 
 	useEffect(() => {
 		getVnConfig();
@@ -55,40 +36,31 @@ export default function vnStatProvider({ children }) {
 		getVnStatInterfaces();
 	}, []);
 
-	// When user change the interface
 	useEffect(() => {
 		setInterfaceID(appConfig?.interface);
 	}, [appConfig?.interface]);
 
-	// ! Uncomment for debugging
-	// useEffect(() => {
-	// 	console.log(daemonStatus);
-	// }, [daemonStatus]);
-	// useEffect(() => {
-	// 	console.log(changes);
-	// }, [changes]);
-
-	// * Change 'visualVnConfigs' when send vnstat configs from backend
 	useEffect(() => {
 		visualVnConfigs.current = configs;
 		calcChanges();
 	}, [configs]);
 
-	// Traffic
-	function getTrafficData() {
-		ipcRenderer.on("send-traffic", (e, result) => {
+	async function getTrafficData() {
+		try {
+			const result = await invoke("get_traffic");
 			setTraffic(result);
-		});
-		return () => ipcRenderer.removeAllListeners("send-traffic");
+		} catch (err) {
+			console.error("get_traffic failed:", err);
+		}
 	}
 
-	// vnStat Configs
-	function getVnConfig() {
-		ipcRenderer.on("send-vn-configs", (e, result) => {
-			setVnConfigs(result ?? []);
-		});
-		// Cleanup
-		return () => ipcRenderer.removeAllListeners("send-vn-configs");
+	async function getVnConfig() {
+		try {
+			const result = await invoke("get_vn_configs");
+			setVnConfigs(result ?? {});
+		} catch (err) {
+			console.error("get_vn_configs failed:", err);
+		}
 	}
 
 	function calcChanges() {
@@ -100,7 +72,6 @@ export default function vnStatProvider({ children }) {
 				.filter(key => !Object.keys(configs).includes(key))
 				.map(key => ({ [key]: visualVnConfigs.current[key] }))
 		);
-
 		setIsConfigChanged(changes.current.length > 0);
 	}
 
@@ -114,35 +85,62 @@ export default function vnStatProvider({ children }) {
 		calcChanges();
 	}
 
-	function saveChanges() {
-		if (ipcRenderer) ipcRenderer.send("change-vn-configs", changes.current);
+	async function saveChanges() {
+		try {
+			const payload = changes.current.map(obj => ({
+				key: Object.keys(obj)[0],
+				value: String(Object.values(obj)[0]),
+			}));
+			await invoke("set_vn_configs", { changes: payload });
+			await getVnConfig();
+		} catch (err) {
+			console.error("set_vn_configs failed:", err);
+		}
 	}
 
-	//  vnStat daemon
-	function getDaemonStatus() {
-		ipcRenderer.on("send-vn-daemon-status", (e, res) => {
-			setDaemonStatus(res);
-		});
-		return () => ipcRenderer.removeAllListeners("send-vn-daemon-status");
-	}
-	function stopDaemon() {
-		ipcRenderer.send("stop-vn-daemon");
-		ipcRenderer.send("get-vn-daemon-status");
-	}
-	function startDaemon() {
-		ipcRenderer.send("start-vn-daemon");
-		ipcRenderer.send("get-vn-daemon-status");
-	}
-	function restartDaemon() {
-		ipcRenderer.send("restart-vn-daemon");
-		ipcRenderer.send("get-vn-daemon-status");
+	async function getDaemonStatus() {
+		try {
+			const status = await invoke("daemon_status");
+			setDaemonStatus(status);
+		} catch (err) {
+			console.error("daemon_status failed:", err);
+		}
 	}
 
-	// Interfaces
-	function getVnStatInterfaces() {
-		ipcRenderer.on("send-vnstat-interfaces", (e, result) => {
+	async function stopDaemon() {
+		try {
+			await invoke("daemon_stop");
+			await getDaemonStatus();
+		} catch (err) {
+			console.error("daemon_stop failed:", err);
+		}
+	}
+
+	async function startDaemon() {
+		try {
+			await invoke("daemon_start");
+			await getDaemonStatus();
+		} catch (err) {
+			console.error("daemon_start failed:", err);
+		}
+	}
+
+	async function restartDaemon() {
+		try {
+			await invoke("daemon_restart");
+			await getDaemonStatus();
+		} catch (err) {
+			console.error("daemon_restart failed:", err);
+		}
+	}
+
+	async function getVnStatInterfaces() {
+		try {
+			const result = await invoke("get_interfaces");
 			setInterfaces(result);
-		});
+		} catch (err) {
+			console.error("get_interfaces failed:", err);
+		}
 	}
 
 	function changeInterface(id) {
@@ -155,32 +153,19 @@ export default function vnStatProvider({ children }) {
 				Object.keys(traffic).map(key => [
 					key,
 					traffic[key].filter(
-						e => (e?.interface ?? e.data.interface) == interfaceID
+						e => (e?.interface ?? e?.data?.interface) == interfaceID
 					),
 				])
 			),
 		};
 	}
 
-	// // Database
-	// function getDatabaseTablesList() {
-	// 	ipcRenderer.on("send-vnstat-database-tables-list", (e, result) => {
-	// 		setDatabaseTablesList(result);
-	// 	});
-	// }
-	// ! Uncomment for debugging
-	// useEffect(() => {
-	// 	console.log("databaseTablesList", databaseTablesList);
-	// }, [databaseTablesList]);
-
-	// Reloading function
 	function reloading() {
-		channels.forEach(channel => {
-			ipcRenderer.send(channel);
-		});
+		getVnConfig();
+		getTrafficData();
+		getDaemonStatus();
+		getVnStatInterfaces();
 	}
-
-	// ** Context value
 
 	const value = useMemo(
 		() => ({
@@ -202,15 +187,7 @@ export default function vnStatProvider({ children }) {
 			changeInterface,
 			forceReRender,
 		}),
-		// **  Re-render only when change these values (memoization)
-		[
-			traffic,
-			configs,
-			isConfigChanged,
-			daemonStatus,
-			interfaceID,
-			reRenderState,
-		]
+		[traffic, configs, isConfigChanged, daemonStatus, interfaceID, reRenderState],
 	);
 
 	return (

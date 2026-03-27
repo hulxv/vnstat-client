@@ -19,7 +19,7 @@ import {
 	SliderThumb,
 } from "@chakra-ui/react";
 
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 
 import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
@@ -78,8 +78,7 @@ function LineChart() {
 								<Link
 									color='green'
 									onClick={() =>
-										ipcRenderer &&
-										ipcRenderer.send("open-url", "https://nivo.rocks/line/")
+										invoke("open_url", { url: "https://nivo.rocks/line/" }).catch(console.error)
 									}>
 									Nivo Charts Docs
 								</Link>

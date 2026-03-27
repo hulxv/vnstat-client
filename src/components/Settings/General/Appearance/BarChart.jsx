@@ -16,7 +16,7 @@ import {
 	Link,
 } from "@chakra-ui/react";
 
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 
 import { GrInfo } from "react-icons/gr";
 import { BiLinkExternal } from "react-icons/bi";
@@ -60,8 +60,7 @@ function BarChart() {
 								<Link
 									color='green'
 									onClick={() =>
-										ipcRenderer &&
-										ipcRenderer.send("open-url", "https://nivo.rocks/bar/")
+										invoke("open_url", { url: "https://nivo.rocks/bar/" }).catch(console.error)
 									}>
 									Nivo Charts Docs
 								</Link>

@@ -15,71 +15,54 @@ import {
 	Select,
 	useToast,
 } from "@chakra-ui/react";
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 import { useState } from "react";
-
 import { useConfig } from "@Context/configuration";
 
 const JsonViewer = lazy(() => import("react-json-view"));
 
 export default function AsJSON() {
 	const { config } = useConfig();
-
 	const [json, setJson] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
-
 	const toast = useToast();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	function viewJSON(limit) {
+	async function viewJSON(limit) {
 		setIsLoading(true);
-		ipcRenderer.send("export-db-view", { format: "json", limit });
-
-		ipcRenderer.on("export-result", async (e, result) =>
-			setJson(JSON.parse(result)),
-		);
-		setIsLoading(false);
+		try {
+			const raw = await invoke("export_db_view", { format: "json", limit });
+			setJson(JSON.parse(raw));
+		} catch (err) {
+			toast({ description: String(err), status: "error", position: "top" });
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
-	function exportJSON() {
+	async function exportJSON() {
 		if (Object.keys(json).length <= 0) {
-			toast({
-				description: "You should choose a limit !",
-				status: "error",
-				isClosable: true,
-				position: "top",
-			});
+			toast({ description: "You should choose a limit!", status: "error", isClosable: true, position: "top" });
 			return;
 		}
-		ipcRenderer.send("export-to-file", { data: json, ext: "json" });
+		try {
+			await invoke("export_to_file", { data: JSON.stringify(json), ext: "json" });
+		} catch (err) {
+			toast({ description: String(err), status: "error", position: "top" });
+		}
 	}
+
 	return (
 		<>
-			<Box onClick={onOpen} fontSize='xl' w='full'>
-				JSON
-			</Box>
-
-			<Modal
-				isOpen={isOpen}
-				scrollBehavior='inside'
-				onClose={() => {
-					onClose();
-					setJson({});
-				}}
-				size='xl'>
+			<Box onClick={onOpen} fontSize='xl' w='full'>JSON</Box>
+			<Modal isOpen={isOpen} scrollBehavior='inside' onClose={() => { onClose(); setJson({}); }} size='xl'>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Export as JSON</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
 						<Flex flexDir='column'>
-							<Select
-								variant='filled'
-								m='10px'
-								placeholder='limit'
-								textTransform='capitalize'
-								alignSelf='center'
-								onChange={(e) => viewJSON(e.target.value)}>
+							<Select variant='filled' m='10px' placeholder='limit' textTransform='capitalize' alignSelf='center' onChange={e => viewJSON(e.target.value)}>
 								{[
 									{ limit: "a", label: "all" },
 									{ limit: "f", label: "5 min" },
@@ -89,41 +72,21 @@ export default function AsJSON() {
 									{ limit: "y", label: "years" },
 									{ limit: "t", label: "top" },
 								].map((e, index) => (
-									<option
-										key={index}
-										value={e.limit}
-										style={{ textTransform: "capitalize" }}>
-										{e.label}
-									</option>
+									<option key={index} value={e.limit} style={{ textTransform: "capitalize" }}>{e.label}</option>
 								))}
 							</Select>
-
 							{isLoading ? (
 								<Spinner size='xl' alignSelf='center' color='green.500' />
 							) : (
 								<Suspense fallback={null}>
-								<JsonViewer collapsed={2} src={json} />
-							</Suspense>
+									<JsonViewer collapsed={2} src={json} />
+								</Suspense>
 							)}
 						</Flex>
 					</ModalBody>
-
 					<ModalFooter>
-						<Button
-							variant='ghost'
-							mr={3}
-							onClick={() => {
-								setJson({});
-								onClose();
-							}}>
-							Close
-						</Button>
-						<Button
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
-							onClick={() => exportJSON()}
-							isDisabled={Object.keys(json).length <= 0}>
-							Export
-						</Button>
+						<Button variant='ghost' mr={3} onClick={() => { setJson({}); onClose(); }}>Close</Button>
+						<Button colorScheme={config?.appearance?.globalTheme ?? "green"} onClick={exportJSON} isDisabled={Object.keys(json).length <= 0}>Export</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

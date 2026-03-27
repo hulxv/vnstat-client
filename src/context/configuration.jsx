@@ -1,41 +1,39 @@
 import { useEffect, useState, useContext, createContext, useMemo } from "react";
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 
 const ConfigProvider = createContext({});
 
 function Configuration({ children }) {
 	const [config, setConfig] = useState({});
-	function GettingAppConfig() {
-		ipcRenderer.send("get-config");
-		ipcRenderer.on("send-config", (e, res) => {
+
+	async function GettingAppConfig() {
+		try {
+			const res = await invoke("get_app_config");
 			setConfig({ ...res });
-		});
-		return () => ipcRenderer.removeAllListeners("send-config");
+		} catch (err) {
+			console.error("get_app_config failed:", err);
+		}
 	}
 
 	useEffect(() => {
 		GettingAppConfig();
 	}, []);
 
-	// ! Uncomment for debugging
-
-	// useEffect(() => {
-	// 	console.log("AppConfig", config);
-	// }, [config]);
-
-	function reloading() {
-		ipcRenderer.send("get-config");
+	async function reloading() {
+		await GettingAppConfig();
 	}
 
-	function EditConfig(key, value) {
-		ipcRenderer.send("set-config", key, value);
+	async function EditConfig(key, value) {
+		try {
+			const updated = await invoke("set_app_config", { key, value });
+			setConfig({ ...updated });
+		} catch (err) {
+			console.error("set_app_config failed:", err);
+		}
 	}
+
 	const value = useMemo(
-		() => ({
-			config,
-			reloading,
-			EditConfig,
-		}),
+		() => ({ config, reloading, EditConfig }),
 		[config],
 	);
 

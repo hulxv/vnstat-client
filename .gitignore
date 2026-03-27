@@ -8,5 +8,5 @@ test
 build
 
 # Tauri / Rust
-src-tauri/target/
 src-tauri/gen/
+target

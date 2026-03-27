@@ -6,20 +6,21 @@ import {
 	useMemo,
 	useRef,
 } from "react";
-import { ipcRenderer } from "electron";
+import { listen } from "@tauri-apps/api/event";
 import { format } from "date-fns";
 
 const NetworkStatsContext = createContext(null);
 
 export default function NetworkStatsProvider({ children }) {
-	const [isRecording, setIsRecordeing] = useState(true);
+	const [isRecording, setIsRecording] = useState(true);
 	const [networkStats, setNetworkStats] = useState(null);
 
 	const recordedNetworkSpeed = useRef(Array(60).fill({ rx: 0, tx: 0 }));
 	const recordedNetworkStats = useRef([]);
 
 	useEffect(() => {
-		ipcRenderer.on("send-network-stats", (e, result) => {
+		let unlisten;
+		listen("send-network-stats", ({ payload: result }) => {
 			setNetworkStats(result);
 			const { speed } = Object.values(result).at(0);
 			if (isRecording) {
@@ -33,21 +34,17 @@ export default function NetworkStatsProvider({ children }) {
 					date: format(new Date(), "MMM d Y, hh:mm:ss aa"),
 				});
 			}
-		});
+		}).then(fn => { unlisten = fn; });
 
-		return () => ipcRenderer.removeAllListeners("send-network-stats");
+		return () => { unlisten?.(); };
 	}, [isRecording]);
 
 	function reset() {
 		recordedNetworkStats.current = [];
 		recordedNetworkSpeed.current = [];
 	}
-	function startRecording() {
-		setIsRecordeing(true);
-	}
-	function stopRecording() {
-		setIsRecordeing(false);
-	}
+	function startRecording() { setIsRecording(true); }
+	function stopRecording() { setIsRecording(false); }
 
 	const value = useMemo(
 		() => ({
@@ -62,6 +59,7 @@ export default function NetworkStatsProvider({ children }) {
 		}),
 		[networkStats, isRecording],
 	);
+
 	return (
 		<NetworkStatsContext.Provider value={value}>
 			{children}

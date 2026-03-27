@@ -5,13 +5,8 @@ import {
 	AlertDialogHeader,
 	AlertDialogContent,
 	AlertDialogOverlay,
-	Box,
 	Link,
 	useDisclosure,
-	Alert,
-	AlertIcon,
-	AlertDescription,
-	AlertTitle,
 	Text,
 	Button,
 	Divider,
@@ -20,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { ConnectModal } from "@Components/Server";
 
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 
 import { useConfig } from "@Context/configuration";
@@ -40,19 +35,12 @@ function VnStatIsNotInstalledAlert() {
 	const [isVnstatDetect, setIsVnstatDetect] = useState(false);
 
 	useEffect(() => {
-		if (window && ipcRenderer) {
-			ipcRenderer.send("req:is-vnstat-detect");
-			ipcRenderer.on("res:is-vnstat-detect", (_, res) => {
-				setIsVnstatDetect(res);
-			});
-		}
-	}, [typeof window, typeof ipcRenderer, isServerConnected]);
+		invoke("is_vnstat_detect")
+			.then(res => setIsVnstatDetect(res))
+			.catch(console.error);
+	}, [isServerConnected]);
 
 	useEffect(() => {
-		// ! Debuggin
-		console.log("is server connected?", isServerConnected);
-		console.log("is vnstat detected?", isVnstatDetect);
-
 		if (isServerConnected || isVnstatDetect) {
 			onClose();
 			reloading();
@@ -91,11 +79,9 @@ function VnStatIsNotInstalledAlert() {
 									<Link
 										textDecorationLine="underline"
 										onClick={() =>
-											ipcRenderer &&
-											ipcRenderer.send(
-												"open-url",
-												"https://github.com/vergoh/vnstat/blob/master/INSTALL.md"
-											)
+											invoke("open_url", {
+												url: "https://github.com/vergoh/vnstat/blob/master/INSTALL.md",
+											}).catch(console.error)
 										}>
 										here
 									</Link>{" "}

@@ -18,15 +18,13 @@ import {
 	Tooltip,
 	Alert,
 	AlertIcon,
-	Box,
 	AlertTitle,
 	AlertDescription,
-	CloseButton,
 } from "@chakra-ui/react";
 
 import { css } from "@emotion/react";
-
-import { ipcRenderer } from "electron";
+import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { format } from "date-fns";
 
 import { MdDateRange, MdOutlineInsertDriveFile } from "react-icons/md";
@@ -46,22 +44,29 @@ function AvailableUpdateAlert() {
 	// States
 	const [releaseData, setReleaseData] = useState(null);
 	const [downloadProgress, setDownloadProgress] = useState(null);
-	useEffect(() => {
-		ipcRenderer.on("update-available", (e, data) => {
-			onOpen();
-			setReleaseData(data);
-		});
 
-		ipcRenderer.on("download-update-progress", (e, result) => {
-			setDownloadProgress(result);
-		});
-		ipcRenderer.on("download-update-error", () => {
+	useEffect(() => {
+		const unlisten = [];
+
+		listen("update-available", (e) => {
+			onOpen();
+			setReleaseData(e.payload);
+		}).then(u => unlisten.push(u));
+
+		listen("download-update-progress", (e) => {
+			setDownloadProgress(e.payload);
+		}).then(u => unlisten.push(u));
+
+		listen("download-update-error", () => {
 			setIsThereUpdateError(true);
 			setIsUpdateStartDownload(false);
-		});
-		ipcRenderer.on("update-downloaded", () => {
+		}).then(u => unlisten.push(u));
+
+		listen("update-downloaded", () => {
 			setIsUpdateDownloaded(true);
-		});
+		}).then(u => unlisten.push(u));
+
+		return () => unlisten.forEach(u => u());
 	}, []);
 
 	return (
@@ -89,9 +94,7 @@ function AvailableUpdateAlert() {
 											Do you want to restart app to install new update?
 										</AlertDescription>
 										<Button
-											onClick={() => {
-												ipcRenderer.send("quit-and-update");
-											}}
+											onClick={() => invoke("quit_and_update").catch(console.error)}
 											variant='ghost'>
 											Restart
 										</Button>
@@ -125,10 +128,9 @@ function AvailableUpdateAlert() {
 								fontSize='small'
 								onClick={(e) => {
 									e.preventDefault();
-									let url = e.target.getAttribute("href");
+									const url = e.target.getAttribute("href");
 									if (url !== null) {
-										// console.log("open-url", url);
-										ipcRenderer.send("open-url", url);
+										invoke("open_url", { url }).catch(console.error);
 									}
 								}}
 								dangerouslySetInnerHTML={{
@@ -139,7 +141,7 @@ function AvailableUpdateAlert() {
 								{releaseData !== null && (
 									<>
 										{releaseData?.files?.map((e, index) => (
-											<Tooltip label={e?.url} hasArrow>
+											<Tooltip key={index} label={e?.url} hasArrow>
 												<Tag
 													size='md'
 													variant='subtle'
@@ -178,7 +180,7 @@ function AvailableUpdateAlert() {
 							onClick={() => {
 								if (isUpdateDownloaded || isUpdateStartDownload) return;
 								setIsUpdateStartDownload(true);
-								ipcRenderer.send("start-download-new-update");
+								invoke("start_download_new_update").catch(console.error);
 							}}
 							colorScheme={
 								isThereUpdateError
