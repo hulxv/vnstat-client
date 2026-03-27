@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => ({
+export default defineConfig({
   plugins: [react()],
 
   // Vite options tailored for Tauri development and production.
@@ -26,6 +26,8 @@ export default defineConfig(async () => ({
       "@Pages": resolve(__dirname, "src/pages"),
       "@Layout": resolve(__dirname, "src/layout"),
       "@Util": resolve(__dirname, "src/util"),
+      // Stub electron APIs until Tauri IPC migration (issue #43)
+      electron: resolve(__dirname, "src/stubs/electron.ts"),
     },
   },
 
@@ -43,4 +45,4 @@ export default defineConfig(async () => ({
     sourcemap: !!process.env.TAURI_ENV_DEBUG,
     outDir: "dist",
   },
-}));
+});
