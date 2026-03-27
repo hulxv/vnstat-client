@@ -99,13 +99,14 @@ export default function NetStats() {
 		setRefreshTime(config?.netStatsRefreshTime);
 	}, [config]);
 
-	const { speed, bytes, errors, dropped, ms, ...otherStats } = networkStats ?? {
-		speed: { rx: 0, tx: 0 },
-		dropped: { rx: 0, tx: 0 },
-		bytes: { rx: 0, tx: 0 },
-		errors: { rx: 0, tx: 0 },
-		ms: null,
-	};
+	const {
+		speed = { rx: 0, tx: 0 },
+		bytes = { rx: 0, tx: 0 },
+		errors = {},
+		dropped = {},
+		ms = null,
+		...otherStats
+	} = networkStats ?? {};
 	return (
 		<>
 			<Tooltip

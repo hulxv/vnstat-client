@@ -103,16 +103,16 @@ export default function NavigationBar() {
 				rounded="2xl"
 				width="95%">
 				<HStack spacing={1}>
-					<Tooltip label="Settings">
-						<Settings>
+					<Settings>
+						<Tooltip label="Settings">
 							<IconButton
 								variant="ghost"
 								colorScheme="whiteAlpha"
 								textColor="whiteAlpha.900"
 								icon={<HiAdjustments size="1.4em" />}
 							/>
-						</Settings>
-					</Tooltip>
+						</Tooltip>
+					</Settings>
 					<Tooltip
 						placement="right"
 						hasArrow

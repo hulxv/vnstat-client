@@ -54,7 +54,7 @@ impl Database {
             Ok(Interface {
                 id: row.get(0)?,
                 name: row.get(1)?,
-                alias: row.get(2)?,
+                alias: row.get::<_, Option<String>>(2)?.unwrap_or_default(),
                 active: row.get(3)?,
                 created: row.get(4)?,
                 updated: row.get(5)?,

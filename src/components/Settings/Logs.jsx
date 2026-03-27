@@ -41,7 +41,7 @@ function Logs() {
 	);
 
 	const [search, setSearch] = useState({ bool: false, value: "" });
-	useEffect(() => GetLogs(), []); // * Get Logs when user open the modal
+	useEffect(() => { GetLogs(); }, []); // * Get Logs when user open the modal
 
 	useEffect(() => {
 		setLogsAfterFiltering(

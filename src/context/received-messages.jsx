@@ -21,7 +21,7 @@ export default function ReceivedMessagesProvider({ children }) {
 	}, []);
 
 	return (
-		<ReceivedMessagesContext.Provider>
+		<ReceivedMessagesContext.Provider value={null}>
 			{children}
 		</ReceivedMessagesContext.Provider>
 	);
