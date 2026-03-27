@@ -6,6 +6,8 @@ import { resolve } from "path";
 export default defineConfig({
   plugins: [react()],
 
+  publicDir: "src/public",
+
   // Vite options tailored for Tauri development and production.
   // prevent vite from obscuring rust errors
   clearScreen: false,

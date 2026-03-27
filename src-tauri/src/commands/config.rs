@@ -22,7 +22,7 @@ pub fn set_app_config(
     Ok(config.clone())
 }
 
-/// Read `/etc/vnstat.conf` and return as a key→value object.
+/// Read `/etc/vnstat.conf` and return as a key->value object.
 #[tauri::command]
 pub fn get_vn_configs(state: State<AppState>) -> Result<HashMap<String, String>, String> {
     let vn_conf_path = state.vn_conf_path.lock().unwrap().clone();

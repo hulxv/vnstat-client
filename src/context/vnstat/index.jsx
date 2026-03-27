@@ -23,6 +23,7 @@ export default function vnStatProvider({ children }) {
 	});
 	const [daemonStatus, setDaemonStatus] = useState(false);
 	const [configs, setVnConfigs] = useState({});
+	const [isConfigsLoading, setIsConfigsLoading] = useState(true);
 	const visualVnConfigs = useRef({});
 	const [isConfigChanged, setIsConfigChanged] = useState(false);
 	const changes = useRef([]);
@@ -55,11 +56,14 @@ export default function vnStatProvider({ children }) {
 	}
 
 	async function getVnConfig() {
+		setIsConfigsLoading(true);
 		try {
 			const result = await invoke("get_vn_configs");
 			setVnConfigs(result ?? {});
 		} catch (err) {
 			console.error("get_vn_configs failed:", err);
+		} finally {
+			setIsConfigsLoading(false);
 		}
 	}
 
@@ -171,6 +175,7 @@ export default function vnStatProvider({ children }) {
 		() => ({
 			traffic: filterTrafficDataByInterfaceID(),
 			configs,
+			isConfigsLoading,
 			changes: changes.current,
 			visualVnConfigs,
 			isConfigChanged,

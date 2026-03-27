@@ -173,7 +173,7 @@ impl Database {
     }
 }
 
-/// Very small date helper: Unix seconds → "YYYY-MM-DD".
+/// Very small date helper: Unix seconds -> "YYYY-MM-DD".
 fn secs_to_date(secs: i64) -> String {
     // Days since epoch
     let days = secs / 86400;

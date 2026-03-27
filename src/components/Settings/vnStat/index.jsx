@@ -6,6 +6,7 @@ import {
 	HStack,
 	Button,
 	Tooltip,
+	Spinner,
 	usePrefersReducedMotion,
 } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
@@ -23,7 +24,7 @@ import { useVnStat } from "@Context/vnstat";
 import Configs from "./Configs";
 
 function vnStat() {
-	const { configs, daemonStatus, stopDaemon, startDaemon, restartDaemon } =
+	const { configs, isConfigsLoading, daemonStatus, stopDaemon, startDaemon, restartDaemon } =
 		useVnStat();
 
 	const prefersReducedMotion = usePrefersReducedMotion();
@@ -35,6 +36,9 @@ function vnStat() {
 	const animation = prefersReducedMotion
 		? undefined
 		: `${animationFade} infinite ${daemonStatus ? "2s" : ".5s"} alternate`;
+
+	if (isConfigsLoading)
+		return <Spinner size='xl' color='green' alignSelf='center' />;
 
 	if (!configs || !(Object.keys(configs).length > 0))
 		return (
