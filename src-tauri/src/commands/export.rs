@@ -7,7 +7,11 @@ use std::process::Command;
 pub fn export_db_view(format: String, limit: String) -> Result<String, String> {
     let output = Command::new("vnstat")
         .arg(format!("--{format}"))
-        .args(if limit.is_empty() { vec![] } else { vec![limit.as_str()] })
+        .args(if limit.is_empty() {
+            vec![]
+        } else {
+            vec![limit.as_str()]
+        })
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -63,7 +67,10 @@ pub async fn export_as_csv(
 
     let mut csv = String::from("id,interface,date,rx,tx\n");
     for r in &rows {
-        csv.push_str(&format!("{},{},{},{},{}\n", r.id, r.interface, r.date, r.rx, r.tx));
+        csv.push_str(&format!(
+            "{},{},{},{},{}\n",
+            r.id, r.interface, r.date, r.rx, r.tx
+        ));
     }
 
     export_to_file(app, csv, "csv".into()).await

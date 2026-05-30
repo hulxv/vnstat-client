@@ -26,13 +26,13 @@ export default function ServerProvider({ children }: { children: ReactNode }) {
 		listen("server-was-connected", () => setIsServerConnected(true)).then(
 			fn => {
 				unlistenConnected = fn;
-			},
+			}
 		);
-		listen("server-was-disconnected", () => setIsServerConnected(false)).then(
-			fn => {
-				unlistenDisconnected = fn;
-			},
-		);
+		listen("server-was-disconnected", () =>
+			setIsServerConnected(false)
+		).then(fn => {
+			unlistenDisconnected = fn;
+		});
 
 		return () => {
 			unlistenConnected?.();

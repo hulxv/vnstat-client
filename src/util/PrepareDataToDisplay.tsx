@@ -56,7 +56,7 @@ export interface PreparedResult {
 /** Merge fetched rows onto a zero-filled calendar and convert bytes → MB. */
 function mergeAndConvert(
 	calendar: string[],
-	data: RawTrafficEntry[],
+	data: RawTrafficEntry[]
 ): PreparedEntry[] {
 	const defaults: PreparedEntry[] = calendar.map(date => ({
 		date,
@@ -77,7 +77,7 @@ function totalOf(preparedData: PreparedEntry[]): { down: number; up: number } {
 
 function prepareMonthData(
 	Data: RawTrafficEntry[],
-	amountMonths = 0,
+	amountMonths = 0
 ): PreparedResult {
 	const calendar = eachDayOfInterval({
 		start: startOfMonth(subMonths(new Date(), amountMonths)),
@@ -108,10 +108,18 @@ function prepareMonthData(
 		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
-	return { preparedData, lineChartData, barChartData, total: totalOf(preparedData) };
+	return {
+		preparedData,
+		lineChartData,
+		barChartData,
+		total: totalOf(preparedData),
+	};
 }
 
-function prepareDayData(Data: RawTrafficEntry[], amountDays = 0): PreparedResult {
+function prepareDayData(
+	Data: RawTrafficEntry[],
+	amountDays = 0
+): PreparedResult {
 	const calendar = eachHourOfInterval({
 		start: startOfDay(subDays(new Date(), amountDays)),
 		end: endOfDay(subDays(new Date(), amountDays)),
@@ -143,12 +151,17 @@ function prepareDayData(Data: RawTrafficEntry[], amountDays = 0): PreparedResult
 		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
-	return { preparedData, lineChartData, barChartData, total: totalOf(preparedData) };
+	return {
+		preparedData,
+		lineChartData,
+		barChartData,
+		total: totalOf(preparedData),
+	};
 }
 
 function prepareYearData(
 	Data: RawTrafficEntry[],
-	amountYears = 0,
+	amountYears = 0
 ): PreparedResult {
 	const calendar = eachMonthOfInterval({
 		start: startOfYear(subYears(new Date(), amountYears)),
@@ -180,12 +193,17 @@ function prepareYearData(
 		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
-	return { preparedData, lineChartData, barChartData, total: totalOf(preparedData) };
+	return {
+		preparedData,
+		lineChartData,
+		barChartData,
+		total: totalOf(preparedData),
+	};
 }
 
 function prepareWeekData(
 	Data: RawTrafficEntry[],
-	amountWeeks = 0,
+	amountWeeks = 0
 ): PreparedResult {
 	const calendar = eachDayOfInterval({
 		start: startOfWeek(subWeeks(new Date(), amountWeeks)),
@@ -216,13 +234,18 @@ function prepareWeekData(
 		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
-	return { preparedData, lineChartData, barChartData, total: totalOf(preparedData) };
+	return {
+		preparedData,
+		lineChartData,
+		barChartData,
+		total: totalOf(preparedData),
+	};
 }
 
 function prepareCustomIntervalData(
 	Data: RawTrafficEntry[],
 	from: string = `${getYear(new Date())}-1-1`,
-	to: string = `${getYear(new Date())}-1-1`,
+	to: string = `${getYear(new Date())}-1-1`
 ): PreparedResult {
 	const calendar = eachDayOfInterval({
 		start: new Date(from),
@@ -253,7 +276,12 @@ function prepareCustomIntervalData(
 		Upload: (e.tx / 1024).toFixed(2),
 	}));
 
-	return { preparedData, lineChartData, barChartData, total: totalOf(preparedData) };
+	return {
+		preparedData,
+		lineChartData,
+		barChartData,
+		total: totalOf(preparedData),
+	};
 }
 
 export {

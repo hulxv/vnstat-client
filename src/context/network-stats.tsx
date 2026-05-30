@@ -24,32 +24,34 @@ export default function NetworkStatsProvider({
 	children: ReactNode;
 }) {
 	const [isRecording, setIsRecording] = useState(true);
-	const [networkStats, setNetworkStats] = useState<NetworkStatsPayload | null>(
-		null,
-	);
+	const [networkStats, setNetworkStats] =
+		useState<NetworkStatsPayload | null>(null);
 
 	const recordedNetworkSpeed = useRef<NetworkSpeed[]>(
-		Array(60).fill({ rx: 0, tx: 0 }),
+		Array(60).fill({ rx: 0, tx: 0 })
 	);
 	const recordedNetworkStats = useRef<RecordedNetworkStat[]>([]);
 
 	useEffect(() => {
 		let unlisten: UnlistenFn | undefined;
-		listen<NetworkStatsPayload>("send-network-stats", ({ payload: result }) => {
-			setNetworkStats(result);
-			const speed = Object.values(result).at(0)?.speed;
-			if (isRecording && speed) {
-				recordedNetworkSpeed.current = [
-					...Array<NetworkSpeed>(60).fill({ rx: 0, tx: 0 }),
-					...recordedNetworkSpeed.current,
-					speed,
-				].splice(-60);
-				recordedNetworkStats.current.push({
-					stats: result,
-					date: format(new Date(), "MMM d y, hh:mm:ss aa"),
-				});
+		listen<NetworkStatsPayload>(
+			"send-network-stats",
+			({ payload: result }) => {
+				setNetworkStats(result);
+				const speed = Object.values(result).at(0)?.speed;
+				if (isRecording && speed) {
+					recordedNetworkSpeed.current = [
+						...Array<NetworkSpeed>(60).fill({ rx: 0, tx: 0 }),
+						...recordedNetworkSpeed.current,
+						speed,
+					].splice(-60);
+					recordedNetworkStats.current.push({
+						stats: result,
+						date: format(new Date(), "MMM d y, hh:mm:ss aa"),
+					});
+				}
 			}
-		}).then(fn => {
+		).then(fn => {
 			unlisten = fn;
 		});
 
@@ -80,7 +82,7 @@ export default function NetworkStatsProvider({
 			startRecording,
 			stopRecording,
 		}),
-		[networkStats, isRecording],
+		[networkStats, isRecording]
 	);
 
 	return (

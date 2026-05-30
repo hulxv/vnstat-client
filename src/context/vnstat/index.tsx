@@ -20,7 +20,7 @@ import type {
 } from "@Types";
 
 export const vnStatContext = createContext<VnStatContextValue>(
-	{} as VnStatContextValue,
+	{} as VnStatContextValue
 );
 
 const EMPTY_TRAFFIC: TrafficData = {
@@ -44,7 +44,7 @@ export default function vnStatProvider({ children }: { children: ReactNode }) {
 	const [visualVnConfigs, setVisualVnConfigs] = useState<VnStatConfig>({});
 	const [interfaces, setInterfaces] = useState<Interface[]>([]);
 	const [interfaceID, setInterfaceID] = useState<number>(
-		appConfig?.interface ?? 1,
+		appConfig?.interface ?? 1
 	);
 
 	useEffect(() => {
@@ -177,7 +177,9 @@ export default function vnStatProvider({ children }: { children: ReactNode }) {
 				const entry = e as TrafficEntry & {
 					data?: { interface?: number };
 				};
-				return (entry.interface ?? entry.data?.interface) == interfaceID;
+				return (
+					(entry.interface ?? entry.data?.interface) == interfaceID
+				);
 			});
 		});
 		return result as unknown as TrafficData;
@@ -220,11 +222,13 @@ export default function vnStatProvider({ children }: { children: ReactNode }) {
 			daemonStatus,
 			interfaces,
 			interfaceID,
-		],
+		]
 	);
 
 	return (
-		<vnStatContext.Provider value={value}>{children}</vnStatContext.Provider>
+		<vnStatContext.Provider value={value}>
+			{children}
+		</vnStatContext.Provider>
 	);
 }
 

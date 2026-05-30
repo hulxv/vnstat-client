@@ -1,53 +1,57 @@
 {
-  "name": "vnstat-client",
-  "description": "GUI Client for vnStat network traffic monitor",
-  "version": "5.0.0",
-  "license": "GPL-2.0",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Hulxv/vnstat-client"
-  },
-  "author": "Hulxxv <hulxxv@gmail.com>",
-  "packageManager": "pnpm@9.0.0",
-  "scripts": {
-    "dev": "tauri dev",
-    "build": "tauri build",
-    "dev:vite": "vite",
-    "build:vite": "tsc && vite build",
-    "preview": "vite preview",
-    "tauri": "tauri"
-  },
-  "dependencies": {
-    "@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
-    "@chakra-ui/react": "^2.10.4",
-    "@emotion/react": "^11.13.5",
-    "@emotion/styled": "^11.13.5",
-    "@nivo/bar": "^0.87.0",
-    "@nivo/core": "^0.87.0",
-    "@nivo/line": "^0.87.0",
-    "@tauri-apps/api": "^2.2.0",
-    "@tauri-apps/plugin-opener": "^2.2.6",
-    "@tauri-apps/plugin-updater": "^2.5.0",
-    "date-fns": "^3.6.0",
-    "framer-motion": "^11.12.0",
-    "lazy-load-list": "^1.2.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-hotkeys-hook": "^4.6.1",
-    "react-icons": "^5.3.0",
-    "react-json-view": "^1.21.3",
-    "react-router-dom": "^6.28.0",
-    "react-viewport-list": "^7.1.1",
-    "react-xml-viewer": "^2.0.3"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^2.2.7",
-    "@types/node": "^25.5.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "^5.6.3",
-    "vite": "^6.0.3"
-  }
+	"name": "vnstat-client",
+	"description": "GUI Client for vnStat network traffic monitor",
+	"version": "5.0.0",
+	"license": "GPL-2.0",
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Hulxv/vnstat-client"
+	},
+	"author": "Hulxxv <hulxxv@gmail.com>",
+	"packageManager": "pnpm@9.0.0",
+	"scripts": {
+		"dev": "tauri dev",
+		"build": "tauri build",
+		"dev:vite": "vite",
+		"build:vite": "tsc && vite build",
+		"typecheck": "tsc --noEmit",
+		"format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"*.{ts,json}\" index.html",
+		"format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"*.{ts,json}\" index.html",
+		"preview": "vite preview",
+		"tauri": "tauri"
+	},
+	"dependencies": {
+		"@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
+		"@chakra-ui/react": "^2.10.4",
+		"@emotion/react": "^11.13.5",
+		"@emotion/styled": "^11.13.5",
+		"@nivo/bar": "^0.87.0",
+		"@nivo/core": "^0.87.0",
+		"@nivo/line": "^0.87.0",
+		"@tauri-apps/api": "^2.2.0",
+		"@tauri-apps/plugin-opener": "^2.2.6",
+		"@tauri-apps/plugin-updater": "^2.5.0",
+		"date-fns": "^3.6.0",
+		"framer-motion": "^11.12.0",
+		"lazy-load-list": "^1.2.2",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-hotkeys-hook": "^4.6.1",
+		"react-icons": "^5.3.0",
+		"react-json-view": "^1.21.3",
+		"react-router-dom": "^6.28.0",
+		"react-viewport-list": "^7.1.1",
+		"react-xml-viewer": "^2.0.3"
+	},
+	"devDependencies": {
+		"@tauri-apps/cli": "^2.2.7",
+		"@types/node": "^25.5.0",
+		"@types/react": "^18.3.12",
+		"@types/react-dom": "^18.3.1",
+		"@vitejs/plugin-react": "^4.3.4",
+		"prettier": "^3.4.2",
+		"typescript": "^5.6.3",
+		"vite": "^6.0.3"
+	}
 }

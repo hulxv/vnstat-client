@@ -9,7 +9,9 @@ import {
 import { invoke } from "@tauri-apps/api/core";
 import type { AppConfig, ConfigContextValue } from "@Types";
 
-const ConfigProvider = createContext<ConfigContextValue>({} as ConfigContextValue);
+const ConfigProvider = createContext<ConfigContextValue>(
+	{} as ConfigContextValue
+);
 
 function Configuration({ children }: { children: ReactNode }) {
 	const [config, setConfig] = useState<Partial<AppConfig>>({});
@@ -33,7 +35,10 @@ function Configuration({ children }: { children: ReactNode }) {
 
 	async function EditConfig(key: string, value: unknown) {
 		try {
-			const updated = await invoke<AppConfig>("set_app_config", { key, value });
+			const updated = await invoke<AppConfig>("set_app_config", {
+				key,
+				value,
+			});
 			setConfig({ ...updated });
 		} catch (err) {
 			console.error("set_app_config failed:", err);
@@ -42,11 +47,13 @@ function Configuration({ children }: { children: ReactNode }) {
 
 	const value = useMemo<ConfigContextValue>(
 		() => ({ config, reloading, EditConfig }),
-		[config],
+		[config]
 	);
 
 	return (
-		<ConfigProvider.Provider value={value}>{children}</ConfigProvider.Provider>
+		<ConfigProvider.Provider value={value}>
+			{children}
+		</ConfigProvider.Provider>
 	);
 }
 

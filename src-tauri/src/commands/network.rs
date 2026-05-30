@@ -55,17 +55,16 @@ fn read_net_stats(iface: &str) -> Option<NetworkInterfaceStats> {
 
     Some(NetworkInterfaceStats {
         speed: NetworkSpeed { rx: 0, tx: 0 }, // instantaneous speed requires two samples
-        bytes: NetworkBytes { rx: rx_bytes, tx: tx_bytes },
+        bytes: NetworkBytes {
+            rx: rx_bytes,
+            tx: tx_bytes,
+        },
         operstate,
     })
 }
 
 fn read_u64(path: &str) -> Option<u64> {
-    std::fs::read_to_string(path)
-        .ok()?
-        .trim()
-        .parse()
-        .ok()
+    std::fs::read_to_string(path).ok()?.trim().parse().ok()
 }
 
 /// Returns the name of the default network interface (first non-loopback active one).

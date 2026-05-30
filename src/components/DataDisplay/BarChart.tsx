@@ -19,10 +19,12 @@ export default function BarChart({
 			<ResponsiveBar
 				data={data as unknown as NivoBarDatum[]}
 				keys={["Download", "Upload"]}
-				indexBy='date'
+				indexBy="date"
 				margin={{ top: 50, right: 110, bottom: 50, left: 50 }}
 				groupMode={
-					config?.appearance?.barChart?.isGrouped ? "grouped" : "stacked"
+					config?.appearance?.barChart?.isGrouped
+						? "grouped"
+						: "stacked"
 				}
 				valueScale={{ type: "linear" }}
 				indexScale={{ type: "band", round: true }}
@@ -112,7 +114,7 @@ export default function BarChart({
 						],
 					},
 				]}
-				ariaLabel='Usage Bar Chart'
+				ariaLabel="Usage Bar Chart"
 			/>
 		</>
 	);

@@ -1,6 +1,6 @@
+use crate::AppState;
 use std::collections::HashMap;
 use tauri::State;
-use crate::AppState;
 
 /// Returns the full app config object.
 #[tauri::command]

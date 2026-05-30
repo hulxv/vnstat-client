@@ -43,7 +43,7 @@ export default class ErrorBoundary extends Component<
 		console.error(
 			`ErrorBoundary (${this.props.label ?? "unknown"}):`,
 			error,
-			info,
+			info
 		);
 	}
 

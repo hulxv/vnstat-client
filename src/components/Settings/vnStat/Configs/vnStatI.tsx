@@ -56,7 +56,7 @@ function vnStatD({}) {
 	}, [defaultColors]);
 
 	const [rates, setRates] = useState<Record<string, string | number | null>>(
-		{},
+		{}
 	);
 
 	const [defaultRates, setDefaultRates] = useState<
@@ -83,39 +83,44 @@ function vnStatD({}) {
     */
 	return (
 		<Stack spacing={6}>
-			<Heading alignSelf='center' size='sm'>
+			<Heading alignSelf="center" size="sm">
 				vnStatI
 			</Heading>
 
 			<Stack spacing={4}>
-				<Heading size='xs'>Rates</Heading>
+				<Heading size="xs">Rates</Heading>
 				{Object.keys(rates).map((rate, index) => (
-					<HStack justify='space-between' key={index}>
+					<HStack justify="space-between" key={index}>
 						<Box>{rate}</Box>
 						<HStack>
 							{rates[rate] === null && (
 								<Tooltip
 									hasArrow
-									placement='right'
+									placement="right"
 									label="This attribute is disabled, You should change the value and save to enable it. But if wasn't enabled, You should add it for config file manually">
 									<IconButton
-										aria-label='Attribute is disabled'
-										size='sm'
-										icon={<RiErrorWarningLine size='1.2em' />}
-										variant='ghost'
+										aria-label="Attribute is disabled"
+										size="sm"
+										icon={
+											<RiErrorWarningLine size="1.2em" />
+										}
+										variant="ghost"
 									/>
 								</Tooltip>
 							)}
 
 							{defaultRates[rate] != rates[rate] && (
-								<Tooltip label='Reset'>
+								<Tooltip label="Reset">
 									<IconButton
-										aria-label='Reset rate'
-										size='sm'
-										icon={<BiReset size='1.2em' />}
-										variant='ghost'
+										aria-label="Reset rate"
+										size="sm"
+										icon={<BiReset size="1.2em" />}
+										variant="ghost"
 										onClick={() => {
-											changeVnStatConfigs(rate, defaultRates[rate] as string);
+											changeVnStatConfigs(
+												rate,
+												defaultRates[rate] as string
+											);
 											setRates({
 												...rates,
 												[rate]: defaultRates[rate],
@@ -125,7 +130,9 @@ function vnStatD({}) {
 								</Tooltip>
 							)}
 							<Switch
-								colorScheme={config?.appearance?.globalTheme ?? "green"}
+								colorScheme={
+									config?.appearance?.globalTheme ?? "green"
+								}
 								isChecked={Boolean(Number(rates[rate]))}
 								onChange={() => {
 									let value = Number(!Boolean(rates[rate]));
@@ -141,33 +148,38 @@ function vnStatD({}) {
 				))}
 			</Stack>
 			<Stack spacing={4}>
-				<Heading size='xs'>Image Colors</Heading>
+				<Heading size="xs">Image Colors</Heading>
 				{Object.keys(Colors).map((color, index) => (
-					<HStack justify='space-between' key={index}>
+					<HStack justify="space-between" key={index}>
 						<Box>{color}</Box>
 						<HStack>
 							{Colors[color] === null && (
 								<Tooltip
 									hasArrow
-									placement='left'
+									placement="left"
 									label="This attribute is disabled, You should change the value and save to enable it. But if wasn't enabled, You should add it for config file manually">
 									<IconButton
-										aria-label='Attribute is disabled'
-										size='sm'
-										icon={<RiErrorWarningLine size='1.2em' />}
-										variant='ghost'
+										aria-label="Attribute is disabled"
+										size="sm"
+										icon={
+											<RiErrorWarningLine size="1.2em" />
+										}
+										variant="ghost"
 									/>
 								</Tooltip>
 							)}
 							{String(defaultColors[color]).toUpperCase() !==
 								String(Colors[color]).toUpperCase() && (
-								<Tooltip label='Reset'>
+								<Tooltip label="Reset">
 									<IconButton
-										aria-label='Reset color'
-										icon={<BiReset size='1.2em' />}
-										variant='ghost'
+										aria-label="Reset color"
+										icon={<BiReset size="1.2em" />}
+										variant="ghost"
 										onClick={() => {
-											changeVnStatConfigs(color, `"${defaultColors[color]}"`);
+											changeVnStatConfigs(
+												color,
+												`"${defaultColors[color]}"`
+											);
 											setColors({
 												...Colors,
 												[color]: defaultColors[color],
@@ -178,16 +190,19 @@ function vnStatD({}) {
 							)}
 							<input
 								style={{ width: "50px", height: "50px" }}
-								type='color'
+								type="color"
 								value={`#${Colors[color] === "-" ? "000000" : Colors[color]}`}
-								onChange={(e) => {
+								onChange={e => {
 									changeVnStatConfigs(
 										color,
-										`"${e.target.value.replace(/#/gi, "")}"`,
+										`"${e.target.value.replace(/#/gi, "")}"`
 									);
 									setColors({
 										...Colors,
-										[color]: e.target.value.replace(/#/gi, ""),
+										[color]: e.target.value.replace(
+											/#/gi,
+											""
+										),
 									});
 								}}
 							/>

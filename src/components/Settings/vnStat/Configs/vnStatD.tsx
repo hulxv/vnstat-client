@@ -58,52 +58,53 @@ function vnStatD({}) {
 	}, [defaultDurations]);
 	return (
 		<Stack>
-			<Heading alignSelf='center' size='sm'>
+			<Heading alignSelf="center" size="sm">
 				vnStatD
 			</Heading>
 			<HStack>
-				<Heading size='xs'>Data retention durations </Heading>
-				<Tooltip label={notes.durations} hasArrow placement='right'>
+				<Heading size="xs">Data retention durations </Heading>
+				<Tooltip label={notes.durations} hasArrow placement="right">
 					<IconButton
-						aria-label='Data retention durations information'
+						aria-label="Data retention durations information"
 						icon={<HiInformationCircle />}
-						variant='ghost'
-						cursor='default'
+						variant="ghost"
+						cursor="default"
 					/>
 				</Tooltip>
 			</HStack>
 			{Object.keys(defaultDurations).map((duration, index) => (
-				<HStack justify='space-between' key={`${duration}-${index}`}>
+				<HStack justify="space-between" key={`${duration}-${index}`}>
 					<Box>{duration}</Box>
 
 					<HStack>
 						{durations[duration] === null && (
 							<Tooltip
 								hasArrow
-								placement='right'
+								placement="right"
 								label="This attribute is disabled, You should change the value and save to enable it. But if wasn't enabled, You should add it for config file manually">
 								<IconButton
-									aria-label='Attribute is disabled'
-									size='sm'
-									icon={<RiErrorWarningLine size='1.2em' />}
-									variant='ghost'
+									aria-label="Attribute is disabled"
+									size="sm"
+									icon={<RiErrorWarningLine size="1.2em" />}
+									variant="ghost"
 								/>
 							</Tooltip>
 						)}
 						{defaultDurations[duration] !== durations[duration] && (
-							<Tooltip label='Reset'>
+							<Tooltip label="Reset">
 								<IconButton
-									aria-label='Reset duration'
-									icon={<BiReset size='1.2em' />}
-									variant='ghost'
+									aria-label="Reset duration"
+									icon={<BiReset size="1.2em" />}
+									variant="ghost"
 									onClick={() => {
 										changeVnStatConfigs(
 											duration,
-											defaultDurations[duration] as string,
+											defaultDurations[duration] as string
 										);
 										setDurations({
 											...durations,
-											[duration]: defaultDurations[duration],
+											[duration]:
+												defaultDurations[duration],
 										});
 									}}
 								/>
@@ -113,10 +114,13 @@ function vnStatD({}) {
 						<NumberInput
 							allowMouseWheel
 							value={Number(durations[duration])}
-							onChange={(value) => {
+							onChange={value => {
 								// console.log(duration, value);
 								changeVnStatConfigs(duration, value);
-								setDurations({ ...durations, [duration]: value });
+								setDurations({
+									...durations,
+									[duration]: value,
+								});
 							}}
 							min={-1}
 							max={250}>
@@ -126,18 +130,26 @@ function vnStatD({}) {
 								<NumberDecrementStepper />
 							</NumberInputStepper>
 						</NumberInput>
-						<Tooltip label='Unlimited'>
+						<Tooltip label="Unlimited">
 							<Box>
 								<Switch
-									colorScheme={config?.appearance?.globalTheme ?? "green"}
-									isChecked={Number(durations[duration]) === -1}
+									colorScheme={
+										config?.appearance?.globalTheme ??
+										"green"
+									}
+									isChecked={
+										Number(durations[duration]) === -1
+									}
 									onChange={() => {
 										let value =
 											Number(durations[duration]) === -1
 												? defaultDurations[duration]
 												: -1;
 
-										changeVnStatConfigs(duration, value as string);
+										changeVnStatConfigs(
+											duration,
+											value as string
+										);
 										setDurations({
 											...durations,
 											[duration]: value,

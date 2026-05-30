@@ -43,7 +43,7 @@
         "bundleMediaFramework": false
       }
     },
-    "category": "Network",
+    "category": "Utility",
     "copyright": "Copyright © 2021 Hulxv (Mohamed Emad)",
     "shortDescription": "GUI Client for vnStat network traffic monitor",
     "longDescription": "A desktop GUI client for vnStat, a console-based network traffic monitor."

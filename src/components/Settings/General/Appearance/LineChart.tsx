@@ -55,19 +55,19 @@ function LineChart() {
 
 	const { config, EditConfig } = useConfig();
 	const [areaOpacitySlider, setAreaOpacitySlider] = useState(
-		config?.appearance?.lineChart?.areaOpacity ?? null,
+		config?.appearance?.lineChart?.areaOpacity ?? null
 	);
 	return (
 		<Stack spacing={2}>
 			<HStack>
-				<Heading size='sm'>Line Chart</Heading>
+				<Heading size="sm">Line Chart</Heading>
 				<Popover>
 					<PopoverTrigger>
 						<IconButton
-							aria-label='Line chart documentation'
-							size='sm'
-							variant='ghost'
-							icon={<GrInfo size='1.3em' />}
+							aria-label="Line chart documentation"
+							size="sm"
+							variant="ghost"
+							icon={<GrInfo size="1.3em" />}
 						/>
 					</PopoverTrigger>
 					<PopoverContent>
@@ -77,9 +77,11 @@ function LineChart() {
 							<HStack>
 								<span>Go to</span>{" "}
 								<Link
-									color='green'
+									color="green"
 									onClick={() =>
-										invoke("open_url", { url: "https://nivo.rocks/line/" }).catch(console.error)
+										invoke("open_url", {
+											url: "https://nivo.rocks/line/",
+										}).catch(console.error)
 									}>
 									Nivo Charts Docs
 								</Link>
@@ -91,12 +93,15 @@ function LineChart() {
 			</HStack>
 			{config && (
 				<>
-					<HStack alignSelf='start' spacing={4}>
+					<HStack alignSelf="start" spacing={4}>
 						<Box>Curve</Box>{" "}
 						<Select
 							value={config.appearance?.lineChart.curve}
-							onChange={(e) =>
-								EditConfig("appearance.lineChart.curve", e.target.value)
+							onChange={e =>
+								EditConfig(
+									"appearance.lineChart.curve",
+									e.target.value
+								)
 							}>
 							{" "}
 							{Curves.map((curve, index) => (
@@ -105,12 +110,15 @@ function LineChart() {
 						</Select>{" "}
 					</HStack>
 
-					<HStack alignSelf='start' spacing={3}>
+					<HStack alignSelf="start" spacing={3}>
 						<Box>Colors</Box>{" "}
 						<Select
 							value={config.appearance?.lineChart.colors}
-							onChange={(e) =>
-								EditConfig("appearance.lineChart.colors", e.target.value)
+							onChange={e =>
+								EditConfig(
+									"appearance.lineChart.colors",
+									e.target.value
+								)
 							}>
 							{Colors.map((color, index) => (
 								<option key={index}>{color}</option>
@@ -121,24 +129,36 @@ function LineChart() {
 					<HStack>
 						<Box>Area</Box>
 						<Switch
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
-							defaultChecked={config.appearance?.lineChart.hasArea}
-							onChange={(e) =>
-								EditConfig("appearance.lineChart.hasArea", e.target.checked)
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
+							defaultChecked={
+								config.appearance?.lineChart.hasArea
+							}
+							onChange={e =>
+								EditConfig(
+									"appearance.lineChart.hasArea",
+									e.target.checked
+								)
 							}
 						/>
 					</HStack>
 					<HStack spacing={5}>
 						<Box>Area Opacity</Box>
 						<Slider
-							defaultValue={config.appearance?.lineChart.areaOpacity}
+							defaultValue={
+								config.appearance?.lineChart.areaOpacity
+							}
 							min={0.0}
 							max={1}
 							step={0.01}
-							w='lg'
-							onChange={(value) => setAreaOpacitySlider(value)}
-							onChangeEnd={(value) =>
-								EditConfig("appearance.lineChart.areaOpacity", value)
+							w="lg"
+							onChange={value => setAreaOpacitySlider(value)}
+							onChangeEnd={value =>
+								EditConfig(
+									"appearance.lineChart.areaOpacity",
+									value
+								)
 							}>
 							<SliderTrack
 								bg={`${config?.appearance?.globalTheme ?? "green"}.200`}>

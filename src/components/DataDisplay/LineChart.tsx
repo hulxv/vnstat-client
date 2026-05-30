@@ -33,7 +33,7 @@ export default function LineChart({
 				stacked: true,
 				reverse: false,
 			}}
-			yFormat=' >-.2f'
+			yFormat=" >-.2f"
 			// `curve` is a strict nivo union fed from runtime user config.
 			curve={config?.appearance?.lineChart?.curve as never}
 			axisTop={null}
@@ -48,7 +48,7 @@ export default function LineChart({
 							legend: BottomLegend,
 							legendOffset: 36,
 							legendPosition: "middle",
-					  }
+						}
 			}
 			axisLeft={{
 				tickSize: 5,
@@ -59,7 +59,9 @@ export default function LineChart({
 				legendPosition: "middle",
 			}}
 			colors={
-				{ scheme: config?.appearance?.lineChart?.colors ?? "nivo" } as never
+				{
+					scheme: config?.appearance?.lineChart?.colors ?? "nivo",
+				} as never
 			}
 			lineWidth={5}
 			pointSize={10}
@@ -70,7 +72,7 @@ export default function LineChart({
 			useMesh={true}
 			enableArea={config?.appearance?.lineChart?.hasArea ?? true}
 			areaOpacity={config?.appearance?.lineChart?.areaOpacity ?? 0.5}
-			enableSlices='x'
+			enableSlices="x"
 			legends={[
 				{
 					anchor: "top-right",
@@ -97,7 +99,7 @@ export default function LineChart({
 				},
 			]}
 			animate={!disableAnimate}
-			motionConfig='slow'
+			motionConfig="slow"
 		/>
 	);
 }

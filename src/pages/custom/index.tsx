@@ -47,11 +47,15 @@ export default function CustomInterval() {
 						title={
 							<>
 								{format(new Date(from), "d MMM yyyy ")}
-								{from !== to && ` - ${format(new Date(to), "d MMM yyyy")}`}
+								{from !== to &&
+									` - ${format(new Date(to), "d MMM yyyy")}`}
 							</>
 						}
 						canReset={false}
-						durationInDays={differenceInDays(new Date(to), new Date(from))}
+						durationInDays={differenceInDays(
+							new Date(to),
+							new Date(from)
+						)}
 					/>
 					<TotalTraffic data={displayData?.total} />
 					<DataDisplay

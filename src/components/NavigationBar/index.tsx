@@ -184,7 +184,9 @@ export default function NavigationBar() {
 								<MenuItem
 									key={index}
 									onClick={() => {
-										if (typeof page?.onClick !== "undefined") {
+										if (
+											typeof page?.onClick !== "undefined"
+										) {
 											page.onClick();
 											return;
 										}

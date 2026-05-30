@@ -5,7 +5,10 @@ import { useVnStat } from "@Context/vnstat";
 import { useEffect, useState } from "react";
 
 // Utils
-import { prepareDayData, type PreparedResult } from "@Util/PrepareDataToDisplay";
+import {
+	prepareDayData,
+	type PreparedResult,
+} from "@Util/PrepareDataToDisplay";
 
 // Components
 import DataDisplay from "@Components/DataDisplay";
@@ -19,10 +22,8 @@ export default function Hour() {
 	const [displayData, setDisplayData] = useState<PreparedResult | null>(null);
 
 	useEffect(() => {
-		let { preparedData, lineChartData, barChartData, total } = prepareDayData(
-			traffic?.day,
-			previousDays,
-		);
+		let { preparedData, lineChartData, barChartData, total } =
+			prepareDayData(traffic?.day, previousDays);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
 	}, [previousDays, traffic]);
 
@@ -37,8 +38,8 @@ export default function Hour() {
 					<SwitchBar
 						state={previousDays}
 						setState={setPreviousDays}
-						dateFormat='MMM dd'
-						interval='day'
+						dateFormat="MMM dd"
+						interval="day"
 						canGoToNext={previousDays > 0}
 						canGoToPrevious={true}
 					/>

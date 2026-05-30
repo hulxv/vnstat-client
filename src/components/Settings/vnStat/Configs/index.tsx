@@ -54,19 +54,22 @@ function Configs({}) {
 
 	return (
 		<Stack>
-			<Heading alignSelf='center' size='md'>
+			<Heading alignSelf="center" size="md">
 				Configurations
 			</Heading>
 
 			<Stack>
 				<HStack>
-					<Heading size='sm'>Date Format</Heading>
-					<Tooltip label={Notes.dateFormat} hasArrow placement='right'>
+					<Heading size="sm">Date Format</Heading>
+					<Tooltip
+						label={Notes.dateFormat}
+						hasArrow
+						placement="right">
 						<IconButton
-							aria-label='Date format information'
-							cursor='default'
+							aria-label="Date format information"
+							cursor="default"
 							icon={<HiInformationCircle />}
-							variant='ghost'
+							variant="ghost"
 						/>
 					</Tooltip>
 				</HStack>
@@ -75,54 +78,71 @@ function Configs({}) {
 						<Stack>
 							{!dateFormat[date]?.startsWith('"') ||
 								(!dateFormat[date]?.endsWith('"') && (
-									<Alert status='warning'>
+									<Alert status="warning">
 										<AlertIcon />
 
 										<AlertDescription>
-											Format must be between double quotations mark like this
-											"%Y-%m-%d" !
+											Format must be between double
+											quotations mark like this "%Y-%m-%d"
+											!
 										</AlertDescription>
 									</Alert>
 								))}
-							<HStack justify='space-between' key={`${date}-${index}`}>
+							<HStack
+								justify="space-between"
+								key={`${date}-${index}`}>
 								<Box>{date}</Box>
 								<HStack>
 									{dateFormat[date] === null && (
 										<Tooltip
 											hasArrow
-											placement='right'
+											placement="right"
 											label="This attribute is disabled, You should change the value and save to enable it. But if wasn't enabled, You should add it for config file manually">
 											<IconButton
-												aria-label='Attribute is disabled'
-												size='sm'
-												icon={<RiErrorWarningLine size='1.2em' />}
-												variant='ghost'
+												aria-label="Attribute is disabled"
+												size="sm"
+												icon={
+													<RiErrorWarningLine size="1.2em" />
+												}
+												variant="ghost"
 											/>
 										</Tooltip>
 									)}
-									{defaultDateFormat[date] !== dateFormat[date] && (
-										<Tooltip label='Reset'>
+									{defaultDateFormat[date] !==
+										dateFormat[date] && (
+										<Tooltip label="Reset">
 											<IconButton
-												aria-label='Reset date format'
-												icon={<BiReset size='1.2em' />}
-												variant='ghost'
+												aria-label="Reset date format"
+												icon={<BiReset size="1.2em" />}
+												variant="ghost"
 												onClick={() => {
-													changeVnStatConfigs(date, defaultDateFormat[date]);
+													changeVnStatConfigs(
+														date,
+														defaultDateFormat[date]
+													);
 
 													setDateFormat({
 														...dateFormat,
-														[date]: defaultDateFormat[date],
+														[date]: defaultDateFormat[
+															date
+														],
 													});
 												}}
 											/>
 										</Tooltip>
 									)}
 									<Input
-										w='300px'
+										w="300px"
 										value={dateFormat[date]}
-										onChange={(e) => {
-											setDateFormat({ ...dateFormat, [date]: e.target.value });
-											changeVnStatConfigs(date, e.target.value);
+										onChange={e => {
+											setDateFormat({
+												...dateFormat,
+												[date]: e.target.value,
+											});
+											changeVnStatConfigs(
+												date,
+												e.target.value
+											);
 											// console.log(e.target.value);
 										}}
 									/>

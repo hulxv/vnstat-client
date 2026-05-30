@@ -1,6 +1,6 @@
+use crate::AppState;
 use serde::{Deserialize, Serialize};
 use tauri::State;
-use crate::AppState;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ConnectResponse {
@@ -19,10 +19,7 @@ pub fn server_is_connected(state: State<AppState>) -> serde_json::Value {
 }
 
 #[tauri::command]
-pub fn server_connect(
-    _address: String,
-    _password: String,
-) -> ConnectResponse {
+pub fn server_connect(_address: String, _password: String) -> ConnectResponse {
     ConnectResponse {
         status: "error".into(),
         title: "Server support coming soon".into(),

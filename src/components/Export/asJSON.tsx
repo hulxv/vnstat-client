@@ -37,7 +37,11 @@ export default function AsJSON() {
 			});
 			setJson(JSON.parse(raw));
 		} catch (err) {
-			toast({ description: String(err), status: "error", position: "top" });
+			toast({
+				description: String(err),
+				status: "error",
+				position: "top",
+			});
 		} finally {
 			setIsLoading(false);
 		}
@@ -45,27 +49,54 @@ export default function AsJSON() {
 
 	async function exportJSON() {
 		if (Object.keys(json).length <= 0) {
-			toast({ description: "You should choose a limit!", status: "error", isClosable: true, position: "top" });
+			toast({
+				description: "You should choose a limit!",
+				status: "error",
+				isClosable: true,
+				position: "top",
+			});
 			return;
 		}
 		try {
-			await invoke("export_to_file", { data: JSON.stringify(json), ext: "json" });
+			await invoke("export_to_file", {
+				data: JSON.stringify(json),
+				ext: "json",
+			});
 		} catch (err) {
-			toast({ description: String(err), status: "error", position: "top" });
+			toast({
+				description: String(err),
+				status: "error",
+				position: "top",
+			});
 		}
 	}
 
 	return (
 		<>
-			<Box onClick={onOpen} fontSize='xl' w='full'>JSON</Box>
-			<Modal isOpen={isOpen} scrollBehavior='inside' onClose={() => { onClose(); setJson({}); }} size='xl'>
+			<Box onClick={onOpen} fontSize="xl" w="full">
+				JSON
+			</Box>
+			<Modal
+				isOpen={isOpen}
+				scrollBehavior="inside"
+				onClose={() => {
+					onClose();
+					setJson({});
+				}}
+				size="xl">
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Export as JSON</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Flex flexDir='column'>
-							<Select variant='filled' m='10px' placeholder='limit' textTransform='capitalize' alignSelf='center' onChange={e => viewJSON(e.target.value)}>
+						<Flex flexDir="column">
+							<Select
+								variant="filled"
+								m="10px"
+								placeholder="limit"
+								textTransform="capitalize"
+								alignSelf="center"
+								onChange={e => viewJSON(e.target.value)}>
 								{[
 									{ limit: "a", label: "all" },
 									{ limit: "f", label: "5 min" },
@@ -75,11 +106,20 @@ export default function AsJSON() {
 									{ limit: "y", label: "years" },
 									{ limit: "t", label: "top" },
 								].map((e, index) => (
-									<option key={index} value={e.limit} style={{ textTransform: "capitalize" }}>{e.label}</option>
+									<option
+										key={index}
+										value={e.limit}
+										style={{ textTransform: "capitalize" }}>
+										{e.label}
+									</option>
 								))}
 							</Select>
 							{isLoading ? (
-								<Spinner size='xl' alignSelf='center' color='green.500' />
+								<Spinner
+									size="xl"
+									alignSelf="center"
+									color="green.500"
+								/>
 							) : (
 								<Suspense fallback={null}>
 									<JsonViewer collapsed={2} src={json} />
@@ -88,8 +128,23 @@ export default function AsJSON() {
 						</Flex>
 					</ModalBody>
 					<ModalFooter>
-						<Button variant='ghost' mr={3} onClick={() => { setJson({}); onClose(); }}>Close</Button>
-						<Button colorScheme={config?.appearance?.globalTheme ?? "green"} onClick={exportJSON} isDisabled={Object.keys(json).length <= 0}>Export</Button>
+						<Button
+							variant="ghost"
+							mr={3}
+							onClick={() => {
+								setJson({});
+								onClose();
+							}}>
+							Close
+						</Button>
+						<Button
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
+							onClick={exportJSON}
+							isDisabled={Object.keys(json).length <= 0}>
+							Export
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>

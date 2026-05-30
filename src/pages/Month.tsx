@@ -1,7 +1,10 @@
 import NotFound from "./NotFound";
 
 import { useState, useEffect } from "react";
-import { prepareMonthData, type PreparedResult } from "@Util/PrepareDataToDisplay";
+import {
+	prepareMonthData,
+	type PreparedResult,
+} from "@Util/PrepareDataToDisplay";
 
 // Components
 import DataDisplay from "@Components/DataDisplay";
@@ -17,10 +20,8 @@ export default function Month() {
 	const { traffic } = useVnStat();
 
 	useEffect(() => {
-		let { preparedData, lineChartData, barChartData, total } = prepareMonthData(
-			traffic?.month,
-			previousMonths,
-		);
+		let { preparedData, lineChartData, barChartData, total } =
+			prepareMonthData(traffic?.month, previousMonths);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
 	}, [previousMonths, traffic]);
 
@@ -36,8 +37,8 @@ export default function Month() {
 					<SwitchBar
 						state={previousMonths}
 						setState={setPreviousMonths}
-						dateFormat='yyyy MMMM'
-						interval='month'
+						dateFormat="yyyy MMMM"
+						interval="month"
 						canGoToNext={previousMonths > 0}
 						canGoToPrevious={true}
 					/>

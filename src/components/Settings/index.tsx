@@ -55,13 +55,8 @@ export default function Settings({ children }: { children: ReactNode }) {
 		onClose: onAlertDialogClose,
 	} = useDisclosure();
 
-	const {
-		isConfigChanged,
-		configs,
-		changes,
-		resetVnConfigs,
-		saveChanges,
-	} = useVnStat();
+	const { isConfigChanged, configs, changes, resetVnConfigs, saveChanges } =
+		useVnStat();
 	const { config } = useConfig();
 
 	useHotkeys("ctrl+s", onOpen);
@@ -71,9 +66,9 @@ export default function Settings({ children }: { children: ReactNode }) {
 			<div onClick={onOpen}>{children}</div>
 
 			<Modal
-				scrollBehavior='inside'
+				scrollBehavior="inside"
 				isOpen={isOpen}
-				size='3xl'
+				size="3xl"
 				onClose={() => {
 					resetVnConfigs();
 					onClose();
@@ -83,7 +78,7 @@ export default function Settings({ children }: { children: ReactNode }) {
 					<ModalHeader>Settings {"&"} Configuration</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Tabs size='md' variant='enclosed'>
+						<Tabs size="md" variant="enclosed">
 							<TabList>
 								<Tab>General</Tab>
 								<Tab>vnStat</Tab>
@@ -124,7 +119,7 @@ export default function Settings({ children }: { children: ReactNode }) {
 
 					<ModalFooter>
 						<Button
-							variant='ghost'
+							variant="ghost"
 							mx={1}
 							onClick={() => {
 								resetVnConfigs();
@@ -134,12 +129,14 @@ export default function Settings({ children }: { children: ReactNode }) {
 						</Button>
 						<Tooltip
 							hasArrow
-							placement='top'
-							label='Save Changes in vnStat Configurations'>
+							placement="top"
+							label="Save Changes in vnStat Configurations">
 							<Button
 								isDisabled={!isConfigChanged} // * Enabled only when configs is changing
 								onClick={onAlertDialogOpen}
-								colorScheme={config?.appearance?.globalTheme ?? "green"}
+								colorScheme={
+									config?.appearance?.globalTheme ?? "green"
+								}
 								mr={3}>
 								Save Changes
 							</Button>
@@ -149,7 +146,7 @@ export default function Settings({ children }: { children: ReactNode }) {
 			</Modal>
 
 			<AlertDialog
-				motionPreset='slideInBottom'
+				motionPreset="slideInBottom"
 				leastDestructiveRef={cancelRef}
 				onClose={onAlertDialogClose}
 				isOpen={isAlertDialogOpen}
@@ -160,9 +157,12 @@ export default function Settings({ children }: { children: ReactNode }) {
 					<AlertDialogHeader>Save Changes?</AlertDialogHeader>
 					<AlertDialogCloseButton />
 					<AlertDialogBody>
-						Are you sure you want to changes for vnStat configurations ?
-						<Table variant='striped'>
-							<TableCaption>Properties which changed</TableCaption>
+						Are you sure you want to changes for vnStat
+						configurations ?
+						<Table variant="striped">
+							<TableCaption>
+								Properties which changed
+							</TableCaption>
 							<Thead>
 								<Tr>
 									<Th>Property</Th>
@@ -171,14 +171,14 @@ export default function Settings({ children }: { children: ReactNode }) {
 								</Tr>
 							</Thead>
 							<Tbody>
-								{changes.map((obj) =>
+								{changes.map(obj =>
 									Object.entries(obj).map((o, index) => (
 										<Tr key={index}>
 											<Td>{o[0]}</Td>
 											<Td>{configs[o[0]]}</Td>
 											<Td>{o[1]}</Td>
 										</Tr>
-									)),
+									))
 								)}
 							</Tbody>
 						</Table>
@@ -186,7 +186,9 @@ export default function Settings({ children }: { children: ReactNode }) {
 					<AlertDialogFooter>
 						<Button onClick={onAlertDialogClose}>Cancel</Button>
 						<Button
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
 							ml={3}
 							onClick={() => {
 								saveChanges();

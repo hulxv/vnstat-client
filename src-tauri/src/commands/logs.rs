@@ -1,6 +1,6 @@
+use crate::AppState;
 use serde::{Deserialize, Serialize};
 use tauri::{Manager, State};
-use crate::AppState;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LogEntry {
@@ -16,31 +16,34 @@ pub struct LogsResult {
 }
 
 #[tauri::command]
-pub fn get_logs(
-    app: tauri::AppHandle,
-    state: State<AppState>,
-) -> LogsResult {
+pub fn get_logs(app: tauri::AppHandle, state: State<AppState>) -> LogsResult {
     let entries = state.logs.lock().unwrap().clone();
     let path = log_file_path(&app)
         .map(|p| p.display().to_string())
         .unwrap_or_default();
-    LogsResult { path, lines: entries }
+    LogsResult {
+        path,
+        lines: entries,
+    }
 }
 
 #[tauri::command]
-pub fn clear_logs(
-    app: tauri::AppHandle,
-    state: State<AppState>,
-) -> LogsResult {
+pub fn clear_logs(app: tauri::AppHandle, state: State<AppState>) -> LogsResult {
     state.logs.lock().unwrap().clear();
     if let Some(path) = log_file_path(&app) {
         let _ = std::fs::write(&path, "");
     }
-    LogsResult { path: String::new(), lines: vec![] }
+    LogsResult {
+        path: String::new(),
+        lines: vec![],
+    }
 }
 
 fn log_file_path(app: &tauri::AppHandle) -> Option<std::path::PathBuf> {
-    app.path().app_log_dir().ok().map(|d| d.join("vnstat-client.log"))
+    app.path()
+        .app_log_dir()
+        .ok()
+        .map(|d| d.join("vnstat-client.log"))
 }
 
 /// Append a log entry to both in-memory state and the log file.
@@ -63,7 +66,11 @@ pub fn append_log(app: &tauri::AppHandle, state: &AppState, status: &str, conten
         }
         let line = format!("[{date}] [{status}] {content}\n");
         use std::io::Write;
-        if let Ok(mut file) = std::fs::OpenOptions::new().append(true).create(true).open(&path) {
+        if let Ok(mut file) = std::fs::OpenOptions::new()
+            .append(true)
+            .create(true)
+            .open(&path)
+        {
             let _ = file.write_all(line.as_bytes());
         }
     }

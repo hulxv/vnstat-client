@@ -14,8 +14,8 @@ export default function PageLayout({ children }: { children: ReactNode }) {
 			<AvailableUpdateAlert />
 			<VnStatIsNotInstalledAlert />
 			<DatabaseNotFoundAlert />
-			<Stack h='100vh' align='center' overflow='auto'>
-				<Stack w='full' align='center' mb={8}>
+			<Stack h="100vh" align="center" overflow="auto">
+				<Stack w="full" align="center" mb={8}>
 					<Header />
 					<NavigationBar />
 				</Stack>

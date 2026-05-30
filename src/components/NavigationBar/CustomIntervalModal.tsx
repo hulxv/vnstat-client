@@ -45,7 +45,7 @@ export default function CustomIntervalModal({
 
 	return (
 		<>
-			<Box onClick={onOpen} w='full'>
+			<Box onClick={onOpen} w="full">
 				{children}
 			</Box>
 
@@ -60,7 +60,7 @@ export default function CustomIntervalModal({
 					<ModalHeader>Custom Interval</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Flex w='full' align='center' justify='center'>
+						<Flex w="full" align="center" justify="center">
 							<Calendar
 								value={selectedDayRange}
 								onChange={setSelectedDayRange}
@@ -71,7 +71,7 @@ export default function CustomIntervalModal({
 
 					<ModalFooter>
 						<Button
-							variant='ghost'
+							variant="ghost"
 							mr={3}
 							onClick={() => {
 								setModalState(false);
@@ -80,9 +80,12 @@ export default function CustomIntervalModal({
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
 							isDisabled={
-								selectedDayRange.to === null || selectedDayRange.from === null
+								selectedDayRange.to === null ||
+								selectedDayRange.from === null
 							}
 							onClick={() => {
 								const { to, from } = selectedDayRange;

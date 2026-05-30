@@ -66,12 +66,12 @@ function AvailableUpdateAlert() {
 	useEffect(() => {
 		const unlisten: UnlistenFn[] = [];
 
-		listen<UpdateInfo>("update-available", (e) => {
+		listen<UpdateInfo>("update-available", e => {
 			onOpen();
 			setReleaseData(e.payload);
 		}).then(u => unlisten.push(u));
 
-		listen<DownloadProgress>("download-update-progress", (e) => {
+		listen<DownloadProgress>("download-update-progress", e => {
 			setDownloadProgress(e.payload);
 		}).then(u => unlisten.push(u));
 
@@ -90,7 +90,7 @@ function AvailableUpdateAlert() {
 	return (
 		<>
 			<AlertDialog
-				motionPreset='slideInBottom'
+				motionPreset="slideInBottom"
 				leastDestructiveRef={cancelRef}
 				onClose={onClose}
 				isOpen={isOpen}
@@ -98,29 +98,38 @@ function AvailableUpdateAlert() {
 				<AlertDialogOverlay />
 
 				<AlertDialogContent>
-					<AlertDialogHeader>{releaseData?.tag} Released !</AlertDialogHeader>
+					<AlertDialogHeader>
+						{releaseData?.tag} Released !
+					</AlertDialogHeader>
 					<AlertDialogCloseButton />
 					<AlertDialogBody>
 						<Stack>
 							{isUpdateDownloaded && (
-								<Alert status='success'>
-									<Stack align='center' flex='1'>
+								<Alert status="success">
+									<Stack align="center" flex="1">
 										<HStack>
-											<AlertTitle>Update Downloaded!</AlertTitle>
+											<AlertTitle>
+												Update Downloaded!
+											</AlertTitle>
 											<AlertIcon />
 										</HStack>
-										<AlertDescription display='block'>
-											Do you want to restart app to install new update?
+										<AlertDescription display="block">
+											Do you want to restart app to
+											install new update?
 										</AlertDescription>
 										<Button
-											onClick={() => invoke("quit_and_update").catch(console.error)}
-											variant='ghost'>
+											onClick={() =>
+												invoke("quit_and_update").catch(
+													console.error
+												)
+											}
+											variant="ghost">
 											Restart
 										</Button>
 									</Stack>
 								</Alert>
 							)}
-							<Heading size='md'>What's new ?</Heading>
+							<Heading size="md">What's new ?</Heading>
 							<Text
 								css={css`
 									${new Array(6)
@@ -129,7 +138,7 @@ function AvailableUpdateAlert() {
 											(e, index) =>
 												`h${index} {
 												font-size: ${28 - index * 4}px
-											}`,
+											}`
 										)
 										.join("\n")}
 									a {
@@ -144,46 +153,76 @@ function AvailableUpdateAlert() {
 								`}
 								textDecoration={true as unknown as undefined}
 								pl={4}
-								fontSize='small'
-								onClick={(e) => {
+								fontSize="small"
+								onClick={e => {
 									e.preventDefault();
-									const url = (e.target as HTMLElement).getAttribute("href");
+									const url = (
+										e.target as HTMLElement
+									).getAttribute("href");
 									if (url !== null) {
-										invoke("open_url", { url }).catch(console.error);
+										invoke("open_url", { url }).catch(
+											console.error
+										);
 									}
 								}}
 								dangerouslySetInnerHTML={{
 									__html: releaseData?.releaseNotes ?? "",
 								}}
 							/>
-							<HStack alignSelf='end' justify='revert' mt={4}>
+							<HStack alignSelf="end" justify="revert" mt={4}>
 								{releaseData !== null && (
 									<>
 										{releaseData?.files?.map((e, index) => (
-											<Tooltip key={index} label={e?.url} hasArrow>
+											<Tooltip
+												key={index}
+												label={e?.url}
+												hasArrow>
 												<Tag
-													size='md'
-													variant='subtle'
+													size="md"
+													variant="subtle"
 													colorScheme={
-														config?.appearance?.globalTheme ?? "green"
+														config?.appearance
+															?.globalTheme ??
+														"green"
 													}>
 													<TagLeftIcon
-														boxSize='12px'
-														as={MdOutlineInsertDriveFile}
+														boxSize="12px"
+														as={
+															MdOutlineInsertDriveFile
+														}
 													/>
 													<TagLabel>
-														{Math.round(e.size / Math.pow(1024, 2))}MB
+														{Math.round(
+															e.size /
+																Math.pow(
+																	1024,
+																	2
+																)
+														)}
+														MB
 													</TagLabel>
 												</Tag>
 											</Tooltip>
 										))}
 										<Tag
-											size='md'
-											variant='subtle'
-											colorScheme={config?.appearance?.globalTheme ?? "green"}>
-											<TagLeftIcon boxSize='12px' as={MdDateRange} />
+											size="md"
+											variant="subtle"
+											colorScheme={
+												config?.appearance
+													?.globalTheme ?? "green"
+											}>
+											<TagLeftIcon
+												boxSize="12px"
+												as={MdDateRange}
+											/>
 											<TagLabel>
-												{format(new Date(releaseData?.releaseDate ?? ""), "MMM d Y")}
+												{format(
+													new Date(
+														releaseData?.releaseDate ??
+															""
+													),
+													"MMM d Y"
+												)}
 											</TagLabel>
 										</Tag>
 									</>
@@ -192,30 +231,34 @@ function AvailableUpdateAlert() {
 						</Stack>
 					</AlertDialogBody>
 					<AlertDialogFooter>
-						<Button variant='ghost' onClick={onClose}>
+						<Button variant="ghost" onClick={onClose}>
 							Later
 						</Button>
 						<Button
 							onClick={() => {
-								if (isUpdateDownloaded || isUpdateStartDownload) return;
+								if (isUpdateDownloaded || isUpdateStartDownload)
+									return;
 								setIsUpdateStartDownload(true);
-								invoke("start_download_new_update").catch(console.error);
+								invoke("start_download_new_update").catch(
+									console.error
+								);
 							}}
 							colorScheme={
 								isThereUpdateError
 									? "red"
-									: config?.appearance?.globalTheme ?? "green"
+									: (config?.appearance?.globalTheme ??
+										"green")
 							}
 							ml={3}>
 							{isThereUpdateError
 								? "Retry"
 								: isUpdateDownloaded
-								? "Done"
-								: `${
-										downloadProgress !== null
-											? `${Math.round(downloadProgress.percent)}%`
-											: "Update Now"
-								  }`}
+									? "Done"
+									: `${
+											downloadProgress !== null
+												? `${Math.round(downloadProgress.percent)}%`
+												: "Update Now"
+										}`}
 						</Button>
 					</AlertDialogFooter>
 				</AlertDialogContent>

@@ -1,6 +1,6 @@
-use rusqlite::Connection;
 use crate::error::{Result, VnstatError};
 use crate::types::{Interface, SummaryData, SummaryEntry, TrafficData, TrafficEntry, VnInfo};
+use rusqlite::Connection;
 
 const DEFAULT_DB_PATH: &str = "/var/lib/vnstat/vnstat.db";
 
@@ -31,7 +31,8 @@ impl Database {
                 tx: row.get(4)?,
             })
         })?;
-        rows.collect::<rusqlite::Result<Vec<_>>>().map_err(Into::into)
+        rows.collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(Into::into)
     }
 
     pub fn daily(&self) -> Result<Vec<TrafficEntry>> {
@@ -62,7 +63,8 @@ impl Database {
                 txtotal: row.get(7)?,
             })
         })?;
-        rows.collect::<rusqlite::Result<Vec<_>>>().map_err(Into::into)
+        rows.collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(Into::into)
     }
 
     pub fn info(&self) -> Result<Vec<VnInfo>> {
@@ -73,7 +75,8 @@ impl Database {
                 value: row.get(1)?,
             })
         })?;
-        rows.collect::<rusqlite::Result<Vec<_>>>().map_err(Into::into)
+        rows.collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(Into::into)
     }
 
     /// Returns today's date as "YYYY-MM-DD".
@@ -116,20 +119,27 @@ impl Database {
         let month_start = Self::this_month_start();
 
         let zero_entry = |date: &str| TrafficEntry {
-            id: 0, interface: 0, date: date.to_owned(), rx: 0, tx: 0,
+            id: 0,
+            interface: 0,
+            date: date.to_owned(),
+            rx: 0,
+            tx: 0,
         };
 
-        let today_data = daily.iter()
+        let today_data = daily
+            .iter()
             .find(|e| e.date == today)
             .cloned()
             .unwrap_or_else(|| zero_entry(&today));
 
-        let yesterday_data = daily.iter()
+        let yesterday_data = daily
+            .iter()
             .find(|e| e.date == yesterday)
             .cloned()
             .unwrap_or_else(|| zero_entry(&yesterday));
 
-        let this_month_data = monthly.iter()
+        let this_month_data = monthly
+            .iter()
             .find(|e| e.date == month_start)
             .cloned()
             .unwrap_or_else(|| zero_entry(&month_start));

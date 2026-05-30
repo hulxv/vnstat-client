@@ -1,5 +1,5 @@
-use std::sync::Mutex;
 use serde_json::{json, Value};
+use std::sync::Mutex;
 use tauri::Manager;
 
 pub mod commands;
@@ -66,9 +66,10 @@ fn load_app_config(app: &tauri::AppHandle) -> Value {
 }
 
 pub fn persist_app_config(app: &tauri::AppHandle, config: &Value) -> std::io::Result<()> {
-    let dir = app.path().app_config_dir().map_err(|e| {
-        std::io::Error::new(std::io::ErrorKind::Other, e.to_string())
-    })?;
+    let dir = app
+        .path()
+        .app_config_dir()
+        .map_err(|e| std::io::Error::other(e.to_string()))?;
     std::fs::create_dir_all(&dir)?;
     let content = serde_json::to_string_pretty(config).unwrap_or_default();
     std::fs::write(dir.join("config.json"), content)
@@ -99,7 +100,13 @@ fn setup_tray(app: &tauri::App) -> tauri::Result<()> {
         tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
     };
 
-    let check_item = MenuItem::with_id(app, "check_updates", "Check for updates", true, None::<&str>)?;
+    let check_item = MenuItem::with_id(
+        app,
+        "check_updates",
+        "Check for updates",
+        true,
+        None::<&str>,
+    )?;
     let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
     let menu = Menu::with_items(app, &[&check_item, &quit_item])?;
 
@@ -182,9 +189,10 @@ fn setup_menu(app: &tauri::App) -> tauri::Result<()> {
         }
         "report_issue" => {
             use tauri_plugin_opener::OpenerExt;
-            let _ = app
-                .opener()
-                .open_url("https://github.com/Hulxv/vnstat-client/issues", None::<&str>);
+            let _ = app.opener().open_url(
+                "https://github.com/Hulxv/vnstat-client/issues",
+                None::<&str>,
+            );
         }
         _ => {}
     });

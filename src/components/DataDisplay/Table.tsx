@@ -17,7 +17,7 @@ function formatUsage(value: number): string {
 
 function TableComponent({ data }: { data: TableRow[] }) {
 	return (
-		<Table variant='striped'>
+		<Table variant="striped">
 			<Thead>
 				<Tr>
 					<Th>Date / Time</Th>
@@ -32,7 +32,9 @@ function TableComponent({ data }: { data: TableRow[] }) {
 					<Tr key={index}>
 						<Td>{traffic.date}</Td>
 						<Td>{traffic.interface ?? "-"}</Td>
-						<Td isNumeric>{formatUsage(traffic.rx + traffic.tx)}</Td>
+						<Td isNumeric>
+							{formatUsage(traffic.rx + traffic.tx)}
+						</Td>
 						<Td isNumeric>{formatUsage(traffic.rx)}</Td>
 						<Td isNumeric>{formatUsage(traffic.tx)}</Td>{" "}
 					</Tr>

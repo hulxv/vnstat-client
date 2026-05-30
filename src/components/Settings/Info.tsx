@@ -27,26 +27,42 @@ function Info() {
 
 	return (
 		<Stack spacing={4} alignSelf="center" align="center">
-			<img src="/images/vnclient-icon.png" width="250" height="250" alt="vnStat Client Icon" />
+			<img
+				src="/images/vnclient-icon.png"
+				width="250"
+				height="250"
+				alt="vnStat Client Icon"
+			/>
 			<Heading size="md">
 				{information.find(info => info.name === "version")?.value}
 			</Heading>
 			<Button
 				colorScheme={config?.appearance?.globalTheme ?? "green"}
 				maxW={300}
-				onClick={() => invoke("open_url", { url: "https://github.com/Hulxv/vnstat-client/releases" }).catch(console.error)}>
+				onClick={() =>
+					invoke("open_url", {
+						url: "https://github.com/Hulxv/vnstat-client/releases",
+					}).catch(console.error)
+				}>
 				Check for updates
 			</Button>
 			<Tooltip label="Open in Browser" hasArrow>
 				<Button
 					colorScheme={config?.appearance?.globalTheme ?? "green"}
 					variant="link"
-					onClick={() => invoke("open_url", { url: "https://github.com/Hulxv/vnstat-client" }).catch(console.error)}>
+					onClick={() =>
+						invoke("open_url", {
+							url: "https://github.com/Hulxv/vnstat-client",
+						}).catch(console.error)
+					}>
 					Source Code
 				</Button>
 			</Tooltip>
 			{information.length > 0 && (
-				<Tooltip hasArrow placement="top" label={`Show ${showMoreInfo ? "less" : "more"} information about vnStat`}>
+				<Tooltip
+					hasArrow
+					placement="top"
+					label={`Show ${showMoreInfo ? "less" : "more"} information about vnStat`}>
 					<IconButton
 						aria-label={`Show ${showMoreInfo ? "less" : "more"} information`}
 						variant="ghost"
@@ -57,12 +73,16 @@ function Info() {
 			)}
 			{showMoreInfo && (
 				<HStack spacing={10} alignSelf="center">
-					{information.filter(info => info.name !== "version").map((info, index) => (
-						<Stack align="center" spacing={0.5} key={index}>
-							<Heading size="xs" opacity="50%">{info?.name}</Heading>
-							<Heading size="sm">{info?.value}</Heading>
-						</Stack>
-					))}
+					{information
+						.filter(info => info.name !== "version")
+						.map((info, index) => (
+							<Stack align="center" spacing={0.5} key={index}>
+								<Heading size="xs" opacity="50%">
+									{info?.name}
+								</Heading>
+								<Heading size="sm">{info?.value}</Heading>
+							</Stack>
+						))}
 				</HStack>
 			)}
 		</Stack>

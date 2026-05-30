@@ -40,16 +40,16 @@ function BarChart() {
 	const { config, EditConfig } = useConfig();
 
 	return (
-		<Stack spacing={2} flexDir='column' w='full'>
+		<Stack spacing={2} flexDir="column" w="full">
 			<HStack>
-				<Heading size='sm'>Bar Chart</Heading>
+				<Heading size="sm">Bar Chart</Heading>
 				<Popover>
 					<PopoverTrigger>
 						<IconButton
-							aria-label='Bar chart documentation'
-							size='sm'
-							variant='ghost'
-							icon={<GrInfo size='1.3em' />}
+							aria-label="Bar chart documentation"
+							size="sm"
+							variant="ghost"
+							icon={<GrInfo size="1.3em" />}
 						/>
 					</PopoverTrigger>
 					<PopoverContent>
@@ -59,9 +59,11 @@ function BarChart() {
 							<HStack>
 								<span>Go to</span>
 								<Link
-									color='green'
+									color="green"
 									onClick={() =>
-										invoke("open_url", { url: "https://nivo.rocks/bar/" }).catch(console.error)
+										invoke("open_url", {
+											url: "https://nivo.rocks/bar/",
+										}).catch(console.error)
 									}>
 									Nivo Charts Docs
 								</Link>
@@ -74,34 +76,47 @@ function BarChart() {
 
 			{config && (
 				<Stack>
-					<HStack alignSelf='start'>
+					<HStack alignSelf="start">
 						<Box>Grouped mode</Box>
 						<Switch
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
-							defaultChecked={config.appearance?.barChart.isGrouped}
-							onChange={(e) =>
-								EditConfig("appearance.barChart.isGrouped", e.target.checked)
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
+							defaultChecked={
+								config.appearance?.barChart.isGrouped
+							}
+							onChange={e =>
+								EditConfig(
+									"appearance.barChart.isGrouped",
+									e.target.checked
+								)
 							}
 						/>
 					</HStack>
-					<HStack alignSelf='start' spacing={2.5}>
+					<HStack alignSelf="start" spacing={2.5}>
 						<Box>Colors</Box>
 						<Select
 							value={config.appearance?.barChart.colors}
-							onChange={(e) =>
-								EditConfig("appearance.barChart.colors", e.target.value)
+							onChange={e =>
+								EditConfig(
+									"appearance.barChart.colors",
+									e.target.value
+								)
 							}>
 							{Colors.map((color, index) => (
 								<option key={index}>{color}</option>
 							))}
 						</Select>
 					</HStack>
-					<HStack alignSelf='start'>
+					<HStack alignSelf="start">
 						<Box>Layout</Box>
 						<Select
 							value={config.appearance?.barChart.layout}
-							onChange={(e) =>
-								EditConfig("appearance.barChart.layout", e.target.value)
+							onChange={e =>
+								EditConfig(
+									"appearance.barChart.layout",
+									e.target.value
+								)
 							}>
 							<option>horizontal</option>
 							<option>vertical</option>

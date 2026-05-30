@@ -38,21 +38,36 @@ export default function ExportAsJsonModal({
 	}
 
 	return (
-		<Modal isOpen={isOpen} scrollBehavior='inside' onClose={onClose} size='xl'>
+		<Modal
+			isOpen={isOpen}
+			scrollBehavior="inside"
+			onClose={onClose}
+			size="xl">
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader>Export Network Statistics Records as JSON</ModalHeader>
+				<ModalHeader>
+					Export Network Statistics Records as JSON
+				</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody>
 					<Stack>
 						<Suspense fallback={null}>
-							<JsonViewer collapsed={2} src={recordedNetworkStats} />
+							<JsonViewer
+								collapsed={2}
+								src={recordedNetworkStats}
+							/>
 						</Suspense>
 					</Stack>
 				</ModalBody>
 				<ModalFooter>
-					<Button variant='ghost' mr={3} onClick={onClose}>Close</Button>
-					<Button colorScheme={config?.appearance?.globalTheme ?? "green"} onClick={exportAsJSON}>Export</Button>
+					<Button variant="ghost" mr={3} onClick={onClose}>
+						Close
+					</Button>
+					<Button
+						colorScheme={config?.appearance?.globalTheme ?? "green"}
+						onClick={exportAsJSON}>
+						Export
+					</Button>
 				</ModalFooter>
 			</ModalContent>
 		</Modal>

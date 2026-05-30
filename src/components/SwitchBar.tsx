@@ -12,7 +12,12 @@ import {
 import { GrPowerReset } from "react-icons/gr";
 
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import { useEffect, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import {
+	useEffect,
+	type Dispatch,
+	type ReactNode,
+	type SetStateAction,
+} from "react";
 // import { useHotkeys } from "react-hotkeys-hook";
 
 interface SwitchBarProps {
@@ -47,7 +52,8 @@ export default function SwitchBar({
 	function ArrowPressHandler(e: KeyboardEvent) {
 		switch (e.key) {
 			case "ArrowLeft":
-				if (canGoToPrevious) setTimeout(() => setState?.(state + 1), 10);
+				if (canGoToPrevious)
+					setTimeout(() => setState?.(state + 1), 10);
 				break;
 			case "ArrowRight":
 				if (canGoToNext) setTimeout(() => setState?.(state - 1), 10);
@@ -63,45 +69,46 @@ export default function SwitchBar({
 	}, [ArrowPressHandler]);
 
 	return (
-		<Flex align='center' justify='space-around' w='full' mb={4}>
-			<Box w='30px'>
+		<Flex align="center" justify="space-around" w="full" mb={4}>
+			<Box w="30px">
 				{canGoToPrevious && (
-					<Tooltip label='Previous'>
+					<Tooltip label="Previous">
 						<IconButton
-							aria-label='Previous'
-							variant='ghost'
-							icon={<HiArrowLeft size='1.4em' />}
+							aria-label="Previous"
+							variant="ghost"
+							icon={<HiArrowLeft size="1.4em" />}
 							onClick={() => setState?.(state + 1)}
 						/>
 					</Tooltip>
 				)}
 			</Box>
-			<Flex flexDir='column' alignItems='center'>
+			<Flex flexDir="column" alignItems="center">
 				<Heading>
-					{title || format(subs[interval](), dateFormat || "yyyy MM dd")}
+					{title ||
+						format(subs[interval](), dateFormat || "yyyy MM dd")}
 				</Heading>
 				{(durationInDays ?? 0) > 0 && (
-					<Heading size='sm'>
+					<Heading size="sm">
 						{`${durationInDays} ${(durationInDays ?? 0) > 1 ? "Days" : "Day"}`}
 					</Heading>
 				)}
 				{canReset && (
 					<Button
-						size='xs'
-						variant='ghost'
+						size="xs"
+						variant="ghost"
 						leftIcon={<GrPowerReset />}
 						onClick={() => setState?.(0)}>
 						Reset
 					</Button>
 				)}
 			</Flex>
-			<Box w='30px'>
+			<Box w="30px">
 				{canGoToNext && (
-					<Tooltip label='Next'>
+					<Tooltip label="Next">
 						<IconButton
-							aria-label='Next'
-							variant='ghost'
-							icon={<HiArrowRight size='1.4em' />}
+							aria-label="Next"
+							variant="ghost"
+							icon={<HiArrowRight size="1.4em" />}
 							onClick={() => setState?.(state - 1)}
 						/>
 					</Tooltip>

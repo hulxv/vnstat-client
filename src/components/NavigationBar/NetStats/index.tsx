@@ -42,7 +42,7 @@ import { BiTimer } from "react-icons/bi";
 export default function NetStats() {
 	const { EditConfig, config } = useConfig();
 	const [refreshTime, setRefreshTime] = useState(
-		config?.netStatsRefreshTime ?? null,
+		config?.netStatsRefreshTime ?? null
 	);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const {
@@ -122,19 +122,19 @@ export default function NetStats() {
 	return (
 		<>
 			<Tooltip
-				label='show more network statistics'
-				textTransform='capitalize'
+				label="show more network statistics"
+				textTransform="capitalize"
 				hasArrow>
 				<Button
-					variant='ghost'
-					colorScheme='whiteAlpha'
-					fontSize='sm'
-					textColor='whiteAlpha.900'
+					variant="ghost"
+					colorScheme="whiteAlpha"
+					fontSize="sm"
+					textColor="whiteAlpha.900"
 					onClick={() => {
 						onOpen();
 					}}
 					h={14}
-					cursor='pointer'>
+					cursor="pointer">
 					<Stack>
 						<HStack>
 							<HiArrowDown />
@@ -154,31 +154,31 @@ export default function NetStats() {
 			</Tooltip>
 
 			<Modal
-				scrollBehavior='inside'
+				scrollBehavior="inside"
 				isOpen={isOpen}
 				onClose={() => {
 					stopRecording();
 					onClose();
 				}}
-				size='4xl'>
+				size="4xl">
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader textTransform='capitalize'>
+					<ModalHeader textTransform="capitalize">
 						Network Statistics {`(${iface})`}
 					</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Stack w='full' align='center' spacing={5}>
-							<HStack justify='space-between' w='full'>
-								<Heading size='sm'>Refresh Time</Heading>
+						<Stack w="full" align="center" spacing={5}>
+							<HStack justify="space-between" w="full">
+								<Heading size="sm">Refresh Time</Heading>
 								<HStack>
 									<NumberInput
 										value={Number(
 											refreshTime === null
 												? config?.netStatsRefreshTime
-												: refreshTime,
+												: refreshTime
 										)}
-										onChange={(value) => {
+										onChange={value => {
 											setRefreshTime(Number(value));
 										}}
 										allowMouseWheel
@@ -195,135 +195,182 @@ export default function NetStats() {
 									<Button
 										isDisabled={
 											Number(refreshTime) ===
-												Number(config?.netStatsRefreshTime) ||
-											refreshTime === null
+												Number(
+													config?.netStatsRefreshTime
+												) || refreshTime === null
 										}
 										onClick={() =>
-											EditConfig("netStatsRefreshTime", refreshTime)
+											EditConfig(
+												"netStatsRefreshTime",
+												refreshTime
+											)
 										}
-										size='sm'
-										colorScheme={config?.appearance?.globalTheme ?? "green"}>
+										size="sm"
+										colorScheme={
+											config?.appearance?.globalTheme ??
+											"green"
+										}>
 										Save
 									</Button>
 								</HStack>
 							</HStack>
-							<Stack w='full' align='center'>
+							<Stack w="full" align="center">
 								<HStack
-									w='full'
-									flexWrap='wrap'
-									justify='space-around'
-									align='start'>
-									<Stack spacing={2} align='center'>
+									w="full"
+									flexWrap="wrap"
+									justify="space-around"
+									align="start">
+									<Stack spacing={2} align="center">
 										<Box>
-											<Tooltip label='Speed'>
-												<Box opacity='80%'>
-													<BsSpeedometer2 size='1.6em' />
+											<Tooltip label="Speed">
+												<Box opacity="80%">
+													<BsSpeedometer2 size="1.6em" />
 												</Box>
 											</Tooltip>
 										</Box>
-										<Stack align='start'>
+										<Stack align="start">
 											<HStack>
 												<HiArrowDown />
 												<Box>
-													{(speed?.rx / 1024)?.toFixed(2)} KB/s {"  "}
+													{(
+														speed?.rx / 1024
+													)?.toFixed(2)}{" "}
+													KB/s {"  "}
 												</Box>
 											</HStack>
 
 											<HStack>
 												<HiArrowUp />
-												<Box>{(speed?.tx / 1024)?.toFixed(2)} KB/s</Box>
+												<Box>
+													{(
+														speed?.tx / 1024
+													)?.toFixed(2)}{" "}
+													KB/s
+												</Box>
 											</HStack>
 										</Stack>
 									</Stack>
-									<Stack align='center'>
-										<Tooltip label='Errors'>
-											<Box opacity='80%'>
-												<RiSignalWifiErrorFill size='1.6em' />
+									<Stack align="center">
+										<Tooltip label="Errors">
+											<Box opacity="80%">
+												<RiSignalWifiErrorFill size="1.6em" />
 											</Box>
 										</Tooltip>
-										<Stack align='start'>
-											{Object.entries(errors).map((e, index) => (
-												<HStack key={index}>
-													<Tooltip label={e[0]} textTransform='capitalize'>
-														<Box>
-															{e[0] === "rx" ? (
-																<HiArrowDown />
-															) : e[0] === "tx" ? (
-																<HiArrowUp />
-															) : (
-																e[0]
-															)}
-														</Box>
-													</Tooltip>
-													<div style={{ fontVariantNumeric: "tabular-nums" }}>
-														{e[1]}
-													</div>
-												</HStack>
-											))}
+										<Stack align="start">
+											{Object.entries(errors).map(
+												(e, index) => (
+													<HStack key={index}>
+														<Tooltip
+															label={e[0]}
+															textTransform="capitalize">
+															<Box>
+																{e[0] ===
+																"rx" ? (
+																	<HiArrowDown />
+																) : e[0] ===
+																  "tx" ? (
+																	<HiArrowUp />
+																) : (
+																	e[0]
+																)}
+															</Box>
+														</Tooltip>
+														<div
+															style={{
+																fontVariantNumeric:
+																	"tabular-nums",
+															}}>
+															{e[1]}
+														</div>
+													</HStack>
+												)
+											)}
 										</Stack>
 									</Stack>
 
-									<Stack align='center'>
-										<Tooltip label='Drops'>
-											<Box opacity='80%'>
-												<IoMdArrowDropdown size='1.6em' />
+									<Stack align="center">
+										<Tooltip label="Drops">
+											<Box opacity="80%">
+												<IoMdArrowDropdown size="1.6em" />
 											</Box>
 										</Tooltip>
-										<Stack align='start'>
-											{Object.entries(errors).map((e, index) => (
-												<HStack key={index}>
-													<Tooltip label={e[0]} textTransform='capitalize'>
-														<Box>
-															{e[0] === "rx" ? (
-																<HiArrowDown />
-															) : e[0] === "tx" ? (
-																<HiArrowUp />
-															) : (
-																e[0]
-															)}
-														</Box>
-													</Tooltip>
-													<div style={{ fontVariantNumeric: "tabular-nums" }}>
-														{e[1]}
-													</div>
-												</HStack>
-											))}
+										<Stack align="start">
+											{Object.entries(errors).map(
+												(e, index) => (
+													<HStack key={index}>
+														<Tooltip
+															label={e[0]}
+															textTransform="capitalize">
+															<Box>
+																{e[0] ===
+																"rx" ? (
+																	<HiArrowDown />
+																) : e[0] ===
+																  "tx" ? (
+																	<HiArrowUp />
+																) : (
+																	e[0]
+																)}
+															</Box>
+														</Tooltip>
+														<div
+															style={{
+																fontVariantNumeric:
+																	"tabular-nums",
+															}}>
+															{e[1]}
+														</div>
+													</HStack>
+												)
+											)}
 										</Stack>
 									</Stack>
 									<Stack>
-										<Tooltip label='MS'>
-											<Box opacity='80%'>
-												<BiTimer size='1.6em' />
+										<Tooltip label="MS">
+											<Box opacity="80%">
+												<BiTimer size="1.6em" />
 											</Box>
 										</Tooltip>
 										<Box>{ms}</Box>
 									</Stack>
 
-									{Object.entries(otherStats).map((e, index) => (
-										<Stack key={index} align='center'>
-											<Box opacity='80%'>{e[0]}</Box>
-											<Box>{e[1] as ReactNode}</Box>
-										</Stack>
-									))}
+									{Object.entries(otherStats).map(
+										(e, index) => (
+											<Stack key={index} align="center">
+												<Box opacity="80%">{e[0]}</Box>
+												<Box>{e[1] as ReactNode}</Box>
+											</Stack>
+										)
+									)}
 								</HStack>
 							</Stack>
-							<Stack align='center' h={500} w='full'>
-								<Heading size='sm'>Speed Chart</Heading>
+							<Stack align="center" h={500} w="full">
+								<Heading size="sm">Speed Chart</Heading>
 								<LineChart
 									data={lineChartData}
 									disableAxisBottom
-									LeftLegend='Speed (KB/S)'
+									LeftLegend="Speed (KB/S)"
 									disableAnimate
 								/>
 							</Stack>
-							<Button leftIcon={<GrPowerReset />} onClick={() => reset()}>
+							<Button
+								leftIcon={<GrPowerReset />}
+								onClick={() => reset()}>
 								Reset Statistics
 							</Button>
 							<Button
 								colorScheme={isRecording ? "red" : "green"}
-								leftIcon={isRecording ? <BsPauseFill /> : <BsPlayFill />}
+								leftIcon={
+									isRecording ? (
+										<BsPauseFill />
+									) : (
+										<BsPlayFill />
+									)
+								}
 								onClick={() =>
-									isRecording ? stopRecording() : startRecording()
+									isRecording
+										? stopRecording()
+										: startRecording()
 								}>
 								{isRecording ? "Stop" : "Start"}
 							</Button>
@@ -331,11 +378,13 @@ export default function NetStats() {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button variant='ghost' mr={3} onClick={onClose}>
+						<Button variant="ghost" mr={3} onClick={onClose}>
 							Close
 						</Button>
 						<Button
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
 							mr={3}
 							isDisabled={isRecording}
 							onClick={onOpenExportModal}>

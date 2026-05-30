@@ -13,7 +13,6 @@ import {
 	type UseToastOptions,
 } from "@chakra-ui/react";
 
-
 import { useConfig } from "@Context/configuration";
 import { useVnStat } from "@Context/vnstat";
 import type { ConnectResponse } from "@Types";
@@ -69,7 +68,11 @@ export default function DisconnectAlert({
 										if (isVnstatDetect) reloading();
 									})
 									.catch(err =>
-										toast({ position: "top", status: "error", description: String(err) })
+										toast({
+											position: "top",
+											status: "error",
+											description: String(err),
+										})
 									);
 							}}
 							colorScheme={

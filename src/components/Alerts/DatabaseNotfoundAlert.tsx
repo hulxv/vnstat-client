@@ -39,9 +39,13 @@ function DatabaseNotFoundAlert() {
 		let unlisten: UnlistenFn | undefined;
 		listen("error-database-not-found", () => {
 			setIsDatabaseNotFound(true);
-		}).then(fn => { unlisten = fn; });
+		}).then(fn => {
+			unlisten = fn;
+		});
 
-		return () => { unlisten?.(); };
+		return () => {
+			unlisten?.();
+		};
 	}, []);
 
 	return (

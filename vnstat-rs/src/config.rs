@@ -166,7 +166,7 @@ pub fn write(changes: &[(String, String)], path: Option<&str>) -> Result<()> {
         .lines()
         .filter_map(|l| {
             let l = l.trim();
-            let l = if l.starts_with(';') { &l[1..] } else { l };
+            let l = l.strip_prefix(';').unwrap_or(l);
             parse_kv(l.trim()).map(|(k, _)| k)
         })
         .collect();

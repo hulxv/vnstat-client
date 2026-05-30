@@ -31,14 +31,14 @@ export default function Appearance() {
 	];
 	if (!config)
 		return (
-			<Stack align='center'>
+			<Stack align="center">
 				<Heading>Something went wrong</Heading>
 				<p>Please Check logs</p>
 			</Stack>
 		);
 	return (
-		<Stack flexDir='column' w='full' spacing={5}>
-			<Heading size='md' alignSelf='center'>
+		<Stack flexDir="column" w="full" spacing={5}>
+			<Heading size="md" alignSelf="center">
 				Appearance
 			</Heading>
 			{config && (
@@ -47,22 +47,29 @@ export default function Appearance() {
 						<Box>Global Theme</Box>
 						<HStack>
 							{GlobalThemes.map((theme, index) => (
-								<Tooltip label={theme} key={index} textTransform='capitalize'>
+								<Tooltip
+									label={theme}
+									key={index}
+									textTransform="capitalize">
 									<Box
-										rounded='md'
+										rounded="md"
 										w={6}
 										h={6}
-										cursor='pointer'
+										cursor="pointer"
 										bgColor={`${theme}.500`}
 										boxShadow={
-											config?.appearance?.globalTheme === theme
+											config?.appearance?.globalTheme ===
+											theme
 												? "outline"
 												: undefined
 										}
 										_hover={{ opacity: "90%" }}
-										borderColor='blackAlpha.800'
-										onClick={(e) =>
-											EditConfig("appearance.globalTheme", theme)
+										borderColor="blackAlpha.800"
+										onClick={e =>
+											EditConfig(
+												"appearance.globalTheme",
+												theme
+											)
 										}></Box>
 								</Tooltip>
 							))}

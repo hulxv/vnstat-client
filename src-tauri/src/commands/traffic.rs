@@ -1,6 +1,6 @@
-use tauri::State;
-use vnstat_rs::{Database, types::Interface, types::TrafficData, types::VnInfo};
 use crate::AppState;
+use tauri::State;
+use vnstat_rs::{types::Interface, types::TrafficData, types::VnInfo, Database};
 
 #[tauri::command]
 pub fn get_traffic(state: State<AppState>) -> Result<TrafficData, String> {

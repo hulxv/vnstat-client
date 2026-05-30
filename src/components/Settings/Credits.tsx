@@ -6,7 +6,7 @@ function Credits() {
 	const __credits = [
 		{
 			username: "Hulxv",
-			icon: <AiFillGithub size='1.6em' />,
+			icon: <AiFillGithub size="1.6em" />,
 			link: "https://github.com/Hulxv",
 			site: "github",
 			openInBrowser: true,
@@ -14,7 +14,7 @@ function Credits() {
 		},
 		{
 			username: "vergoh",
-			icon: <AiFillGithub size='1.6em' />,
+			icon: <AiFillGithub size="1.6em" />,
 			link: "https://github.com/vergoh",
 			site: "github",
 			openInBrowser: true,
@@ -23,30 +23,38 @@ function Credits() {
 	];
 
 	return (
-		<Flex flexDir='column'>
+		<Flex flexDir="column">
 			{__credits.map((acc, index) => (
 				<Flex
 					key={index}
-					align='center'
+					align="center"
 					cursor={acc.openInBrowser ? "pointer" : ""}
 					mb={2}
-					w='max-content'
+					w="max-content"
 					onClick={() => {
-						if (acc.openInBrowser) invoke("open_url", { url: acc.link });
+						if (acc.openInBrowser)
+							invoke("open_url", { url: acc.link });
 					}}>
-					<Tooltip label={acc.site} textTransform='capitalize'>
+					<Tooltip label={acc.site} textTransform="capitalize">
 						<Box>{acc.icon}</Box>
 					</Tooltip>
 					<Box
-						_hover={{ textDecoration: acc.openInBrowser ? "underline" : "" }}
+						_hover={{
+							textDecoration: acc.openInBrowser
+								? "underline"
+								: "",
+						}}
 						mx={1}>
-						<Tooltip placement='right' hasArrow label={acc?.tip}>
+						<Tooltip placement="right" hasArrow label={acc?.tip}>
 							{acc.username}
 						</Tooltip>
 					</Box>
 					{acc.openInBrowser && (
-						<Tooltip placement='right' hasArrow label='Open in browser'>
-							<Box cursor='pointer'>
+						<Tooltip
+							placement="right"
+							hasArrow
+							label="Open in browser">
+							<Box cursor="pointer">
 								<AiOutlineLink />
 							</Box>
 						</Tooltip>

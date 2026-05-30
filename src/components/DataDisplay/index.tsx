@@ -41,10 +41,10 @@ const Chart = ({
 				<LineChart
 					data={lineChartData}
 					axisBottomRotation={lineAxisBottomRotation}
-					LeftLegend='Usage (GB)'
+					LeftLegend="Usage (GB)"
 				/>
 			),
-			icon: <BiLineChart size='1.4em' />,
+			icon: <BiLineChart size="1.4em" />,
 		},
 
 		"bar chart": {
@@ -54,10 +54,13 @@ const Chart = ({
 					axisBottomRotation={barAxisBottomRotation}
 				/>
 			),
-			icon: <BiBarChart size='1.4em' />,
+			icon: <BiBarChart size="1.4em" />,
 		},
 
-		table: { render: <Table data={data} />, icon: <BiTable size='1.4em' /> },
+		table: {
+			render: <Table data={data} />,
+			icon: <BiTable size="1.4em" />,
+		},
 	};
 
 	// Shortcuts
@@ -66,22 +69,28 @@ const Chart = ({
 	useHotkeys("ctrl+t", () => setStyle("table"));
 
 	return (
-		<Stack minH={600} h='full' w='full'>
-			<HStack alignSelf='end' spacing={2} mr={1}>
-				{(Object.keys(DisplayStyles) as DisplayStyle[]).map((__style__, index) => (
-					<Tooltip key={index} textTransform='capitalize' label={__style__}>
-						<IconButton
-							aria-label={__style__}
-							colorScheme={
-								__style__ === style
-									? config?.appearance?.globalTheme ?? "green"
-									: "gray"
-							}
-							icon={DisplayStyles[__style__].icon}
-							onClick={() => setStyle(__style__)}
-						/>
-					</Tooltip>
-				))}
+		<Stack minH={600} h="full" w="full">
+			<HStack alignSelf="end" spacing={2} mr={1}>
+				{(Object.keys(DisplayStyles) as DisplayStyle[]).map(
+					(__style__, index) => (
+						<Tooltip
+							key={index}
+							textTransform="capitalize"
+							label={__style__}>
+							<IconButton
+								aria-label={__style__}
+								colorScheme={
+									__style__ === style
+										? (config?.appearance?.globalTheme ??
+											"green")
+										: "gray"
+								}
+								icon={DisplayStyles[__style__].icon}
+								onClick={() => setStyle(__style__)}
+							/>
+						</Tooltip>
+					)
+				)}
 			</HStack>
 			<ErrorBoundary label={style}>
 				{DisplayStyles[style].render}

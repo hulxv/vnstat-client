@@ -48,7 +48,11 @@ export default function AsCSV() {
 		try {
 			await invoke("export_as_csv", { table: selectedTable });
 		} catch (err) {
-			toast({ description: String(err), status: "error", position: "top" });
+			toast({
+				description: String(err),
+				status: "error",
+				position: "top",
+			});
 		}
 	}
 
@@ -95,7 +99,9 @@ export default function AsCSV() {
 									getTableData(e.target.value);
 								}}>
 								{tableList.map((table, index) => (
-									<option key={index} style={{ textTransform: "capitalize" }}>
+									<option
+										key={index}
+										style={{ textTransform: "capitalize" }}>
 										{table}
 									</option>
 								))}
@@ -107,19 +113,33 @@ export default function AsCSV() {
 									<TableCaption>Export Output</TableCaption>
 									<Thead>
 										<Tr>
-											{Object.keys(data[0]).map((e, i) => <Th key={i}>{e}</Th>)}
+											{Object.keys(data[0]).map(
+												(e, i) => (
+													<Th key={i}>{e}</Th>
+												)
+											)}
 										</Tr>
 									</Thead>
 									<Tbody>
 										{data.map((row, i) => (
 											<Tr key={i}>
-												{Object.values(row).map((v, j) => <Td key={j}>{String(v)}</Td>)}
+												{Object.values(row).map(
+													(v, j) => (
+														<Td key={j}>
+															{String(v)}
+														</Td>
+													)
+												)}
 											</Tr>
 										))}
 									</Tbody>
 									<Tfoot>
 										<Tr>
-											{Object.keys(data[0]).map((e, i) => <Th key={i}>{e}</Th>)}
+											{Object.keys(data[0]).map(
+												(e, i) => (
+													<Th key={i}>{e}</Th>
+												)
+											)}
 										</Tr>
 									</Tfoot>
 								</Table>
@@ -127,9 +147,13 @@ export default function AsCSV() {
 						</Flex>
 					</ModalBody>
 					<ModalFooter>
-						<Button variant="ghost" mr={3} onClick={onClose}>Close</Button>
+						<Button variant="ghost" mr={3} onClick={onClose}>
+							Close
+						</Button>
 						<Button
-							colorScheme={config?.appearance?.globalTheme ?? "green"}
+							colorScheme={
+								config?.appearance?.globalTheme ?? "green"
+							}
 							onClick={exportAsCSV}
 							isDisabled={!selectedTable}>
 							Export

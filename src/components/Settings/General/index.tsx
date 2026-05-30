@@ -21,22 +21,25 @@ function General() {
 
 	return (
 		<Stack>
-			<HStack justify='space-between'>
+			<HStack justify="space-between">
 				<Box>Check updates on startup</Box>
 				<Switch
 					colorScheme={config?.appearance?.globalTheme ?? "green"}
 					isChecked={config?.checkUpdatesOnStartup}
 					onChange={() => {
-						EditConfig("checkUpdatesOnStartup", !config?.checkUpdatesOnStartup);
+						EditConfig(
+							"checkUpdatesOnStartup",
+							!config?.checkUpdatesOnStartup
+						);
 					}}
 				/>
 			</HStack>
-			<HStack justify='space-between'>
+			<HStack justify="space-between">
 				<Box>Interface</Box>
 				<Select
 					maxW={200}
 					value={config?.interface}
-					onChange={(e) => {
+					onChange={e => {
 						EditConfig("interface", e.target.value);
 						changeInterface(Number(e.target.value));
 						// console.log(e.target.value);

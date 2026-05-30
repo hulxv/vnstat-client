@@ -24,10 +24,8 @@ export default function Month() {
 	const { traffic } = useVnStat();
 
 	useEffect(() => {
-		let { preparedData, lineChartData, barChartData, total } = prepareWeekData(
-			traffic?.week,
-			PreviousWeeks,
-		);
+		let { preparedData, lineChartData, barChartData, total } =
+			prepareWeekData(traffic?.week, PreviousWeeks);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
 		// console.log(displayData?.preparedData);
 	}, [PreviousWeeks, traffic]);
@@ -43,44 +41,48 @@ export default function Month() {
 					{" "}
 					<SwitchBar
 						title={
-							<Stack align='center'>
-								<Heading textTransform='capitalize'>
+							<Stack align="center">
+								<Heading textTransform="capitalize">
 									{format(
 										new Date(
-											displayData?.preparedData?.at(0)?.date ?? new Date(),
+											displayData?.preparedData?.at(0)
+												?.date ?? new Date()
 										),
-										"wo",
+										"wo"
 									)}{" "}
 									week in{" "}
 									{getWeekYear(
 										new Date(
-											displayData?.preparedData?.at(0)?.date ?? new Date(),
-										),
+											displayData?.preparedData?.at(0)
+												?.date ?? new Date()
+										)
 									)}
 								</Heading>
-								<Heading size='sm'>
+								<Heading size="sm">
 									{format(
 										new Date(
-											displayData?.preparedData?.at(0)?.date ?? new Date(),
+											displayData?.preparedData?.at(0)
+												?.date ?? new Date()
 										),
-										"yyyy MMM dd",
+										"yyyy MMM dd"
 									)}
 									{` - ${format(
 										new Date(
 											displayData?.preparedData?.at(
-												displayData?.preparedData?.length - 1,
-											)?.date ?? new Date(),
+												displayData?.preparedData
+													?.length - 1
+											)?.date ?? new Date()
 										),
 
-										"yyyy MMM dd",
+										"yyyy MMM dd"
 									)}`}
 								</Heading>
 							</Stack>
 						}
 						state={PreviousWeeks}
 						setState={setPreviousWeeks}
-						dateFormat='yyyy MMMM dd'
-						interval='month'
+						dateFormat="yyyy MMMM dd"
+						interval="month"
 						canGoToNext={PreviousWeeks > 0}
 						canGoToPrevious={true}
 					/>
@@ -88,10 +90,12 @@ export default function Month() {
 					<DataDisplay
 						lineChartData={displayData?.lineChartData}
 						barChartData={displayData?.barChartData}
-						data={displayData?.preparedData?.map((e: PreparedEntry) => ({
-							...e,
-							date: format(new Date(e.date), "EEEE"),
-						}))}
+						data={displayData?.preparedData?.map(
+							(e: PreparedEntry) => ({
+								...e,
+								date: format(new Date(e.date), "EEEE"),
+							})
+						)}
 					/>
 				</>
 			)}

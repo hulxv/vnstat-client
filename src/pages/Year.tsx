@@ -22,10 +22,8 @@ export default function Year() {
 	const [displayData, setDisplayData] = useState<PreparedResult | null>(null);
 
 	useEffect(() => {
-		let { preparedData, lineChartData, barChartData, total } = prepareYearData(
-			traffic?.year,
-			previousYears,
-		);
+		let { preparedData, lineChartData, barChartData, total } =
+			prepareYearData(traffic?.year, previousYears);
 		setDisplayData({ preparedData, lineChartData, barChartData, total });
 	}, [previousYears, traffic]);
 
@@ -41,17 +39,19 @@ export default function Year() {
 					<SwitchBar
 						state={previousYears}
 						setState={setPreviousYears}
-						dateFormat='yyyy'
-						interval='year'
+						dateFormat="yyyy"
+						interval="year"
 						canGoToNext={previousYears > 0}
 						canGoToPrevious={previousYears < 30}
 					/>
 					<TotalTraffic data={displayData?.total} />
 					<DataDisplay
-						data={displayData?.preparedData?.map((e: PreparedEntry) => ({
-							...e,
-							date: format(new Date(e.date), "MMM"),
-						}))}
+						data={displayData?.preparedData?.map(
+							(e: PreparedEntry) => ({
+								...e,
+								date: format(new Date(e.date), "MMM"),
+							})
+						)}
 						lineChartData={displayData?.lineChartData}
 						barChartData={displayData?.barChartData}
 					/>{" "}
