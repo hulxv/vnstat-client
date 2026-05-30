@@ -28,6 +28,7 @@ export default defineConfig({
       "@Pages": resolve(__dirname, "src/pages"),
       "@Layout": resolve(__dirname, "src/layout"),
       "@Util": resolve(__dirname, "src/util"),
+      "@Types": resolve(__dirname, "src/types"),
     },
   },
 
