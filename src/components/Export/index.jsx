@@ -11,6 +11,7 @@ import {
 import XML from "./asXML";
 import JSON from "./asJSON";
 import CSV from "./asCSV";
+import ErrorBoundary from "../ErrorBoundary";
 
 const ExportAs = ({ isDisabled }) => {
 	return (
@@ -25,15 +26,17 @@ const ExportAs = ({ isDisabled }) => {
 			/>
 
 			<MenuList>
-				<MenuItem>
-					<JSON />
-				</MenuItem>
-				<MenuItem>
-					<XML />
-				</MenuItem>
-				<MenuItem>
-					<CSV />
-				</MenuItem>
+				<ErrorBoundary label="export">
+					<MenuItem>
+						<JSON />
+					</MenuItem>
+					<MenuItem>
+						<XML />
+					</MenuItem>
+					<MenuItem>
+						<CSV />
+					</MenuItem>
+				</ErrorBoundary>
 			</MenuList>
 		</Menu>
 	);

@@ -22,37 +22,25 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { useEffect, useState } from "react";
 import { useConfig } from "@Context/configuration";
+import { useServer } from "@Context/server";
 
 import { TiWarningOutline } from "react-icons/ti";
 
 function DatabaseNotFoundAlert() {
 	const { config } = useConfig();
+	const { isServerConnected } = useServer();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const connectModalDisclosure = useDisclosure();
 
-	const [isServerConnected, setIsServerConnected] = useState(false);
 	const [isDatabaseNotFound, setIsDatabaseNotFound] = useState(false);
 
 	useEffect(() => {
-		const unlisten = [];
-
+		let unlisten;
 		listen("error-database-not-found", () => {
 			setIsDatabaseNotFound(true);
-		}).then(u => unlisten.push(u));
+		}).then(fn => { unlisten = fn; });
 
-		listen("server-was-disconnected", () => {
-			setIsServerConnected(false);
-		}).then(u => unlisten.push(u));
-
-		listen("server-was-connected", () => {
-			setIsServerConnected(true);
-		}).then(u => unlisten.push(u));
-
-		invoke("server_is_connected")
-			.then(({ is_connected }) => setIsServerConnected(is_connected))
-			.catch(console.error);
-
-		return () => unlisten.forEach(u => u());
+		return () => { unlisten?.(); };
 	}, []);
 
 	return (

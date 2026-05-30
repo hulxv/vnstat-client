@@ -2,6 +2,7 @@ import { useState } from "react";
 import LineChart from "./LineChart";
 import BarChart from "./BarChart";
 import Table from "./Table";
+import ErrorBoundary from "../ErrorBoundary";
 
 import { IconButton, Tooltip, HStack, Stack } from "@chakra-ui/react";
 
@@ -66,7 +67,9 @@ const Chart = ({
 					</Tooltip>
 				))}
 			</HStack>
-			{DisplayStyles[style].render}
+			<ErrorBoundary label={style}>
+				{DisplayStyles[style].render}
+			</ErrorBoundary>
 		</Stack>
 	);
 };

@@ -5,7 +5,6 @@ import {
 	createContext,
 	useMemo,
 	useCallback,
-	useRef,
 } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useConfig } from "../configuration";
@@ -13,20 +12,18 @@ import { useConfig } from "../configuration";
 export const vnStatContext = createContext();
 
 export default function vnStatProvider({ children }) {
-	const [reRenderState, reRender] = useState();
-	const forceReRender = () => reRender(Math.random());
-
 	const { config: appConfig } = useConfig();
 
 	const [traffic, setTraffic] = useState({
 		month: [], day: [], year: [], week: [], summary: [],
 	});
 	const [daemonStatus, setDaemonStatus] = useState(false);
+	// `configs` is the persisted vnStat config; `visualVnConfigs` is the
+	// in-progress edited copy. Both are state so edits re-render reactively
+	// (no more useRef + Math.random() forceReRender hack).
 	const [configs, setVnConfigs] = useState({});
 	const [isConfigsLoading, setIsConfigsLoading] = useState(true);
-	const visualVnConfigs = useRef({});
-	const [isConfigChanged, setIsConfigChanged] = useState(false);
-	const changes = useRef([]);
+	const [visualVnConfigs, setVisualVnConfigs] = useState({});
 	const [interfaces, setInterfaces] = useState([]);
 	const [interfaceID, setInterfaceID] = useState(appConfig?.interface ?? 1);
 
@@ -41,9 +38,9 @@ export default function vnStatProvider({ children }) {
 		setInterfaceID(appConfig?.interface);
 	}, [appConfig?.interface]);
 
+	// Reset the editable copy whenever the persisted config (re)loads.
 	useEffect(() => {
-		visualVnConfigs.current = configs;
-		calcChanges();
+		setVisualVnConfigs(configs);
 	}, [configs]);
 
 	async function getTrafficData() {
@@ -67,31 +64,31 @@ export default function vnStatProvider({ children }) {
 		}
 	}
 
-	function calcChanges() {
-		changes.current = Object.keys(configs)
-			.filter(key => configs[key] != visualVnConfigs.current[key])
-			.map(key => ({ [key]: visualVnConfigs.current[key] }));
-		changes.current = changes.current.concat(
-			Object.keys(visualVnConfigs.current)
-				.filter(key => !Object.keys(configs).includes(key))
-				.map(key => ({ [key]: visualVnConfigs.current[key] }))
-		);
-		setIsConfigChanged(changes.current.length > 0);
-	}
+	// Derived from state — recomputed on every persisted/edited change, so it
+	// can never go stale the way a useRef read inside useMemo did.
+	const changes = useMemo(() => {
+		const changed = Object.keys(configs)
+			.filter(key => configs[key] != visualVnConfigs[key])
+			.map(key => ({ [key]: visualVnConfigs[key] }));
+		const added = Object.keys(visualVnConfigs)
+			.filter(key => !Object.keys(configs).includes(key))
+			.map(key => ({ [key]: visualVnConfigs[key] }));
+		return changed.concat(added);
+	}, [configs, visualVnConfigs]);
 
-	function changeVnStatConfigs(key, value) {
-		visualVnConfigs.current = { ...visualVnConfigs.current, [key]: value };
-		calcChanges();
-	}
+	const isConfigChanged = changes.length > 0;
 
-	function resetVnConfigs() {
-		visualVnConfigs.current = configs;
-		calcChanges();
-	}
+	const changeVnStatConfigs = useCallback((key, value) => {
+		setVisualVnConfigs(prev => ({ ...prev, [key]: value }));
+	}, []);
+
+	const resetVnConfigs = useCallback(() => {
+		setVisualVnConfigs(configs);
+	}, [configs]);
 
 	async function saveChanges() {
 		try {
-			const payload = changes.current.map(obj => ({
+			const payload = changes.map(obj => ({
 				key: Object.keys(obj)[0],
 				value: String(Object.values(obj)[0]),
 			}));
@@ -176,7 +173,7 @@ export default function vnStatProvider({ children }) {
 			traffic: filterTrafficDataByInterfaceID(),
 			configs,
 			isConfigsLoading,
-			changes: changes.current,
+			changes,
 			visualVnConfigs,
 			isConfigChanged,
 			daemonStatus,
@@ -190,9 +187,18 @@ export default function vnStatProvider({ children }) {
 			startDaemon,
 			restartDaemon,
 			changeInterface,
-			forceReRender,
 		}),
-		[traffic, configs, isConfigChanged, daemonStatus, interfaceID, reRenderState],
+		[
+			traffic,
+			configs,
+			isConfigsLoading,
+			changes,
+			visualVnConfigs,
+			isConfigChanged,
+			daemonStatus,
+			interfaces,
+			interfaceID,
+		],
 	);
 
 	return (

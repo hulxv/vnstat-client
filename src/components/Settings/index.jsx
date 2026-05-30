@@ -37,6 +37,7 @@ import VnStat from "./vnStat";
 import Logs from "./Logs";
 import Info from "./Info";
 import Credits from "./Credits";
+import ErrorBoundary from "../ErrorBoundary";
 
 // Hooks
 import { useRef } from "react";
@@ -60,7 +61,6 @@ export default function Settings({ children }) {
 		changes,
 		resetVnConfigs,
 		saveChanges,
-		forceReRender,
 	} = useVnStat();
 	const { config } = useConfig();
 
@@ -94,20 +94,30 @@ export default function Settings({ children }) {
 							</TabList>
 							<TabPanels>
 								<TabPanel>
-									<General />
+									<ErrorBoundary label="General settings">
+										<General />
+									</ErrorBoundary>
 								</TabPanel>
 								<TabPanel>
-									<VnStat />
+									<ErrorBoundary label="vnStat settings">
+										<VnStat />
+									</ErrorBoundary>
 								</TabPanel>
 								<TabPanel>
-									<Logs />
+									<ErrorBoundary label="Logs">
+										<Logs />
+									</ErrorBoundary>
 								</TabPanel>
 								<TabPanel>
-									<Info />
+									<ErrorBoundary label="Info">
+										<Info />
+									</ErrorBoundary>
 								</TabPanel>
 
 								<TabPanel>
-									<Credits />
+									<ErrorBoundary label="Credits">
+										<Credits />
+									</ErrorBoundary>
 								</TabPanel>
 							</TabPanels>
 						</Tabs>
@@ -129,11 +139,7 @@ export default function Settings({ children }) {
 							label='Save Changes in vnStat Configurations'>
 							<Button
 								isDisabled={!isConfigChanged} // * Enabled only when configs is changing
-								onClick={() => {
-									forceReRender();
-
-									onAlertDialogOpen();
-								}}
+								onClick={onAlertDialogOpen}
 								colorScheme={config?.appearance?.globalTheme ?? "green"}
 								mr={3}>
 								Save Changes
