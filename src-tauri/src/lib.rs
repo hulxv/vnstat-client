@@ -246,11 +246,6 @@ pub fn run() {
                     format!("{dir}/vnstat.db")
                 });
 
-            let refresh_ms = config
-                .get("netStatsRefreshTime")
-                .and_then(Value::as_u64)
-                .unwrap_or(1000);
-
             let check_updates_on_startup = config
                 .get("checkUpdatesOnStartup")
                 .and_then(Value::as_bool)
@@ -262,7 +257,7 @@ pub fn run() {
             setup_tray(app)?;
             setup_menu(app)?;
 
-            commands::network::start_network_stats_polling(app.handle().clone(), refresh_ms);
+            commands::network::start_network_stats_polling(app.handle().clone());
 
             if check_updates_on_startup {
                 let handle = app.handle().clone();

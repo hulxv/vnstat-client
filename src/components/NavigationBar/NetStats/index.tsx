@@ -2,12 +2,21 @@ import { intervalToDuration } from "date-fns";
 
 import { useNetStats } from "@Context/network-stats";
 import { useConfig } from "@Context/configuration";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import LineChart from "@Components/DataDisplay/LineChart";
 import ExportAsJsonModal from "./ExportAsJsonModal";
-import type { NetworkSpeed, NetworkBytes } from "@Types";
+import type { NetworkInterfaceStats } from "@Types";
 import type { LineSeries } from "@Util/PrepareDataToDisplay";
+
+const EMPTY_STATS: NetworkInterfaceStats = {
+	speed: { rx: 0, tx: 0 },
+	bytes: { rx: 0, tx: 0 },
+	errors: { rx: 0, tx: 0 },
+	dropped: { rx: 0, tx: 0 },
+	ms: 0,
+	operstate: "",
+};
 
 import {
 	Modal,
@@ -100,25 +109,7 @@ export default function NetStats() {
 		setRefreshTime(config?.netStatsRefreshTime ?? null);
 	}, [config]);
 
-	// The backend currently only emits speed/bytes/operstate, but the UI was
-	// built to also display errors/dropped/ms and any extra fields. Widen the
-	// shape here so those optional sections render when present.
-	const stats = (networkStats ?? {}) as {
-		speed?: NetworkSpeed;
-		bytes?: NetworkBytes;
-		errors?: Record<string, number>;
-		dropped?: Record<string, number>;
-		ms?: number | null;
-		[key: string]: unknown;
-	};
-	const {
-		speed = { rx: 0, tx: 0 },
-		bytes = { rx: 0, tx: 0 },
-		errors = {},
-		dropped = {},
-		ms = null,
-		...otherStats
-	} = stats;
+	const { speed, errors, dropped, ms } = networkStats ?? EMPTY_STATS;
 	return (
 		<>
 			<Tooltip
@@ -295,7 +286,7 @@ export default function NetStats() {
 											</Box>
 										</Tooltip>
 										<Stack align="start">
-											{Object.entries(errors).map(
+											{Object.entries(dropped).map(
 												(e, index) => (
 													<HStack key={index}>
 														<Tooltip
@@ -333,15 +324,6 @@ export default function NetStats() {
 										</Tooltip>
 										<Box>{ms}</Box>
 									</Stack>
-
-									{Object.entries(otherStats).map(
-										(e, index) => (
-											<Stack key={index} align="center">
-												<Box opacity="80%">{e[0]}</Box>
-												<Box>{e[1] as ReactNode}</Box>
-											</Stack>
-										)
-									)}
 								</HStack>
 							</Stack>
 							<Stack align="center" h={500} w="full">

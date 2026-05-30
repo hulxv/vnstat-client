@@ -68,9 +68,28 @@ export interface NetworkBytes {
 	tx: number;
 }
 
+export interface NetworkErrors {
+	rx: number;
+	tx: number;
+}
+
+export interface NetworkDropped {
+	rx: number;
+	tx: number;
+}
+
 export interface NetworkInterfaceStats {
+	/** Instantaneous throughput in bytes/sec. */
 	speed: NetworkSpeed;
+	/** Cumulative bytes transferred since boot. */
 	bytes: NetworkBytes;
+	/** Cumulative packet errors since boot. */
+	errors: NetworkErrors;
+	/** Cumulative dropped packets since boot. */
+	dropped: NetworkDropped;
+	/** Length of the sampling window in milliseconds (0 for the first sample). */
+	ms: number;
+	/** Interface link state (e.g. "up", "down"). */
 	operstate: string;
 }
 
