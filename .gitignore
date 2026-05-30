@@ -1,8 +1,13 @@
 node_modules
 *.log
+logs*
 .next
 app
 dist
 test
 .vscode
 build
+
+# Tauri / Rust
+src-tauri/gen/
+target
